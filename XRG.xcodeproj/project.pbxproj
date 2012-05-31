@@ -1,0 +1,639 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		273ECE6A15740DE700E65D82 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECE6915740DE700E65D82 /* Cocoa.framework */; };
+		273ECEFA15740EAF00E65D82 /* XRGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE8D15740EAF00E65D82 /* XRGAppDelegate.m */; };
+		273ECEFB15740EAF00E65D82 /* XRGPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE8F15740EAF00E65D82 /* XRGPrefController.m */; };
+		273ECEFC15740EAF00E65D82 /* XRGFramelessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9115740EAF00E65D82 /* XRGFramelessWindow.m */; };
+		273ECEFD15740EAF00E65D82 /* XRGGraphWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9315740EAF00E65D82 /* XRGGraphWindow.m */; };
+		273ECEFE15740EAF00E65D82 /* TESMCReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9615740EAF00E65D82 /* TESMCReader.m */; };
+		273ECEFF15740EAF00E65D82 /* XRGCPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9815740EAF00E65D82 /* XRGCPUMiner.m */; };
+		273ECF0015740EAF00E65D82 /* XRGMemoryMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9A15740EAF00E65D82 /* XRGMemoryMiner.m */; };
+		273ECF0115740EAF00E65D82 /* XRGProcessMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9C15740EAF00E65D82 /* XRGProcessMiner.m */; };
+		273ECF0215740EAF00E65D82 /* XRGTemperatureMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9E15740EAF00E65D82 /* XRGTemperatureMiner.m */; };
+		273ECF0315740EAF00E65D82 /* XRGBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEA115740EAF00E65D82 /* XRGBackgroundView.m */; };
+		273ECF0415740EAF00E65D82 /* XRGBatteryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEA315740EAF00E65D82 /* XRGBatteryView.m */; };
+		273ECF0515740EAF00E65D82 /* XRGCPUView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEA515740EAF00E65D82 /* XRGCPUView.m */; };
+		273ECF0615740EAF00E65D82 /* XRGDiskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEA715740EAF00E65D82 /* XRGDiskView.m */; };
+		273ECF0715740EAF00E65D82 /* XRGGenericView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEA915740EAF00E65D82 /* XRGGenericView.m */; };
+		273ECF0815740EAF00E65D82 /* XRGMemoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEAB15740EAF00E65D82 /* XRGMemoryView.m */; };
+		273ECF0915740EAF00E65D82 /* XRGNetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEAD15740EAF00E65D82 /* XRGNetView.m */; };
+		273ECF0A15740EAF00E65D82 /* XRGStockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEAF15740EAF00E65D82 /* XRGStockView.m */; };
+		273ECF0B15740EAF00E65D82 /* XRGTemperatureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEB115740EAF00E65D82 /* XRGTemperatureView.m */; };
+		273ECF0C15740EAF00E65D82 /* XRGWeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEB315740EAF00E65D82 /* XRGWeatherView.m */; };
+		273ECF0D15740EAF00E65D82 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEB615740EAF00E65D82 /* main.m */; };
+		273ECF1215740EAF00E65D82 /* help_icon.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC015740EAF00E65D82 /* help_icon.gif */; };
+		273ECF1315740EAF00E65D82 /* battery.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC215740EAF00E65D82 /* battery.gif */; };
+		273ECF1415740EAF00E65D82 /* cpu.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC315740EAF00E65D82 /* cpu.gif */; };
+		273ECF1515740EAF00E65D82 /* disk.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC415740EAF00E65D82 /* disk.gif */; };
+		273ECF1615740EAF00E65D82 /* mem.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC515740EAF00E65D82 /* mem.gif */; };
+		273ECF1715740EAF00E65D82 /* net.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC615740EAF00E65D82 /* net.gif */; };
+		273ECF1815740EAF00E65D82 /* prefs_color.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC715740EAF00E65D82 /* prefs_color.gif */; };
+		273ECF1915740EAF00E65D82 /* prefs_cpu.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC815740EAF00E65D82 /* prefs_cpu.gif */; };
+		273ECF1A15740EAF00E65D82 /* prefs_disk.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEC915740EAF00E65D82 /* prefs_disk.gif */; };
+		273ECF1B15740EAF00E65D82 /* prefs_general.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECECA15740EAF00E65D82 /* prefs_general.gif */; };
+		273ECF1C15740EAF00E65D82 /* prefs_memory.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECECB15740EAF00E65D82 /* prefs_memory.gif */; };
+		273ECF1D15740EAF00E65D82 /* prefs_network.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECECC15740EAF00E65D82 /* prefs_network.gif */; };
+		273ECF1E15740EAF00E65D82 /* prefs_stock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECECD15740EAF00E65D82 /* prefs_stock.gif */; };
+		273ECF1F15740EAF00E65D82 /* prefs_temperature.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 273ECECE15740EAF00E65D82 /* prefs_temperature.jpg */; };
+		273ECF2015740EAF00E65D82 /* prefs_weather.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECECF15740EAF00E65D82 /* prefs_weather.gif */; };
+		273ECF2115740EAF00E65D82 /* stock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED015740EAF00E65D82 /* stock.gif */; };
+		273ECF2215740EAF00E65D82 /* temperature.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED115740EAF00E65D82 /* temperature.gif */; };
+		273ECF2315740EAF00E65D82 /* weather.gif in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED215740EAF00E65D82 /* weather.gif */; };
+		273ECF2415740EAF00E65D82 /* xrg_icon3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED315740EAF00E65D82 /* xrg_icon3.jpg */; };
+		273ECF2515740EAF00E65D82 /* xrg_icon4.png in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED415740EAF00E65D82 /* xrg_icon4.png */; };
+		273ECF2615740EAF00E65D82 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED515740EAF00E65D82 /* index.html */; };
+		273ECF2715740EAF00E65D82 /* modules.html in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED615740EAF00E65D82 /* modules.html */; };
+		273ECF2815740EAF00E65D82 /* Online Help idx in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED715740EAF00E65D82 /* Online Help idx */; };
+		273ECF2915740EAF00E65D82 /* preferences.html in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED815740EAF00E65D82 /* preferences.html */; };
+		273ECF2A15740EAF00E65D82 /* Preferences-Appearance.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECED915740EAF00E65D82 /* Preferences-Appearance.tiff */; };
+		273ECF2B15740EAF00E65D82 /* Preferences-CPU.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEDA15740EAF00E65D82 /* Preferences-CPU.tiff */; };
+		273ECF2C15740EAF00E65D82 /* Preferences-Disk.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEDB15740EAF00E65D82 /* Preferences-Disk.tiff */; };
+		273ECF2D15740EAF00E65D82 /* Preferences-General.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEDC15740EAF00E65D82 /* Preferences-General.tiff */; };
+		273ECF2E15740EAF00E65D82 /* Preferences-Memory.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEDD15740EAF00E65D82 /* Preferences-Memory.tiff */; };
+		273ECF2F15740EAF00E65D82 /* Preferences-Network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEDE15740EAF00E65D82 /* Preferences-Network.tiff */; };
+		273ECF3015740EAF00E65D82 /* Preferences-Stocks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEDF15740EAF00E65D82 /* Preferences-Stocks.tiff */; };
+		273ECF3115740EAF00E65D82 /* Preferences-Temperature.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEE015740EAF00E65D82 /* Preferences-Temperature.tiff */; };
+		273ECF3215740EAF00E65D82 /* Preferences-Weather.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEE115740EAF00E65D82 /* Preferences-Weather.tiff */; };
+		273ECF3515740EAF00E65D82 /* xtf.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEE415740EAF00E65D82 /* xtf.icns */; };
+		273ECF3715740EAF00E65D82 /* NSStringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEE915740EAF00E65D82 /* NSStringUtil.m */; };
+		273ECF3815740EAF00E65D82 /* XRGDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEEB15740EAF00E65D82 /* XRGDataSet.m */; };
+		273ECF3915740EAF00E65D82 /* XRGList.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEED15740EAF00E65D82 /* XRGList.m */; };
+		273ECF3A15740EAF00E65D82 /* XRGListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEEF15740EAF00E65D82 /* XRGListNode.m */; };
+		273ECF3B15740EAF00E65D82 /* XRGModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF115740EAF00E65D82 /* XRGModule.m */; };
+		273ECF3C15740EAF00E65D82 /* XRGModuleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF315740EAF00E65D82 /* XRGModuleManager.m */; };
+		273ECF3D15740EAF00E65D82 /* XRGSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF515740EAF00E65D82 /* XRGSettings.m */; };
+		273ECF3E15740EAF00E65D82 /* XRGStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF715740EAF00E65D82 /* XRGStock.m */; };
+		273ECF3F15740EAF00E65D82 /* XRGURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF915740EAF00E65D82 /* XRGURL.m */; };
+		273ECF531574106600E65D82 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF4F1574106600E65D82 /* InfoPlist.strings */; };
+		273ECF541574106600E65D82 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF501574106600E65D82 /* MainMenu.nib */; };
+		273ECF551574106600E65D82 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF511574106600E65D82 /* Preferences.nib */; };
+		273ECF601574134A00E65D82 /* XRG-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF5F1574134A00E65D82 /* XRG-Info.plist */; };
+		273ECF64157413D200E65D82 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF63157413D200E65D82 /* icon.icns */; };
+		273ECF661574145100E65D82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECF651574145100E65D82 /* IOKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		273ECE6515740DE700E65D82 /* XRG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XRG.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		273ECE6915740DE700E65D82 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		273ECE6C15740DE700E65D82 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		273ECE6D15740DE700E65D82 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		273ECE6E15740DE700E65D82 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		273ECE8C15740EAF00E65D82 /* XRGAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGAppDelegate.h; sourceTree = "<group>"; };
+		273ECE8D15740EAF00E65D82 /* XRGAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGAppDelegate.m; sourceTree = "<group>"; };
+		273ECE8E15740EAF00E65D82 /* XRGPrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGPrefController.h; sourceTree = "<group>"; };
+		273ECE8F15740EAF00E65D82 /* XRGPrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGPrefController.m; sourceTree = "<group>"; };
+		273ECE9015740EAF00E65D82 /* XRGFramelessWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGFramelessWindow.h; sourceTree = "<group>"; };
+		273ECE9115740EAF00E65D82 /* XRGFramelessWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGFramelessWindow.m; sourceTree = "<group>"; };
+		273ECE9215740EAF00E65D82 /* XRGGraphWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGGraphWindow.h; sourceTree = "<group>"; };
+		273ECE9315740EAF00E65D82 /* XRGGraphWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGraphWindow.m; sourceTree = "<group>"; };
+		273ECE9515740EAF00E65D82 /* TESMCReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TESMCReader.h; sourceTree = "<group>"; };
+		273ECE9615740EAF00E65D82 /* TESMCReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TESMCReader.m; sourceTree = "<group>"; };
+		273ECE9715740EAF00E65D82 /* XRGCPUMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGCPUMiner.h; sourceTree = "<group>"; };
+		273ECE9815740EAF00E65D82 /* XRGCPUMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGCPUMiner.m; sourceTree = "<group>"; };
+		273ECE9915740EAF00E65D82 /* XRGMemoryMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGMemoryMiner.h; sourceTree = "<group>"; };
+		273ECE9A15740EAF00E65D82 /* XRGMemoryMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGMemoryMiner.m; sourceTree = "<group>"; };
+		273ECE9B15740EAF00E65D82 /* XRGProcessMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGProcessMiner.h; sourceTree = "<group>"; };
+		273ECE9C15740EAF00E65D82 /* XRGProcessMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGProcessMiner.m; sourceTree = "<group>"; };
+		273ECE9D15740EAF00E65D82 /* XRGTemperatureMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGTemperatureMiner.h; sourceTree = "<group>"; };
+		273ECE9E15740EAF00E65D82 /* XRGTemperatureMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGTemperatureMiner.m; sourceTree = "<group>"; };
+		273ECEA015740EAF00E65D82 /* XRGBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGBackgroundView.h; sourceTree = "<group>"; };
+		273ECEA115740EAF00E65D82 /* XRGBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGBackgroundView.m; sourceTree = "<group>"; };
+		273ECEA215740EAF00E65D82 /* XRGBatteryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGBatteryView.h; sourceTree = "<group>"; };
+		273ECEA315740EAF00E65D82 /* XRGBatteryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGBatteryView.m; sourceTree = "<group>"; };
+		273ECEA415740EAF00E65D82 /* XRGCPUView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGCPUView.h; sourceTree = "<group>"; };
+		273ECEA515740EAF00E65D82 /* XRGCPUView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGCPUView.m; sourceTree = "<group>"; };
+		273ECEA615740EAF00E65D82 /* XRGDiskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGDiskView.h; sourceTree = "<group>"; };
+		273ECEA715740EAF00E65D82 /* XRGDiskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGDiskView.m; sourceTree = "<group>"; };
+		273ECEA815740EAF00E65D82 /* XRGGenericView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGGenericView.h; sourceTree = "<group>"; };
+		273ECEA915740EAF00E65D82 /* XRGGenericView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGenericView.m; sourceTree = "<group>"; };
+		273ECEAA15740EAF00E65D82 /* XRGMemoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGMemoryView.h; sourceTree = "<group>"; };
+		273ECEAB15740EAF00E65D82 /* XRGMemoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGMemoryView.m; sourceTree = "<group>"; };
+		273ECEAC15740EAF00E65D82 /* XRGNetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGNetView.h; sourceTree = "<group>"; };
+		273ECEAD15740EAF00E65D82 /* XRGNetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGNetView.m; sourceTree = "<group>"; };
+		273ECEAE15740EAF00E65D82 /* XRGStockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGStockView.h; sourceTree = "<group>"; };
+		273ECEAF15740EAF00E65D82 /* XRGStockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGStockView.m; sourceTree = "<group>"; };
+		273ECEB015740EAF00E65D82 /* XRGTemperatureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGTemperatureView.h; sourceTree = "<group>"; };
+		273ECEB115740EAF00E65D82 /* XRGTemperatureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGTemperatureView.m; sourceTree = "<group>"; };
+		273ECEB215740EAF00E65D82 /* XRGWeatherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGWeatherView.h; sourceTree = "<group>"; };
+		273ECEB315740EAF00E65D82 /* XRGWeatherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGWeatherView.m; sourceTree = "<group>"; };
+		273ECEB515740EAF00E65D82 /* definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = definitions.h; sourceTree = "<group>"; };
+		273ECEB615740EAF00E65D82 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		273ECEB715740EAF00E65D82 /* ppp_msg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ppp_msg.h; sourceTree = "<group>"; };
+		273ECEB815740EAF00E65D82 /* XRG-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XRG-Prefix.pch"; sourceTree = "<group>"; };
+		273ECEB915740EAF00E65D82 /* XRGPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGPlugin.h; sourceTree = "<group>"; };
+		273ECEC015740EAF00E65D82 /* help_icon.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = help_icon.gif; sourceTree = "<group>"; };
+		273ECEC215740EAF00E65D82 /* battery.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = battery.gif; sourceTree = "<group>"; };
+		273ECEC315740EAF00E65D82 /* cpu.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = cpu.gif; sourceTree = "<group>"; };
+		273ECEC415740EAF00E65D82 /* disk.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = disk.gif; sourceTree = "<group>"; };
+		273ECEC515740EAF00E65D82 /* mem.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = mem.gif; sourceTree = "<group>"; };
+		273ECEC615740EAF00E65D82 /* net.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = net.gif; sourceTree = "<group>"; };
+		273ECEC715740EAF00E65D82 /* prefs_color.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_color.gif; sourceTree = "<group>"; };
+		273ECEC815740EAF00E65D82 /* prefs_cpu.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_cpu.gif; sourceTree = "<group>"; };
+		273ECEC915740EAF00E65D82 /* prefs_disk.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_disk.gif; sourceTree = "<group>"; };
+		273ECECA15740EAF00E65D82 /* prefs_general.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_general.gif; sourceTree = "<group>"; };
+		273ECECB15740EAF00E65D82 /* prefs_memory.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_memory.gif; sourceTree = "<group>"; };
+		273ECECC15740EAF00E65D82 /* prefs_network.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_network.gif; sourceTree = "<group>"; };
+		273ECECD15740EAF00E65D82 /* prefs_stock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_stock.gif; sourceTree = "<group>"; };
+		273ECECE15740EAF00E65D82 /* prefs_temperature.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = prefs_temperature.jpg; sourceTree = "<group>"; };
+		273ECECF15740EAF00E65D82 /* prefs_weather.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prefs_weather.gif; sourceTree = "<group>"; };
+		273ECED015740EAF00E65D82 /* stock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = stock.gif; sourceTree = "<group>"; };
+		273ECED115740EAF00E65D82 /* temperature.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = temperature.gif; sourceTree = "<group>"; };
+		273ECED215740EAF00E65D82 /* weather.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = weather.gif; sourceTree = "<group>"; };
+		273ECED315740EAF00E65D82 /* xrg_icon3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = xrg_icon3.jpg; sourceTree = "<group>"; };
+		273ECED415740EAF00E65D82 /* xrg_icon4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xrg_icon4.png; sourceTree = "<group>"; };
+		273ECED515740EAF00E65D82 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		273ECED615740EAF00E65D82 /* modules.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = modules.html; sourceTree = "<group>"; };
+		273ECED715740EAF00E65D82 /* Online Help idx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Online Help idx"; sourceTree = "<group>"; };
+		273ECED815740EAF00E65D82 /* preferences.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = preferences.html; sourceTree = "<group>"; };
+		273ECED915740EAF00E65D82 /* Preferences-Appearance.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-Appearance.tiff"; sourceTree = "<group>"; };
+		273ECEDA15740EAF00E65D82 /* Preferences-CPU.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-CPU.tiff"; sourceTree = "<group>"; };
+		273ECEDB15740EAF00E65D82 /* Preferences-Disk.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-Disk.tiff"; sourceTree = "<group>"; };
+		273ECEDC15740EAF00E65D82 /* Preferences-General.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-General.tiff"; sourceTree = "<group>"; };
+		273ECEDD15740EAF00E65D82 /* Preferences-Memory.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-Memory.tiff"; sourceTree = "<group>"; };
+		273ECEDE15740EAF00E65D82 /* Preferences-Network.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-Network.tiff"; sourceTree = "<group>"; };
+		273ECEDF15740EAF00E65D82 /* Preferences-Stocks.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-Stocks.tiff"; sourceTree = "<group>"; };
+		273ECEE015740EAF00E65D82 /* Preferences-Temperature.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-Temperature.tiff"; sourceTree = "<group>"; };
+		273ECEE115740EAF00E65D82 /* Preferences-Weather.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Preferences-Weather.tiff"; sourceTree = "<group>"; };
+		273ECEE415740EAF00E65D82 /* xtf.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = xtf.icns; sourceTree = "<group>"; };
+		273ECEE815740EAF00E65D82 /* NSStringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringUtil.h; sourceTree = "<group>"; };
+		273ECEE915740EAF00E65D82 /* NSStringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringUtil.m; sourceTree = "<group>"; };
+		273ECEEA15740EAF00E65D82 /* XRGDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGDataSet.h; sourceTree = "<group>"; };
+		273ECEEB15740EAF00E65D82 /* XRGDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGDataSet.m; sourceTree = "<group>"; };
+		273ECEEC15740EAF00E65D82 /* XRGList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGList.h; sourceTree = "<group>"; };
+		273ECEED15740EAF00E65D82 /* XRGList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGList.m; sourceTree = "<group>"; };
+		273ECEEE15740EAF00E65D82 /* XRGListNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGListNode.h; sourceTree = "<group>"; };
+		273ECEEF15740EAF00E65D82 /* XRGListNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGListNode.m; sourceTree = "<group>"; };
+		273ECEF015740EAF00E65D82 /* XRGModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGModule.h; sourceTree = "<group>"; };
+		273ECEF115740EAF00E65D82 /* XRGModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGModule.m; sourceTree = "<group>"; };
+		273ECEF215740EAF00E65D82 /* XRGModuleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGModuleManager.h; sourceTree = "<group>"; };
+		273ECEF315740EAF00E65D82 /* XRGModuleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGModuleManager.m; sourceTree = "<group>"; };
+		273ECEF415740EAF00E65D82 /* XRGSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGSettings.h; sourceTree = "<group>"; };
+		273ECEF515740EAF00E65D82 /* XRGSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGSettings.m; sourceTree = "<group>"; };
+		273ECEF615740EAF00E65D82 /* XRGStock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGStock.h; sourceTree = "<group>"; };
+		273ECEF715740EAF00E65D82 /* XRGStock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGStock.m; sourceTree = "<group>"; };
+		273ECEF815740EAF00E65D82 /* XRGURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGURL.h; sourceTree = "<group>"; };
+		273ECEF915740EAF00E65D82 /* XRGURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGURL.m; sourceTree = "<group>"; };
+		273ECF4F1574106600E65D82 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		273ECF501574106600E65D82 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
+		273ECF511574106600E65D82 /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = "<group>"; };
+		273ECF5F1574134A00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
+		273ECF63157413D200E65D82 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		273ECF651574145100E65D82 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		273ECE6215740DE700E65D82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				273ECF661574145100E65D82 /* IOKit.framework in Frameworks */,
+				273ECE6A15740DE700E65D82 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		273ECE5A15740DE700E65D82 = {
+			isa = PBXGroup;
+			children = (
+				273ECE6F15740DE700E65D82 /* XRG */,
+				273ECE6815740DE700E65D82 /* Frameworks */,
+				273ECE6615740DE700E65D82 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		273ECE6615740DE700E65D82 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				273ECE6515740DE700E65D82 /* XRG.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		273ECE6815740DE700E65D82 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				273ECE6915740DE700E65D82 /* Cocoa.framework */,
+				273ECF651574145100E65D82 /* IOKit.framework */,
+				273ECE6B15740DE700E65D82 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		273ECE6B15740DE700E65D82 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				273ECE6C15740DE700E65D82 /* AppKit.framework */,
+				273ECE6D15740DE700E65D82 /* CoreData.framework */,
+				273ECE6E15740DE700E65D82 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		273ECE6F15740DE700E65D82 /* XRG */ = {
+			isa = PBXGroup;
+			children = (
+				273ECE8B15740EAF00E65D82 /* Controllers */,
+				273ECE9415740EAF00E65D82 /* Data Miners */,
+				273ECE9F15740EAF00E65D82 /* Graph Views */,
+				273ECEB415740EAF00E65D82 /* Other Sources */,
+				273ECEBA15740EAF00E65D82 /* Resources */,
+				273ECEE515740EAF00E65D82 /* Utility */,
+				273ECF5F1574134A00E65D82 /* XRG-Info.plist */,
+			);
+			path = XRG;
+			sourceTree = "<group>";
+		};
+		273ECE8B15740EAF00E65D82 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				273ECE8C15740EAF00E65D82 /* XRGAppDelegate.h */,
+				273ECE8D15740EAF00E65D82 /* XRGAppDelegate.m */,
+				273ECE8E15740EAF00E65D82 /* XRGPrefController.h */,
+				273ECE8F15740EAF00E65D82 /* XRGPrefController.m */,
+				273ECE9015740EAF00E65D82 /* XRGFramelessWindow.h */,
+				273ECE9115740EAF00E65D82 /* XRGFramelessWindow.m */,
+				273ECE9215740EAF00E65D82 /* XRGGraphWindow.h */,
+				273ECE9315740EAF00E65D82 /* XRGGraphWindow.m */,
+			);
+			path = Controllers;
+			sourceTree = SOURCE_ROOT;
+		};
+		273ECE9415740EAF00E65D82 /* Data Miners */ = {
+			isa = PBXGroup;
+			children = (
+				273ECE9515740EAF00E65D82 /* TESMCReader.h */,
+				273ECE9615740EAF00E65D82 /* TESMCReader.m */,
+				273ECE9715740EAF00E65D82 /* XRGCPUMiner.h */,
+				273ECE9815740EAF00E65D82 /* XRGCPUMiner.m */,
+				273ECE9915740EAF00E65D82 /* XRGMemoryMiner.h */,
+				273ECE9A15740EAF00E65D82 /* XRGMemoryMiner.m */,
+				273ECE9B15740EAF00E65D82 /* XRGProcessMiner.h */,
+				273ECE9C15740EAF00E65D82 /* XRGProcessMiner.m */,
+				273ECE9D15740EAF00E65D82 /* XRGTemperatureMiner.h */,
+				273ECE9E15740EAF00E65D82 /* XRGTemperatureMiner.m */,
+			);
+			path = "Data Miners";
+			sourceTree = SOURCE_ROOT;
+		};
+		273ECE9F15740EAF00E65D82 /* Graph Views */ = {
+			isa = PBXGroup;
+			children = (
+				273ECEA015740EAF00E65D82 /* XRGBackgroundView.h */,
+				273ECEA115740EAF00E65D82 /* XRGBackgroundView.m */,
+				273ECEA215740EAF00E65D82 /* XRGBatteryView.h */,
+				273ECEA315740EAF00E65D82 /* XRGBatteryView.m */,
+				273ECEA415740EAF00E65D82 /* XRGCPUView.h */,
+				273ECEA515740EAF00E65D82 /* XRGCPUView.m */,
+				273ECEA615740EAF00E65D82 /* XRGDiskView.h */,
+				273ECEA715740EAF00E65D82 /* XRGDiskView.m */,
+				273ECEA815740EAF00E65D82 /* XRGGenericView.h */,
+				273ECEA915740EAF00E65D82 /* XRGGenericView.m */,
+				273ECEAA15740EAF00E65D82 /* XRGMemoryView.h */,
+				273ECEAB15740EAF00E65D82 /* XRGMemoryView.m */,
+				273ECEAC15740EAF00E65D82 /* XRGNetView.h */,
+				273ECEAD15740EAF00E65D82 /* XRGNetView.m */,
+				273ECEAE15740EAF00E65D82 /* XRGStockView.h */,
+				273ECEAF15740EAF00E65D82 /* XRGStockView.m */,
+				273ECEB015740EAF00E65D82 /* XRGTemperatureView.h */,
+				273ECEB115740EAF00E65D82 /* XRGTemperatureView.m */,
+				273ECEB215740EAF00E65D82 /* XRGWeatherView.h */,
+				273ECEB315740EAF00E65D82 /* XRGWeatherView.m */,
+			);
+			path = "Graph Views";
+			sourceTree = SOURCE_ROOT;
+		};
+		273ECEB415740EAF00E65D82 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				273ECEB515740EAF00E65D82 /* definitions.h */,
+				273ECEB615740EAF00E65D82 /* main.m */,
+				273ECEB715740EAF00E65D82 /* ppp_msg.h */,
+				273ECEB815740EAF00E65D82 /* XRG-Prefix.pch */,
+				273ECEB915740EAF00E65D82 /* XRGPlugin.h */,
+			);
+			path = "Other Sources";
+			sourceTree = SOURCE_ROOT;
+		};
+		273ECEBA15740EAF00E65D82 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				273ECF63157413D200E65D82 /* icon.icns */,
+				273ECF4F1574106600E65D82 /* InfoPlist.strings */,
+				273ECF501574106600E65D82 /* MainMenu.nib */,
+				273ECF511574106600E65D82 /* Preferences.nib */,
+				273ECEBF15740EAF00E65D82 /* Online Help */,
+				273ECED915740EAF00E65D82 /* Preferences-Appearance.tiff */,
+				273ECEDA15740EAF00E65D82 /* Preferences-CPU.tiff */,
+				273ECEDB15740EAF00E65D82 /* Preferences-Disk.tiff */,
+				273ECEDC15740EAF00E65D82 /* Preferences-General.tiff */,
+				273ECEDD15740EAF00E65D82 /* Preferences-Memory.tiff */,
+				273ECEDE15740EAF00E65D82 /* Preferences-Network.tiff */,
+				273ECEDF15740EAF00E65D82 /* Preferences-Stocks.tiff */,
+				273ECEE015740EAF00E65D82 /* Preferences-Temperature.tiff */,
+				273ECEE115740EAF00E65D82 /* Preferences-Weather.tiff */,
+				273ECEE415740EAF00E65D82 /* xtf.icns */,
+			);
+			path = Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		273ECEBF15740EAF00E65D82 /* Online Help */ = {
+			isa = PBXGroup;
+			children = (
+				273ECEC015740EAF00E65D82 /* help_icon.gif */,
+				273ECEC115740EAF00E65D82 /* images */,
+				273ECED515740EAF00E65D82 /* index.html */,
+				273ECED615740EAF00E65D82 /* modules.html */,
+				273ECED715740EAF00E65D82 /* Online Help idx */,
+				273ECED815740EAF00E65D82 /* preferences.html */,
+			);
+			path = "Online Help";
+			sourceTree = "<group>";
+		};
+		273ECEC115740EAF00E65D82 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				273ECEC215740EAF00E65D82 /* battery.gif */,
+				273ECEC315740EAF00E65D82 /* cpu.gif */,
+				273ECEC415740EAF00E65D82 /* disk.gif */,
+				273ECEC515740EAF00E65D82 /* mem.gif */,
+				273ECEC615740EAF00E65D82 /* net.gif */,
+				273ECEC715740EAF00E65D82 /* prefs_color.gif */,
+				273ECEC815740EAF00E65D82 /* prefs_cpu.gif */,
+				273ECEC915740EAF00E65D82 /* prefs_disk.gif */,
+				273ECECA15740EAF00E65D82 /* prefs_general.gif */,
+				273ECECB15740EAF00E65D82 /* prefs_memory.gif */,
+				273ECECC15740EAF00E65D82 /* prefs_network.gif */,
+				273ECECD15740EAF00E65D82 /* prefs_stock.gif */,
+				273ECECE15740EAF00E65D82 /* prefs_temperature.jpg */,
+				273ECECF15740EAF00E65D82 /* prefs_weather.gif */,
+				273ECED015740EAF00E65D82 /* stock.gif */,
+				273ECED115740EAF00E65D82 /* temperature.gif */,
+				273ECED215740EAF00E65D82 /* weather.gif */,
+				273ECED315740EAF00E65D82 /* xrg_icon3.jpg */,
+				273ECED415740EAF00E65D82 /* xrg_icon4.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		273ECEE515740EAF00E65D82 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				273ECEE815740EAF00E65D82 /* NSStringUtil.h */,
+				273ECEE915740EAF00E65D82 /* NSStringUtil.m */,
+				273ECEEA15740EAF00E65D82 /* XRGDataSet.h */,
+				273ECEEB15740EAF00E65D82 /* XRGDataSet.m */,
+				273ECEEC15740EAF00E65D82 /* XRGList.h */,
+				273ECEED15740EAF00E65D82 /* XRGList.m */,
+				273ECEEE15740EAF00E65D82 /* XRGListNode.h */,
+				273ECEEF15740EAF00E65D82 /* XRGListNode.m */,
+				273ECEF015740EAF00E65D82 /* XRGModule.h */,
+				273ECEF115740EAF00E65D82 /* XRGModule.m */,
+				273ECEF215740EAF00E65D82 /* XRGModuleManager.h */,
+				273ECEF315740EAF00E65D82 /* XRGModuleManager.m */,
+				273ECEF415740EAF00E65D82 /* XRGSettings.h */,
+				273ECEF515740EAF00E65D82 /* XRGSettings.m */,
+				273ECEF615740EAF00E65D82 /* XRGStock.h */,
+				273ECEF715740EAF00E65D82 /* XRGStock.m */,
+				273ECEF815740EAF00E65D82 /* XRGURL.h */,
+				273ECEF915740EAF00E65D82 /* XRGURL.m */,
+			);
+			path = Utility;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		273ECE6415740DE700E65D82 /* XRG */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 273ECE8315740DE800E65D82 /* Build configuration list for PBXNativeTarget "XRG" */;
+			buildPhases = (
+				273ECE6115740DE700E65D82 /* Sources */,
+				273ECE6215740DE700E65D82 /* Frameworks */,
+				273ECE6315740DE700E65D82 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XRG;
+			productName = XRG;
+			productReference = 273ECE6515740DE700E65D82 /* XRG.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		273ECE5C15740DE700E65D82 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = XRG;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Gaucho Software";
+			};
+			buildConfigurationList = 273ECE5F15740DE700E65D82 /* Build configuration list for PBXProject "XRG" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 273ECE5A15740DE700E65D82;
+			productRefGroup = 273ECE6615740DE700E65D82 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				273ECE6415740DE700E65D82 /* XRG */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		273ECE6315740DE700E65D82 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				273ECF1215740EAF00E65D82 /* help_icon.gif in Resources */,
+				273ECF1315740EAF00E65D82 /* battery.gif in Resources */,
+				273ECF1415740EAF00E65D82 /* cpu.gif in Resources */,
+				273ECF1515740EAF00E65D82 /* disk.gif in Resources */,
+				273ECF1615740EAF00E65D82 /* mem.gif in Resources */,
+				273ECF1715740EAF00E65D82 /* net.gif in Resources */,
+				273ECF1815740EAF00E65D82 /* prefs_color.gif in Resources */,
+				273ECF1915740EAF00E65D82 /* prefs_cpu.gif in Resources */,
+				273ECF1A15740EAF00E65D82 /* prefs_disk.gif in Resources */,
+				273ECF1B15740EAF00E65D82 /* prefs_general.gif in Resources */,
+				273ECF1C15740EAF00E65D82 /* prefs_memory.gif in Resources */,
+				273ECF1D15740EAF00E65D82 /* prefs_network.gif in Resources */,
+				273ECF1E15740EAF00E65D82 /* prefs_stock.gif in Resources */,
+				273ECF1F15740EAF00E65D82 /* prefs_temperature.jpg in Resources */,
+				273ECF2015740EAF00E65D82 /* prefs_weather.gif in Resources */,
+				273ECF2115740EAF00E65D82 /* stock.gif in Resources */,
+				273ECF2215740EAF00E65D82 /* temperature.gif in Resources */,
+				273ECF2315740EAF00E65D82 /* weather.gif in Resources */,
+				273ECF2415740EAF00E65D82 /* xrg_icon3.jpg in Resources */,
+				273ECF2515740EAF00E65D82 /* xrg_icon4.png in Resources */,
+				273ECF2615740EAF00E65D82 /* index.html in Resources */,
+				273ECF2715740EAF00E65D82 /* modules.html in Resources */,
+				273ECF2815740EAF00E65D82 /* Online Help idx in Resources */,
+				273ECF2915740EAF00E65D82 /* preferences.html in Resources */,
+				273ECF2A15740EAF00E65D82 /* Preferences-Appearance.tiff in Resources */,
+				273ECF2B15740EAF00E65D82 /* Preferences-CPU.tiff in Resources */,
+				273ECF2C15740EAF00E65D82 /* Preferences-Disk.tiff in Resources */,
+				273ECF2D15740EAF00E65D82 /* Preferences-General.tiff in Resources */,
+				273ECF2E15740EAF00E65D82 /* Preferences-Memory.tiff in Resources */,
+				273ECF2F15740EAF00E65D82 /* Preferences-Network.tiff in Resources */,
+				273ECF3015740EAF00E65D82 /* Preferences-Stocks.tiff in Resources */,
+				273ECF3115740EAF00E65D82 /* Preferences-Temperature.tiff in Resources */,
+				273ECF3215740EAF00E65D82 /* Preferences-Weather.tiff in Resources */,
+				273ECF3515740EAF00E65D82 /* xtf.icns in Resources */,
+				273ECF531574106600E65D82 /* InfoPlist.strings in Resources */,
+				273ECF541574106600E65D82 /* MainMenu.nib in Resources */,
+				273ECF551574106600E65D82 /* Preferences.nib in Resources */,
+				273ECF601574134A00E65D82 /* XRG-Info.plist in Resources */,
+				273ECF64157413D200E65D82 /* icon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		273ECE6115740DE700E65D82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				273ECEFA15740EAF00E65D82 /* XRGAppDelegate.m in Sources */,
+				273ECEFB15740EAF00E65D82 /* XRGPrefController.m in Sources */,
+				273ECEFC15740EAF00E65D82 /* XRGFramelessWindow.m in Sources */,
+				273ECEFD15740EAF00E65D82 /* XRGGraphWindow.m in Sources */,
+				273ECEFE15740EAF00E65D82 /* TESMCReader.m in Sources */,
+				273ECEFF15740EAF00E65D82 /* XRGCPUMiner.m in Sources */,
+				273ECF0015740EAF00E65D82 /* XRGMemoryMiner.m in Sources */,
+				273ECF0115740EAF00E65D82 /* XRGProcessMiner.m in Sources */,
+				273ECF0215740EAF00E65D82 /* XRGTemperatureMiner.m in Sources */,
+				273ECF0315740EAF00E65D82 /* XRGBackgroundView.m in Sources */,
+				273ECF0415740EAF00E65D82 /* XRGBatteryView.m in Sources */,
+				273ECF0515740EAF00E65D82 /* XRGCPUView.m in Sources */,
+				273ECF0615740EAF00E65D82 /* XRGDiskView.m in Sources */,
+				273ECF0715740EAF00E65D82 /* XRGGenericView.m in Sources */,
+				273ECF0815740EAF00E65D82 /* XRGMemoryView.m in Sources */,
+				273ECF0915740EAF00E65D82 /* XRGNetView.m in Sources */,
+				273ECF0A15740EAF00E65D82 /* XRGStockView.m in Sources */,
+				273ECF0B15740EAF00E65D82 /* XRGTemperatureView.m in Sources */,
+				273ECF0C15740EAF00E65D82 /* XRGWeatherView.m in Sources */,
+				273ECF0D15740EAF00E65D82 /* main.m in Sources */,
+				273ECF3715740EAF00E65D82 /* NSStringUtil.m in Sources */,
+				273ECF3815740EAF00E65D82 /* XRGDataSet.m in Sources */,
+				273ECF3915740EAF00E65D82 /* XRGList.m in Sources */,
+				273ECF3A15740EAF00E65D82 /* XRGListNode.m in Sources */,
+				273ECF3B15740EAF00E65D82 /* XRGModule.m in Sources */,
+				273ECF3C15740EAF00E65D82 /* XRGModuleManager.m in Sources */,
+				273ECF3D15740EAF00E65D82 /* XRGSettings.m in Sources */,
+				273ECF3E15740EAF00E65D82 /* XRGStock.m in Sources */,
+				273ECF3F15740EAF00E65D82 /* XRGURL.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		273ECE8115740DE800E65D82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		273ECE8215740DE800E65D82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		273ECE8415740DE800E65D82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/XRG-Prefix.pch";
+				INFOPLIST_FILE = "XRG-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		273ECE8515740DE800E65D82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/XRG-Prefix.pch";
+				INFOPLIST_FILE = "XRG-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		273ECE5F15740DE700E65D82 /* Build configuration list for PBXProject "XRG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				273ECE8115740DE800E65D82 /* Debug */,
+				273ECE8215740DE800E65D82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		273ECE8315740DE800E65D82 /* Build configuration list for PBXNativeTarget "XRG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				273ECE8415740DE800E65D82 /* Debug */,
+				273ECE8515740DE800E65D82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 273ECE5C15740DE700E65D82 /* Project object */;
+}

@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'XRG' target in the 'XRG' project
+//
+
+#ifdef __OBJC__
+	#import <Cocoa/Cocoa.h>
+#endif

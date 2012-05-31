@@ -1,0 +1,198 @@
+/* 
+ * XRG (X Resource Graph):  A system resource grapher for Mac OS X.
+ * Copyright (C) 2002-2009 Gaucho Software, LLC.
+ * You can view the complete license in the LICENSE file in the root
+ * of the source tree.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ */
+
+//
+//  XRGMemoryMiner.m
+//
+
+#import "XRGMemoryMiner.h"
+#include <sys/sysctl.h>
+
+@implementation XRGMemoryMiner
+
+- (id)init {
+    host = mach_host_self();
+   
+    values1 = [[XRGDataSet alloc] init];
+    values2 = [[XRGDataSet alloc] init];
+    values3 = [[XRGDataSet alloc] init];
+    
+	usedSwap = totalSwap = 0.;
+	
+	int mib[2] = { CTL_HW, HW_PAGESIZE };
+	size_t sz = sizeof(pageSize);
+	if (-1 == sysctl(mib, 2, &pageSize, &sz, NULL, 0))
+		pageSize = PAGE_SIZE;
+	
+    [self getLatestMemoryInfo];
+    
+    return self;
+}
+
+- (void)setDataSize:(int)newNumSamples {
+    if (newNumSamples < 0) return;
+    
+    if(values1 && values2 && values3) {
+        [values1 resize:(size_t)newNumSamples];
+        [values2 resize:(size_t)newNumSamples];
+        [values3 resize:(size_t)newNumSamples];
+    }
+    else {
+        if (values1) {
+            [values1 release];
+            values1 = nil;
+        }
+        if (values2) {
+            [values2 release];
+            values2 = nil;
+        }
+        if (values3) {
+            [values3 release];
+            values3 = nil;
+        }
+        
+        values1 = [[XRGDataSet alloc] init];
+        values2 = [[XRGDataSet alloc] init];
+        values3 = [[XRGDataSet alloc] init];
+        
+        [values1 resize:(size_t)newNumSamples];
+        [values2 resize:(size_t)newNumSamples];
+        [values3 resize:(size_t)newNumSamples];
+    }
+            
+    numSamples  = newNumSamples;
+}
+
+- (void)getLatestMemoryInfo {
+    kern_return_t kr;
+    vm_statistics_data_t stats;
+    unsigned int numBytes = HOST_VM_INFO_COUNT;
+    
+    kr = host_statistics(host, HOST_VM_INFO, (host_info_t)&stats, &numBytes);
+    if (kr != KERN_SUCCESS) {
+        return;
+    }
+    else {
+        currentDiffs.free_count      = (stats.free_count - lastStats.free_count);
+        currentDiffs.active_count    = (stats.active_count - lastStats.active_count);
+        currentDiffs.inactive_count  = (stats.inactive_count - lastStats.inactive_count);
+        currentDiffs.wire_count      = (stats.wire_count - lastStats.wire_count);
+        currentDiffs.faults          = (stats.faults - lastStats.faults);
+        currentDiffs.pageins         = (stats.pageins - lastStats.pageins);
+        currentDiffs.pageouts        = (stats.pageouts - lastStats.pageouts);
+            
+        lastStats.free_count         = stats.free_count;
+        lastStats.active_count       = stats.active_count;
+        lastStats.inactive_count     = stats.inactive_count;
+        lastStats.wire_count         = stats.wire_count;
+        lastStats.faults             = stats.faults;
+        lastStats.pageins            = stats.pageins;
+        lastStats.pageouts           = stats.pageouts;
+        lastStats.lookups            = stats.lookups;
+        lastStats.hits               = stats.hits;
+    }
+
+    if (values1) [values1 setNextValue:currentDiffs.faults];
+    if (values2) [values2 setNextValue:currentDiffs.pageins];
+    if (values3) [values3 setNextValue:currentDiffs.pageouts];
+	
+	// Swap space monitoring.
+	int vmmib[2] = { CTL_VM, VM_SWAPUSAGE };
+    struct xsw_usage swapInfo;
+    size_t swapLength = sizeof(swapInfo);
+    if (sysctl(vmmib, 2, &swapInfo, &swapLength, NULL, 0) >= 0) {
+		usedSwap = swapInfo.xsu_used;
+		totalSwap = swapInfo.xsu_total;
+//		NSLog(@"Used: %d (%3.2fM)    Total: %d (%3.2fM)", usedSwap, (float)usedSwap / 1024. / 1024., totalSwap, (float)totalSwap / 1024. / 1024.);
+    }		
+}
+
+// actually kilobytes, not bytes
+- (NSUInteger)freeBytes {
+    return (NSUInteger)lastStats.free_count * (pageSize / 1024.);
+}
+
+- (NSUInteger)activeBytes {
+    return (NSUInteger)lastStats.active_count * (pageSize / 1024.);
+}
+
+- (NSUInteger)inactiveBytes {
+    return (NSUInteger)lastStats.inactive_count * (pageSize / 1024.);
+}
+
+- (NSUInteger)wiredBytes {
+    return (NSUInteger)lastStats.wire_count * (pageSize / 1024.);
+}
+
+- (u_int32_t)totalFaults {
+    return lastStats.faults;
+}
+
+- (u_int32_t)recentFaults {
+    return currentDiffs.faults;
+}
+
+- (u_int32_t)totalPageIns {
+    return lastStats.pageins;
+}
+
+- (u_int32_t)recentPageIns {
+    return currentDiffs.pageins;
+}
+
+- (u_int32_t)totalPageOuts {
+    return lastStats.pageouts;
+}
+
+- (u_int32_t)recentPageOuts {
+    return currentDiffs.pageouts;
+}
+
+- (u_int32_t)totalCacheLookups {
+    return lastStats.lookups;
+}
+
+- (u_int32_t)totalCacheHits {
+    return lastStats.hits;
+}
+
+- (u_int64_t)usedSwap {
+	return usedSwap;
+}
+
+- (u_int64_t)totalSwap {
+	return totalSwap;
+}
+
+- (XRGDataSet *)faultData {
+    return values1;
+}
+
+- (XRGDataSet *)pageInData {
+    return values2;
+}
+
+- (XRGDataSet *)pageOutData {
+    return values3;
+}
+
+@end

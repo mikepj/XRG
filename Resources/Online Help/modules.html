@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <title>XRG Graph Module Help</title>
+        <style type="text/css" media="screen">
+        <!--
+            body { font-family:Lucidia Grande; font-size: 11pt; }
+            h3   { margin-bottom: 5px; }
+        -->
+        </style>
+    </head>
+    <body>
+        <table border="0">
+            <tr>
+                <td>
+                    <img src="images/xrg_icon4.png"/>
+                </td>
+                <td>
+                    <h1>XRG Graph Module Help</h1>
+                </td>
+            </tr>
+        </table>
+        <table border="0">
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The CPU Graph</b><br>
+                    <p>The CPU Graph can look very different depending on your preferences and the type of machine you are on.  The image shown is on a single processor machine.  For dual processor Macs, the graph will be split in half, with one CPU's activity shown on the top, and the other's activity on the bottom.</p>
+                    <p>On the top line of the graph, XRG displays the current percentage of the CPU that is being used.  If you have a dual processor machine, there will be a percentage displayed for each CPU.</p>
+                    <p>If you have "Separate Coloring for User/System/Nice CPU time" turned on, then the graph will be split into three colors like it is in the image shown.  Graph Foreground Color 1 designates the System CPU Load, or the amount of CPU time spent in the core system code.  Graph Foreground Color 2 designates the User CPU Load, or the amount of CPU time spent by applications started by users who are logged in.  Graph Foreground Color 3 designates the Nice CPU Load, or the amount of CPU time spent by applications that are set to be nicer than others.  XRG is set as a nice application, which means it will give up it's CPU time when the computer is extremely loaded.</p>
+                    <p>With "Show Average % Usage" turned on, XRG will display the average % of the CPU used for the time frame currently shown on the graph.</p>
+                    <p>If you have "Show Load Average" turned on, then XRG will show the machine's load average on a line labeled as "Load."  The load average is the average number of processes that are currently waiting for the CPU.  Usually, a load average of 1 on a single processor machine means that the CPU is always busy.  A dual CPU machine should theoretically be completely busy when the load average is 2.</p>
+                    <p>If you enable "Show CPU Temperature" in the preferences and your processor supports it, XRG will display the current CPU temperature.  This is highly inaccurate on slightly older machines, and could be off by as much as 12 degrees.  Newer machines have sensors for different locations of the computer.  See the temperature graph help section for more details and for system support.</p>
+                    <p>Finally, there is an option to display a more immediate "Fast CPU Graph."  This graph is updated 5 times a second and is shown in the right-most ~10 pixels of the graph.</p>
+                </td>
+                <td><img src="images/cpu.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+            <tr><td colspan="4">&nbsp;</td></tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The Memory Graph</b><br>
+                    <p>The Memory Graph is divided into 3 main sections.  The first is the informational text.  The text shows (F)ree memory, (I)nactive memory, (A)ctive memory, (W)ired memory, (Ca)che hit rate, (P)age (F)aults, (V)irtual Memory (U)sed, and (V)irtual Memory (T)otal.  Free Memory is self-explanatory, it's the amount of RAM that isn't allocated by any applications.  Inactive memory is memory that is either left over from previous applications, or is in use by current applications but not readily available in the system memory map.  Active memory is memory used by current applications and is in the system memory map.  Wired memory is allocated by the kernel and cannot be swapped out to disk; it's locked, or wired into main memory.  Cache hit rate is the percentage of the time that the operating system looks for a memory page in cache and finds it.  The higher your cache hit rate, the more efficient your machine is running.  The page fault value is the number of times that a page fault occurs multiplied by the size of a memory page (4k), to give a rough estimate of the bandwidth being used by page faults.  Finally, the total virtual memory is the total size of swap files on disk, while used virtual memory is the amount of space used in those swap files.</p>  
+                                        
+                    <p>The second main section is a graphical representation of the memory allocated along the right size of the graph.  There are two columns here, one for real memory, and one for virtual memory.  In the real memory column, Graph Foreground Color 1 shows the amount of wired memory, Graph Foreground Color 2 shows the amount of active memory, Graph Foreground Color 3 shows the amount of inactive memory, and the Graph Background Color shows the amount of memory that is free.  The virtual memory column just shows the amount of swap space used with respect to the amount of swap space allocated on disk.</p>
+                    
+                    <p>The third main section of the memory graph is a paging graph that is displayed directly under the text on the left side of the graph.  This graph shows the page fault, page in, and page out activity on the system.  A page fault (Graph Foreground 1) occurs when the system fails to find a memory address in the system memory map.  When a page fault occurs, the system loads the needed page either from inactive memory or from the disk.  A page-in (Graph Foreground 2) occurs when a page is currently swapped out to virtual memory and needs to be loaded back into active memory.  A page-out (Graph Foreground 3) occurs when more memory is needed and a page is swapped from RAM out to virtual memory.  If you have a lot of memory, page-ins and page-outs should rarely occur and your graph will look similar to the one shown here with only Graph Foreground 1 representing page faults. </p>
+                </td>
+                <td><img src="images/mem.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+            <tr><td colspan="4">&nbsp;</td></tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The Battery Graph</b><br>
+                    <p>The battery graph shows many more statistics than the standard MacOS X battery monitor.  This graph will only work with Powerbooks, as desktop machines don't have any batteries with the capability of being monitored.</p>
+                    <p>The first bar graph displays the current charge percentage along with an estimated time of how much longer the battery will last.  The graph shows the percentage in Graph Foreground Color 1.  When the battery is charging, the time estimation is for how long it will take the battery to fully charge.  Also, to designate that the battery is charging, there will be a small animation in the remaining battery capacity section of the graph.</p>
+                    <p>The second bar graph displays the current voltage that the battery is providing.  The scale of this graph can be somewhat random, and XRG uses the max of the scale as the highest voltage reading it has gathered since it was launched.  The third bar graph displays how much current the battery is providing while running on battery, or how much current the battery is drawing while the Powerbook is plugged in.  Typically, if the power adapter is being used, the battery will draw about 1.2 amps of power on my 15" Powerbook.  If you take both the current voltage and the current amperage, and multiply them, you will get the wattage that your Powerbook is currently using.
+                    <p>The rest of the battery graph is used to display the battery charge over a length of time.  The graph is updated every 30 seconds, which is how much time one pixel width of the graph represents.  On this graph, there will be two lines of text (if there is room to display them).  The first line has the current capacity of the battery in mAh (milli-ampere hours), and the second is the maximum capacity of the battery, also in mAh.  The maximum capacity determines how long the battery will last in your Powerbook.  Over time, you will notice that this number goes down.  This is caused by wear and tear on the battery and is the reason your Powerbook doesn't last the 3-5 hours that it used to when it was new.  In the screenshot, my battery shows that it can hold a charge of about 4215mAh.  A new battery for a 15" Powerbook will typically have a maximum charge of 4800-5000mAh.  I believe the larger batteries in the 17" Powerbooks hold a charge of about 7000mAh, though the hardware uses more current, so the battery charge will last about the same amount of time.</p>
+                </td>
+                <td><img src="images/battery.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+            <tr><td colspan="4">&nbsp;</td></tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The Temperature Graph</b><br>
+                    <p>The temperature graph displays the temperature of different sensors mounted in some new PowerMac and Powerbook/iBook computers.  If XRG doesn't recognize any valid sensors in your computer to monitor, it will display No Sensors Found.  Currently, machines that are known to work with the XRG temperature graph include the PowerMac G5, iMac G5, Aluminum Powerbooks 12"/15"/17" models, and the G4 iBooks.</p>
+                    <p>The image shown on the right is from a dual processor PowerMac G5.  The CPU A/B Amb values are ambient temperatures of the air surrounding the G5s.  The U3 Heatsink shows the temperature of the of the System Controller.  This is the chip that manages traffic between the processors and the rest of the system.  The Drive Bay is an ambient temperature of that zone.  Both of the Mib temperatures are for the zones that enclose the PCI cards.  Finally, the backside temperature is just as it says, the ambient temperature of the back side of the computer.</p>
+                    <p>Powerbooks and iBooks are slightly different.  Newer generations contain more sensors than older ones, and depending on the display, sensors could be located in different locations as well.  The sensors that are known include Hdd Bottomside, CPU Topside/Bottomside, CPU Core, CPU/Intrepid Bottomside, GPU On Die, Pwr Supply Bottomside, Pwr/Memory Bottomside, Battery, Rear Main Enclosure, and Rear Left/Right Exhaust.  The Hdd sensor is for the internal hard drive, the CPU temperatures are for various locations with respect to the CPU (Intrepid may be a daughtercard or a controller chip), GPU On Die is the temperature of the graphics processor (which is usually an ATI Radeon chip), and the rest are fairly self-explanatory.</p>
+                    <p>In the preferences, you have an option to display up to three sensors as their own separate line graphs.  Over time, these values don't change much, but you could see dramatic changes when doing anything on your computer that stresses a certain part of the computer.  For example, doing a lot of file and network copying would increase the disk temperature, charging a battery would increase the battery and power supply temperatures, and playing an advanced OpenGL game would probably increase everything (most notably, the CPU, U3, GPU, and Mib temperatures).</p>
+                    <p>Future machines may have different location names that aren't documented here.  In most cases, I expect that XRG will still detect them and allow them to be displayed and graphed.</p>
+                </td>
+                <td><img src="images/temperature.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+            <tr><td colspan="4">&nbsp;</td></tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The Network Graph</b><br>
+                    <p>The network graph displays how fast you are sending and receiving data on your network connection.  The send data rate is displayed in Graph Foreground Color 1, and the received data rate is displayed in Graph Foreground Color 2.  By default, these two rates are displayed by stacking on top of each other.  There is an option in the preferences to either invert the send data rate or the receive data rate.  The number in the upper left corner below "Net" is the scale of the graph.  In this case, the scale from top to bottom of the graph shown is 10K/sec.  There is an option in the preferences to set a minimum scale to show, and since there wasn't much network traffic in the image shown the scale was set to the minimum, which in this case is 10K/sec.  Right below this, if you have "Show Total Bandwidth used since boot time" and/or "Show Total Bandwidth used since XRG was opened" enabled in the preferences, the graph will display these numbers as well.  There is a limitation with showing the Total Bandwidth used since system boot time.  The method that XRG uses to gather these statistics returns 32 bit values.  This means, that when XRG is first opened, it can not detect more than 4Gb of network traffic in one direction on one interface.  For this reason, unless XRG is opened close to the time that the system was booted, this number may be incorrect.  Total Bandwidth used since XRG was opened should always be a correct value, as XRG keeps track of bandwidth used while it's open with 64 bit numbers, which are much larger.  On the bottom of the graph, both the most recent transfer (Tx) data rate and the most recent receive (Rx) data rate are displayed.  If your preferences are set to invert the send or receive graph, the corresponding data rate text will be shown at the top of the graph as well.</p>
+                </td>
+                <td><img src="images/net.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+            <tr><td colspan="4">&nbsp;</td></tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The Disk Graph</b><br>
+                    <p>The disk graph displays how fast you are reading and writing data to block devices (local hard drives).  The write speed is displayed as Graph Foreground Color 1, and the read speed is displayed as Graph Foreground Color 2.  The default display here is to have the two graph values stacked on top of each other.  There is an option in the preferences to either invert the read data rate or the write data rate.  The number in the upper left corner below "Disk" is the scale of the graph.  In this case, the scale from the top to the bottom of the graph shown is 83.6K/sec.  On the bottom of the graph, both the most recent (R)ead speed and (W)rite speed is shown.  If your preferences are set to invert the read or write graph, the corresponding read or write speed will be shown at the top of the graph as well.</p>
+                </td>
+                <td><img src="images/disk.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+            <tr><td colspan="4">&nbsp;</td></tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The Weather Graph</b><br>
+                    <p>The weather graph shows a variety of current weather statistics along with a graph of the temperature (and optionally a secondary value) over the past 24 hours.  The first line of text is the current ICAO code that is being referenced for the weather data.  You can find a list of ICAO codes for different locations at <a href="http://adds.aviationweather.noaa.gov/projects/adds/metars/stations.txt">http://adds.aviationweather.noaa.gov/projects/adds/metars/stations.txt</a>.  The lines below that show the current (T)emperature, last 24 hour (H)igh and (L)ow temperatures, (W)ind direction/speed in knots and (G)ust speeds if applicable, (R)elative (H)umidity calculated from the temperature and dew-point, (V)isibility, (D)ew-point, and (Pr)essure.  Distances are displayed with units in miles or kilometers.  Pressure is displayed with units of inches or hectopascals.  Temperature is shown in either fahrenheit or celsius.  Units can be configured in the preferences.  The primary graph (temperature) is displayed as a region filled in with Graph Foreground Color 1.  Users can choose to show one of the other values to graph as a secondary graph which is drawn as a line in Graph Foreground Color 2.</p> 
+                </td>
+                <td><img src="images/weather.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+            <tr><td colspan="4">&nbsp;</td></tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+                <td>
+                    <b>The Stock Graph</b><br>
+                    <p>The stock graph can display pricing information for one or more stock symbols.  The stock symbols to monitor are configured in the preferences, and the text on the graph will show the last closing price of the stock.  If "Show last day change" is enabled, then the line below each stock symbol shows the change in stock value from the previous day.  If "Show DJIA as a secondary graph" is enabled, then the last DJIA closing price will be shown in the lower left corner of the graph.  Also, the DJIA closing price will be graphed in Graph Foreground Color 2 as a line.  The number in the lower right corner of the graph shows the horizontal graph scale (designating if 1 month, 3 months, 6 months, or 1 year of data is shown in the graph).  The stock graph only graphs the closing price of one stock symbol at a time.  The text of the stock symbol currently shown on the graph will be highlighted as Graph Foreground Color 3 and displayed on the top line of the graph.  If there are too many stock symbols to display with the current graph size, a down arrow will be displayed on the last line designating that there are other symbols which could not be displayed because of size constraints.</p>
+                </td>
+                <td><img src="images/stock.gif"/></td>
+                <td width="20">&nbsp;</td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+/* 
+ * XRG (X Resource Graph):  A system resource grapher for Mac OS X.
+ * Copyright (C) 2002-2009 Gaucho Software, LLC.
+ * You can view the complete license in the LICENSE file in the root
+ * of the source tree.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ */
+
+//
+//  XRGModuleManager.h
+//
+
+
+#import <Foundation/Foundation.h>
+#import "XRGModule.h"
+
+@class XRGGraphWindow;
+
+@interface XRGModuleManager : NSObject {
+    NSMutableArray	*allModules;
+    NSMutableArray	*displayModules;
+    NSMutableArray  *alwaysUpdateModules;
+    int				moduleSeparatorWidth;
+    XRGGraphWindow	*myWindow;
+
+    bool			graphOrientationVertical;
+}
+
+- (XRGModuleManager *)initWithWindow:(XRGGraphWindow *)gw;
+
+- (void)addModule:(XRGModule *)m;
+- (void)updateModule:(XRGModule *)m;
+- (void)updateModuleWithName:(NSString *)name toReference:(id)graphView;
+- (void)setModule:(NSString *)name isDisplayed:(bool)yesNo;
+- (XRGModule *)getModuleByName:(NSString *)name;
+- (XRGModule *)getModuleByReference:(id)reference;
+- (NSArray *)moduleList;
+- (NSArray *)displayList;
+- (int)numModulesDisplayed;
+
+- (NSSize)getMinSize;
+- (void)redisplayModules;
+- (void)windowChangedToSize:(NSSize)newSize;
+- (void)graphFontChanged;
+
+- (void)min30Update;
+- (void)min5Update;
+- (void)graphUpdate;
+- (void)fastUpdate;
+
+- (int)moduleSeparatorWidth;
+- (void)setModuleSeparatorWidth:(int)width;
+
+- (bool)graphOrientationVertical;
+- (void)setGraphOrientationVertical:(bool)onOff;
+
+- (float) resizeModuleNumber:(int)index byDelta:(float)delta;
+- (NSArray *) resizeRects;
+
+@end
