@@ -786,11 +786,7 @@ int matchRegex(char *pattern, char *inString) {
             textRect.size.height += textRectHeight;
             
             tmpChar = [self getWindDirection];
-            if (tmpChar == "") {
-                [leftS appendString:@"\nWind:"];
-                [rightS appendString:@"\nn/a"];
-            }
-            else if (windSpeed == 0) {
+            if (windSpeed == 0) {
                 [leftS appendString:@"\nWind:"];
                 [rightS appendString:@"\ncalm"];
             }
@@ -1246,10 +1242,7 @@ int matchRegex(char *pattern, char *inString) {
     [myMenu addItem:tMI];
     [tMI release];
 
-    char *tmpChar = [self getWindDirection];
-    if (tmpChar == "")
-        [line setString:@"Wind: n/a"];
-    else if ([self getWindSpeed] == 0) 
+    if ([self getWindSpeed] == 0) 
         [line setString:@"Wind: calm"];
     else if (windDirection == -1) {
         [line setString:@""];

@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
-@interface XRGFramelessWindow : NSWindow {
+@interface XRGFramelessWindow : NSWindow<NSWindowDelegate> {
     // Window Attributes
     NSPoint 			initialLocation;
     NSPoint				initialMouseClickLocation;

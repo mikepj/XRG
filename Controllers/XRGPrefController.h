@@ -28,7 +28,7 @@
 
 @class XRGGraphWindow;
 
-@interface XRGPrefController : NSObject {
+@interface XRGPrefController : NSObject<NSToolbarDelegate> {
     XRGGraphWindow *xrgGraphWindow;
     
     // toolbar objects

@@ -901,7 +901,7 @@
 }
 
 - (void)loadTheme2:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
-    NSString *path;
+    ;
     NSData *themeData;
     NSString *error;        
     NSPropertyListFormat format;
@@ -909,10 +909,10 @@
     
     /* if successful, open file under designated name */
     if (returnCode == NSOKButton) {
-        NSArray *filenames = [sheet filenames];
-        path = [filenames objectAtIndex:0];
+        NSArray *filenames = [sheet URLs];
+        NSURL *path = [filenames objectAtIndex:0];
 
-        themeData = [NSData dataWithContentsOfFile:path];
+        themeData = [NSData dataWithContentsOfURL:path];
         
         if ([themeData length] == 0) {
             NSRunInformationalAlertPanel(@"Error", @"The theme file specified is not a valid theme file.", @"Okay", nil, nil);
@@ -997,7 +997,7 @@
 - (IBAction)saveTheme:(id)sender {
     NSSavePanel *sp = [NSSavePanel savePanel];
     
-    [sp setRequiredFileType:@"xtf"];
+    [sp setAllowedFileTypes:[NSArray arrayWithObject:@"xtf"]];
     /* display the NSSavePanel */
     [sp beginSheetForDirectory:NSHomeDirectory() 
                           file:@"My Theme.xtf" 
@@ -1008,13 +1008,12 @@
 }
     
 - (void)saveTheme2:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
-    NSString *path;
     NSData *xmlData;
     NSString *error;        
     
     /* if successful, save file under designated name */
     if (returnCode == NSOKButton) {
-        path = [sheet filename];
+        NSURL *path = [sheet URL];
         
         // Create the property dictionary
         NSMutableDictionary *colorPrefs = [NSMutableDictionary dictionary];
@@ -1055,7 +1054,7 @@
                                                              format:NSPropertyListXMLFormat_v1_0
                                                    errorDescription:&error];
         if (xmlData) {
-            if (![xmlData writeToFile:path atomically:YES]) {
+            if (![xmlData writeToURL:path atomically:YES]) {
                 NSRunInformationalAlertPanel(@"Error", @"Could not save the theme to that location.", @"Okay", nil, nil);
             }
         }
