@@ -74,7 +74,6 @@
 		273ECF531574106600E65D82 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF4F1574106600E65D82 /* InfoPlist.strings */; };
 		273ECF541574106600E65D82 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF501574106600E65D82 /* MainMenu.nib */; };
 		273ECF551574106600E65D82 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF511574106600E65D82 /* Preferences.nib */; };
-		273ECF601574134A00E65D82 /* XRG-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF5F1574134A00E65D82 /* XRG-Info.plist */; };
 		273ECF64157413D200E65D82 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF63157413D200E65D82 /* icon.icns */; };
 		273ECF661574145100E65D82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECF651574145100E65D82 /* IOKit.framework */; };
 /* End PBXBuildFile section */
@@ -183,9 +182,9 @@
 		273ECF4F1574106600E65D82 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		273ECF501574106600E65D82 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		273ECF511574106600E65D82 /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = "<group>"; };
-		273ECF5F1574134A00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
 		273ECF63157413D200E65D82 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		273ECF651574145100E65D82 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		273ECF6D157803EF00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,13 +240,13 @@
 		273ECE6F15740DE700E65D82 /* XRG */ = {
 			isa = PBXGroup;
 			children = (
+				273ECF6D157803EF00E65D82 /* XRG-Info.plist */,
 				273ECE8B15740EAF00E65D82 /* Controllers */,
 				273ECE9415740EAF00E65D82 /* Data Miners */,
 				273ECE9F15740EAF00E65D82 /* Graph Views */,
 				273ECEB415740EAF00E65D82 /* Other Sources */,
 				273ECEBA15740EAF00E65D82 /* Resources */,
 				273ECEE515740EAF00E65D82 /* Utility */,
-				273ECF5F1574134A00E65D82 /* XRG-Info.plist */,
 			);
 			path = XRG;
 			sourceTree = "<group>";
@@ -498,7 +497,6 @@
 				273ECF531574106600E65D82 /* InfoPlist.strings in Resources */,
 				273ECF541574106600E65D82 /* MainMenu.nib in Resources */,
 				273ECF551574106600E65D82 /* Preferences.nib in Resources */,
-				273ECF601574134A00E65D82 /* XRG-Info.plist in Resources */,
 				273ECF64157413D200E65D82 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
