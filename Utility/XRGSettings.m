@@ -28,84 +28,117 @@
 #import "definitions.h"
 
 @implementation XRGSettings
+@synthesize backgroundColor, graphBGColor, graphFG1Color, graphFG2Color, graphFG3Color, borderColor, textColor;
+@synthesize backgroundTransparency, graphBGTransparency, graphFG1Transparency, graphFG2Transparency, graphFG3Transparency, borderTransparency, textTransparency;
+@synthesize graphFont, textRectHeight, alignRight, alignLeft, alignCenter, alignRightAttributes, alignLeftAttributes, alignCenterAttributes;
+@synthesize fastCPUUsage, separateCPUColor, showCPUTemperature, cpuTemperatureUnits, antiAliasing, ICAO, secondaryWeatherGraph, temperatureUnits, distanceUnits, pressureUnits, showMemoryPagingGraph, memoryShowWired, memoryShowActive, memoryShowInactive, memoryShowFree, memoryShowCache, memoryShowPage, graphRefresh, showLoadAverage, netMinGraphScale, stockSymbols, stockGraphTimeFrame, stockShowChange, showDJIA, windowLevel, stickyWindow, checkForUpdates, netGraphMode, diskGraphMode, dropShadow, showTotalBandwidthSinceBoot, showTotalBandwidthSinceLoad, networkInterface, windowTitle, autoExpandGraph, foregroundWhenExpanding, showSummary, minimizeUpDown, antialiasText, cpuShowAverageUsage, cpuShowUptime, tempUnits, tempFG1Location, tempFG2Location, tempFG3Location;
 
-- (void)initVariables {
-    backgroundC = [[NSColor clearColor] retain];
-    graphBGC    = [[NSColor clearColor] retain];
-    graphFG1C   = [[NSColor clearColor] retain];
-    graphFG2C   = [[NSColor clearColor] retain];
-    graphFG3C   = [[NSColor clearColor] retain];
-    borderC     = [[NSColor clearColor] retain];
-    textC       = [[NSColor clearColor] retain];
-    
-    backgroundT = 0;
-    graphBGT    = 0;
-    graphFG1T   = 0;
-    graphFG2T   = 0;
-    graphFG3T   = 0;
-    borderT     = 0;
-    textT       = 0;
-    
-    graphFont      = [[NSFont fontWithName:@"Lucida Grande" size:8.0] retain];
-    alignRight     = [[[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil] retain];
-    alignLeft      = [[[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil] retain];
-    alignCenter    = [[[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil] retain];
-    [alignRight  setAlignment: NSRightTextAlignment];
-    [alignLeft   setAlignment: NSLeftTextAlignment];
-    [alignCenter setAlignment: NSCenterTextAlignment];
+- (id) init {
+	self = [super init];
+	if (self) {
+		self.backgroundColor = [NSColor clearColor];
+		self.graphBGColor    = [NSColor clearColor];
+		self.graphFG1Color   = [NSColor clearColor];
+		self.graphFG2Color   = [NSColor clearColor];
+		self.graphFG3Color   = [NSColor clearColor];
+		self.borderColor     = [NSColor clearColor];
+		self.textColor       = [NSColor clearColor];
+
+		self.backgroundTransparency = 0;
+		self.graphBGTransparency    = 0;
+		self.graphFG1Transparency   = 0;
+		self.graphFG2Transparency   = 0;
+		self.graphFG3Transparency   = 0;
+		self.borderTransparency     = 0;
+		self.textTransparency       = 0;
+
+		self.graphFont = [NSFont fontWithName:@"Lucida Grande" size:8.0];
+		self.alignRight = [[[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil] autorelease];
+		self.alignLeft = [[[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil] autorelease];
+		self.alignCenter = [[[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil] autorelease];
+		[alignRight  setAlignment:NSRightTextAlignment];
+		[alignLeft   setAlignment:NSLeftTextAlignment];
+		[alignCenter setAlignment:NSCenterTextAlignment];
+		[alignLeft setLineBreakMode:NSLineBreakByTruncatingMiddle];
+
+		self.alignRightAttributes = [NSMutableDictionary dictionary];
+		[alignRightAttributes setObject:graphFont            forKey:NSFontAttributeName];
+		[alignRightAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+		[alignRightAttributes setObject:alignRight           forKey:NSParagraphStyleAttributeName];
+
+		self.alignLeftAttributes = [NSMutableDictionary dictionary];
+		[alignLeftAttributes setObject:graphFont            forKey:NSFontAttributeName];
+		[alignLeftAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+		[alignLeftAttributes setObject:alignLeft            forKey:NSParagraphStyleAttributeName];
+
+		self.alignCenterAttributes = [NSMutableDictionary dictionary];
+		[alignCenterAttributes setObject:graphFont            forKey:NSFontAttributeName];
+		[alignCenterAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+		[alignCenterAttributes setObject:alignCenter          forKey:NSParagraphStyleAttributeName];
+
+		self.textRectHeight = [@"A" sizeWithAttributes:alignRightAttributes].height;
+
+		self.fastCPUUsage                = NO;
+		self.antiAliasing                = NO;
+		self.separateCPUColor            = YES;
+		self.showCPUTemperature          = NO;
+		self.cpuTemperatureUnits         = 0;
+		self.ICAO                        = @"";
+		self.secondaryWeatherGraph       = YES;
+		self.temperatureUnits            = 0;
+		self.distanceUnits               = 0;
+		self.pressureUnits               = 0;
+		self.showMemoryPagingGraph       = YES;
+		self.memoryShowWired             = YES;
+		self.memoryShowActive            = YES;
+		self.memoryShowInactive          = YES;
+		self.memoryShowFree              = YES;
+		self.memoryShowCache             = YES;
+		self.memoryShowPage              = YES;
+		self.graphRefresh                = 1;
+		self.showLoadAverage             = YES;
+		self.netMinGraphScale            = 1024;
+		self.stockSymbols                = @"AAPL";
+		self.stockGraphTimeFrame         = 3;
+		self.stockShowChange             = YES;
+		self.showDJIA                    = YES;
+		self.windowLevel					= 0;
+		self.stickyWindow                = YES;
+		self.netGraphMode                = 0;
+		self.diskGraphMode               = 0;
+		self.dropShadow                  = NO;
+		self.showTotalBandwidthSinceBoot = YES;
+		self.showTotalBandwidthSinceLoad = YES;
+		self.networkInterface            = @"All";
+		self.windowTitle                 = @"";
+	}
 	
-	[alignLeft setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    
-    alignRightAttributes = [[NSMutableDictionary dictionary] retain];
-    [alignRightAttributes setObject:graphFont            forKey:NSFontAttributeName];
-    [alignRightAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
-    [alignRightAttributes setObject:alignRight           forKey:NSParagraphStyleAttributeName];
+	return self;
+}
 
-    alignLeftAttributes = [[NSMutableDictionary dictionary] retain];
-    [alignLeftAttributes setObject:graphFont            forKey:NSFontAttributeName];
-    [alignLeftAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
-    [alignLeftAttributes setObject:alignLeft            forKey:NSParagraphStyleAttributeName];
-
-    alignCenterAttributes = [[NSMutableDictionary dictionary] retain];
-    [alignCenterAttributes setObject:graphFont            forKey:NSFontAttributeName];
-    [alignCenterAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
-    [alignCenterAttributes setObject:alignCenter          forKey:NSParagraphStyleAttributeName];
-
-    textRectHeight = [@"A" sizeWithAttributes:alignRightAttributes].height;
-
-    fastCPUUsage                = NO;
-    antiAliasing                = NO;
-    separateCPUColor            = YES;
-    showCPUTemperature          = NO;
-    cpuTemperatureUnits         = 0;
-    icao                        = @"";
-    secondaryWeatherGraph       = YES;
-    temperatureUnits            = 0;
-    distanceUnits               = 0;
-    pressureUnits               = 0;
-    showMemoryPagingGraph       = YES;
-    memoryShowWired             = YES;
-    memoryShowActive            = YES;
-    memoryShowInactive          = YES;
-    memoryShowFree              = YES;
-    memoryShowCache             = YES;
-    memoryShowPage              = YES;
-    graphRefresh                = 1;
-    showLoadAverage             = YES;
-    netMinGraphScale            = 1024;
-    stockSymbols                = @"AAPL";
-    stockGraphTimeFrame         = 3;
-    stockShowChange             = YES;
-    showDJIA                    = YES;
-    windowLevel					= 0;
-    stickyWindow                = YES;
-    netGraphMode                = 0;
-    diskGraphMode               = 0;
-    dropShadow                  = NO;
-    showTotalBandwidthSinceBoot = YES;
-    showTotalBandwidthSinceLoad = YES;
-    networkInterface            = @"All";
-    windowTitle                 = @"";
+- (void) dealloc {
+	self.backgroundColor = nil;
+	self.graphBGColor = nil;
+	self.graphFG1Color = nil;
+	self.graphFG2Color = nil;
+	self.graphFG3Color = nil;
+	self.borderColor = nil;
+	self.textColor = nil;
+	
+	self.graphFont = nil;
+	self.alignRight = nil;
+	self.alignLeft = nil;
+	self.alignCenter = nil;
+	self.alignRightAttributes = nil;
+	self.alignLeftAttributes = nil;
+	self.alignCenterAttributes = nil;
+	
+	self.ICAO = nil;
+	self.stockSymbols = nil;
+	self.networkInterface = nil;
+	self.windowTitle = nil;
+	
+	[super dealloc];
 }
 
 - (void) readXTFDictionary:(NSDictionary *)xtfD {
@@ -158,634 +191,117 @@
 	// Now save the new theme values to our prefs file
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	
-    [defs setFloat: [self backgroundTransparency] forKey:XRG_backgroundTransparency];
-    [defs setFloat: [self graphBGTransparency]    forKey:XRG_graphBGTransparency];
-    [defs setFloat: [self graphFG1Transparency]   forKey:XRG_graphFG1Transparency];
-    [defs setFloat: [self graphFG2Transparency]   forKey:XRG_graphFG2Transparency];
-    [defs setFloat: [self graphFG3Transparency]   forKey:XRG_graphFG3Transparency];
-    [defs setFloat: [self borderTransparency]     forKey:XRG_borderTransparency];
-    [defs setFloat: [self textTransparency]       forKey:XRG_textTransparency];
+    [defs setFloat:[self backgroundTransparency] forKey:XRG_backgroundTransparency];
+    [defs setFloat:[self graphBGTransparency]    forKey:XRG_graphBGTransparency];
+    [defs setFloat:[self graphFG1Transparency]   forKey:XRG_graphFG1Transparency];
+    [defs setFloat:[self graphFG2Transparency]   forKey:XRG_graphFG2Transparency];
+    [defs setFloat:[self graphFG3Transparency]   forKey:XRG_graphFG3Transparency];
+    [defs setFloat:[self borderTransparency]     forKey:XRG_borderTransparency];
+    [defs setFloat:[self textTransparency]       forKey:XRG_textTransparency];
     
-    [defs setObject:
-	 [NSArchiver archivedDataWithRootObject: [self backgroundColor]]
-			 forKey: XRG_backgroundColor
-	 ];
-    [defs setObject:
-	 [NSArchiver archivedDataWithRootObject:[self graphBGColor]]
-			 forKey: XRG_graphBGColor
-	 ];
-    [defs setObject:
-	 [NSArchiver archivedDataWithRootObject:[self graphFG1Color]]
-			 forKey: XRG_graphFG1Color
-	 ];
-    [defs setObject:
-	 [NSArchiver archivedDataWithRootObject: [self graphFG2Color]]
-			 forKey: XRG_graphFG2Color
-	 ];
-    [defs setObject:
-	 [NSArchiver archivedDataWithRootObject: [self graphFG3Color]]
-			 forKey: XRG_graphFG3Color
-	 ];
-    [defs setObject:
-	 [NSArchiver archivedDataWithRootObject: [self borderColor]]
-			 forKey: XRG_borderColor
-	 ];
-    [defs setObject:
-	 [NSArchiver archivedDataWithRootObject: [self textColor]]
-			 forKey: XRG_textColor
-	 ];
+    [defs setObject:[NSArchiver archivedDataWithRootObject:[self backgroundColor]] forKey:XRG_backgroundColor];
+    [defs setObject:[NSArchiver archivedDataWithRootObject:[self graphBGColor]] forKey: XRG_graphBGColor];
+    [defs setObject:[NSArchiver archivedDataWithRootObject:[self graphFG1Color]] forKey: XRG_graphFG1Color];
+    [defs setObject:[NSArchiver archivedDataWithRootObject: [self graphFG2Color]] forKey: XRG_graphFG2Color];
+    [defs setObject:[NSArchiver archivedDataWithRootObject: [self graphFG3Color]] forKey: XRG_graphFG3Color];
+    [defs setObject:[NSArchiver archivedDataWithRootObject: [self borderColor]] forKey: XRG_borderColor];
+    [defs setObject:[NSArchiver archivedDataWithRootObject: [self textColor]] forKey: XRG_textColor];
 	
     [defs synchronize];
 }
 
-- (NSColor *) backgroundColor {
-    return backgroundC;
+- (void) setBackgroundColor:(NSColor *)color {
+    [backgroundColor autorelease];
+    backgroundColor = [[color colorWithAlphaComponent:backgroundTransparency] retain];            
 }
 
-- (NSColor *) graphBGColor {
-    return graphBGC;
+- (void) setGraphBGColor:(NSColor *)color {
+    [graphBGColor autorelease];
+    graphBGColor = [[color colorWithAlphaComponent:graphBGTransparency] retain];            
 }
 
-- (NSColor *) graphFG1Color {
-    return graphFG1C;
+- (void) setGraphFG1Color:(NSColor *)color {
+    [graphFG1Color autorelease];
+    graphFG1Color = [[color colorWithAlphaComponent:graphFG1Transparency] retain];            
 }
 
-- (NSColor *) graphFG2Color {
-    return graphFG2C;
+- (void) setGraphFG2Color:(NSColor *)color {
+    [graphFG2Color autorelease];
+    graphFG2Color = [[color colorWithAlphaComponent:graphFG2Transparency] retain];            
 }
 
-- (NSColor *) graphFG3Color {
-    return graphFG3C;
+- (void) setGraphFG3Color:(NSColor *)color {
+    [graphFG3Color autorelease];
+    graphFG3Color = [[color colorWithAlphaComponent:graphFG3Transparency] retain];
 }
 
-- (NSColor *)borderColor {
-    return borderC;
+- (void) setBorderColor:(NSColor *)color {
+    [borderColor autorelease];
+    borderColor = [[color colorWithAlphaComponent:borderTransparency] retain];            
 }
 
-- (NSColor *)textColor {
-    return textC;
+- (void) setTextColor:(NSColor *)color {
+    [textColor autorelease];
+    textColor = [[color colorWithAlphaComponent:textTransparency] retain];
+    [alignRightAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    [alignCenterAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    [alignLeftAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
 }
 
-- (float) backgroundTransparency {
-    return backgroundT;
+- (void) setBackgroundTransparency:(CGFloat)transparency {
+    backgroundTransparency = transparency;
+    self.backgroundColor = [backgroundColor colorWithAlphaComponent:transparency];
 }
 
-- (float) graphBGTransparency {
-    return graphBGT;
+- (void) setGraphBGTransparency:(CGFloat)transparency {
+    graphBGTransparency = transparency;
+    self.graphBGColor = [graphBGColor colorWithAlphaComponent:transparency];
 }
 
-- (float) graphFG1Transparency {
-    return graphFG1T;
+- (void) setGraphFG1Transparency:(CGFloat)transparency {
+    graphFG1Transparency = transparency;
+    self.graphFG1Color = [graphFG1Color colorWithAlphaComponent:transparency];
 }
 
-- (float) graphFG2Transparency {
-    return graphFG2T;
+- (void) setGraphFG2Transparency:(CGFloat)transparency {
+    graphFG2Transparency = transparency;
+    self.graphFG2Color = [graphFG2Color colorWithAlphaComponent:transparency];
 }
 
-- (float) graphFG3Transparency {
-    return graphFG3T;
+- (void) setGraphFG3Transparency:(CGFloat)transparency {
+    graphFG3Transparency = transparency;
+    self.graphFG3Color = [graphFG3Color colorWithAlphaComponent:transparency];
 }
 
-- (float) borderTransparency {
-    return borderT;
+- (void) setBorderTransparency:(CGFloat)transparency {
+    borderTransparency = transparency;
+    self.borderColor = [borderColor colorWithAlphaComponent:transparency];
 }
 
-- (float) textTransparency {
-    return textT;
+- (void) setTextTransparency:(CGFloat)transparency {
+    textTransparency = transparency;
+    self.textColor = [textColor colorWithAlphaComponent:transparency];
+    [alignRightAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    [alignCenterAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
+    [alignLeftAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
 }
 
-- (bool)fastCPUUsage {
-    return fastCPUUsage;
-}
-
-- (bool)antiAliasing {
-    return antiAliasing;
-}
-
-- (bool)separateCPUColor {
-    return separateCPUColor;
-}
-
-- (bool)showCPUTemperature {
-    return showCPUTemperature;
-}
-
-- (int)cpuTemperatureUnits {
-    return cpuTemperatureUnits;
-}
-
-- (int)textRectHeight {
-    return textRectHeight;
-}
-
-- (NSFont *)graphFont {
-    return graphFont;
-}
-
-- (NSMutableParagraphStyle *)alignRight {
-    return alignRight;
-}
-
-- (NSMutableParagraphStyle *)alignLeft {
-    return alignLeft;
-}
-
-- (NSMutableParagraphStyle *)alignCenter {
-    return alignCenter;
-}
-
-- (NSMutableDictionary *)alignRightAttributes {
-    return alignRightAttributes;
-}
-
-- (NSMutableDictionary *)alignLeftAttributes {
-    return alignLeftAttributes;
-}
-
-- (NSMutableDictionary *)alignCenterAttributes {
-    return alignCenterAttributes;
-}
-
-- (NSString *)ICAO {
-    return icao;
-}
-
-- (int)secondaryWeatherGraph {
-    return secondaryWeatherGraph;
-}
-
-- (int)temperatureUnits {
-    return temperatureUnits;
-}
-
-- (int)distanceUnits {
-    return distanceUnits;
-}
-
-- (int)pressureUnits {
-    return pressureUnits;
-}
-
-- (bool)showMemoryPagingGraph {
-    return showMemoryPagingGraph;
-}
-
-- (bool)memoryShowWired {
-    return memoryShowWired;
-}
-
-- (bool)memoryShowActive {
-    return memoryShowActive;
-}
-
-- (bool)memoryShowInactive {
-    return memoryShowInactive;
-}
-
-- (bool)memoryShowFree {
-    return memoryShowFree;
-}
-
-- (bool)memoryShowCache {
-    return memoryShowCache;
-}
-
-- (bool)memoryShowPage {
-    return memoryShowPage;
-}
-
-- (float)graphRefresh {
-    return graphRefresh;
-}
-
-- (bool)showLoadAverage {
-    return showLoadAverage;
-}
-
-- (int)netMinGraphScale {
-    return netMinGraphScale;
-}
-
-- (NSString *)stockSymbols {
-    return stockSymbols;
-}
-
-- (int)stockGraphTimeFrame {
-    return stockGraphTimeFrame;
-}
-
-- (bool)stockShowChange {
-    return stockShowChange;
-}
-
-- (bool)showDJIA {
-    return showDJIA;
-}
-
-- (int)windowLevel
-{
-    return windowLevel;
-}
-
-- (bool)stickyWindow {
-    return stickyWindow;
-}
-
-- (bool)checkForUpdates {
-    return checkForUpdates;
-}
-
-- (int)netGraphMode {
-    return netGraphMode;
-}
-
-- (int)diskGraphMode {
-    return diskGraphMode;
-}
-
-- (bool)dropShadow {
-    return dropShadow;
-}
-
-- (bool)showTotalBandwidthSinceBoot {
-    return showTotalBandwidthSinceBoot;
-}
-
-- (bool)showTotalBandwidthSinceLoad {
-    return showTotalBandwidthSinceLoad;
-}
-
-- (NSString *)networkInterface {
-    return networkInterface;
-}
-
-- (NSString *)windowTitle {
-    return windowTitle;
-}
-
-- (bool)autoExpandGraph {
-    return autoExpandGraph;
-}
-
-- (bool)foregroundWhenExpanding {
-    return foregroundWhenExpanding;
-}
-
-- (bool)showSummary {
-    return showSummary;
-}
-
-- (int)minimizeUpDown {
-    return minimizeUpDown;
-}
-
-- (bool)antialiasText {
-    return antialiasText;
-}
-
-- (bool)cpuShowAverageUsage {
-    return cpuShowAverageUsage;
-}
-
-- (bool)cpuShowUptime {
-    return cpuShowUptime;
-}
-
-- (int)tempUnits {
-    return tempUnits;
-}
-
-- (int)tempFG1Location {
-    return tempFG1Location;
-}
-
-- (int)tempFG2Location {
-    return tempFG2Location;
-}
-
-- (int)tempFG3Location {
-    return tempFG3Location;
-}
-
-
-- (void)setBackgroundColor:(NSColor *) color {
-    NSColor *tmpColor;
-    tmpColor = [color colorWithAlphaComponent:backgroundT];
-    [backgroundC autorelease];
-    backgroundC = [tmpColor copy];            
-}
-
-- (void)setGraphBGColor:(NSColor *) color {
-    NSColor *tmpColor;
-    tmpColor = [color colorWithAlphaComponent:graphBGT];
-    [graphBGC autorelease];
-    graphBGC = [tmpColor copy];            
-}
-
-- (void)setGraphFG1Color:(NSColor *) color {
-    NSColor *tmpColor;
-    tmpColor = [color colorWithAlphaComponent:graphFG1T];
-    [graphFG1C autorelease];
-    graphFG1C = [tmpColor copy];            
-}
-
-- (void)setGraphFG2Color:(NSColor *) color {
-    NSColor *tmpColor;
-    tmpColor = [color colorWithAlphaComponent:graphFG2T];
-    [graphFG2C autorelease];
-    graphFG2C = [tmpColor copy];            
-}
-
-- (void)setGraphFG3Color:(NSColor *) color {
-    NSColor *tmpColor;
-    tmpColor = [color colorWithAlphaComponent:graphFG3T];
-    [graphFG3C autorelease];
-    graphFG3C = [tmpColor copy];
-}
-
-- (void)setBorderColor:(NSColor *) color {
-    NSColor *tmpColor;
-    tmpColor = [color colorWithAlphaComponent:borderT];
-    [borderC autorelease];
-    borderC = [tmpColor copy];            
-}
-
-- (void)setTextColor:(NSColor *) color {
-    NSColor *tmpColor;
-    tmpColor = [color colorWithAlphaComponent:textT];
-    [textC autorelease];
-    textC = [tmpColor copy];
-    [alignRightAttributes setObject:textC forKey:NSForegroundColorAttributeName];
-    [alignCenterAttributes setObject:textC forKey:NSForegroundColorAttributeName];
-    [alignLeftAttributes setObject:textC forKey:NSForegroundColorAttributeName];
-}
-
-- (void)setBackgroundTransparency:(float)transparency {
-    NSColor *tmpColor;
-    tmpColor = [backgroundC colorWithAlphaComponent:transparency];
-    [backgroundC autorelease];
-    backgroundC = [tmpColor copy];            
-    backgroundT = transparency;
-}
-
-- (void)setGraphBGTransparency:(float)transparency {
-    NSColor *tmpColor;
-    tmpColor = [graphBGC colorWithAlphaComponent:transparency];
-    [graphBGC autorelease];
-    graphBGC = [tmpColor copy];            
-    graphBGT = transparency;
-}
-
-- (void)setGraphFG1Transparency:(float)transparency {
-    NSColor *tmpColor;
-    tmpColor = [graphFG1C colorWithAlphaComponent:transparency];
-    [graphFG1C autorelease];
-    graphFG1C = [tmpColor copy];            
-    graphFG1T = transparency;
-}
-
-- (void)setGraphFG2Transparency:(float)transparency {
-    NSColor *tmpColor;
-    tmpColor = [graphFG2C colorWithAlphaComponent:transparency];
-    [graphFG2C autorelease];
-    graphFG2C = [tmpColor copy];            
-    graphFG2T = transparency;
-}
-
-- (void)setGraphFG3Transparency:(float)transparency {
-    NSColor *tmpColor;
-    tmpColor = [graphFG3C colorWithAlphaComponent:transparency];
-    [graphFG3C autorelease];
-    graphFG3C = [tmpColor copy];
-    graphFG3T = transparency;
-}
-
-- (void)setBorderTransparency:(float)transparency {
-    NSColor *tmpColor;
-    tmpColor = [borderC colorWithAlphaComponent:transparency];
-    [borderC autorelease];
-    borderC = [tmpColor copy];            
-    borderT = transparency;
-}
-
-- (void)setTextTransparency:(float)transparency {
-    NSColor *tmpColor;
-    tmpColor = [textC colorWithAlphaComponent:transparency];
-    [textC autorelease];
-    textC = [tmpColor copy];
-    textT = transparency;
-    [alignRightAttributes setObject:textC forKey:NSForegroundColorAttributeName];
-    [alignCenterAttributes setObject:textC forKey:NSForegroundColorAttributeName];
-    [alignLeftAttributes setObject:textC forKey:NSForegroundColorAttributeName];
-}
-
-- (void)setGraphFont:(NSFont *)font {
+- (void) setGraphFont:(NSFont *)font {
     if (font == graphFont) return;
     
     if (font) {
-        if (graphFont) 
-            [graphFont autorelease];
-
+		[graphFont autorelease];
         graphFont = [font retain];
     
         [alignRightAttributes  setObject:graphFont forKey:NSFontAttributeName];
         [alignLeftAttributes   setObject:graphFont forKey:NSFontAttributeName];
         [alignCenterAttributes setObject:graphFont forKey:NSFontAttributeName];
     
-		textRectHeight = [[NSString stringWithFormat:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890%C.:%", 0x00B0] sizeWithAttributes:alignRightAttributes].height;
+		self.textRectHeight = [[NSString stringWithFormat:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890%C.:%", 0x00B0] sizeWithAttributes:alignRightAttributes].height;
     }
     else {
         NSLog(@"Couldn't change to a nil font.");
     }
-}
-
-- (void)setTextRectHeight:(int)height {
-    textRectHeight = height;
-}
-
-- (void)setFastCPUUsage:(bool)onOff {
-    fastCPUUsage = onOff;
-}
-
-- (void)setAntiAliasing:(bool)onOff {
-    antiAliasing = onOff;
-}
-
-- (void)setSeparateCPUColor:(bool)onOff {
-    separateCPUColor = onOff;
-}
-
-- (void)setShowCPUTemperature:(bool)onOff {
-    showCPUTemperature = onOff;
-}
-
-- (void)setCPUTemperatureUnits:(int)value {
-    cpuTemperatureUnits = value;
-}
-
-- (void)setICAO:(NSString *)newICAO {
-    [icao autorelease];
-    icao = [newICAO retain];
-}
-
-- (void)setSecondaryWeatherGraph:(int)index {
-    secondaryWeatherGraph = index;
-}
-
-- (void)setTemperatureUnits:(int)index {
-    temperatureUnits = index;
-}
-
-- (void)setDistanceUnits:(int)index {
-    distanceUnits = index;
-}
-
-- (void)setPressureUnits:(int)index {
-    pressureUnits = index;
-}
-
-- (void)setShowMemoryPagingGraph:(bool)onOff {
-    showMemoryPagingGraph = onOff;
-}
-
-- (void)setMemoryShowWired:(bool)onOff {
-    memoryShowWired = onOff;
-}
-
-- (void)setMemoryShowActive:(bool)onOff {
-    memoryShowActive = onOff;
-}
-
-- (void)setMemoryShowInactive:(bool)onOff {
-    memoryShowInactive = onOff;
-}
-
-- (void)setMemoryShowFree:(bool)onOff {
-    memoryShowFree = onOff;
-}
-
-- (void)setMemoryShowCache:(bool)onOff {
-    memoryShowCache = onOff;
-}
-
-- (void)setMemoryShowPage:(bool)onOff {
-    memoryShowPage = onOff;
-}
-
-- (void)setGraphRefresh:(float)f {
-    graphRefresh = f;
-}
-
-- (void)setShowLoadAverage:(bool)onOff {
-    showLoadAverage = onOff;
-}
-
-- (void)setNetMinGraphScale:(int)value {
-    netMinGraphScale = value;
-}
-
-- (void)setStockSymbols:(NSString *)newSymbols {
-     if (stockSymbols != nil) [stockSymbols autorelease];
-     stockSymbols = [newSymbols retain];
-}
-
-- (void)setStockGraphTimeFrame:(int)newTimeFrame {
-    stockGraphTimeFrame = newTimeFrame;
-}
-
-- (void)setStockShowChange:(bool)yesNo {
-    stockShowChange = yesNo;
-}
-
-- (void)setShowDJIA:(bool)yesNo {
-    showDJIA = yesNo;
-}
-
-- (void)setWindowLevel:(int)index
-{
-    windowLevel = index;
-}
-
-- (void)setStickyWindow:(bool)onOff {
-    stickyWindow = onOff;
-}
-
-- (void)setCheckForUpdates:(bool)yesNo {
-    checkForUpdates = yesNo;
-}
-
-- (void)setNetGraphMode:(int)mode {
-    netGraphMode = mode;
-}
-
-- (void)setDiskGraphMode:(int)mode {
-    diskGraphMode = mode;
-}
-
-- (void)setDropShadow:(bool)yesNo {
-    dropShadow = yesNo;
-}
-
-- (void)setShowTotalBandwidthSinceBoot:(bool)yesNo {
-    showTotalBandwidthSinceBoot = yesNo;
-}
-
-- (void)setShowTotalBandwidthSinceLoad:(bool)yesNo {
-    showTotalBandwidthSinceLoad = yesNo;
-}
-
-- (void)setNetworkInterface:(NSString *)interface {
-     if (networkInterface != nil) [networkInterface autorelease];
-     networkInterface = [interface retain];
-}
-
-- (void)setWindowTitle:(NSString *)title {
-    if (windowTitle != nil) [windowTitle autorelease];
-    windowTitle = [title retain];
-}
-
-- (void)setAutoExpandGraph:(bool)yesNo {
-    autoExpandGraph = yesNo;
-}
-
-- (void)setForegroundWhenExpanding:(bool)yesNo {
-    foregroundWhenExpanding = yesNo;
-}
-
-- (void)setShowSummary:(bool)yesNo {
-    showSummary = yesNo;
-}
-
-- (void)setMinimizeUpDown:(int)value {
-    minimizeUpDown = value;
-}
-
-- (void)setAntialiasText:(bool)yesNo {
-    antialiasText = yesNo;
-}
-
-- (void)setCPUShowAverageUsage:(bool)yesNo {
-    cpuShowAverageUsage = yesNo;
-}
-
-- (void)setCPUShowUptime:(bool)yesNo {
-    cpuShowUptime = yesNo;
-}
-
-- (void)setTempUnits:(int)value {
-    tempUnits = value;
-}
-
-- (void)setTempFG1Location:(int)value {
-    tempFG1Location = value;
-}
-
-- (void)setTempFG2Location:(int)value {
-    tempFG2Location = value;
-}
-
-- (void)setTempFG3Location:(int)value {
-    tempFG3Location = value;
 }
 
 @end

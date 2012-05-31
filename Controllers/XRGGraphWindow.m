@@ -49,7 +49,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 {    
     // Initialize the settings class
     appSettings = [[XRGSettings alloc] init];
-    [appSettings initVariables];
     
     // Initialize the module manager class
     moduleManager = [[XRGModuleManager alloc] initWithWindow:self];
@@ -273,10 +272,10 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [appSettings setFastCPUUsage:           [[defs objectForKey:XRG_fastCPUUsage] boolValue]];
     [appSettings setSeparateCPUColor:       [[defs objectForKey:XRG_separateCPUColor] boolValue]];
     [appSettings setShowCPUTemperature:     [[defs objectForKey:XRG_showCPUTemperature] boolValue]];
-    [appSettings setCPUTemperatureUnits:    [[defs objectForKey:XRG_cpuTemperatureUnits] intValue]];
+    [appSettings setCpuTemperatureUnits:    [[defs objectForKey:XRG_cpuTemperatureUnits] intValue]];
     [appSettings setShowLoadAverage:        [[defs objectForKey:XRG_showLoadAverage] boolValue]];
-    [appSettings setCPUShowAverageUsage:    [[defs objectForKey:XRG_cpuShowAverageUsage] boolValue]];
-    [appSettings setCPUShowUptime:          [[defs objectForKey:XRG_cpuShowUptime] boolValue]];
+    [appSettings setCpuShowAverageUsage:    [[defs objectForKey:XRG_cpuShowAverageUsage] boolValue]];
+    [appSettings setCpuShowUptime:          [[defs objectForKey:XRG_cpuShowUptime] boolValue]];
 
     [appSettings setICAO:                   [defs objectForKey:XRG_ICAO]];
     [appSettings setSecondaryWeatherGraph:  [[defs objectForKey:XRG_secondaryWeatherGraph] intValue]];
@@ -925,7 +924,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (IBAction)setCPUTemperatureUnits:(id)sender {
-    [appSettings setCPUTemperatureUnits:[sender indexOfSelectedItem]];
+    [appSettings setCpuTemperatureUnits:[sender indexOfSelectedItem]];
 }
 
 - (IBAction)setShowLoadAverage:(id)sender {
@@ -935,13 +934,13 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (IBAction)setCPUShowAverageUsage:(id)sender {
-    [appSettings setCPUShowAverageUsage:([sender state] == NSOnState)];
+    [appSettings setCpuShowAverageUsage:([sender state] == NSOnState)];
     
     [cpuView graphUpdate:nil];
 }
 
 - (IBAction)setCPUShowUptime:(id)sender {
-    [appSettings setCPUShowUptime:([sender state] == NSOnState)];
+    [appSettings setCpuShowUptime:([sender state] == NSOnState)];
     
     [cpuView graphUpdate:nil];
 }

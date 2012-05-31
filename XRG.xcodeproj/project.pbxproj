@@ -180,7 +180,7 @@
 		273ECEF715740EAF00E65D82 /* XRGStock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGStock.m; sourceTree = "<group>"; };
 		273ECEF815740EAF00E65D82 /* XRGURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGURL.h; sourceTree = "<group>"; };
 		273ECEF915740EAF00E65D82 /* XRGURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGURL.m; sourceTree = "<group>"; };
-		273ECF4F1574106600E65D82 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		273ECF4F1574106600E65D82 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		273ECF501574106600E65D82 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		273ECF511574106600E65D82 /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = "<group>"; };
 		273ECF5F1574134A00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
