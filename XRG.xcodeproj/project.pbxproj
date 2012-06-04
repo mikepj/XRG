@@ -76,6 +76,8 @@
 		273ECF551574106600E65D82 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF511574106600E65D82 /* Preferences.nib */; };
 		273ECF64157413D200E65D82 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF63157413D200E65D82 /* icon.icns */; };
 		273ECF661574145100E65D82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECF651574145100E65D82 /* IOKit.framework */; };
+		937851AA157CA243001D2A15 /* SMCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851A8157CA243001D2A15 /* SMCInterface.m */; };
+		937851AD157CA5D0001D2A15 /* SMCSensors.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851AC157CA5D0001D2A15 /* SMCSensors.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -185,6 +187,10 @@
 		273ECF63157413D200E65D82 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		273ECF651574145100E65D82 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		273ECF6D157803EF00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
+		937851A7157CA243001D2A15 /* SMCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCInterface.h; sourceTree = "<group>"; };
+		937851A8157CA243001D2A15 /* SMCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCInterface.m; sourceTree = "<group>"; };
+		937851AB157CA5D0001D2A15 /* SMCSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCSensors.h; sourceTree = "<group>"; };
+		937851AC157CA5D0001D2A15 /* SMCSensors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCSensors.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,6 +275,7 @@
 		273ECE9415740EAF00E65D82 /* Data Miners */ = {
 			isa = PBXGroup;
 			children = (
+				937851A5157CA243001D2A15 /* APSL */,
 				273ECE9515740EAF00E65D82 /* TESMCReader.h */,
 				273ECE9615740EAF00E65D82 /* TESMCReader.m */,
 				273ECE9715740EAF00E65D82 /* XRGCPUMiner.h */,
@@ -408,6 +415,17 @@
 			path = Utility;
 			sourceTree = SOURCE_ROOT;
 		};
+		937851A5157CA243001D2A15 /* APSL */ = {
+			isa = PBXGroup;
+			children = (
+				937851A7157CA243001D2A15 /* SMCInterface.h */,
+				937851A8157CA243001D2A15 /* SMCInterface.m */,
+				937851AB157CA5D0001D2A15 /* SMCSensors.h */,
+				937851AC157CA5D0001D2A15 /* SMCSensors.m */,
+			);
+			path = APSL;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -537,6 +555,8 @@
 				273ECF3D15740EAF00E65D82 /* XRGSettings.m in Sources */,
 				273ECF3E15740EAF00E65D82 /* XRGStock.m in Sources */,
 				273ECF3F15740EAF00E65D82 /* XRGURL.m in Sources */,
+				937851AA157CA243001D2A15 /* SMCInterface.m in Sources */,
+				937851AD157CA5D0001D2A15 /* SMCSensors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
