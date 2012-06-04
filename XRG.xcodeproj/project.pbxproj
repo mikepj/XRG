@@ -12,7 +12,6 @@
 		273ECEFB15740EAF00E65D82 /* XRGPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE8F15740EAF00E65D82 /* XRGPrefController.m */; };
 		273ECEFC15740EAF00E65D82 /* XRGFramelessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9115740EAF00E65D82 /* XRGFramelessWindow.m */; };
 		273ECEFD15740EAF00E65D82 /* XRGGraphWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9315740EAF00E65D82 /* XRGGraphWindow.m */; };
-		273ECEFE15740EAF00E65D82 /* TESMCReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9615740EAF00E65D82 /* TESMCReader.m */; };
 		273ECEFF15740EAF00E65D82 /* XRGCPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9815740EAF00E65D82 /* XRGCPUMiner.m */; };
 		273ECF0015740EAF00E65D82 /* XRGMemoryMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9A15740EAF00E65D82 /* XRGMemoryMiner.m */; };
 		273ECF0115740EAF00E65D82 /* XRGProcessMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE9C15740EAF00E65D82 /* XRGProcessMiner.m */; };
@@ -94,8 +93,6 @@
 		273ECE9115740EAF00E65D82 /* XRGFramelessWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGFramelessWindow.m; sourceTree = "<group>"; };
 		273ECE9215740EAF00E65D82 /* XRGGraphWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGGraphWindow.h; sourceTree = "<group>"; };
 		273ECE9315740EAF00E65D82 /* XRGGraphWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGraphWindow.m; sourceTree = "<group>"; };
-		273ECE9515740EAF00E65D82 /* TESMCReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TESMCReader.h; sourceTree = "<group>"; };
-		273ECE9615740EAF00E65D82 /* TESMCReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TESMCReader.m; sourceTree = "<group>"; };
 		273ECE9715740EAF00E65D82 /* XRGCPUMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGCPUMiner.h; sourceTree = "<group>"; };
 		273ECE9815740EAF00E65D82 /* XRGCPUMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGCPUMiner.m; sourceTree = "<group>"; };
 		273ECE9915740EAF00E65D82 /* XRGMemoryMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGMemoryMiner.h; sourceTree = "<group>"; };
@@ -276,8 +273,6 @@
 			isa = PBXGroup;
 			children = (
 				937851A5157CA243001D2A15 /* APSL */,
-				273ECE9515740EAF00E65D82 /* TESMCReader.h */,
-				273ECE9615740EAF00E65D82 /* TESMCReader.m */,
 				273ECE9715740EAF00E65D82 /* XRGCPUMiner.h */,
 				273ECE9815740EAF00E65D82 /* XRGCPUMiner.m */,
 				273ECE9915740EAF00E65D82 /* XRGMemoryMiner.h */,
@@ -530,7 +525,6 @@
 				273ECEFB15740EAF00E65D82 /* XRGPrefController.m in Sources */,
 				273ECEFC15740EAF00E65D82 /* XRGFramelessWindow.m in Sources */,
 				273ECEFD15740EAF00E65D82 /* XRGGraphWindow.m in Sources */,
-				273ECEFE15740EAF00E65D82 /* TESMCReader.m in Sources */,
 				273ECEFF15740EAF00E65D82 /* XRGCPUMiner.m in Sources */,
 				273ECF0015740EAF00E65D82 /* XRGMemoryMiner.m in Sources */,
 				273ECF0115740EAF00E65D82 /* XRGProcessMiner.m in Sources */,
