@@ -25,6 +25,7 @@
 //
 
 #import "XRGTemperatureMiner.h"
+#import "SMCSensors.h"
 
 #import <mach/mach_host.h>
 #import <mach/mach_port.h>
@@ -56,14 +57,22 @@
 		}
 
 		displayFans = YES;
-		displayUnknownSensors = NO;
-		fanLocations        = [[[NSMutableDictionary alloc] initWithCapacity:20] retain];
-		locationKeysInOrder = [[[NSMutableArray alloc] initWithCapacity:20] retain];	
-		sensorData          = [[[NSMutableDictionary alloc] initWithCapacity:20] retain];
-		smcReader = [[TESMCReader alloc] init];
+		fanLocations        = [[NSMutableDictionary alloc] initWithCapacity:20];
+		locationKeysInOrder = [[NSMutableArray alloc] initWithCapacity:20];	
+		sensorData          = [[NSMutableDictionary alloc] initWithCapacity:20];
+		smcSensors = [[SMCSensors alloc] init];
 	}
 
     return self;
+}
+
+-(void)dealloc {
+    free( immediateCPUTemperatureC );
+    [fanLocations release];
+    [locationKeysInOrder release];
+    [sensorData release];
+    [smcSensors release];
+    [super dealloc];
 }
 
 - (int)setNumCPUs {
@@ -779,8 +788,8 @@
 - (void) trySMCTemperature {
 	id key;
 	int i;
-	[smcReader reset];
-	NSDictionary *values = [smcReader temperatureValuesExtended:YES];
+	// [smcReader reset];
+	NSDictionary *values = [smcSensors temperatureValuesExtended:NO];
 	//NSLog(@"values: %@", values);
 	NSEnumerator *keyEnum = [values keyEnumerator];
 	
@@ -788,10 +797,13 @@
 	{
 		id aValue = [values objectForKey:key];
 		if (![aValue isKindOfClass:[NSNumber class]]) continue;		// Fix TE..
+        
 		float temperature = [aValue floatValue];
+        NSString *humanReadableName = [smcSensors humanReadableNameForKey:key];
+
 		[self setCurrentValue:temperature
 					 andUnits:[NSString stringWithFormat:@"%CC", 0x00B0] 
-				  forLocation:key];
+				  forLocation:humanReadableName];
 		
 		/* strategy OK for CoreDuos: set both cores temperatures to the current CPU temp */ 
 		NSRange r = [key rangeOfString:@"CPU"];
@@ -802,24 +814,20 @@
 		}
 		
 	}
-	
-	values = [smcReader fanValues];
-	NSArray *keys = [values allKeys];
-	for (i = 0; i < [keys count]; i++) {
-		id fanKey = [keys objectAtIndex:i];
-		NSString *fanLocation = fanKey;
-		
-		if ([fanKey isKindOfClass:[NSString class]]) {
-			if ([fanKey hasPrefix:@"Fan"]) {
-				fanLocation = [NSString stringWithFormat:@"Fan %@", [fanKey substringFromIndex:3]];
-			}
-		}
-		
-		id fanDict = [values objectForKey:fanKey];
-		[self setCurrentValue:[[fanDict objectForKey:@"Speed"] floatValue]
-					 andUnits:@" rpm"
-				  forLocation:fanLocation];
-	}
+    
+	if( displayFans ) {
+        values = [smcSensors fanValues];
+        NSArray *keys = [values allKeys];
+        for (i = 0; i < [keys count]; i++) {
+            id fanKey = [keys objectAtIndex:i];
+            NSString *fanLocation = fanKey;
+            
+            id fanDict = [values objectForKey:fanKey];
+            [self setCurrentValue:[[fanDict objectForKey:@"Speed"] floatValue]
+                         andUnits:@" rpm"
+                      forLocation:fanLocation];
+        }
+    }
 	
 	return;
 }
