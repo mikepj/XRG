@@ -789,7 +789,7 @@
 	id key;
 	int i;
 	// [smcReader reset];
-	NSDictionary *values = [smcSensors temperatureValuesExtended:NO];
+	NSDictionary *values = [smcSensors temperatureValuesExtended:YES];
 	//NSLog(@"values: %@", values);
 	NSEnumerator *keyEnum = [values keyEnumerator];
 	
