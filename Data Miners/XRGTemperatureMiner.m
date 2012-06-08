@@ -26,6 +26,7 @@
 
 #import "XRGTemperatureMiner.h"
 #import "SMCSensors.h"
+#import "definitions.h"
 
 #import <mach/mach_host.h>
 #import <mach/mach_port.h>
@@ -789,7 +790,8 @@
 	id key;
 	int i;
 	// [smcReader reset];
-	NSDictionary *values = [smcSensors temperatureValuesExtended:YES];
+    BOOL showUnknownSensors = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
+	NSDictionary *values = [smcSensors temperatureValuesExtended:showUnknownSensors];
 	//NSLog(@"values: %@", values);
 	NSEnumerator *keyEnum = [values keyEnumerator];
 	
