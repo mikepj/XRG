@@ -29,88 +29,76 @@
 
 @implementation XRGAppDelegate
 
-- (XRGGraphWindow *)xrgGraphWindow {
-    return xrgGraphWindow;
+- (void) dealloc {
+	[_xrgGraphWindow release];
+	[_prefController release];
+	
+	[super dealloc];
 }
 
-- (XRGPrefController *)prefController {
-	return prefController;
-}
-
-- (IBAction)showPrefs:(id)sender {
-    if(!prefController) {
-        [NSBundle loadNibNamed:@"Preferences.nib" owner:self];
-    }
+- (IBAction) showPrefs:(id)sender {
+    if(!self.prefController) [NSBundle loadNibNamed:@"Preferences.nib" owner:self];
+	
 	// Refresh the temperature settings to pick up any new sensors.
-    [prefController setUpTemperaturePanel];
-    [[prefController window] makeKeyAndOrderFront:sender];
+    [self.prefController setUpTemperaturePanel];
+    [[self.prefController window] makeKeyAndOrderFront:sender];
 }
 
-- (void)showPrefsWithPanel:(NSString *)panelName {
-    if (!prefController) {
-        [NSBundle loadNibNamed:@"Preferences.nib" owner:self];
-    }
+- (void) showPrefsWithPanel:(NSString *)panelName {
+    if (!self.prefController) [NSBundle loadNibNamed:@"Preferences.nib" owner:self];
+
 	// Refresh the temperature settings to pick up any new sensors.
-    [prefController setUpTemperaturePanel];
-    [[prefController window] makeKeyAndOrderFront:self];
+    [self.prefController setUpTemperaturePanel];
+    [[self.prefController window] makeKeyAndOrderFront:self];
     
-    if ([panelName isEqualTo:@"CPU"])
-        [prefController CPU:self];
-    else if ([panelName isEqualTo:@"RAM"])
-        [prefController RAM:self];
-    else if ([panelName isEqualTo:@"Temperature"])
-        [prefController Temperature:self];
-    else if ([panelName isEqualTo:@"Network"])
-        [prefController Network:self];
-    else if ([panelName isEqualTo:@"Disk"])
-        [prefController Disk:self];
-    else if ([panelName isEqualTo:@"Weather"]) 
-        [prefController Weather:self];
-    else if ([panelName isEqualTo:@"Stocks"])
-        [prefController Stocks:self];
-    else if ([panelName isEqualTo:@"General"]) 
-        [prefController General:self];
-    else if ([panelName isEqualTo:@"Appearance"])
-        [prefController Colors:self];
+    if ([panelName isEqualTo:@"CPU"])              [self.prefController CPU:self];
+    else if ([panelName isEqualTo:@"RAM"])         [self.prefController RAM:self];
+    else if ([panelName isEqualTo:@"Temperature"]) [self.prefController Temperature:self];
+    else if ([panelName isEqualTo:@"Network"])     [self.prefController Network:self];
+    else if ([panelName isEqualTo:@"Disk"])        [self.prefController Disk:self];
+    else if ([panelName isEqualTo:@"Weather"])     [self.prefController Weather:self];
+    else if ([panelName isEqualTo:@"Stocks"])      [self.prefController Stocks:self];
+    else if ([panelName isEqualTo:@"General"])     [self.prefController General:self];
+    else if ([panelName isEqualTo:@"Appearance"])  [self.prefController Colors:self];
 }
 
-- (void)changeFont:(id)sender {
-    NSFont *oldFont = [[xrgGraphWindow appSettings] graphFont];
+- (void) changeFont:(id)sender {
+    NSFont *oldFont = [[self.xrgGraphWindow appSettings] graphFont];
     NSFont *newFont = [sender convertFont:oldFont];
     if (oldFont == newFont) return;
-    [[xrgGraphWindow appSettings] setGraphFont:newFont];
-    [[xrgGraphWindow moduleManager] graphFontChanged];
+    [[self.xrgGraphWindow appSettings] setGraphFont:newFont];
+    [[self.xrgGraphWindow moduleManager] graphFontChanged];
     
     return;
 }
 
 // Cleanup when the application exits caused by a restart or logout
-- (void)NSWorkSpaceWillPowerOffNotification:(NSNotification *)aNotification {
-    [xrgGraphWindow cleanupBeforeExiting];
+- (void) NSWorkSpaceWillPowerOffNotification:(NSNotification *)aNotification {
+    [self.xrgGraphWindow cleanupBeforeExiting];
 }
 
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[[xrgGraphWindow moduleManager] windowChangedToSize:[xrgGraphWindow frame].size];
+	[[self.xrgGraphWindow moduleManager] windowChangedToSize:self.xrgGraphWindow.frame.size];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:XRG_windowIsMinimized]) {
 		// minimize the window.
-		[[xrgGraphWindow backgroundView] minimizeWindow];
+		[[self.xrgGraphWindow backgroundView] minimizeWindow];
 	}
 }
 
 // Cleanup when the application is quit by the user.
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [xrgGraphWindow cleanupBeforeExiting];
+- (void) applicationWillTerminate:(NSNotification *)aNotification {
+    [self.xrgGraphWindow cleanupBeforeExiting];
 }
 
-- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
+- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
 	NSData *themeData = [NSData dataWithContentsOfFile:filename];
 	
 	if ([themeData length] == 0) {
 		NSRunInformationalAlertPanel(@"Error", @"The theme file dragged is not a valid theme file.", @"OK", nil, nil);
 	}
 	
-	NSString *error;        
+	NSString *error = nil;
 	NSPropertyListFormat format;
 	NSDictionary *themeDictionary = [NSPropertyListSerialization propertyListFromData:themeData
 																	 mutabilityOption:NSPropertyListImmutable
@@ -123,11 +111,11 @@
 		[error release];
 	}
 	else {
-		[[xrgGraphWindow appSettings] readXTFDictionary:themeDictionary];                
-		[xrgGraphWindow display];
+		[[self.xrgGraphWindow appSettings] readXTFDictionary:themeDictionary];
+		[self.xrgGraphWindow display];
 	}
 
-	[[self prefController] setUpColorPanel];
+	[self.prefController setUpColorPanel];
 
 	return YES;
 }

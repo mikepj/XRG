@@ -29,12 +29,12 @@
 
 @class XRGGraphWindow;
 @interface XRGAppDelegate : NSObject<NSApplicationDelegate>
-{
-    IBOutlet XRGPrefController *prefController;
-    IBOutlet id xrgGraphWindow;
-}
-- (IBAction)showPrefs:(id)sender;
-- (void)showPrefsWithPanel:(NSString *)panelName;
-- (XRGGraphWindow *)xrgGraphWindow;
-- (XRGPrefController *)prefController;
+@property (retain) IBOutlet XRGPrefController *prefController;
+@property (retain) IBOutlet id xrgGraphWindow;
+
+- (IBAction) showPrefs:(id)sender;
+- (void) showPrefsWithPanel:(NSString *)panelName;
+- (XRGGraphWindow *) xrgGraphWindow;
+- (XRGPrefController *) prefController;
+
 @end
