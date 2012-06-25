@@ -48,10 +48,10 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {    
     // Initialize the settings class
-    appSettings = [[XRGSettings alloc] init];
+    self.appSettings = [[[XRGSettings alloc] init] autorelease];
     
     // Initialize the module manager class
-    moduleManager = [[XRGModuleManager alloc] initWithWindow:self];
+    self.moduleManager = [[[XRGModuleManager alloc] initWithWindow:self] autorelease];
     
     // Initialize the font manager
     fontManager = [NSFontManager sharedFontManager];
@@ -83,7 +83,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     rls = IONotificationPortGetRunLoopSource(thePortRef);
     CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
     
-    if ([appSettings checkForUpdates]) {
+    if ([self.appSettings checkForUpdates]) {
         [self checkServerForUpdates];
     }
                 
@@ -91,6 +91,9 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void) dealloc {
+	[_appSettings release];
+	[_moduleManager release];
+	
 	[_cpuView release];
 	[_netView release];
 	[_diskView release];
@@ -99,6 +102,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	[_stockView release];
 	[_batteryView release];
 	[_temperatureView release];
+	[_temperatureMiner release];
+	[_backgroundView release];
 	
 	[super dealloc];
 }
@@ -253,74 +258,74 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (void) setupSettingsFromDictionary:(NSDictionary *) defs {
     [self        setBorderWidth:             [[defs objectForKey:XRG_borderWidth] intValue]];
-    [appSettings setAntiAliasing:            [[defs objectForKey:XRG_antiAliasing] boolValue]];
-    [appSettings setGraphRefresh:            [[defs objectForKey:XRG_graphRefresh] floatValue]];
-    [appSettings setStickyWindow:            [[defs objectForKey:XRG_stickyWindow] boolValue]];
-    [appSettings setWindowLevel:             [[defs objectForKey:XRG_windowLevel] intValue]];
-    [appSettings setCheckForUpdates:         [[defs objectForKey:XRG_checkForUpdates] boolValue]];
-    [appSettings setDropShadow:              [[defs objectForKey:XRG_dropShadow] boolValue]];
-    [appSettings setWindowTitle:             [defs objectForKey:XRG_windowTitle]];
-    [appSettings setAutoExpandGraph:         [[defs objectForKey:XRG_autoExpandGraph] boolValue]];
-    [appSettings setForegroundWhenExpanding: [[defs objectForKey:XRG_foregroundWhenExpanding] boolValue]];
-    [appSettings setShowSummary:             [[defs objectForKey:XRG_showSummary] boolValue]];
-    [appSettings setMinimizeUpDown:          [[defs objectForKey:XRG_minimizeUpDown] intValue]];
+    [self.appSettings setAntiAliasing:            [[defs objectForKey:XRG_antiAliasing] boolValue]];
+    [self.appSettings setGraphRefresh:            [[defs objectForKey:XRG_graphRefresh] floatValue]];
+    [self.appSettings setStickyWindow:            [[defs objectForKey:XRG_stickyWindow] boolValue]];
+    [self.appSettings setWindowLevel:             [[defs objectForKey:XRG_windowLevel] intValue]];
+    [self.appSettings setCheckForUpdates:         [[defs objectForKey:XRG_checkForUpdates] boolValue]];
+    [self.appSettings setDropShadow:              [[defs objectForKey:XRG_dropShadow] boolValue]];
+    [self.appSettings setWindowTitle:             [defs objectForKey:XRG_windowTitle]];
+    [self.appSettings setAutoExpandGraph:         [[defs objectForKey:XRG_autoExpandGraph] boolValue]];
+    [self.appSettings setForegroundWhenExpanding: [[defs objectForKey:XRG_foregroundWhenExpanding] boolValue]];
+    [self.appSettings setShowSummary:             [[defs objectForKey:XRG_showSummary] boolValue]];
+    [self.appSettings setMinimizeUpDown:          [[defs objectForKey:XRG_minimizeUpDown] intValue]];
 
-    [appSettings setBackgroundColor:        [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_backgroundColor]]];
-    [appSettings setGraphBGColor:           [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphBGColor]]];
-    [appSettings setGraphFG1Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG1Color]]];
-    [appSettings setGraphFG2Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG2Color]]];
-    [appSettings setGraphFG3Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG3Color]]];
-    [appSettings setBorderColor:            [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_borderColor]]];
-    [appSettings setTextColor:              [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_textColor]]];
-    [appSettings setGraphFont:              [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFont]]];
-    [appSettings setAntialiasText:          [[defs objectForKey:XRG_antialiasText] boolValue]];
-    [appSettings setBackgroundTransparency: [[defs objectForKey:XRG_backgroundTransparency] floatValue]];
-    [appSettings setGraphBGTransparency:    [[defs objectForKey:XRG_graphBGTransparency] floatValue]];
-    [appSettings setGraphFG1Transparency:   [[defs objectForKey:XRG_graphFG1Transparency] floatValue]];
-    [appSettings setGraphFG2Transparency:   [[defs objectForKey:XRG_graphFG2Transparency] floatValue]];
-    [appSettings setGraphFG3Transparency:   [[defs objectForKey:XRG_graphFG3Transparency] floatValue]];
-    [appSettings setBorderTransparency:     [[defs objectForKey:XRG_borderTransparency] floatValue]];
-    [appSettings setTextTransparency:       [[defs objectForKey:XRG_textTransparency] floatValue]];
+    [self.appSettings setBackgroundColor:        [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_backgroundColor]]];
+    [self.appSettings setGraphBGColor:           [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphBGColor]]];
+    [self.appSettings setGraphFG1Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG1Color]]];
+    [self.appSettings setGraphFG2Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG2Color]]];
+    [self.appSettings setGraphFG3Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG3Color]]];
+    [self.appSettings setBorderColor:            [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_borderColor]]];
+    [self.appSettings setTextColor:              [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_textColor]]];
+    [self.appSettings setGraphFont:              [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFont]]];
+    [self.appSettings setAntialiasText:          [[defs objectForKey:XRG_antialiasText] boolValue]];
+    [self.appSettings setBackgroundTransparency: [[defs objectForKey:XRG_backgroundTransparency] floatValue]];
+    [self.appSettings setGraphBGTransparency:    [[defs objectForKey:XRG_graphBGTransparency] floatValue]];
+    [self.appSettings setGraphFG1Transparency:   [[defs objectForKey:XRG_graphFG1Transparency] floatValue]];
+    [self.appSettings setGraphFG2Transparency:   [[defs objectForKey:XRG_graphFG2Transparency] floatValue]];
+    [self.appSettings setGraphFG3Transparency:   [[defs objectForKey:XRG_graphFG3Transparency] floatValue]];
+    [self.appSettings setBorderTransparency:     [[defs objectForKey:XRG_borderTransparency] floatValue]];
+    [self.appSettings setTextTransparency:       [[defs objectForKey:XRG_textTransparency] floatValue]];
 
-    [appSettings setFastCPUUsage:           [[defs objectForKey:XRG_fastCPUUsage] boolValue]];
-    [appSettings setSeparateCPUColor:       [[defs objectForKey:XRG_separateCPUColor] boolValue]];
-    [appSettings setShowCPUTemperature:     [[defs objectForKey:XRG_showCPUTemperature] boolValue]];
-    [appSettings setCpuTemperatureUnits:    [[defs objectForKey:XRG_cpuTemperatureUnits] intValue]];
-    [appSettings setShowLoadAverage:        [[defs objectForKey:XRG_showLoadAverage] boolValue]];
-    [appSettings setCpuShowAverageUsage:    [[defs objectForKey:XRG_cpuShowAverageUsage] boolValue]];
-    [appSettings setCpuShowUptime:          [[defs objectForKey:XRG_cpuShowUptime] boolValue]];
+    [self.appSettings setFastCPUUsage:           [[defs objectForKey:XRG_fastCPUUsage] boolValue]];
+    [self.appSettings setSeparateCPUColor:       [[defs objectForKey:XRG_separateCPUColor] boolValue]];
+    [self.appSettings setShowCPUTemperature:     [[defs objectForKey:XRG_showCPUTemperature] boolValue]];
+    [self.appSettings setCpuTemperatureUnits:    [[defs objectForKey:XRG_cpuTemperatureUnits] intValue]];
+    [self.appSettings setShowLoadAverage:        [[defs objectForKey:XRG_showLoadAverage] boolValue]];
+    [self.appSettings setCpuShowAverageUsage:    [[defs objectForKey:XRG_cpuShowAverageUsage] boolValue]];
+    [self.appSettings setCpuShowUptime:          [[defs objectForKey:XRG_cpuShowUptime] boolValue]];
 
-    [appSettings setICAO:                   [defs objectForKey:XRG_ICAO]];
-    [appSettings setSecondaryWeatherGraph:  [[defs objectForKey:XRG_secondaryWeatherGraph] intValue]];
-    [appSettings setTemperatureUnits:       [[defs objectForKey:XRG_temperatureUnits] intValue]];
-    [appSettings setDistanceUnits:          [[defs objectForKey:XRG_distanceUnits] intValue]];
-    [appSettings setPressureUnits:          [[defs objectForKey:XRG_pressureUnits] intValue]];
+    [self.appSettings setICAO:                   [defs objectForKey:XRG_ICAO]];
+    [self.appSettings setSecondaryWeatherGraph:  [[defs objectForKey:XRG_secondaryWeatherGraph] intValue]];
+    [self.appSettings setTemperatureUnits:       [[defs objectForKey:XRG_temperatureUnits] intValue]];
+    [self.appSettings setDistanceUnits:          [[defs objectForKey:XRG_distanceUnits] intValue]];
+    [self.appSettings setPressureUnits:          [[defs objectForKey:XRG_pressureUnits] intValue]];
 
-    [appSettings setShowMemoryPagingGraph:  [[defs objectForKey:XRG_showMemoryPagingGraph] boolValue]];
-    [appSettings setMemoryShowWired:        [[defs objectForKey:XRG_memoryShowWired] boolValue]];
-    [appSettings setMemoryShowActive:       [[defs objectForKey:XRG_memoryShowActive] boolValue]];
-    [appSettings setMemoryShowInactive:     [[defs objectForKey:XRG_memoryShowInactive] boolValue]];
-    [appSettings setMemoryShowFree:         [[defs objectForKey:XRG_memoryShowFree] boolValue]];
-    [appSettings setMemoryShowCache:        [[defs objectForKey:XRG_memoryShowCache] boolValue]];
-    [appSettings setMemoryShowPage:         [[defs objectForKey:XRG_memoryShowPage] boolValue]];
+    [self.appSettings setShowMemoryPagingGraph:  [[defs objectForKey:XRG_showMemoryPagingGraph] boolValue]];
+    [self.appSettings setMemoryShowWired:        [[defs objectForKey:XRG_memoryShowWired] boolValue]];
+    [self.appSettings setMemoryShowActive:       [[defs objectForKey:XRG_memoryShowActive] boolValue]];
+    [self.appSettings setMemoryShowInactive:     [[defs objectForKey:XRG_memoryShowInactive] boolValue]];
+    [self.appSettings setMemoryShowFree:         [[defs objectForKey:XRG_memoryShowFree] boolValue]];
+    [self.appSettings setMemoryShowCache:        [[defs objectForKey:XRG_memoryShowCache] boolValue]];
+    [self.appSettings setMemoryShowPage:         [[defs objectForKey:XRG_memoryShowPage] boolValue]];
     
-    [appSettings setTempUnits:              [[defs objectForKey:XRG_tempUnits] intValue]];
-    [appSettings setTempFG1Location:        [[defs objectForKey:XRG_tempFG1Location] intValue]];
-    [appSettings setTempFG2Location:        [[defs objectForKey:XRG_tempFG2Location] intValue]];
-    [appSettings setTempFG3Location:        [[defs objectForKey:XRG_tempFG3Location] intValue]];
+    [self.appSettings setTempUnits:              [[defs objectForKey:XRG_tempUnits] intValue]];
+    [self.appSettings setTempFG1Location:        [[defs objectForKey:XRG_tempFG1Location] intValue]];
+    [self.appSettings setTempFG2Location:        [[defs objectForKey:XRG_tempFG2Location] intValue]];
+    [self.appSettings setTempFG3Location:        [[defs objectForKey:XRG_tempFG3Location] intValue]];
 
-    [appSettings setNetMinGraphScale:            [[defs objectForKey:XRG_netMinGraphScale] intValue]];
-    [appSettings setNetGraphMode:                [[defs objectForKey:XRG_netGraphMode] intValue]];
-    [appSettings setShowTotalBandwidthSinceBoot: [[defs objectForKey:XRG_showTotalBandwidthSinceBoot] boolValue]];
-    [appSettings setShowTotalBandwidthSinceLoad: [[defs objectForKey:XRG_showTotalBandwidthSinceLoad] boolValue]];
-    [appSettings setNetworkInterface:            [defs objectForKey:XRG_networkInterface]];
+    [self.appSettings setNetMinGraphScale:            [[defs objectForKey:XRG_netMinGraphScale] intValue]];
+    [self.appSettings setNetGraphMode:                [[defs objectForKey:XRG_netGraphMode] intValue]];
+    [self.appSettings setShowTotalBandwidthSinceBoot: [[defs objectForKey:XRG_showTotalBandwidthSinceBoot] boolValue]];
+    [self.appSettings setShowTotalBandwidthSinceLoad: [[defs objectForKey:XRG_showTotalBandwidthSinceLoad] boolValue]];
+    [self.appSettings setNetworkInterface:            [defs objectForKey:XRG_networkInterface]];
 
-    [appSettings setDiskGraphMode:          [[defs objectForKey:XRG_diskGraphMode] intValue]];
+    [self.appSettings setDiskGraphMode:          [[defs objectForKey:XRG_diskGraphMode] intValue]];
 
-    [appSettings setStockSymbols:           [defs objectForKey: XRG_stockSymbols]];
-    [appSettings setStockGraphTimeFrame:    [[defs objectForKey:XRG_stockGraphTimeFrame] intValue]];
-    [appSettings setStockShowChange:        [[defs objectForKey:XRG_stockShowChange] boolValue]];
-    [appSettings setShowDJIA:               [[defs objectForKey:XRG_showDJIA] boolValue]];
+    [self.appSettings setStockSymbols:           [defs objectForKey: XRG_stockSymbols]];
+    [self.appSettings setStockGraphTimeFrame:    [[defs objectForKey:XRG_stockGraphTimeFrame] intValue]];
+    [self.appSettings setStockShowChange:        [[defs objectForKey:XRG_stockShowChange] boolValue]];
+    [self.appSettings setShowDJIA:               [[defs objectForKey:XRG_showDJIA] boolValue]];
         
     // Set up our window.
     NSRect windowRect = NSMakeRect([[defs objectForKey:XRG_windowOriginX] floatValue], 
@@ -345,15 +350,15 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
     [parentWindow useOptimizedDrawing: YES];
 
-    [parentWindow setHasShadow: [appSettings dropShadow]];
+    [parentWindow setHasShadow: [self.appSettings dropShadow]];
     
     // Set these after we have initialized the parentWindow
-    [self setMinSize:[moduleManager getMinSize]];
-    [moduleManager windowChangedToSize:[self setWindowRect:windowRect].size];
+    [self setMinSize:[self.moduleManager getMinSize]];
+    [self.moduleManager windowChangedToSize:[self setWindowRect:windowRect].size];
     [self setWindowLevelHelper: [[defs objectForKey:XRG_windowLevel] intValue]];    
         
-    [moduleManager setGraphOrientationVertical: [[defs objectForKey:XRG_graphOrientationVertical] boolValue]];
-    [self setMinSize:[moduleManager getMinSize]];
+    [self.moduleManager setGraphOrientationVertical: [[defs objectForKey:XRG_graphOrientationVertical] boolValue]];
+    [self setMinSize:[self.moduleManager getMinSize]];
 }
 
 void sleepNotification(void *refcon, io_service_t service, natural_t messageType, void *messageArgument) {
@@ -407,7 +412,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                     // don't do anything here
                     break;
                 case 0:			// Disable Checking
-                    [appSettings setCheckForUpdates:NO];
+                    [self.appSettings setCheckForUpdates:NO];
                     // save it to the user defaults
                     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
                     [defs setObject: @"NO"  forKey:XRG_checkForUpdates];
@@ -525,14 +530,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	}
 }
 
-- (XRGSettings *)appSettings {
-    return appSettings;
-}
-
-- (XRGModuleManager *)moduleManager {
-    return moduleManager;
-}
-
 - (XRGAppDelegate *)controller {
     return controller;
 }
@@ -566,7 +563,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                                                     repeats: YES];
     }
     if (!graphTimer) {
-        graphTimer = [NSTimer scheduledTimerWithTimeInterval: [appSettings graphRefresh] 
+        graphTimer = [NSTimer scheduledTimerWithTimeInterval: [self.appSettings graphRefresh] 
                                                       target: self 
                                                     selector: @selector(graphUpdate:) 
                                                     userInfo: nil 
@@ -582,15 +579,15 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void)min30Update:(NSTimer *)aTimer {
-    [moduleManager min30Update];
+    [self.moduleManager min30Update];
 }
 
 - (void)min5Update:(NSTimer *)aTimer {
-    [moduleManager min5Update];
+    [self.moduleManager min5Update];
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {
-    [moduleManager graphUpdate];
+    [self.moduleManager graphUpdate];
     
     if (xrgCheckURL != nil) {
         [self checkServerForUpdatesPostProcess];
@@ -598,154 +595,121 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void)fastUpdate:(NSTimer *)aTimer {
-    [moduleManager fastUpdate];
+    [self.moduleManager fastUpdate];
 }
 
 ///// End of Timer Methods /////
 
 
 ///// Methods that set up module references /////
-- (void)setTemperatureMiner:(XRGTemperatureMiner *)temperatureM {
-    temperatureMiner = [temperatureM retain];
-}
-
-- (void)setBackgroundView:(XRGBackgroundView *)background0 {
+- (void)setBackgroundView:(id)background0 {
     [background0 setFrameSize: [self frame].size];
     [background0 setAutoresizesSubviews:YES];
     [background0 setNeedsDisplay:YES];
-    backgroundView = background0;
+    _backgroundView = [background0 retain];
     
     // Little hack to fix initial ghosting problem caused by drop shadows in Panther.
-    [parentWindow setHasShadow: [appSettings dropShadow]];
+    [parentWindow setHasShadow: [self.appSettings dropShadow]];
 }
-
 ///// End of methods that set up module references /////
-
-
-///// Methods that return module references /////
-
-- (XRGTemperatureMiner *)temperatureMiner {
-    return temperatureMiner;
-}
-
-- (XRGBackgroundView *)backgroundView {
-    return backgroundView;
-}
-
-///// End of methods that return module references /////
 
 
 ///// Action Methods /////
 
 - (IBAction)setShowCPUGraph:(id)sender {
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"CPU" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"CPU" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowMemoryGraph:(id)sender {
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"Memory" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"Memory" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowBatteryGraph:(id)sender {
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"Battery" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"Battery" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowTemperatureGraph:(id)sender {
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"Temperature" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"Temperature" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowNetGraph:(id)sender {    
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"Network" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"Network" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowDiskGraph:(id)sender {
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"Disk" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"Disk" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowWeatherGraph:(id)sender {
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"Weather" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"Weather" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowStockGraph:(id)sender {
-    [backgroundView expandWindow];
-    [moduleManager setModule:@"Stock" isDisplayed:([sender state] == NSOnState)];
-    [moduleManager windowChangedToSize:[self frame].size];
+    [self.backgroundView expandWindow];
+    [self.moduleManager setModule:@"Stock" isDisplayed:([sender state] == NSOnState)];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setWindowTitle:(id)sender {
-    [appSettings setWindowTitle:[sender stringValue]];
-    [backgroundView setNeedsDisplay:YES];
+    [self.appSettings setWindowTitle:[sender stringValue]];
+    [self.backgroundView setNeedsDisplay:YES];
 }
 
 - (IBAction)setBorderWidthAction:(id)sender {
-    [backgroundView expandWindow];
+    [self.backgroundView expandWindow];
     [self setBorderWidth: [sender intValue]];
-    [moduleManager windowChangedToSize:[parentWindow frame].size];
-    [self setMinSize:[moduleManager getMinSize]];
+    [self.moduleManager windowChangedToSize:[parentWindow frame].size];
+    [self setMinSize:[self.moduleManager getMinSize]];
 }
 
 - (IBAction)setGraphOrientation:(id)sender {
     bool wasMinimized = [self minimized];
-    if (backgroundView && wasMinimized) {
-        [backgroundView expandWindow];
+    if (wasMinimized) {
+        [self.backgroundView expandWindow];
     }
 
-    bool graphCurrentlyVertical = [moduleManager graphOrientationVertical];
-    if ([sender indexOfSelectedItem] == 0) {
-        // the user selected vertical
-        [moduleManager setGraphOrientationVertical: YES];
-    }
-    else if ([sender indexOfSelectedItem] == 1) {
-        // the user selected horizontal
-        [moduleManager setGraphOrientationVertical: NO];
-    }
+    bool graphCurrentlyVertical = [self.moduleManager graphOrientationVertical];
+	[self.moduleManager setGraphOrientationVertical:([sender indexOfSelectedItem] == 0)];	// 0 = vertical, 1 = horizontal
     
-    if (graphCurrentlyVertical != [moduleManager graphOrientationVertical]) {        
+    if (graphCurrentlyVertical != [self.moduleManager graphOrientationVertical]) {        
         NSRect tmpRect = NSMakeRect([parentWindow frame].origin.x, [parentWindow frame].origin.y, [parentWindow frame].size.height, [parentWindow frame].size.width);
-        [self setMinSize:[moduleManager getMinSize]];
+        [self setMinSize:[self.moduleManager getMinSize]];
         [self setWindowRect:tmpRect];
 	}
     
     // minimize view again if it was originally.
-    if (backgroundView && wasMinimized) {
-        [backgroundView minimizeWindow];
+    if (wasMinimized) {
+        [self.backgroundView minimizeWindow];
     }
     
     // We need to save this parameter right away.
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    
-    if ([sender indexOfSelectedItem] == 0)
-        [defs setObject: @"YES" forKey:XRG_graphOrientationVertical];
-    else 
-        [defs setObject: @"NO"  forKey:XRG_graphOrientationVertical];
-    
+	[defs setObject:([sender indexOfSelectedItem] == 0) ? @"YES" : @"NO" forKey:XRG_graphOrientationVertical];    
     [defs synchronize];
 }
 
 - (IBAction)setAntiAliasing:(id)sender {
-    if ([sender state] == NSOnState) 
-        [appSettings setAntiAliasing: YES];
-    else
-        [appSettings setAntiAliasing: NO];
+	[self.appSettings setAntiAliasing:([sender state] == NSOnState)];
 }
 
 - (IBAction)setGraphRefreshActionPart2:(id)sender {
     float f = [sender floatValue];
 	f = roundf(f * 5.) * 0.2;
-    [appSettings setGraphRefresh:f];
+    [self.appSettings setGraphRefresh:f];
     
     [graphTimer invalidate];    
     graphTimer = [NSTimer scheduledTimerWithTimeInterval: f
@@ -760,134 +724,112 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
     [self setWindowLevelHelper: index];
 
-    [appSettings setWindowLevel: index];
+    [self.appSettings setWindowLevel: index];
 }
 
 
 - (IBAction)setStickyWindow:(id)sender {
-    [appSettings setStickyWindow:([sender state] == NSOnState)];
+    [self.appSettings setStickyWindow:([sender state] == NSOnState)];
 }
 
 - (IBAction)setCheckForUpdates:(id)sender {
-    [appSettings setCheckForUpdates:([sender state] == NSOnState)];
+    [self.appSettings setCheckForUpdates:([sender state] == NSOnState)];
 }
 
 - (IBAction)setDropShadow:(id)sender {
     [parentWindow setHasShadow:([sender state] == NSOnState)];
-    [appSettings setDropShadow:([sender state] == NSOnState)];
+    [self.appSettings setDropShadow:([sender state] == NSOnState)];
 }
 
 - (IBAction)setAutoExpandGraph:(id)sender {
-    [appSettings setAutoExpandGraph:([sender state] == NSOnState)];
+    [self.appSettings setAutoExpandGraph:([sender state] == NSOnState)];
 }
 
 - (IBAction)setForegroundWhenExpanding:(id)sender {
-    [appSettings setForegroundWhenExpanding:([sender state] == NSOnState)];
+    [self.appSettings setForegroundWhenExpanding:([sender state] == NSOnState)];
 }
 
 - (IBAction)setShowSummary:(id)sender {
-    [appSettings setShowSummary:([sender state] == NSOnState)];
+    [self.appSettings setShowSummary:([sender state] == NSOnState)];
 }
 
 - (IBAction)setMinimizeUpDown:(id)sender {
-    [appSettings setMinimizeUpDown:[sender indexOfSelectedItem]];
+    [self.appSettings setMinimizeUpDown:[sender indexOfSelectedItem]];
 }
 
 - (IBAction)setAntialiasText:(id)sender {
-    [appSettings setAntialiasText:([sender state] == NSOnState)];
+    [self.appSettings setAntialiasText:([sender state] == NSOnState)];
     
     [[self contentView] setNeedsDisplay:YES];
 }
 
 - (IBAction)setShowTotalBandwidthSinceBoot:(id)sender {
-    [appSettings setShowTotalBandwidthSinceBoot:([sender state] == NSOnState)];
+    [self.appSettings setShowTotalBandwidthSinceBoot:([sender state] == NSOnState)];
 }
 
 - (IBAction)setShowTotalBandwidthSinceLoad:(id)sender {
-    [appSettings setShowTotalBandwidthSinceLoad:([sender state] == NSOnState)];
+    [self.appSettings setShowTotalBandwidthSinceLoad:([sender state] == NSOnState)];
 }
 
 - (IBAction)setObjectsToColor:(id)sender {
     switch ([sender tag]) {
-        case 21: [appSettings setBackgroundColor: [sender color]]; break;
-        case 22: [appSettings setGraphBGColor:    [sender color]]; break;
-        case 23: [appSettings setGraphFG1Color:   [sender color]]; break;
-        case 24: [appSettings setGraphFG2Color:   [sender color]]; break;
-        case 25: [appSettings setGraphFG3Color:   [sender color]]; break;
-        case 26: [appSettings setBorderColor:     [sender color]]; break;
-        case 27: [appSettings setTextColor:       [sender color]]; break;
+        case 21: [self.appSettings setBackgroundColor: [sender color]]; break;
+        case 22: [self.appSettings setGraphBGColor:    [sender color]]; break;
+        case 23: [self.appSettings setGraphFG1Color:   [sender color]]; break;
+        case 24: [self.appSettings setGraphFG2Color:   [sender color]]; break;
+        case 25: [self.appSettings setGraphFG3Color:   [sender color]]; break;
+        case 26: [self.appSettings setBorderColor:     [sender color]]; break;
+        case 27: [self.appSettings setTextColor:       [sender color]]; break;
     }
     [self redrawWindow];
 }
 
 - (void)setObjectsToTransparency:(id) sender {
     switch([sender tag]) {
-        case 21: [appSettings setBackgroundTransparency: [sender floatValue]]; break;
-        case 22: [appSettings setGraphBGTransparency:    [sender floatValue]]; break;
-        case 23: [appSettings setGraphFG1Transparency:   [sender floatValue]]; break;
-        case 24: [appSettings setGraphFG2Transparency:   [sender floatValue]]; break;
-        case 25: [appSettings setGraphFG3Transparency:   [sender floatValue]]; break;
-        case 26: [appSettings setBorderTransparency:     [sender floatValue]]; break;
-        case 27: [appSettings setTextTransparency:       [sender floatValue]]; break;
+        case 21: [self.appSettings setBackgroundTransparency: [sender floatValue]]; break;
+        case 22: [self.appSettings setGraphBGTransparency:    [sender floatValue]]; break;
+        case 23: [self.appSettings setGraphFG1Transparency:   [sender floatValue]]; break;
+        case 24: [self.appSettings setGraphFG2Transparency:   [sender floatValue]]; break;
+        case 25: [self.appSettings setGraphFG3Transparency:   [sender floatValue]]; break;
+        case 26: [self.appSettings setBorderTransparency:     [sender floatValue]]; break;
+        case 27: [self.appSettings setTextTransparency:       [sender floatValue]]; break;
     }
     [self redrawWindow];   
 }
 
 - (IBAction)setFastCPUUsageCheckbox:(id)sender {
-    if ([sender state] == NSOnState) {
-        [appSettings setFastCPUUsage: YES];
-//        if (!fastTimer) {
-//            fastTimer = [NSTimer scheduledTimerWithTimeInterval: 0.2
-//                                 target: self
-//                                 selector: @selector(fastUpdate:)
-//                                 userInfo: nil
-//                                 repeats: YES];
-//        }
-    }
-    else {
-        [appSettings setFastCPUUsage: NO];
-//        if (fastTimer) {
-//            [fastTimer invalidate];
-//            fastTimer = nil;
-//        }
-    }
+	[self.appSettings setFastCPUUsage:([sender state] == NSOnState)];
         
-    [self.cpuView setWidth:[[moduleManager getModuleByName:@"CPU"] currentSize].width];
+    [self.cpuView setWidth:[[self.moduleManager getModuleByName:@"CPU"] currentSize].width];
     [self.cpuView setNeedsDisplay:YES];
 }
 
 - (IBAction)setSeparateCPUColor:(id)sender {
-    if ([sender state] == NSOnState) 
-        [appSettings setSeparateCPUColor: YES];
-    else
-        [appSettings setSeparateCPUColor: NO];
+	[self.appSettings setSeparateCPUColor:([sender state] == NSOnState)];
 }
 
 - (IBAction)setShowCPUTemperature:(id)sender {
-    if ([sender state] == NSOnState) 
-        [appSettings setShowCPUTemperature: YES];
-    else
-        [appSettings setShowCPUTemperature: NO];
+	[self.appSettings setShowCPUTemperature:([sender state] == NSOnState)];
 }
 
 - (IBAction)setCPUTemperatureUnits:(id)sender {
-    [appSettings setCpuTemperatureUnits:[sender indexOfSelectedItem]];
+    [self.appSettings setCpuTemperatureUnits:[sender indexOfSelectedItem]];
 }
 
 - (IBAction)setShowLoadAverage:(id)sender {
-    [appSettings setShowLoadAverage:([sender state] == NSOnState)];
+    [self.appSettings setShowLoadAverage:([sender state] == NSOnState)];
     
     [self.cpuView graphUpdate:nil];
 }
 
 - (IBAction)setCPUShowAverageUsage:(id)sender {
-    [appSettings setCpuShowAverageUsage:([sender state] == NSOnState)];
+    [self.appSettings setCpuShowAverageUsage:([sender state] == NSOnState)];
     
     [self.cpuView graphUpdate:nil];
 }
 
 - (IBAction)setCPUShowUptime:(id)sender {
-    [appSettings setCpuShowUptime:([sender state] == NSOnState)];
+    [self.appSettings setCpuShowUptime:([sender state] == NSOnState)];
     
     [self.cpuView graphUpdate:nil];
 }
@@ -895,25 +837,25 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 - (IBAction)setMemoryCheckbox:(id)sender {
     switch ([sender tag]) {
         case 42:
-            [appSettings setMemoryShowWired:([sender state] == NSOnState)];
+            [self.appSettings setMemoryShowWired:([sender state] == NSOnState)];
             break;
         case 43:
-            [appSettings setMemoryShowActive:([sender state] == NSOnState)];
+            [self.appSettings setMemoryShowActive:([sender state] == NSOnState)];
             break;
         case 44:
-            [appSettings setMemoryShowInactive:([sender state] == NSOnState)];
+            [self.appSettings setMemoryShowInactive:([sender state] == NSOnState)];
             break;
         case 45:
-            [appSettings setMemoryShowFree:([sender state] == NSOnState)];
+            [self.appSettings setMemoryShowFree:([sender state] == NSOnState)];
             break;
         case 46:
-            [appSettings setMemoryShowCache:([sender state] == NSOnState)];
+            [self.appSettings setMemoryShowCache:([sender state] == NSOnState)];
             break;
         case 47:
-            [appSettings setMemoryShowPage:([sender state] == NSOnState)];
+            [self.appSettings setMemoryShowPage:([sender state] == NSOnState)];
             break;
         case 48:
-            [appSettings setShowMemoryPagingGraph:([sender state] == NSOnState)];
+            [self.appSettings setShowMemoryPagingGraph:([sender state] == NSOnState)];
             break;
     }
     
@@ -921,94 +863,94 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (IBAction)setTempUnits:(id)sender {
-    [appSettings setTempUnits: [sender indexOfSelectedItem]];
+    [self.appSettings setTempUnits: [sender indexOfSelectedItem]];
     [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG1Location:(id)sender {
-    [appSettings setTempFG1Location:[sender indexOfSelectedItem]];
+    [self.appSettings setTempFG1Location:[sender indexOfSelectedItem]];
     [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG2Location:(id)sender {
-    [appSettings setTempFG2Location:[sender indexOfSelectedItem]];
+    [self.appSettings setTempFG2Location:[sender indexOfSelectedItem]];
     [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG3Location:(id)sender {
-    [appSettings setTempFG3Location:[sender indexOfSelectedItem]];
+    [self.appSettings setTempFG3Location:[sender indexOfSelectedItem]];
     [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setNetGraphMode:(id)sender {
-    [appSettings setNetGraphMode:[sender selectedRow]];
+    [self.appSettings setNetGraphMode:[sender selectedRow]];
     [self.netView setNeedsDisplay:YES];
 }
 
 - (IBAction)setNetworkInterface:(id)sender {
     NSInteger selectedRow = [sender indexOfSelectedItem];
     if (selectedRow == 0) {
-        [appSettings setNetworkInterface:@"All"];
+        [self.appSettings setNetworkInterface:@"All"];
     }
     else {
         NSArray *interfaces = [self.netView networkInterfaces];
         if (selectedRow - 1 < [interfaces count])
-            [appSettings setNetworkInterface:[interfaces objectAtIndex:(selectedRow - 1)]];
+            [self.appSettings setNetworkInterface:[interfaces objectAtIndex:(selectedRow - 1)]];
         else
-            [appSettings setNetworkInterface:@"All"];
+            [self.appSettings setNetworkInterface:@"All"];
     }
 }
 
 - (IBAction)setDiskGraphMode:(id)sender {
-    [appSettings setDiskGraphMode:[sender selectedRow]];
+    [self.appSettings setDiskGraphMode:[sender selectedRow]];
     [self.diskView setNeedsDisplay:YES];
 }
 
 - (IBAction)setICAO:(id)sender {
-    [appSettings setICAO:[sender stringValue]];
+    [self.appSettings setICAO:[sender stringValue]];
 
-    [self.weatherView setURL: [appSettings ICAO]];
+    [self.weatherView setURL: [self.appSettings ICAO]];
     [self.weatherView min30Update:nil];
 }
 
 - (IBAction)setSecondaryWeatherGraph:(id)sender {
-    [appSettings setSecondaryWeatherGraph: [sender indexOfSelectedItem]];
+    [self.appSettings setSecondaryWeatherGraph: [sender indexOfSelectedItem]];
     [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTemperatureUnits:(id)sender {
-    [appSettings setTemperatureUnits: [sender indexOfSelectedItem]];
+    [self.appSettings setTemperatureUnits: [sender indexOfSelectedItem]];
     [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setDistanceUnits:(id)sender {
-    [appSettings setDistanceUnits: [sender indexOfSelectedItem]];
+    [self.appSettings setDistanceUnits: [sender indexOfSelectedItem]];
     [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setPressureUnits:(id)sender {
-    [appSettings setPressureUnits: [sender indexOfSelectedItem]];
+    [self.appSettings setPressureUnits: [sender indexOfSelectedItem]];
     [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setStockSymbols:(id)sender {
-    [appSettings setStockSymbols:[sender stringValue]];
+    [self.appSettings setStockSymbols:[sender stringValue]];
     
     [self.stockView setStockSymbolsFromString:[sender stringValue]];
 }
 
 - (IBAction)setStockGraphTimeFrame:(id)sender {
-    [appSettings setStockGraphTimeFrame:[sender indexOfSelectedItem]];
+    [self.appSettings setStockGraphTimeFrame:[sender indexOfSelectedItem]];
     [self.stockView setNeedsDisplay:YES];
 }
 
 - (IBAction)setStockShowChange:(id)sender {
-    [appSettings setStockShowChange:([sender state] == NSOnState)];
+    [self.appSettings setStockShowChange:([sender state] == NSOnState)];
     [self.stockView setNeedsDisplay:YES];
 }
 
 - (IBAction)setShowDJIA:(id)sender {
-    [appSettings setShowDJIA:([sender state] == NSOnState)];
+    [self.appSettings setShowDJIA:([sender state] == NSOnState)];
     [self.stockView setNeedsDisplay:YES];
 }
 
@@ -1035,13 +977,13 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (NSColor *)colorForTag:(int)aTag {
     switch (aTag) {
-        case 21:  return [appSettings backgroundColor];
-        case 22:  return [appSettings graphBGColor];
-        case 23:  return [appSettings graphFG1Color];
-        case 24:  return [appSettings graphFG2Color];
-        case 25:  return [appSettings graphFG3Color];
-        case 26:  return [appSettings borderColor];
-        case 27:  return [appSettings textColor];
+        case 21:  return [self.appSettings backgroundColor];
+        case 22:  return [self.appSettings graphBGColor];
+        case 23:  return [self.appSettings graphFG1Color];
+        case 24:  return [self.appSettings graphFG2Color];
+        case 25:  return [self.appSettings graphFG3Color];
+        case 26:  return [self.appSettings borderColor];
+        case 27:  return [self.appSettings textColor];
     }
     
     return nil;
@@ -1049,13 +991,13 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (float)transparencyForTag:(int)aTag {
     switch (aTag) {
-        case 21: return [appSettings backgroundTransparency];
-        case 22: return [appSettings graphBGTransparency];
-        case 23: return [appSettings graphFG1Transparency];
-        case 24: return [appSettings graphFG2Transparency];
-        case 25: return [appSettings graphFG3Transparency];
-        case 26: return [appSettings borderTransparency];
-        case 27: return [appSettings textTransparency];
+        case 21: return [self.appSettings backgroundTransparency];
+        case 22: return [self.appSettings graphBGTransparency];
+        case 23: return [self.appSettings graphFG1Transparency];
+        case 24: return [self.appSettings graphFG2Transparency];
+        case 25: return [self.appSettings graphFG3Transparency];
+        case 26: return [self.appSettings borderTransparency];
+        case 27: return [self.appSettings textTransparency];
     }
     
     return 1.0;
@@ -1066,16 +1008,16 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                                 [self frame].origin.y,
                                 newSize.width,
                                 newSize.height);
-    [self setMinSize:[moduleManager getMinSize]];
-    [moduleManager windowChangedToSize:[self setWindowRect:tmpRect].size];
+    [self setMinSize:[self.moduleManager getMinSize]];
+    [self.moduleManager windowChangedToSize:[self setWindowRect:tmpRect].size];
 }
 
 - (void)checkWindowSize {
-    NSSize smallSizeLimit = [moduleManager getMinSize];
+    NSSize smallSizeLimit = [self.moduleManager getMinSize];
     NSSize newSize = [self frame].size;
     if (newSize.width < smallSizeLimit.width || newSize.height < smallSizeLimit.height) {
-        [self setMinSize:[moduleManager getMinSize]];
-        [moduleManager windowChangedToSize:[self setWindowRect:[self frame]].size];
+        [self setMinSize:[self.moduleManager getMinSize]];
+        [self.moduleManager windowChangedToSize:[self setWindowRect:[self frame]].size];
     }
 }
 
@@ -1089,10 +1031,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     return YES;
 }
 
-- (void)becomeKeyWindow {
-    [super becomeKeyWindow];
-}
-
 - (void)performClose:(id)sender {
     if([[self delegate] windowShouldClose: self])
         [self close];
@@ -1103,17 +1041,14 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification {
-    if (moduleManager)
-        [moduleManager windowChangedToSize:[self frame].size];
-//    if (backgroundView)
-//        [backgroundView updateTrackingRects];
+    if (self.moduleManager)
+        [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (void)cleanupBeforeExiting {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	BOOL wasMinimized = [defs boolForKey:XRG_windowIsMinimized];
-    if (backgroundView != nil)
-        [backgroundView expandWindow];
+	[self.backgroundView expandWindow];
 	[defs setBool:wasMinimized forKey:XRG_windowIsMinimized];
 
     // Save the window size and location.
@@ -1130,7 +1065,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     // a window move/resize, and double clicked again, the content view does not 
     // get the mouseDown.  In the content view, there is a check so the code doesn't 
     // start looping (the content view mouseDown calls [self mouseDown])
-    [backgroundView mouseDownAction:theEvent];
+    [self.backgroundView mouseDownAction:theEvent];
     [super mouseDown:theEvent];
 }
 

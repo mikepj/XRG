@@ -47,23 +47,20 @@
     NSTimer						*fastTimer;
     
     // Module references
-    XRGTemperatureMiner         *temperatureMiner;
     NSWindow					*parentWindow;
-
-    // The Module Manager
-    XRGModuleManager			*moduleManager; 
     
     // Settings
-    XRGSettings					*appSettings;
     NSFontManager               *fontManager;
     
     // Outlets
     IBOutlet id					preferenceWindow;
-    IBOutlet id					backgroundView;
     IBOutlet id                 controller;
     
     XRGURL						*xrgCheckURL;
 }
+@property (retain) XRGSettings *appSettings;
+@property (retain) XRGModuleManager *moduleManager;
+
 @property (retain) XRGCPUView *cpuView;
 @property (retain) XRGNetView *netView;
 @property (retain) XRGDiskView *diskView;
@@ -72,6 +69,8 @@
 @property (retain) XRGStockView *stockView;
 @property (retain) XRGBatteryView *batteryView;
 @property (retain) XRGTemperatureView *temperatureView;
+@property (retain) XRGTemperatureMiner *temperatureMiner;
+@property (retain,nonatomic) IBOutlet id backgroundView;
 
 // Initialization
 + (void)initialize;
@@ -95,12 +94,7 @@
 - (void)fastUpdate:(NSTimer *)aTimer;
 
 // Methods that set up module references
-- (void)setTemperatureMiner:(XRGTemperatureMiner *)temperatureM;
-- (void)setBackgroundView:(XRGBackgroundView *)background0;
-
-// Methods that return module references
-- (XRGTemperatureMiner *)temperatureMiner;
-- (XRGBackgroundView *)backgroundView;
+- (void)setBackgroundView:(id)background0;
 
 // Actions
 - (IBAction)setShowCPUGraph:(id)sender;
