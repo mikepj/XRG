@@ -40,9 +40,6 @@
 
     float                       UPTIME_WIDE;
     float                       UPTIME_NORMAL;
-    float                       TEMP_WIDE;
-    float                       TEMP_NORMAL;
-    float                       TEMP_SMALL;
     float                       AVG_WIDE;
     float                       AVG_NORMAL;
      

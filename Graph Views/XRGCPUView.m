@@ -97,20 +97,12 @@
     UPTIME_NORMAL = [@"U: 99d 23:59" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
     
     if ([CPUMiner numberOfCPUs] == 2) {
-        TEMP_WIDE   = [[NSString stringWithFormat:@"99%CF Temperature 99%CF", 0x00B0, 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
-        TEMP_NORMAL = [[NSString stringWithFormat:@"99%CF Temp 99%CF", 0x00B0, 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
-        TEMP_SMALL  = [[NSString stringWithFormat:@"99%C T 99%C", 0x00B0, 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
-
         AVG_WIDE = [@"99.9% Average 99.9%" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
         AVG_NORMAL = [@"99.9% Avg 99.9%" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
 
         width = [@"100% CPU 100%" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
     }
     else {  // this takes > 2 CPUs too, at the risk of displaying incorrectly (if Apple ever uses > 2 CPUs :-))
-        TEMP_WIDE   = [[NSString stringWithFormat:@"Temperature: 99%CF", 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
-        TEMP_NORMAL = [[NSString stringWithFormat:@"Temp: 99%CF", 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
-        TEMP_SMALL  = [[NSString stringWithFormat:@"T: 99%C", 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
-
         AVG_WIDE = [@"Average: 99.9%" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
         AVG_NORMAL = [@"Avg: 99.9%" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
 
@@ -288,7 +280,7 @@
 	
 	// Draw the first line with the label and current CPU usage
 	[leftText setString:@"CPU"];
-	[rightText appendFormat:@"%3.f%%", MAX(0, ([[cpuData objectAtIndex:0] currentValue] + [[cpuData objectAtIndex:1] currentValue] + [[cpuData objectAtIndex:2] currentValue])) * [CPUMiner numberOfCPUs]];
+	[rightText appendFormat:@"%3.f%%", MAX(0, ([(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])) * [CPUMiner numberOfCPUs]];
 	
 	// draw the average usage text
 	if ([appSettings cpuShowAverageUsage]) {
@@ -463,7 +455,7 @@
         // Draw the first line with the label and current CPU usage
         [leftText setString:@"CPU"];
         NSArray *cpuData = [CPUMiner dataForCPU:0];
-        [rightText appendFormat:@"%3.f%%", MAX(0, [[cpuData objectAtIndex:0] currentValue] + [[cpuData objectAtIndex:1] currentValue] + [[cpuData objectAtIndex:2] currentValue])];
+        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])];
 
         // draw the average usage text
         if ([appSettings cpuShowAverageUsage]) {
@@ -492,10 +484,10 @@
         // Draw the first line with the label and current CPU usage
         [centerText setString:@"CPU"];
         NSArray *cpuData = [CPUMiner dataForCPU:0];
-        [leftText appendFormat:@"%3.f%%", MAX(0, [[cpuData objectAtIndex:0] currentValue] + [[cpuData objectAtIndex:1] currentValue] + [[cpuData objectAtIndex:2] currentValue])];
+        [leftText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])];
         
         cpuData = [CPUMiner dataForCPU:1];
-        [rightText appendFormat:@"%3.f%%", MAX(0, [[cpuData objectAtIndex:0] currentValue] + [[cpuData objectAtIndex:1] currentValue] + [[cpuData objectAtIndex:2] currentValue])];
+        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])];
 
         // draw the average usage text
         if ([appSettings cpuShowAverageUsage]) {
