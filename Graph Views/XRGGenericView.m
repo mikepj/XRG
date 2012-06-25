@@ -46,7 +46,7 @@
 -(void)drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet MaxValue:(float)max InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color
 {
     size_t numVals = [dataSet numValues];
-    float *values = alloca(numVals * sizeof(float));
+    CGFloat *values = alloca(numVals * sizeof(CGFloat));
     [dataSet valuesInOrder:values];
 
     // call drawRangedGraphWithData to avoid a lot of code duplication.
@@ -132,7 +132,7 @@
 -(void)drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet UpperBound:(float)max LowerBound:(float)min InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color 
 {
     size_t numVals = [dataSet numValues];
-    float *values = alloca(numVals * sizeof(float));
+    CGFloat *values = alloca(numVals * sizeof(CGFloat));
     [dataSet valuesInOrder:values];
 	
     // call drawRangedGraphWithData to avoid a lot of code duplication.
