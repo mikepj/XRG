@@ -27,34 +27,26 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XRGDataSet : NSObject {
-    float   *values;
-    
-    float   min;
-    float   max;
-    float   sum;
-    
-    int     currentIndex;
-    size_t  numValues;
-}
+@interface XRGDataSet : NSObject
+@property (assign) CGFloat *values;
+@property (assign) size_t numValues;
+@property (assign) NSInteger currentIndex;
 
-- (id)initWithContentsOfOtherDataSet:(XRGDataSet *)otherDataSet;
+@property (assign) CGFloat min;
+@property (assign) CGFloat max;
+@property (assign) CGFloat sum;
 
-- (float)min;
-- (float)max;
-- (float)sum;
-- (float)average;
-- (size_t)numValues;
-- (float)currentValue;
-- (float *)values;
-- (int)currentIndex;
-- (void)valuesInOrder:(float *)destinationArray;
+- (id) initWithContentsOfOtherDataSet:(XRGDataSet *)otherDataSet;
 
-- (void)resize:(size_t)newNumValues;
-- (void)setNextValue:(float)nextVal;
-- (void)setAllValues:(float)value;
-- (void)addOtherDataSetValues:(XRGDataSet *)otherDataSet;
-- (void)subtractOtherDataSetValues:(XRGDataSet *)otherDataSet;
--(void) divideAllValuesBy:(float)dividend;
+- (CGFloat) average;
+- (CGFloat) currentValue;
+- (void) valuesInOrder:(CGFloat *)destinationArray;
+
+- (void) resize:(size_t)newNumValues;
+- (void) setNextValue:(CGFloat)nextVal;
+- (void) setAllValues:(CGFloat)value;
+- (void) addOtherDataSetValues:(XRGDataSet *)otherDataSet;
+- (void) subtractOtherDataSetValues:(XRGDataSet *)otherDataSet;
+- (void) divideAllValuesBy:(CGFloat)dividend;
 
 @end

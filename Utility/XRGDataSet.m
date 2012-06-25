@@ -29,240 +29,212 @@
 
 @implementation XRGDataSet
 
-- (id)init {
-    values = nil;
-    
-    min = 0;
-    max = 0;
-    sum = 0;
-        
-    currentIndex = 0;
-    numValues = 0;    
+- (id) init {
+	self = [super init];
+	
+	if (self) {
+		_values = NULL;
+		
+		_min = 0;
+		_max = 0;
+		_sum = 0;
+			
+		_currentIndex = 0;
+		_numValues = 0;
+	}
     
     return self;
 }
 
-- (id)initWithContentsOfOtherDataSet:(XRGDataSet *)otherDataSet {
+- (id) initWithContentsOfOtherDataSet:(XRGDataSet *)otherDataSet {
     if (!otherDataSet) return nil;
     
-    numValues = [otherDataSet numValues];
-    if (numValues == 0) return [self init];
-	if (numValues > 2000000) return [self init];
-    
-    // Get a copy of the other values and set the current index
-    float *otherValues = [otherDataSet values];
-    values = calloc(numValues, sizeof(float));
-    memcpy(values, otherValues, numValues * sizeof(float));
-    currentIndex = [otherDataSet currentIndex];
-    
-    // Set the other class variables.
-    max          = [otherDataSet max];
-    min          = [otherDataSet min];
-    sum          = [otherDataSet sum];
+	self = [self init];
+	if (self) {
+		_numValues = otherDataSet.numValues;
+		if (_numValues == 0) return self;
+		
+		// Get a copy of the other values and set the current index
+		CGFloat *otherValues = otherDataSet.values;
+		_values = calloc(_numValues, sizeof(CGFloat));
+		memcpy(_values, otherValues, _numValues * sizeof(CGFloat));
+		self.currentIndex = otherDataSet.currentIndex;
+		
+		// Set the other class variables.
+		_max = otherDataSet.max;
+		_min = otherDataSet.min;
+		_sum = otherDataSet.sum;
+	}
     
     return self;
 }
 
--(float) min {
-    return min;
+- (CGFloat) average {
+    return self.sum / (CGFloat)self.numValues;
 }
 
--(float) max {
-    return max;
-}
-
--(float) sum {
-    return sum;
-}
-
--(float) average {
-    return sum / (float)numValues;
-}
-
--(size_t) numValues {
-    return numValues;
-}
-
--(float) currentValue {
-    return values[currentIndex];
-}
-
-// Return a pointer to the raw values array
--(float *) values {
-    return values;
-}
-
-// Return the currentIndex
--(int) currentIndex {
-    return currentIndex;
+- (CGFloat) currentValue {
+    return self.values[self.currentIndex];
 }
 
 // return an ordered list of values into the destinationArray given, assumed to be alloced already.
--(void) valuesInOrder:(float *)destinationArray {
-    NSInteger i;
-    NSInteger index = (int)numValues - 1;
+- (void) valuesInOrder:(CGFloat *)destinationArray {
+    NSInteger index = (NSInteger)self.numValues - 1;
     
-    for (i = currentIndex; i >= 0; i--) {
+    for (NSInteger i = self.currentIndex; i >= 0; i--) {
         if (index < 0) break;
         
-        destinationArray[index] = values[i];
+        destinationArray[index] = self.values[i];
         index--;
     }
     
-    for (i = numValues - 1; i > currentIndex; i--) {
+    for (NSInteger i = self.numValues - 1; i > self.currentIndex; i--) {
         if (index < 0) break;
       
-        destinationArray[index] = values[i];
+        destinationArray[index] = self.values[i];
         index--;
     }
 }
 
--(void) resize:(size_t)newNumValues {
-    NSInteger i;
-    
+- (void) resize:(size_t)newNumValues {
     if (newNumValues == 0) {
-        min = 0;
-        max = 0;
-        sum = 0;
+        self.min = 0;
+        self.max = 0;
+        self.sum = 0;
         
-        free(values);
-        values = nil;
+        free(self.values);
+        self.values = NULL;
     }
     
-    sum = 0;
+    self.sum = 0;
     
-    if (values) {    
-        float *tmpValues;
-        int newValIndex = (int)newNumValues - 1;
-        tmpValues = calloc(newNumValues, sizeof(float));
+    if (self.values) {
+        CGFloat *tmpValues;
+        NSInteger newValIndex = (NSInteger)newNumValues - 1;
+        tmpValues = calloc(newNumValues, sizeof(CGFloat));
         
-        for (i = currentIndex; i >= 0; i--) {
+        for (NSInteger i = self.currentIndex; i >= 0; i--) {
             if (newValIndex < 0) break;
             
-            tmpValues[newValIndex] = values[i];
-            sum += tmpValues[newValIndex];
+            tmpValues[newValIndex] = self.values[i];
+            self.sum += tmpValues[newValIndex];
             newValIndex--;
         }
         
-        for (i = numValues - 1; i > currentIndex; i--) {
+        for (NSInteger i = self.numValues - 1; i > self.currentIndex; i--) {
             if (newValIndex < 0) break;
           
-            tmpValues[newValIndex] = values[i];
-            sum += tmpValues[newValIndex];
+            tmpValues[newValIndex] = self.values[i];
+            self.sum += tmpValues[newValIndex];
             newValIndex--;
         }
                 
-        free(values);     
-        values = tmpValues;
-        currentIndex = newNumValues - 1;
+        free(self.values);
+        self.values = tmpValues;
+        self.currentIndex = newNumValues - 1;
     }
     else {
-        values = calloc(newNumValues, sizeof(float));
-        currentIndex = 0;
+        self.values = calloc(newNumValues, sizeof(CGFloat));
+        self.currentIndex = 0;
     }
-    numValues = newNumValues;
+    self.numValues = newNumValues;
 }
 
--(void) setNextValue:(float)nextVal {
-    if (!numValues) return;
+- (void) setNextValue:(CGFloat)nextVal {
+    if (!self.numValues) return;
 
-    currentIndex++;
-    if (currentIndex == numValues) currentIndex = 0;
+    self.currentIndex++;
+    if (self.currentIndex == self.numValues) self.currentIndex = 0;
     
-    sum -= values[currentIndex];
-    
-    if (values[currentIndex] == min || values[currentIndex] == max) {
-        max = min = values[0];
+	CGFloat oldValue = self.values[self.currentIndex];
+	
+    self.sum -= self.values[self.currentIndex];
+	self.values[self.currentIndex] = nextVal;
+	self.sum += self.values[self.currentIndex];
+
+    if (oldValue == self.min || oldValue == self.max) {
+        self.max = self.values[0];
+		self.min = self.values[0];
         
-        int i;
-        for (i = 0; i < numValues; i++) {
-            if (i == currentIndex) continue;
-            if (values[i] < min) min = values[i];
-            if (values[i] > max) max = values[i];
+        for (NSInteger i = 0; i < self.numValues; i++) {
+            if (self.values[i] < self.min) self.min = self.values[i];
+            if (self.values[i] > self.max) self.max = self.values[i];
         }
     }
+        
+    if (self.values[self.currentIndex] < self.min) self.min = self.values[self.currentIndex];
+    if (self.values[self.currentIndex] > self.max) self.max = self.values[self.currentIndex];
     
-    values[currentIndex] = nextVal;
-    
-    if (values[currentIndex] < min) min = values[currentIndex];
-    if (values[currentIndex] > max) max = values[currentIndex];
-    
-    sum += values[currentIndex];
 }
 
-- (void)setAllValues:(float)value {
-	int i;
-	for (i = 0; i < numValues; i++) {
-		values[i] = value;
-	}
+- (void) setAllValues:(CGFloat)value {
+	dispatch_apply(self.numValues, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
+		self.values[i] = value;
+	});
 	
-	min = value;
-	max = value;
-	sum = (float)numValues * value;
+	self.min = value;
+	self.max = value;
+	self.sum = (CGFloat)self.numValues * value;
 }
 
 // Set the current values equal to the sum of the current plus the other data set values.
 // currentIndex is assumed to be the same.
--(void) addOtherDataSetValues:(XRGDataSet *)otherDataSet {
+- (void) addOtherDataSetValues:(XRGDataSet *)otherDataSet {
     if (!otherDataSet) return;
-    if (numValues != [otherDataSet numValues]) return;
-    
-    float *otherValues = [otherDataSet values];
-    
-    if (otherValues) {
-        max = min = values[0] + otherValues[0];
-        sum = 0;
+    if (self.numValues != otherDataSet.numValues) return;
         
-        int i;
-        for (i = 0; i < numValues; i++) {
-            values[i] += otherValues[i];
+    if (otherDataSet.values) {
+        self.max = self.values[0] + otherDataSet.values[0];
+		self.min = self.values[0] + otherDataSet.values[0];
+        self.sum = 0;
+        
+        for (NSInteger i = 0; i < self.numValues; i++) {
+            self.values[i] += otherDataSet.values[i];
             
-            if (max < values[i]) max = values[i];
-            if (min > values[i]) min = values[i];
-            sum += values[i];
+            if (self.max < self.values[i]) self.max = self.values[i];
+            if (self.min > self.values[i]) self.min = self.values[i];
+            self.sum += self.values[i];
         }
     }
 }
 
 // Set the current values equal to the difference of the current minus the other data set values.
 // currentIndex is assumed to be the same.
--(void) subtractOtherDataSetValues:(XRGDataSet *)otherDataSet {
+- (void) subtractOtherDataSetValues:(XRGDataSet *)otherDataSet {
     if (!otherDataSet) return;
-    if (numValues != [otherDataSet numValues]) return;
+    if (self.numValues != otherDataSet.numValues) return;
     
-    float *otherValues = [otherDataSet values];
-    
-    if (otherValues) {
-        max = min = values[0] - otherValues[0];
-        sum = 0;
+    if (otherDataSet.values) {
+        self.max = self.values[0] - otherDataSet.values[0];
+		self.min = self.values[0] - otherDataSet.values[0];
+        self.sum = 0;
 
-        int i;
-        for (i = 0; i < numValues; i++) {
-            values[i] -= otherValues[i];
+        for (NSInteger i = 0; i < self.numValues; i++) {
+            self.values[i] -= otherDataSet.values[i];
             
-            if (max < values[i]) max = values[i];
-            if (min > values[i]) min = values[i];
-            sum += values[i];
+            if (self.max < self.values[i]) self.max = self.values[i];
+            if (self.min > self.values[i]) self.min = self.values[i];
+            self.sum += self.values[i];
         }
     }
 }
 
--(void) divideAllValuesBy:(float)dividend {
+- (void) divideAllValuesBy:(CGFloat)dividend {
 	if (dividend == 0) return;
 	
-	min = max = values[0] / dividend;
+	self.max = self.values[0] / dividend;
+	self.min = self.values[0] / dividend;
 	
-	int i;
-	for (i = 0; i < numValues; i++) {
-		values[i] /= dividend;
+	for (NSInteger i = 0; i < self.numValues; i++) {
+		self.values[i] /= dividend;
 		
-		if (max < values[i]) max = values[i];
-		if (min > values[i]) min = values[i];
+		if (self.max < self.values[i]) self.max = self.values[i];
+		if (self.min > self.values[i]) self.min = self.values[i];
 	}
 }
 
-- (void)dealloc {
-    if (values) free(values);
+- (void) dealloc {
+    if (_values) free(_values);
     [super dealloc];
 }
 
