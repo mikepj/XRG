@@ -39,7 +39,7 @@
 
 - (void)awakeFromNib {   
     parentWindow = (XRGGraphWindow *)[self window];
-    [parentWindow setCPUView:self];
+    [parentWindow setCpuView:self];
     [parentWindow initTimers];
     
     appSettings = [[parentWindow appSettings] retain];

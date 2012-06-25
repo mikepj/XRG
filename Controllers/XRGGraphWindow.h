@@ -47,14 +47,6 @@
     NSTimer						*fastTimer;
     
     // Module references
-    XRGCPUView					*cpuView;
-    XRGNetView					*netView;
-    XRGDiskView					*diskView;
-    XRGMemoryView				*memoryView;
-    XRGWeatherView				*weatherView;
-    XRGStockView				*stockView;
-    XRGBatteryView				*batteryView;
-    XRGTemperatureView          *temperatureView;
     XRGTemperatureMiner         *temperatureMiner;
     NSWindow					*parentWindow;
 
@@ -72,6 +64,14 @@
     
     XRGURL						*xrgCheckURL;
 }
+@property (retain) XRGCPUView *cpuView;
+@property (retain) XRGNetView *netView;
+@property (retain) XRGDiskView *diskView;
+@property (retain) XRGMemoryView *memoryView;
+@property (retain) XRGWeatherView *weatherView;
+@property (retain) XRGStockView *stockView;
+@property (retain) XRGBatteryView *batteryView;
+@property (retain) XRGTemperatureView *temperatureView;
 
 // Initialization
 + (void)initialize;
@@ -95,27 +95,11 @@
 - (void)fastUpdate:(NSTimer *)aTimer;
 
 // Methods that set up module references
-- (void)setCPUView:(XRGCPUView *)cpuO;
-- (void)setMemoryView:(XRGMemoryView *)memoryO;
-- (void)setBatteryView:(XRGBatteryView *)batteryO;
-- (void)setTemperatureView:(XRGTemperatureView *)temperatureO;
 - (void)setTemperatureMiner:(XRGTemperatureMiner *)temperatureM;
-- (void)setNetView:(XRGNetView *)netO;
-- (void)setDiskView:(XRGDiskView *)diskO;
-- (void)setWeatherView:(XRGWeatherView *)weatherO;
-- (void)setStockView:(XRGStockView *)stockO;
 - (void)setBackgroundView:(XRGBackgroundView *)background0;
 
 // Methods that return module references
-- (XRGCPUView *)cpuView;
-- (XRGMemoryView *)memoryView;
-- (XRGBatteryView *)batteryView;
-- (XRGTemperatureView *)temperatureView;
 - (XRGTemperatureMiner *)temperatureMiner;
-- (XRGNetView *)netView;
-- (XRGDiskView *)diskView;
-- (XRGWeatherView *)weatherView;
-- (XRGStockView *)stockView;
 - (XRGBackgroundView *)backgroundView;
 
 // Actions

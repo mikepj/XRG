@@ -90,6 +90,19 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     return parentWindow;
 }
 
+- (void) dealloc {
+	[_cpuView release];
+	[_netView release];
+	[_diskView release];
+	[_memoryView release];
+	[_weatherView release];
+	[_stockView release];
+	[_batteryView release];
+	[_temperatureView release];
+	
+	[super dealloc];
+}
+
 + (NSMutableDictionary *) getDefaultPrefs {
     NSMutableDictionary *appDefs = [NSMutableDictionary dictionary];
     
@@ -592,41 +605,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 
 ///// Methods that set up module references /////
-
-- (void)setCPUView:(XRGCPUView *)cpuO {
-    cpuView = [cpuO retain];
-}
-
-- (void)setMemoryView:(XRGMemoryView *)memoryO {
-    memoryView = [memoryO retain];
-}
-
-- (void)setBatteryView:(XRGBatteryView *)batteryO {
-    batteryView = [batteryO retain];
-}
-
-- (void)setTemperatureView:(XRGTemperatureView *)temperatureO {
-    temperatureView = [temperatureO retain];
-}
-
 - (void)setTemperatureMiner:(XRGTemperatureMiner *)temperatureM {
     temperatureMiner = [temperatureM retain];
-}
-
-- (void)setNetView:(XRGNetView *)netO {
-    netView = [netO retain];
-}
-
-- (void)setDiskView:(XRGDiskView *)diskO {
-    diskView = [diskO retain];
-}
-
-- (void)setWeatherView:(XRGWeatherView *)weatherO {
-    weatherView = [weatherO retain];
-}
-
-- (void)setStockView:(XRGStockView *)stockO {
-    stockView = [stockO retain];
 }
 
 - (void)setBackgroundView:(XRGBackgroundView *)background0 {
@@ -644,40 +624,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 ///// Methods that return module references /////
 
-- (XRGCPUView *)cpuView {
-    return cpuView;
-}
-
-- (XRGMemoryView *)memoryView {
-    return memoryView;
-}
-
-- (XRGBatteryView *)batteryView {
-    return batteryView;
-}
-
-- (XRGTemperatureView *)temperatureView {
-    return temperatureView;
-}
-
 - (XRGTemperatureMiner *)temperatureMiner {
     return temperatureMiner;
-}
-
-- (XRGNetView *)netView {
-    return netView;
-}
-
-- (XRGDiskView *)diskView {
-    return diskView;
-}
-
-- (XRGWeatherView *)weatherView {
-    return weatherView;
-}
-
-- (XRGStockView *)stockView {
-    return stockView;
 }
 
 - (XRGBackgroundView *)backgroundView {
@@ -904,8 +852,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 //        }
     }
         
-    [cpuView setWidth:[[moduleManager getModuleByName:@"CPU"] currentSize].width];
-    [cpuView setNeedsDisplay:YES];
+    [self.cpuView setWidth:[[moduleManager getModuleByName:@"CPU"] currentSize].width];
+    [self.cpuView setNeedsDisplay:YES];
 }
 
 - (IBAction)setSeparateCPUColor:(id)sender {
@@ -929,19 +877,19 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 - (IBAction)setShowLoadAverage:(id)sender {
     [appSettings setShowLoadAverage:([sender state] == NSOnState)];
     
-    [cpuView graphUpdate:nil];
+    [self.cpuView graphUpdate:nil];
 }
 
 - (IBAction)setCPUShowAverageUsage:(id)sender {
     [appSettings setCpuShowAverageUsage:([sender state] == NSOnState)];
     
-    [cpuView graphUpdate:nil];
+    [self.cpuView graphUpdate:nil];
 }
 
 - (IBAction)setCPUShowUptime:(id)sender {
     [appSettings setCpuShowUptime:([sender state] == NSOnState)];
     
-    [cpuView graphUpdate:nil];
+    [self.cpuView graphUpdate:nil];
 }
 
 - (IBAction)setMemoryCheckbox:(id)sender {
@@ -969,32 +917,32 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
             break;
     }
     
-    [memoryView setNeedsDisplay:YES];
+    [self.memoryView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempUnits:(id)sender {
     [appSettings setTempUnits: [sender indexOfSelectedItem]];
-    [temperatureView setNeedsDisplay:YES];
+    [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG1Location:(id)sender {
     [appSettings setTempFG1Location:[sender indexOfSelectedItem]];
-    [temperatureView setNeedsDisplay:YES];
+    [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG2Location:(id)sender {
     [appSettings setTempFG2Location:[sender indexOfSelectedItem]];
-    [temperatureView setNeedsDisplay:YES];
+    [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG3Location:(id)sender {
     [appSettings setTempFG3Location:[sender indexOfSelectedItem]];
-    [temperatureView setNeedsDisplay:YES];
+    [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setNetGraphMode:(id)sender {
     [appSettings setNetGraphMode:[sender selectedRow]];
-    [netView setNeedsDisplay:YES];
+    [self.netView setNeedsDisplay:YES];
 }
 
 - (IBAction)setNetworkInterface:(id)sender {
@@ -1003,7 +951,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
         [appSettings setNetworkInterface:@"All"];
     }
     else {
-        NSArray *interfaces = [netView networkInterfaces];
+        NSArray *interfaces = [self.netView networkInterfaces];
         if (selectedRow - 1 < [interfaces count])
             [appSettings setNetworkInterface:[interfaces objectAtIndex:(selectedRow - 1)]];
         else
@@ -1013,55 +961,55 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (IBAction)setDiskGraphMode:(id)sender {
     [appSettings setDiskGraphMode:[sender selectedRow]];
-    [diskView setNeedsDisplay:YES];
+    [self.diskView setNeedsDisplay:YES];
 }
 
 - (IBAction)setICAO:(id)sender {
     [appSettings setICAO:[sender stringValue]];
 
-    [weatherView setURL: [appSettings ICAO]];
-    [weatherView min30Update:nil];
+    [self.weatherView setURL: [appSettings ICAO]];
+    [self.weatherView min30Update:nil];
 }
 
 - (IBAction)setSecondaryWeatherGraph:(id)sender {
     [appSettings setSecondaryWeatherGraph: [sender indexOfSelectedItem]];
-    [weatherView setNeedsDisplay:YES];
+    [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTemperatureUnits:(id)sender {
     [appSettings setTemperatureUnits: [sender indexOfSelectedItem]];
-    [weatherView setNeedsDisplay:YES];
+    [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setDistanceUnits:(id)sender {
     [appSettings setDistanceUnits: [sender indexOfSelectedItem]];
-    [weatherView setNeedsDisplay:YES];
+    [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setPressureUnits:(id)sender {
     [appSettings setPressureUnits: [sender indexOfSelectedItem]];
-    [weatherView setNeedsDisplay:YES];
+    [self.weatherView setNeedsDisplay:YES];
 }
 
 - (IBAction)setStockSymbols:(id)sender {
     [appSettings setStockSymbols:[sender stringValue]];
     
-    [stockView setStockSymbolsFromString:[sender stringValue]];
+    [self.stockView setStockSymbolsFromString:[sender stringValue]];
 }
 
 - (IBAction)setStockGraphTimeFrame:(id)sender {
     [appSettings setStockGraphTimeFrame:[sender indexOfSelectedItem]];
-    [stockView setNeedsDisplay:YES];
+    [self.stockView setNeedsDisplay:YES];
 }
 
 - (IBAction)setStockShowChange:(id)sender {
     [appSettings setStockShowChange:([sender state] == NSOnState)];
-    [stockView setNeedsDisplay:YES];
+    [self.stockView setNeedsDisplay:YES];
 }
 
 - (IBAction)setShowDJIA:(id)sender {
     [appSettings setShowDJIA:([sender state] == NSOnState)];
-    [stockView setNeedsDisplay:YES];
+    [self.stockView setNeedsDisplay:YES];
 }
 
 
