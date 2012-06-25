@@ -63,8 +63,6 @@
 		273ECF3515740EAF00E65D82 /* xtf.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECEE415740EAF00E65D82 /* xtf.icns */; };
 		273ECF3715740EAF00E65D82 /* NSStringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEE915740EAF00E65D82 /* NSStringUtil.m */; };
 		273ECF3815740EAF00E65D82 /* XRGDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEEB15740EAF00E65D82 /* XRGDataSet.m */; };
-		273ECF3915740EAF00E65D82 /* XRGList.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEED15740EAF00E65D82 /* XRGList.m */; };
-		273ECF3A15740EAF00E65D82 /* XRGListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEEF15740EAF00E65D82 /* XRGListNode.m */; };
 		273ECF3B15740EAF00E65D82 /* XRGModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF115740EAF00E65D82 /* XRGModule.m */; };
 		273ECF3C15740EAF00E65D82 /* XRGModuleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF315740EAF00E65D82 /* XRGModuleManager.m */; };
 		273ECF3D15740EAF00E65D82 /* XRGSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECEF515740EAF00E65D82 /* XRGSettings.m */; };
@@ -164,10 +162,6 @@
 		273ECEE915740EAF00E65D82 /* NSStringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringUtil.m; sourceTree = "<group>"; };
 		273ECEEA15740EAF00E65D82 /* XRGDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGDataSet.h; sourceTree = "<group>"; };
 		273ECEEB15740EAF00E65D82 /* XRGDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGDataSet.m; sourceTree = "<group>"; };
-		273ECEEC15740EAF00E65D82 /* XRGList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGList.h; sourceTree = "<group>"; };
-		273ECEED15740EAF00E65D82 /* XRGList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGList.m; sourceTree = "<group>"; };
-		273ECEEE15740EAF00E65D82 /* XRGListNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGListNode.h; sourceTree = "<group>"; };
-		273ECEEF15740EAF00E65D82 /* XRGListNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGListNode.m; sourceTree = "<group>"; };
 		273ECEF015740EAF00E65D82 /* XRGModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGModule.h; sourceTree = "<group>"; };
 		273ECEF115740EAF00E65D82 /* XRGModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGModule.m; sourceTree = "<group>"; };
 		273ECEF215740EAF00E65D82 /* XRGModuleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGModuleManager.h; sourceTree = "<group>"; };
@@ -392,10 +386,6 @@
 				273ECEE915740EAF00E65D82 /* NSStringUtil.m */,
 				273ECEEA15740EAF00E65D82 /* XRGDataSet.h */,
 				273ECEEB15740EAF00E65D82 /* XRGDataSet.m */,
-				273ECEEC15740EAF00E65D82 /* XRGList.h */,
-				273ECEED15740EAF00E65D82 /* XRGList.m */,
-				273ECEEE15740EAF00E65D82 /* XRGListNode.h */,
-				273ECEEF15740EAF00E65D82 /* XRGListNode.m */,
 				273ECEF015740EAF00E65D82 /* XRGModule.h */,
 				273ECEF115740EAF00E65D82 /* XRGModule.m */,
 				273ECEF215740EAF00E65D82 /* XRGModuleManager.h */,
@@ -542,8 +532,6 @@
 				273ECF0D15740EAF00E65D82 /* main.m in Sources */,
 				273ECF3715740EAF00E65D82 /* NSStringUtil.m in Sources */,
 				273ECF3815740EAF00E65D82 /* XRGDataSet.m in Sources */,
-				273ECF3915740EAF00E65D82 /* XRGList.m in Sources */,
-				273ECF3A15740EAF00E65D82 /* XRGListNode.m in Sources */,
 				273ECF3B15740EAF00E65D82 /* XRGModule.m in Sources */,
 				273ECF3C15740EAF00E65D82 /* XRGModuleManager.m in Sources */,
 				273ECF3D15740EAF00E65D82 /* XRGSettings.m in Sources */,
