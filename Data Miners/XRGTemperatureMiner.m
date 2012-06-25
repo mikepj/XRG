@@ -439,7 +439,7 @@
 						int tempInt;
 						if ((tempInt = [currentValue intValue])) {
 							[self setCurrentValue:(float)tempInt / 65536. 
-										 andUnits:[NSString stringWithString:@" rpm"] 
+										 andUnits:@" rpm"
 									  forLocation:location];
 						}
 					}
@@ -488,7 +488,7 @@
 						int tempInt;
 						if ((tempInt = [currentValue intValue])) {
 							[self setCurrentValue:(float)tempInt 
-										 andUnits:[NSString stringWithString:@" rpm"] 
+										 andUnits:@" rpm"
 									  forLocation:location];
 						}
 					}
@@ -520,8 +520,8 @@
 			}
 			
 			NSMutableArray *controlInfoArray = [serviceDictionary objectForKey:@"control-info"];
-			int numItems = [controlInfoArray count];
-			int i;
+			NSInteger numItems = [controlInfoArray count];
+			NSInteger i;
 			for (i = 0; i < numItems; i++) {
 				NSString *value = [[controlInfoArray objectAtIndex:i] objectForKey:@"target-value"];
 				if ([value intValue] == 0) {
@@ -534,7 +534,7 @@
 				}
 				
 				[self setCurrentValue:[value floatValue] 
-							 andUnits:[NSString stringWithString:@" rpm"] 
+							 andUnits:@" rpm" 
 						  forLocation:loc];
 				[fanLocations setObject:@"" forKey:loc];
 			}
@@ -583,7 +583,7 @@
 								int tempInt;
 								if ((tempInt = [currentValue intValue])) {
 									[self setCurrentValue:(float)tempInt 
-												 andUnits:[NSString stringWithString:@"%"] 
+												 andUnits:@"%"
 											  forLocation:location];
 									[fanLocations setObject:@"" forKey:location];
 								}
@@ -672,7 +672,7 @@
 								int tempInt;
 								if ((tempInt = [currentValue intValue])) {
 									[self setCurrentValue:(float)tempInt 
-												 andUnits:[NSString stringWithString:@" rpm"] 
+												 andUnits:@" rpm"
 											  forLocation:location];
 									[fanLocations setObject:@"" forKey:location];
 								}
@@ -870,7 +870,7 @@
 
 - (void)regenerateLocationKeyOrder {
     NSArray        *locations        = [sensorData allKeys];
-    int            numLocations      = [locations count];
+    NSInteger      numLocations      = [locations count];
     bool           *alreadyUsed      = calloc(numLocations, sizeof(bool));
     int i;
 
@@ -884,8 +884,8 @@
     
 	NSMutableArray *types = [NSMutableArray arrayWithObjects:
 		[NSString stringWithFormat:@"%CC", 0x00B0], 
-		[NSString stringWithString:@" rpm"], 
-		[NSString stringWithString:@"%"], 
+		@" rpm", 
+		@"%", 
 		nil];
 
 	int typeIndex;

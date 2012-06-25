@@ -64,7 +64,7 @@
 			}
 		}
 		
-		int numLineComponents = [lineComponentsNoBlanks count];
+		NSInteger numLineComponents = [lineComponentsNoBlanks count];
 		if (numLineComponents >= 7) {
 			
 			NSString *percentCPUString     = [lineComponentsNoBlanks objectAtIndex:0];

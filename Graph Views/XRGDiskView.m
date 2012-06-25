@@ -269,7 +269,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 
     int i, read, write, max;
-    int textRectHeight = [appSettings textRectHeight];
+    NSInteger textRectHeight = [appSettings textRectHeight];
     
     [[appSettings graphBGColor] set];    
     NSRectFill([self bounds]);

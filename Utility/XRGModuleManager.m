@@ -271,7 +271,7 @@
 - (void)windowChangedToSize:(NSSize)newSize {
     if ([myWindow minimized]) return;
 	
-    int i;
+    NSInteger i;
     NSSize newGraphSize;
     if (graphOrientationVertical) {
         newGraphSize = NSMakeSize(newSize.width - (2 * [myWindow borderWidth]), 
@@ -467,7 +467,7 @@
 
 - (void)graphFontChanged {
     // go through the displayed modules and reset the min size.
-    int i, n = [displayModules count];
+    NSInteger i, n = [displayModules count];
     
     for (i = 0; i < n; i++) {
         if ([[displayModules objectAtIndex:i] reference]) [[[displayModules objectAtIndex:i] reference] updateMinSize];
@@ -488,8 +488,8 @@
 - (void)min30Update {
 //    NSLog(@"min30");
     
-    int i;
-    int N = [displayModules count];
+    NSInteger i;
+    NSInteger N = [displayModules count];
     id module;
     for (i = 0; i < N; i++) {
         module = [displayModules objectAtIndex:i];
@@ -502,8 +502,8 @@
 - (void)min5Update {
 //    NSLog(@"min5");
     
-    int i;
-    int N = [displayModules count];
+    NSInteger i;
+    NSInteger N = [displayModules count];
     id module;
     for (i = 0; i < N; i++) {
         module = [displayModules objectAtIndex:i];
@@ -516,8 +516,8 @@
 - (void)graphUpdate {
 //    NSLog(@"graph");
 
-    int i;
-    int N = [displayModules count];
+    NSInteger i;
+    NSInteger N = [displayModules count];
     id obj;
     for (i = 0; i < N; i++) {
         obj = [displayModules objectAtIndex:i];
@@ -537,8 +537,8 @@
 - (void)fastUpdate {
     //NSLog(@"fast");
     
-    int i;
-    int N = [displayModules count];
+    NSInteger i;
+    NSInteger N = [displayModules count];
     id obj;
     for (i = 0; i < N; i++) {
         obj = [displayModules objectAtIndex:i];
@@ -622,7 +622,7 @@
 		[[adjacentModuleObj reference] setFrameSize:newAdjacentModuleSize];
 	}
 	
-	int i;
+	NSInteger i;
 	NSPoint newOriginPoint = NSMakePoint([myWindow borderWidth], [myWindow borderWidth]);
 	if (graphOrientationVertical) {
 		for (i = [displayModules count] - 1; i >= 0; i--) {
@@ -652,7 +652,7 @@
 - (NSArray *) resizeRects {
 	NSMutableArray *resizeRects = [NSMutableArray arrayWithCapacity:[displayModules count]];
 	
-	int startIndex = 0, doneIndex = 0, incrementer = 1;
+	NSInteger startIndex = 0, doneIndex = 0, incrementer = 1;
     NSPoint originPoint = NSMakePoint([myWindow borderWidth], [myWindow borderWidth]);
 	
 	if (graphOrientationVertical) {

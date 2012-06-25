@@ -99,8 +99,8 @@
 
 // return an ordered list of values into the destinationArray given, assumed to be alloced already.
 -(void) valuesInOrder:(float *)destinationArray {
-    int i;
-    int index = (int)numValues - 1;
+    NSInteger i;
+    NSInteger index = (int)numValues - 1;
     
     for (i = currentIndex; i >= 0; i--) {
         if (index < 0) break;
@@ -118,7 +118,7 @@
 }
 
 -(void) resize:(size_t)newNumValues {
-    int i;
+    NSInteger i;
     
     if (newNumValues == 0) {
         min = 0;

@@ -210,7 +210,7 @@
 
 - (void)mouseDownAction:(NSEvent *)theEvent { 
     if ([appSettings windowLevel] == kCGDesktopWindowLevel) [NSApp preventWindowOrdering];
- 	int originalWindowLevel = [parentWindow level];
+ 	NSInteger originalWindowLevel = [parentWindow level];
 	viewPointClicked = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	
 	// Are we supposed to resize a module?

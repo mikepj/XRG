@@ -292,7 +292,7 @@
         [defs setInteger:sInt * 1048576 forKey:XRG_netMinGraphScale];
     // done saving the minNetGraphScale
     
-    int selectedRow = [networkInterface indexOfSelectedItem];
+    NSInteger selectedRow = [networkInterface indexOfSelectedItem];
     if (selectedRow == 0) {
         [defs setObject:@"All" forKey:XRG_networkInterface];
     }
@@ -445,7 +445,7 @@
     [windowLevel addItemWithTitle:@"Background"];
     [windowLevel addItemWithTitle:@"Normal"];
     [windowLevel addItemWithTitle:@"Foreground"];
-    int selection = [[xrgGraphWindow appSettings] windowLevel];
+    NSInteger selection = [[xrgGraphWindow appSettings] windowLevel];
     if (selection < -1 || selection > 1)
         [windowLevel selectItemAtIndex:1];
     else
@@ -663,7 +663,7 @@
     
     if ([xrgGraphWindow temperatureMiner]) {
         NSArray *locations = [[xrgGraphWindow temperatureMiner] locationKeysInOrder];
-        int numLocations = [locations count];
+        NSInteger numLocations = [locations count];
 		
         if (numLocations > 0) {
             [tempFG1Location addItemWithTitle:@"None"];
@@ -674,9 +674,9 @@
             [tempFG2Location addItemsWithTitles:locations];
             [tempFG3Location addItemsWithTitles:locations];
 
-			int temp1Index = [[xrgGraphWindow appSettings] tempFG1Location];
-			int temp2Index = [[xrgGraphWindow appSettings] tempFG2Location];
-			int temp3Index = [[xrgGraphWindow appSettings] tempFG3Location];
+			NSInteger temp1Index = [[xrgGraphWindow appSettings] tempFG1Location];
+			NSInteger temp2Index = [[xrgGraphWindow appSettings] tempFG2Location];
+			NSInteger temp3Index = [[xrgGraphWindow appSettings] tempFG3Location];
 			if (temp1Index < 0 | temp1Index >= numLocations) temp1Index = 0;
 			if (temp2Index < 0 | temp2Index >= numLocations) temp2Index = 0;
 			if (temp3Index < 0 | temp3Index >= numLocations) temp3Index = 0;
@@ -768,7 +768,7 @@
 }
 
 - (void)setUpWeatherPanel {
-    int selection;
+    NSInteger selection;
     
     // Setup ICAO
     [ICAOCode setTarget:xrgGraphWindow];
@@ -862,7 +862,7 @@
     [stockGraphTimeFrame addItemWithTitle:@"6 Months"];
     [stockGraphTimeFrame addItemWithTitle:@"12 Months"];
     
-    int selection = [[xrgGraphWindow appSettings] stockGraphTimeFrame];
+    NSInteger selection = [[xrgGraphWindow appSettings] stockGraphTimeFrame];
     if (selection < 0 || selection > 3)
         [stockGraphTimeFrame selectItemAtIndex:0];
     else

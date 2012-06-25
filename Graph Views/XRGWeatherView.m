@@ -676,7 +676,7 @@ int matchRegex(char *pattern, char *inString) {
     
     // if we don't have good data, don't draw a graph
     if (haveGoodMETARArray) {
-        int numTemps = [metarArray count];
+        NSInteger numTemps = [metarArray count];
         float *data = (float *)alloca(numTemps * sizeof(float));
         
         for (i = numTemps - 1; i >= 0; i--) {
@@ -707,7 +707,7 @@ int matchRegex(char *pattern, char *inString) {
     // now draw the text
     [gc setShouldAntialias:[appSettings antialiasText]];
 
-    int textRectHeight = [appSettings textRectHeight];
+    NSInteger textRectHeight = [appSettings textRectHeight];
     char *tmpChar;
     NSRect textRect = NSMakeRect(3, graphSize.height - textRectHeight, graphSize.width - 6, textRectHeight);
     if ([self hasGoodDisplayData]) {  // valid data
@@ -940,7 +940,7 @@ int matchRegex(char *pattern, char *inString) {
 }
 
 - (void)setUpSecondaryGraph {
-    int i;
+    NSInteger i;
     secondaryGraphLowerBound = secondaryGraphUpperBound = 0;
     
     if (lastDaySecondary) {
@@ -1335,7 +1335,7 @@ int matchRegex(char *pattern, char *inString) {
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] 
-                       initWithTitle:[NSMutableString stringWithFormat:@"Update Weather Graph Now", icao]
+                       initWithTitle:@"Update Weather Graph Now"
                               action:@selector(min30Update:) 
                        keyEquivalent:@""];
     [myMenu addItem:tMI];

@@ -88,7 +88,7 @@
 }
 
 - (void)setURL {
-    int a, b, c, d, e, f; // to match the url parameters below
+    NSInteger a, b, c, d, e, f; // to match the url parameters below
     NSCalendarDate *today = [NSCalendarDate calendarDate];
     NSCalendarDate *lastYear = [[NSCalendarDate calendarDate] dateByAddingYears:-1 
                                                                          months:0 
@@ -216,7 +216,7 @@
 		}
 	}
 	
-	int count = [closingPrices count];
+	NSInteger count = [closingPrices count];
 	if (count > 0) {
 		float high, low;
 		high = [[closingPrices objectAtIndex:0] floatValue];
@@ -268,9 +268,9 @@
 - (NSArray *)get1MonthValues:(int)max {
     if (!haveGoodDisplayData) return nil;
 
-    int i;
-	int numClosingPrices = [closingPrices count];
-    int baseIndex = numClosingPrices * (float)(11./12.);
+    NSInteger i;
+	NSInteger numClosingPrices = [closingPrices count];
+    NSInteger baseIndex = numClosingPrices * (float)(11./12.);
     NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
 
     if (max > numClosingPrices - baseIndex) {
@@ -290,9 +290,9 @@
 - (NSArray *)get3MonthValues:(int)max {
     if (!haveGoodDisplayData) return nil;
 
-    int i;
-	int numClosingPrices = [closingPrices count];
-    int baseIndex = numClosingPrices * (float)(3./4.);
+    NSInteger i;
+	NSInteger numClosingPrices = [closingPrices count];
+    NSInteger baseIndex = numClosingPrices * (float)(3./4.);
     NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
 
     if (max > numClosingPrices - baseIndex) {
@@ -312,9 +312,9 @@
 - (NSArray *)get6MonthValues:(int)max {
     if (!haveGoodDisplayData) return nil;
 
-    int i;
-	int numClosingPrices = [closingPrices count];
-    int baseIndex = numClosingPrices / 2;
+    NSInteger i;
+	NSInteger numClosingPrices = [closingPrices count];
+    NSInteger baseIndex = numClosingPrices / 2;
     NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
 
     if (max > numClosingPrices - baseIndex) {
@@ -334,9 +334,9 @@
 - (NSArray *)get12MonthValues:(int)max {
     if (!haveGoodDisplayData) return nil;
 
-    int i;
-	int numClosingPrices = [closingPrices count];
-    int baseIndex = 0;
+    NSInteger i;
+	NSInteger numClosingPrices = [closingPrices count];
+    NSInteger baseIndex = 0;
     NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
 
     if (max > numClosingPrices - baseIndex) {
