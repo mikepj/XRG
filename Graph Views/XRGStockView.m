@@ -265,14 +265,12 @@
                 high += r;
                 low -= r;
                 
-                int count = [a count];
-                float *data = alloca(count * sizeof(float));
+                NSInteger count = [a count];
+                CGFloat *data = alloca(count * sizeof(CGFloat));
                 
-                for (i = 0; i < count; i++) {
-                    data[i] = [[a objectAtIndex:(count - 1 - i)] floatValue];
-                }
+                for (i = 0; i < count; i++) data[i] = [[a objectAtIndex:(count - 1 - i)] floatValue];
                 
-                [self drawRangedGraphWithData:data Size:[a count] CurrentIndex:(count - 1) UpperBound:high LowerBound:low InRect:[self bounds] Flipped:NO Filled:YES Color:[appSettings graphFG1Color]];
+                [self drawRangedGraphWithData:data size:[a count] currentIndex:(count - 1) upperBound:high lowerBound:low inRect:[self bounds] flipped:NO filled:YES color:[appSettings graphFG1Color]];
             }
         }
         
@@ -304,14 +302,12 @@
                     high += r;
                     low -= r;
     
-                    int count = [a count];
-                    float *data = alloca(count * sizeof(float));
+                    NSInteger count = [a count];
+                    CGFloat *data = alloca(count * sizeof(CGFloat));
                     
-                    for (i = 0; i < count; i++) {
-                        data[i] = [[a objectAtIndex:(count - 1 - i)] floatValue];
-                    }
+                    for (i = 0; i < count; i++) data[i] = [[a objectAtIndex:(count - 1 - i)] floatValue];
                     
-                    [self drawRangedGraphWithData:data Size:[a count] CurrentIndex:(count - 1) UpperBound:high LowerBound:low InRect:[self bounds] Flipped:NO Filled:NO Color:[appSettings graphFG2Color]];
+                    [self drawRangedGraphWithData:data size:[a count] currentIndex:(count - 1) upperBound:high lowerBound:low inRect:[self bounds] flipped:NO filled:NO color:[appSettings graphFG2Color]];
                 }
             }
         }

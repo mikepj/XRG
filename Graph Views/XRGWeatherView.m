@@ -677,7 +677,7 @@ int matchRegex(char *pattern, char *inString) {
     // if we don't have good data, don't draw a graph
     if (haveGoodMETARArray) {
         NSInteger numTemps = [metarArray count];
-        float *data = (float *)alloca(numTemps * sizeof(float));
+        CGFloat *data = (CGFloat *)alloca(numTemps * sizeof(CGFloat));
         
         for (i = numTemps - 1; i >= 0; i--) {
             if (lastDayTemps[i] < -272) {
@@ -688,7 +688,15 @@ int matchRegex(char *pattern, char *inString) {
             }
         }
             
-        [self drawRangedGraphWithData:data Size:[metarArray count] CurrentIndex:[metarArray count] - 1 UpperBound:(float)(high + 10) LowerBound:(float)(low - 10) InRect:[self bounds] Flipped:NO Filled:YES Color:[appSettings graphFG1Color]];
+        [self drawRangedGraphWithData:data 
+								 size:[metarArray count] 
+						 currentIndex:[metarArray count] - 1 
+						   upperBound:(float)(high + 10) 
+						   lowerBound:(float)(low - 10) 
+							   inRect:[self bounds] 
+							  flipped:NO 
+							   filled:YES 
+								color:[appSettings graphFG1Color]];
         
         // draw the secondary graph
         if ([appSettings secondaryWeatherGraph] != 0) {
@@ -697,7 +705,15 @@ int matchRegex(char *pattern, char *inString) {
                 data[i] = lastDaySecondary[i];
             }
             
-            [self drawRangedGraphWithData:data Size:[metarArray count] CurrentIndex:[metarArray count] - 1 UpperBound:secondaryGraphUpperBound LowerBound:secondaryGraphLowerBound InRect:[self bounds] Flipped:NO Filled:NO Color:[appSettings graphFG2Color]];
+            [self drawRangedGraphWithData:data 
+									 size:[metarArray count] 
+							 currentIndex:[metarArray count] - 1 
+							   upperBound:secondaryGraphUpperBound 
+							   lowerBound:secondaryGraphLowerBound 
+								   inRect:[self bounds] 
+								  flipped:NO 
+								   filled:NO 
+									color:[appSettings graphFG2Color]];
         }
     }
 

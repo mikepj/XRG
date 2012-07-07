@@ -252,15 +252,15 @@
 	[tmpDataSet addOtherDataSetValues:[cpuData objectAtIndex:1]];
 	[tmpDataSet addOtherDataSetValues:[cpuData objectAtIndex:2]];
 	if ([appSettings separateCPUColor]) {
-		[self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color:colors[2]];
+		[self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[2]];
 		
 		[tmpDataSet subtractOtherDataSetValues:[cpuData objectAtIndex:2]];    
-		[self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color: colors[1]];
+		[self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[1]];
 		
-		[self drawGraphWithDataFromDataSet:[cpuData objectAtIndex:0] MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color: colors[0]];
+		[self drawGraphWithDataFromDataSet:[cpuData objectAtIndex:0] maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
 	}
 	else {    
-		[self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color: colors[0]];
+		[self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
 	}
 	[tmpDataSet release];	
 	
@@ -421,15 +421,15 @@
         
         if (colorful)
         {
-            [self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color:colors[2]];
+            [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[2]];
     
             [tmpDataSet subtractOtherDataSetValues:[cpuData objectAtIndex:2]];    
-            [self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color: colors[1]];
+            [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[1]];
     
-            [self drawGraphWithDataFromDataSet:[cpuData objectAtIndex:0] MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color: colors[0]];
+            [self drawGraphWithDataFromDataSet:[cpuData objectAtIndex:0] maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
         }
         else {    
-            [self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:100.0f InRect:graphRect Flipped:NO Filled:YES Color: colors[0]];
+            [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
         }
         
         [tmpDataSet release];

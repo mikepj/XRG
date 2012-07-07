@@ -276,23 +276,20 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
-    float *data = (float *)alloca(numSamples * sizeof(float));
+    CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));
 
     if ([appSettings diskGraphMode]) {
-        for (i = 0; i < numSamples; ++i)
-            data[i] = (float)readValues[i];
+        for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)readValues[i];
     }
     else {
-        for (i = 0; i < numSamples; ++i)
-            data[i] = (float)values[i];
+        for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)values[i];
     }
     
-    [self drawGraphWithData:data Size:numSamples CurrentIndex:currentIndex MaxValue:maxVal InRect:rect Flipped:([appSettings diskGraphMode] == 1) Color: [appSettings graphFG2Color]];
+    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:rect flipped:([appSettings diskGraphMode] == 1) color: [appSettings graphFG2Color]];
     
-    for (i = 0; i < numSamples; ++i)
-        data[i] = (float)writeValues[i];
+    for (i = 0; i < numSamples; ++i) data[i] = (float)writeValues[i];
 
-    [self drawGraphWithData:data Size:numSamples CurrentIndex:currentIndex MaxValue:maxVal InRect:rect Flipped:([appSettings diskGraphMode] == 2) Color: [appSettings graphFG1Color]];
+    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:rect flipped:([appSettings diskGraphMode] == 2) color: [appSettings graphFG1Color]];
 
     [gc setShouldAntialias:YES];
 

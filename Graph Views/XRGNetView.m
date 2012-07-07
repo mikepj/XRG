@@ -480,33 +480,26 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
     
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
-    float *data = (float *)alloca(numSamples * sizeof(float));
+    CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));
     
     int netGraphMode = [appSettings netGraphMode];
 
 
     /* received data */
-    if (netGraphMode == 0)
-    {
-        for (i = 0; i < numSamples; ++i)
-            data[i] = (float)values[i]; /* values = rxValues + txValues */
+    if (netGraphMode == 0) {
+        for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)values[i]; /* values = rxValues + txValues */
     }
-    else
-    {
-        for (i = 0; i < numSamples; ++i)
-            data[i] = (float)rxValues[i];
+    else {
+        for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)rxValues[i];
     }
 
-    [self drawGraphWithData: data Size:numSamples CurrentIndex:currentIndex MaxValue:max InRect:rect
-                    Flipped:(netGraphMode == 2) Color: [appSettings graphFG2Color]];
+    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:max inRect:rect flipped:(netGraphMode == 2) color:[appSettings graphFG2Color]];
 
 
     /* sent data */
-    for (i = 0; i < numSamples; ++i)
-        data[i] = (float)txValues[i];
+    for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)txValues[i];
         
-    [self drawGraphWithData: data Size:numSamples CurrentIndex:currentIndex MaxValue:max InRect:rect
-                    Flipped:(netGraphMode == 1) Color: [appSettings graphFG1Color]];
+    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:max inRect:rect flipped:(netGraphMode == 1) color:[appSettings graphFG1Color]];
 
     [gc setShouldAntialias:YES];
 

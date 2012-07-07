@@ -172,15 +172,15 @@
 	minValue -= 0.1 * range;
 	
     if (dataSet1) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet1 UpperBound:maxValue LowerBound:minValue InRect:inRect Flipped:NO Filled:NO Color:[appSettings graphFG1Color]];
+		[self drawRangedGraphWithDataFromDataSet:dataSet1 upperBound:maxValue lowerBound:minValue inRect:inRect flipped:NO filled:NO color:[appSettings graphFG1Color]];
     }
     
     if (dataSet2) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet2 UpperBound:maxValue LowerBound:minValue InRect:inRect Flipped:NO Filled:NO Color:[appSettings graphFG2Color]];
+		[self drawRangedGraphWithDataFromDataSet:dataSet2 upperBound:maxValue lowerBound:minValue inRect:inRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
     }
     
     if (dataSet3) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet3 UpperBound:maxValue LowerBound:minValue InRect:inRect Flipped:NO Filled:NO Color:[appSettings graphFG3Color]];
+		[self drawRangedGraphWithDataFromDataSet:dataSet3 upperBound:maxValue lowerBound:minValue inRect:inRect flipped:NO filled:NO color:[appSettings graphFG3Color]];
     }
 
     [gc setShouldAntialias:YES];

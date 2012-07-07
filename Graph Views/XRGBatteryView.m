@@ -491,14 +491,13 @@
     percentRect.size.height = topOfCapacityGraph;
     
     if (capacity && percentRect.size.height > 0) {
-        int i;
-        float *data = (float *)alloca(numSamples * sizeof(float));
-        for (i = 0; i < numSamples; ++i) {
-            data[i] = ((float)values[i] / (float)capacitySum) * 100;
+        CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));
+        for (NSInteger i = 0; i < numSamples; ++i) {
+            data[i] = ((CGFloat)values[i] / (CGFloat)capacitySum) * 100;
             if (data[i] > 100) data[i] = 100;
         }
     
-        [self drawGraphWithData:data Size:numSamples CurrentIndex:currentIndex MaxValue:100.0f InRect:percentRect Flipped:NO Color:[appSettings graphFG1Color]];
+        [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:100.0f inRect:percentRect flipped:NO color:[appSettings graphFG1Color]];
     }
 
     [gc setShouldAntialias:YES];

@@ -125,13 +125,13 @@
         [tmpDataSet addOtherDataSetValues:[memoryMiner pageInData]];
         [tmpDataSet addOtherDataSetValues:[memoryMiner pageOutData]];
         
-        [self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:[tmpDataSet max] InRect:graphRect Flipped:NO Filled:YES Color:colors[2]];
+        [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:[tmpDataSet max] inRect:graphRect flipped:NO filled:YES color:colors[2]];
         
         [tmpDataSet subtractOtherDataSetValues:[memoryMiner pageOutData]];
         
-        [self drawGraphWithDataFromDataSet:tmpDataSet MaxValue:[tmpDataSet max] InRect:graphRect Flipped:NO Filled:YES Color:colors[1]];
+        [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:[tmpDataSet max] inRect:graphRect flipped:NO filled:YES color:colors[1]];
         
-        [self drawGraphWithDataFromDataSet:[memoryMiner faultData] MaxValue:[tmpDataSet max] InRect:graphRect Flipped:NO Filled:YES Color:colors[0]];
+        [self drawGraphWithDataFromDataSet:[memoryMiner faultData] maxValue:[tmpDataSet max] inRect:graphRect flipped:NO filled:YES color:colors[0]];
         
         [tmpDataSet release];
     }
