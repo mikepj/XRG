@@ -29,7 +29,7 @@
 
 @implementation XRGGenericView
 
-- (id)initWithFrame:(NSRect)frame {
+- (id) initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
@@ -37,32 +37,28 @@
     return self;
 }
 
--(void)drawGraphWithData:(float *)samples Size:(int)nSamples CurrentIndex:(int)cIndex MaxValue:(float)max InRect:(NSRect)rect Flipped:(BOOL)flipped Color:(NSColor *)color
-{
+- (void) drawGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped color:(NSColor *)color {
     // call drawRangedGraphWithData to avoid a lot of code duplication.
-    [self drawRangedGraphWithData:samples Size:nSamples CurrentIndex:cIndex UpperBound:max LowerBound:0 InRect:rect Flipped:flipped Filled:YES Color:color];
+    [self drawRangedGraphWithData:samples size:nSamples currentIndex:cIndex upperBound:max lowerBound:0 inRect:rect flipped:flipped filled:YES color:color];
 }
 
--(void)drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet MaxValue:(float)max InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color
-{
+- (void) drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
     size_t numVals = [dataSet numValues];
     CGFloat *values = alloca(numVals * sizeof(CGFloat));
     [dataSet valuesInOrder:values];
 
     // call drawRangedGraphWithData to avoid a lot of code duplication.
-    [self drawRangedGraphWithData:values Size:numVals CurrentIndex:numVals - 1 UpperBound:max LowerBound:0 InRect:rect Flipped:flipped Filled:filled Color:color];
+    [self drawRangedGraphWithData:values size:numVals currentIndex:numVals - 1 upperBound:max lowerBound:0 inRect:rect flipped:flipped filled:filled color:color];
 }
 
 
 // Adapted from original drawGraphWithData, but added UpperBound and LowerBound in place of Max, and Filled
--(void)drawRangedGraphWithData:(float *)samples Size:(int)nSamples CurrentIndex:(int)cIndex UpperBound:(float)max LowerBound:(float)min InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color;
-{
-    int filledOffset = 0;
-    int currentPointIndex;
+- (void) drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
+    NSInteger filledOffset = 0;
+    NSInteger currentPointIndex;
 
     NSPoint origin = rect.origin;
-    if (flipped)
-        origin.y += rect.size.height;
+    if (flipped) origin.y += rect.size.height;
 
     NSPoint *points;
     if (filled) {
@@ -78,18 +74,16 @@
         filledOffset = 1;
     }
 
-    int i, j;
-    float height;
-    float height_scaled;
-    float dx = rect.size.width / nSamples;
-    float x;
+    NSInteger i, j;
+    CGFloat height;
+    CGFloat height_scaled;
+    CGFloat dx = rect.size.width / nSamples;
+    CGFloat x;
 
-    float scale = rect.size.height / (max - min);
-    if (flipped)
-        scale *= -1.0f;
+    CGFloat scale = rect.size.height / (max - min);
+    if (flipped) scale *= -1.0f;
 
-    for (i = currentPointIndex = 1 - filledOffset, x= origin.x; i <= nSamples - filledOffset; ++i, x+=dx)
-    {
+    for (i = currentPointIndex = 1 - filledOffset, x= origin.x; i <= nSamples - filledOffset; ++i, x+=dx) {
         j = (i + cIndex + filledOffset) % nSamples;
         
         if (samples[j] != NOVALUE) {
@@ -110,9 +104,7 @@
     // close any gap at the edge of the graph resulting from floating point rounding of dx
     points[currentPointIndex - 1].x = origin.x + rect.size.width;
     
-    if (filled) {
-        points[currentPointIndex] = NSMakePoint(origin.x + rect.size.width, origin.y);
-    }
+    if (filled) points[currentPointIndex] = NSMakePoint(origin.x + rect.size.width, origin.y);
 
     [color set];
     NSBezierPath *bp = [NSBezierPath bezierPath];
@@ -123,23 +115,23 @@
         [bp closePath];
         [bp fill];
     }
-    else 
+    else {
         [bp stroke];
+	}
         
     [bp removeAllPoints];
 }
 
--(void)drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet UpperBound:(float)max LowerBound:(float)min InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color 
-{
+- (void) drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
     size_t numVals = [dataSet numValues];
     CGFloat *values = alloca(numVals * sizeof(CGFloat));
     [dataSet valuesInOrder:values];
 	
     // call drawRangedGraphWithData to avoid a lot of code duplication.
-	[self drawRangedGraphWithData:values Size:numVals CurrentIndex:numVals - 1 UpperBound:max LowerBound:min InRect:rect Flipped:flipped Filled:filled Color:color];
+	[self drawRangedGraphWithData:values size:numVals currentIndex:numVals - 1 upperBound:max lowerBound:min inRect:rect flipped:flipped filled:filled color:color];
 }
 
--(void)fillRect:(NSRect)rect withColor:(NSColor *)color {
+- (void) fillRect:(NSRect)rect withColor:(NSColor *)color {
     NSPoint *pointsA;
     NSPoint *pointsB;
 
@@ -161,46 +153,38 @@
     [bp fill];
 }
 
--(BOOL)isHidden {
-    return isHidden;
-}
-
--(void)setHidden:(bool)yesNo {
-    isHidden = yesNo;
-}
-
 // The following methods are to be implemented in subclasses.
-- (void)setGraphSize:(NSSize)newSize {
+- (void) setGraphSize:(NSSize)newSize {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override setGraphSize.");
 #endif
 }
 
-- (void)updateMinSize {
+- (void) updateMinSize {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override updateMinSize.");
 #endif
 }
 
-- (void)graphUpdate:(NSTimer *)aTimer {
+- (void) graphUpdate:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override graphUpdate.");
 #endif
 }
 
-- (void)fastUpdate:(NSTimer *)aTimer {
+- (void) fastUpdate:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override fastUpdate.");
 #endif
 }
 
-- (void)min5Update:(NSTimer *)aTimer {
+- (void) min5Update:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override min5Update.");
 #endif
 }
 
-- (void)min30Update:(NSTimer *)aTimer {
+- (void) min30Update:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override min30Update.");
 #endif

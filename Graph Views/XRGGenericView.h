@@ -39,28 +39,24 @@
     XRGSettings         *appSettings;
     XRGModuleManager    *moduleManager;
     id                  parentWindow;
-    bool                isHidden;
 }
 
--(void)drawGraphWithData: (float *)samples Size:(int)nSamples CurrentIndex:(int)cIndex MaxValue:(float)max InRect:(NSRect)rect Flipped:(BOOL)flipped Color:(NSColor *)color;
+- (void) drawGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped color:(NSColor *)color;
 
--(void)drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet MaxValue:(float)max InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color;
+- (void) drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
 
--(void)drawRangedGraphWithData:(float *)samples Size:(int)nSamples CurrentIndex:(int)cIndex UpperBound:(float)max LowerBound:(float)min InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color;
+- (void) drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
 
--(void)drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet UpperBound:(float)max LowerBound:(float)min InRect:(NSRect)rect Flipped:(BOOL)flipped Filled:(BOOL)filled Color:(NSColor *)color;
+- (void) drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
 
--(void)fillRect:(NSRect)rect withColor:(NSColor *)color;
-
--(BOOL)isHidden;
--(void)setHidden:(bool)yesNo;
+- (void) fillRect:(NSRect)rect withColor:(NSColor *)color;
 
 // The following methods are to be implemented in subclasses.
-- (void)setGraphSize:(NSSize)newSize;
-- (void)updateMinSize;
-- (void)graphUpdate:(NSTimer *)aTimer;
-- (void)fastUpdate:(NSTimer *)aTimer;
-- (void)min5Update:(NSTimer *)aTimer;
-- (void)min30Update:(NSTimer *)aTimer;
+- (void) setGraphSize:(NSSize)newSize;
+- (void) updateMinSize;
+- (void) graphUpdate:(NSTimer *)aTimer;
+- (void) fastUpdate:(NSTimer *)aTimer;
+- (void) min5Update:(NSTimer *)aTimer;
+- (void) min30Update:(NSTimer *)aTimer;
 
 @end
