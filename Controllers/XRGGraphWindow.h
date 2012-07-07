@@ -57,6 +57,20 @@
     IBOutlet id                 controller;
     
     XRGURL						*xrgCheckURL;
+	
+	XRGSettings					*appSettings;
+	XRGModuleManager			*moduleManager;
+	
+	XRGCPUView					*cpuView;
+	XRGNetView					*netView;
+	XRGDiskView					*diskView;
+	XRGMemoryView				*memoryView;
+	XRGWeatherView				*weatherView;
+	XRGStockView				*stockView;
+	XRGBatteryView				*batteryView;
+	XRGTemperatureView			*temperatureView;
+	XRGTemperatureMiner			*temperatureMiner;
+	IBOutlet id					backgroundView;
 }
 @property (retain) XRGSettings *appSettings;
 @property (retain) XRGModuleManager *moduleManager;

@@ -26,8 +26,15 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface XRGDataSet : NSObject
+@interface XRGDataSet : NSObject {
+	CGFloat *values;
+	size_t numValues;
+	NSInteger currentIndex;
+	
+	CGFloat min;
+	CGFloat max;
+	CGFloat sum;
+}
 @property (assign) CGFloat *values;
 @property (assign) size_t numValues;
 @property (assign) NSInteger currentIndex;

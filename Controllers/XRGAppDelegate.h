@@ -28,7 +28,10 @@
 #import "XRGPrefController.h"
 
 @class XRGGraphWindow;
-@interface XRGAppDelegate : NSObject<NSApplicationDelegate>
+@interface XRGAppDelegate : NSObject<NSApplicationDelegate> {
+	XRGPrefController *prefController;
+	id xrgGraphWindow;
+}
 @property (retain) IBOutlet XRGPrefController *prefController;
 @property (retain) IBOutlet id xrgGraphWindow;
 

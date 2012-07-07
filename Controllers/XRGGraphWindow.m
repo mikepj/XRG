@@ -36,6 +36,7 @@ io_object_t powerConnection;
 void sleepNotification(void *refcon, io_service_t service, natural_t messageType, void *messageArgument);
 
 @implementation XRGGraphWindow
+@synthesize appSettings, moduleManager, cpuView, netView, diskView, memoryView, weatherView, stockView, batteryView, temperatureView, temperatureMiner, backgroundView;
 
 ///// Initialization Methods /////
 
@@ -91,19 +92,19 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void) dealloc {
-	[_appSettings release];
-	[_moduleManager release];
+	[appSettings release];
+	[moduleManager release];
 	
-	[_cpuView release];
-	[_netView release];
-	[_diskView release];
-	[_memoryView release];
-	[_weatherView release];
-	[_stockView release];
-	[_batteryView release];
-	[_temperatureView release];
-	[_temperatureMiner release];
-	[_backgroundView release];
+	[cpuView release];
+	[netView release];
+	[diskView release];
+	[memoryView release];
+	[weatherView release];
+	[stockView release];
+	[batteryView release];
+	[temperatureView release];
+	[temperatureMiner release];
+	[backgroundView release];
 	
 	[super dealloc];
 }
@@ -606,10 +607,10 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [background0 setFrameSize: [self frame].size];
     [background0 setAutoresizesSubviews:YES];
     [background0 setNeedsDisplay:YES];
-    _backgroundView = [background0 retain];
+    backgroundView = [background0 retain];
     
     // Little hack to fix initial ghosting problem caused by drop shadows in Panther.
-    [parentWindow setHasShadow: [self.appSettings dropShadow]];
+    [parentWindow setHasShadow:[self.appSettings dropShadow]];
 }
 ///// End of methods that set up module references /////
 

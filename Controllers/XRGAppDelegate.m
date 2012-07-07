@@ -28,10 +28,11 @@
 #import "XRGGraphWindow.h"
 
 @implementation XRGAppDelegate
+@synthesize xrgGraphWindow, prefController;
 
 - (void) dealloc {
-	[_xrgGraphWindow release];
-	[_prefController release];
+	[xrgGraphWindow release];
+	[prefController release];
 	
 	[super dealloc];
 }
