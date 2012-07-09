@@ -83,11 +83,6 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 	diskIOSinceLaunch = 0;
 }
 
-- (id)initWithFrame:(NSRect)frameRect {
-    [super initWithFrame:frameRect];
-    return self;
-}
-
 - (void)setGraphSize:(NSSize)newSize {
     NSSize tmpSize;
     tmpSize.width = newSize.width;

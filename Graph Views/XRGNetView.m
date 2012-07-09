@@ -46,11 +46,6 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
 
 @implementation XRGNetView
 
-- (id)initWithFrame:(NSRect)frameRect {
-    [super initWithFrame:frameRect];
-    return self;
-}
-
 - (void)awakeFromNib {    
     currentIndex = 0;
     maxVal       = 0;

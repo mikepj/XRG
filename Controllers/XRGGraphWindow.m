@@ -47,47 +47,47 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
-{    
-    // Initialize the settings class
-    self.appSettings = [[[XRGSettings alloc] init] autorelease];
-    
-    // Initialize the module manager class
-    self.moduleManager = [[[XRGModuleManager alloc] initWithWindow:self] autorelease];
-    
-    // Initialize the font manager
-    fontManager = [NSFontManager sharedFontManager];
-    
-    // Initialize resizing variables
-    isResizingTL = isResizingTC = isResizingTR = NO;
-    isResizingML = isResizingMR = NO;
-    isResizingBL = isResizingBC = isResizingBR = NO;
-    
-    // Initialize other status variables.
-    systemJustWokeUp = NO;
-    xrgCheckURL = nil;
-    
-    // Get the User Defaults object
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    
-    // Set variables from the user defaults
-    [self setupSettingsFromDictionary:[defs dictionaryRepresentation]];
+{
+	// Initialize the settings class
+	self.appSettings = [[[XRGSettings alloc] init] autorelease];
+	
+	// Initialize the module manager class
+	self.moduleManager = [[[XRGModuleManager alloc] initWithWindow:self] autorelease];
+	
+	// Initialize the font manager
+	fontManager = [NSFontManager sharedFontManager];
+	
+	// Initialize resizing variables
+	isResizingTL = isResizingTC = isResizingTR = NO;
+	isResizingML = isResizingMR = NO;
+	isResizingBL = isResizingBC = isResizingBR = NO;
+	
+	// Initialize other status variables.
+	systemJustWokeUp = NO;
+	xrgCheckURL = nil;
+	
+	// Get the User Defaults object
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
+	
+	// Set variables from the user defaults
+	[self setupSettingsFromDictionary:[defs dictionaryRepresentation]];
 
-    // register for sleep/wake notifications
-    CFRunLoopSourceRef rls;
-    IONotificationPortRef thePortRef;
-    io_object_t notifier;
+	// register for sleep/wake notifications
+	CFRunLoopSourceRef rls;
+	IONotificationPortRef thePortRef;
+	io_object_t notifier;
 
-    powerConnection = IORegisterForSystemPower(NULL, &thePortRef, sleepNotification, &notifier );
+	powerConnection = IORegisterForSystemPower(NULL, &thePortRef, sleepNotification, &notifier );
 
-    if (powerConnection == 0) NSLog(@"Failed to register for sleep/wake events.");
+	if (powerConnection == 0) NSLog(@"Failed to register for sleep/wake events.");
 
-    rls = IONotificationPortGetRunLoopSource(thePortRef);
-    CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
-    
-    if ([self.appSettings checkForUpdates]) {
-        [self checkServerForUpdates];
-    }
-                
+	rls = IONotificationPortGetRunLoopSource(thePortRef);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
+	
+	if ([self.appSettings checkForUpdates]) {
+		[self checkServerForUpdates];
+	}
+	
     return parentWindow;
 }
 

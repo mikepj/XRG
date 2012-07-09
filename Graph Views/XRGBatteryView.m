@@ -33,11 +33,6 @@
 
 @implementation XRGBatteryView
 
-- (id)initWithFrame:(NSRect)frameRect {
-    [super initWithFrame:frameRect];
-    return self;
-}
-
 - (void)awakeFromNib {    
     maxVolts = 0;
     maxAmps = 0;

@@ -59,11 +59,6 @@
     //[self getLatestMemoryInfo];
 }
 
-- (id)initWithFrame:(NSRect)frameRect {
-	[super initWithFrame:frameRect];
-	return self;
-}
-
 - (void)setGraphSize:(NSSize)newSize {
     NSSize tmpSize;
     tmpSize.width = newSize.width;

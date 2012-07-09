@@ -105,6 +105,8 @@
         
         free(self.values);
         self.values = NULL;
+		self.numValues = newNumValues;
+		return;
     }
     
     self.sum = 0;

@@ -31,24 +31,28 @@
 @implementation XRGStock
 
 - (id)init {
-    symbol = nil;
-    label = nil;
+	self = [super init];
+	
+	if (self) {
+		symbol = nil;
+		label = nil;
 
-    closingPrices = [[NSMutableArray arrayWithCapacity:160] retain];
-    volumes = [[NSMutableArray arrayWithCapacity:160] retain];
-    
-	currentPrice = 0;
-	lastChange = 0;
-    highWeekPrice = 0;
-    lowWeekPrice = 0;
-    
-    surl = [[XRGURL alloc] init];
-	immediateURL = [[XRGURL alloc] init];
-    
-    gettingData = NO;
-    haveGoodURL = NO;
-    haveGoodStockArray = NO;
-    haveGoodDisplayData = NO;
+		closingPrices = [[NSMutableArray arrayWithCapacity:160] retain];
+		volumes = [[NSMutableArray arrayWithCapacity:160] retain];
+		
+		currentPrice = 0;
+		lastChange = 0;
+		highWeekPrice = 0;
+		lowWeekPrice = 0;
+		
+		surl = [[XRGURL alloc] init];
+		immediateURL = [[XRGURL alloc] init];
+		
+		gettingData = NO;
+		haveGoodURL = NO;
+		haveGoodStockArray = NO;
+		haveGoodDisplayData = NO;
+	}
     
     return self;
 }

@@ -33,12 +33,6 @@
 
 @implementation XRGBackgroundView
 
-- (id)initWithFrame:(NSRect)frameRect {
-    [super initWithFrame:frameRect];
-    
-    return self;
-}
-
 - (void)awakeFromNib {  
     parentWindow = (XRGGraphWindow *)[[self window] retain]; 
     

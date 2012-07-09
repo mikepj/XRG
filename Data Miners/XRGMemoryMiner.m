@@ -30,20 +30,23 @@
 @implementation XRGMemoryMiner
 
 - (id)init {
-    host = mach_host_self();
-   
-    values1 = [[XRGDataSet alloc] init];
-    values2 = [[XRGDataSet alloc] init];
-    values3 = [[XRGDataSet alloc] init];
-    
-	usedSwap = totalSwap = 0.;
-	
-	int mib[2] = { CTL_HW, HW_PAGESIZE };
-	size_t sz = sizeof(pageSize);
-	if (-1 == sysctl(mib, 2, &pageSize, &sz, NULL, 0))
-		pageSize = PAGE_SIZE;
-	
-    [self getLatestMemoryInfo];
+	self = [super init];
+	if (self) {
+		host = mach_host_self();
+	   
+		values1 = [[XRGDataSet alloc] init];
+		values2 = [[XRGDataSet alloc] init];
+		values3 = [[XRGDataSet alloc] init];
+		
+		usedSwap = totalSwap = 0.;
+		
+		int mib[2] = { CTL_HW, HW_PAGESIZE };
+		size_t sz = sizeof(pageSize);
+		if (-1 == sysctl(mib, 2, &pageSize, &sz, NULL, 0))
+			pageSize = PAGE_SIZE;
+		
+		[self getLatestMemoryInfo];
+	}
     
     return self;
 }

@@ -30,24 +30,28 @@
 @implementation XRGModuleManager
 
 - (XRGModuleManager *)init {
-    allModules = [[NSMutableArray arrayWithCapacity:10] retain];
-    displayModules = [[NSMutableArray arrayWithCapacity:10] retain];
-    alwaysUpdateModules = [[NSMutableArray arrayWithCapacity:5] retain];
-    moduleSeparatorWidth = 2;
-    graphOrientationVertical = YES;
-    myWindow = nil;
-    
+	self = [super init];
+	if (self) {
+		allModules = [[NSMutableArray arrayWithCapacity:10] retain];
+		displayModules = [[NSMutableArray arrayWithCapacity:10] retain];
+		alwaysUpdateModules = [[NSMutableArray arrayWithCapacity:5] retain];
+		moduleSeparatorWidth = 2;
+		graphOrientationVertical = YES;
+		myWindow = nil;
+	}
     return self;
 }
 
 - (XRGModuleManager *)initWithWindow:(XRGGraphWindow *)gw {
-    (void)[self init];
-    if (gw != nil) {
-        myWindow = [gw retain];
-    }
-    else {
-        myWindow = nil;
-    }
+    self = [self init];
+	if (self) {
+		if (gw != nil) {
+			myWindow = [gw retain];
+		}
+		else {
+			myWindow = nil;
+		}
+	}
     return self;
 }
 
