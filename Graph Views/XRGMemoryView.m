@@ -189,7 +189,7 @@
         if (tmpRect.origin.y - textRectHeight >= 0) {
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
-            [s appendFormat:@"\nF: %dM", [memoryMiner freeBytes] / 1024];
+            [s appendFormat:@"\nF: %ldM", (long)[memoryMiner freeBytes] / 1024];
         }
     }
     
@@ -197,7 +197,7 @@
         if (tmpRect.origin.y - textRectHeight >= 0) {
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
-            [s appendFormat:@"\nI: %dM", [memoryMiner inactiveBytes] / 1024];
+            [s appendFormat:@"\nI: %ldM", (long)[memoryMiner inactiveBytes] / 1024];
         }
     }
     
@@ -205,7 +205,7 @@
         if (tmpRect.origin.y - textRectHeight >= 0) {
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
-            [s appendFormat:@"\nA: %dM", [memoryMiner activeBytes] / 1024];
+            [s appendFormat:@"\nA: %ldM", (long)[memoryMiner activeBytes] / 1024];
         }
     }
     
@@ -213,7 +213,7 @@
         if (tmpRect.origin.y - textRectHeight >= 0) {
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
-            [s appendFormat:@"\nW: %dM", [memoryMiner wiredBytes] / 1024];
+            [s appendFormat:@"\nW: %ldM", (long)[memoryMiner wiredBytes] / 1024];
         }
     }
     

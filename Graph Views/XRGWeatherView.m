@@ -126,11 +126,11 @@
     // Update the text width cache.
     STATION_WIDE       = [@"Station: WWWW" sizeWithAttributes:textAttributes].width;	
 	
-    TEMPERATURE_WIDE   = [[NSString stringWithFormat:@"Current Temperature: 99.9%CC", 0x00B0] sizeWithAttributes:textAttributes].width;
-    TEMPERATURE_NORMAL = [[NSString stringWithFormat:@"Temperature: 99.9%CC", 0x00B0] sizeWithAttributes:textAttributes].width;
-    TEMPERATURE_SMALL  = [[NSString stringWithFormat:@"Temp: 99.9%CC", 0x00B0] sizeWithAttributes:textAttributes].width;
+    TEMPERATURE_WIDE   = [[NSString stringWithFormat:@"Current Temperature: 99.9%CC", (unsigned short)0x00B0] sizeWithAttributes:textAttributes].width;
+    TEMPERATURE_NORMAL = [[NSString stringWithFormat:@"Temperature: 99.9%CC", (unsigned short)0x00B0] sizeWithAttributes:textAttributes].width;
+    TEMPERATURE_SMALL  = [[NSString stringWithFormat:@"Temp: 99.9%CC", (unsigned short)0x00B0] sizeWithAttributes:textAttributes].width;
                            
-    HL_WIDE            = [[NSString stringWithFormat:@"High/Low: 99.9%CC/99.9%CC", 0x00B0, 0x00B0] sizeWithAttributes:textAttributes].width;
+    HL_WIDE            = [[NSString stringWithFormat:@"High/Low: 99.9%CC/99.9%CC", (unsigned short)0x00B0, (unsigned short)0x00B0] sizeWithAttributes:textAttributes].width;
 
     WIND_WIDE          = [@"Wind: WSW 99 Gusts: 99" sizeWithAttributes:textAttributes].width;
     WIND_NORMAL        = [@"Wind: WSW 99 G: 99" sizeWithAttributes:textAttributes].width;
@@ -141,7 +141,7 @@
                        
     VISIBILITY_WIDE    = [@"Visibility: 99 km" sizeWithAttributes:textAttributes].width;
 
-    DEWPOINT_WIDE      = [[NSString stringWithFormat:@"Dewpoint: 99.9%CC", 0x00B0] sizeWithAttributes:textAttributes].width;
+    DEWPOINT_WIDE      = [[NSString stringWithFormat:@"Dewpoint: 99.9%CC", (unsigned short)0x00B0] sizeWithAttributes:textAttributes].width;
 
     PRESSURE_WIDE      = [@"Barometric Pressure: 1999hPa" sizeWithAttributes:textAttributes].width;
     PRESSURE_NORMAL    = [@"Pressure: 1999hPa" sizeWithAttributes:textAttributes].width;
@@ -384,7 +384,7 @@
 
 - (void)setCurrentWeatherDataFromMETAR {
     NSArray *metarFields;
-    int numFields;
+    NSInteger numFields;
     
     if (!haveGoodMETARArray) {
         haveGoodDisplayData = NO;
@@ -666,7 +666,7 @@ int matchRegex(char *pattern, char *inString) {
 
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 
-    int i;
+    NSInteger i;
     
     // first draw the background
     [[appSettings graphBGColor] set];    
@@ -761,9 +761,9 @@ int matchRegex(char *pattern, char *inString) {
                 [rightS appendString:@"\nn/a"];
             else { 
                 if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F) 
-                    [rightS appendFormat:@"\n%d%CF", temperatureF, 0x00B0];
+                    [rightS appendFormat:@"\n%d%CF", temperatureF, (unsigned short)0x00B0];
                 else
-                    [rightS appendFormat:@"\n%2.1f%CC", temperatureC, 0x00B0];
+                    [rightS appendFormat:@"\n%2.1f%CC", temperatureC, (unsigned short)0x00B0];
             }
         }
 
@@ -778,9 +778,9 @@ int matchRegex(char *pattern, char *inString) {
                 }
                 else {
                     if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_C)
-                        [rightS appendFormat:@"\n%2.0f%C/%2.0f%C", [self getHigh], 0x00B0, [self getLow], 0x00B0];
+                        [rightS appendFormat:@"\n%2.0f%C/%2.0f%C", [self getHigh], (unsigned short)0x00B0, [self getLow], (unsigned short)0x00B0];
                     else
-                        [rightS appendFormat:@"\n%d%C/%d%C", (int)([self getHigh] * 1.8) + 32, 0x00B0, (int)([self getLow] * 1.8) + 32, 0x00B0];
+                        [rightS appendFormat:@"\n%d%C/%d%C", (int)([self getHigh] * 1.8) + 32, (unsigned short)0x00B0, (int)([self getLow] * 1.8) + 32, (unsigned short)0x00B0];
                 }
             }
             else {
@@ -903,9 +903,9 @@ int matchRegex(char *pattern, char *inString) {
                 [rightS appendString:@"\nn/a"];
             else {
                 if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F)
-                    [rightS appendFormat:@"\n%d%CF", dewpointF, 0x00B0];
+                    [rightS appendFormat:@"\n%d%CF", dewpointF, (unsigned short)0x00B0];
                 else
-                    [rightS appendFormat:@"\n%2.1f%CC", dewpointC, 0x00B0];
+                    [rightS appendFormat:@"\n%2.1f%CC", dewpointC, (unsigned short)0x00B0];
             }
         }
                                     
@@ -972,7 +972,7 @@ int matchRegex(char *pattern, char *inString) {
         case XRGWEATHER_WIND:
             secondaryGraphUpperBound = (float)windSpeed;
             for (i = [metarArray count] - 1; i >= 0; i--) {
-                int index = [metarArray count] - 1 - i;
+                NSInteger index = [metarArray count] - 1 - i;
                 NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getWindSpeedFromMETARFields: metarFields];
                 
@@ -988,7 +988,7 @@ int matchRegex(char *pattern, char *inString) {
             break;
         case XRGWEATHER_HUMIDITY:
             for (i = [metarArray count] - 1; i >= 0; i--) {
-                int index = [metarArray count] - 1 - i;
+                NSInteger index = [metarArray count] - 1 - i;
                 NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getRelativeHumidityFromTemperature:[self getTemperatureFromMETARFields: metarFields] andDewpoint:[self getDewpointFromMETARFields: metarFields]];
                 
@@ -1002,7 +1002,7 @@ int matchRegex(char *pattern, char *inString) {
         case XRGWEATHER_VISIBILITY:
             secondaryGraphUpperBound = visibilityInMiles;
             for (i = [metarArray count] - 1; i >= 0; i--) {
-                int index = [metarArray count] - 1 - i;
+                NSInteger index = [metarArray count] - 1 - i;
                 NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getVisibilityInMilesFromMETARFields: metarFields];
                 
@@ -1022,7 +1022,7 @@ int matchRegex(char *pattern, char *inString) {
         case XRGWEATHER_DEWPOINT:
             secondaryGraphLowerBound = secondaryGraphUpperBound = dewpointC;
             for (i = [metarArray count] - 1; i >= 0; i--) {
-                int index = [metarArray count] - 1 - i;
+                NSInteger index = [metarArray count] - 1 - i;
                 NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getDewpointFromMETARFields: metarFields];
                 
@@ -1222,9 +1222,9 @@ int matchRegex(char *pattern, char *inString) {
     else {
         [line setString:@"Temperature: "];
         if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F) 
-            [line appendFormat:@"%d%CF", [self getTemperatureF], 0x00B0];
+            [line appendFormat:@"%d%CF", [self getTemperatureF], (unsigned short)0x00B0];
         else
-            [line appendFormat:@"%1.1f%CC", [self getTemperatureC], 0x00B0];
+            [line appendFormat:@"%1.1f%CC", [self getTemperatureC], (unsigned short)0x00B0];
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
@@ -1236,9 +1236,9 @@ int matchRegex(char *pattern, char *inString) {
     else {
         [line setString:@"Last 24 hour high temperature: "];
         if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_C)
-            [line appendFormat:@"%1.1f%CC", [self getHigh], 0x00B0];
+            [line appendFormat:@"%1.1f%CC", [self getHigh], (unsigned short)0x00B0];
         else
-            [line appendFormat:@"%1.1f%CF", [self getHigh] * 1.8 + 32., 0x00B0];
+            [line appendFormat:@"%1.1f%CF", [self getHigh] * 1.8 + 32., (unsigned short)0x00B0];
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
@@ -1250,9 +1250,9 @@ int matchRegex(char *pattern, char *inString) {
     else {
         [line setString:@"Last 24 hour low temperature: "];
         if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_C)
-            [line appendFormat:@"%1.1f%CC", [self getLow], 0x00B0];
+            [line appendFormat:@"%1.1f%CC", [self getLow], (unsigned short)0x00B0];
         else
-            [line appendFormat:@"%1.1f%CF", [self getLow] * 1.8 + 32., 0x00B0];
+            [line appendFormat:@"%1.1f%CF", [self getLow] * 1.8 + 32., (unsigned short)0x00B0];
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
@@ -1266,7 +1266,7 @@ int matchRegex(char *pattern, char *inString) {
     }
     else {
         [line setString:@""];
-        [line appendFormat:@"Wind: %s (%d%C) at %d mph", [self getWindDirection], windDirection, 0x00B0, [self getWindSpeed]];
+        [line appendFormat:@"Wind: %s (%d%C) at %d mph", [self getWindDirection], windDirection, (unsigned short)0x00B0, [self getWindSpeed]];
     }
     if ([self getGustSpeed]) [line appendFormat:@" with gusts of %d mph", [self getGustSpeed]];
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
@@ -1316,7 +1316,7 @@ int matchRegex(char *pattern, char *inString) {
             [line setString:@"Dewpoint: n/a"];
         else {
             [line setString:@""];
-            [line appendFormat:@"Dewpoint: %d%CF", [self getDewpointF], 0x00B0];
+            [line appendFormat:@"Dewpoint: %d%CF", [self getDewpointF], (unsigned short)0x00B0];
         }
     }
     else {
@@ -1324,7 +1324,7 @@ int matchRegex(char *pattern, char *inString) {
             [line setString:@"Dewpoint: n/a"];
         else {
             [line setString:@""];
-            [line appendFormat:@"Dewpoint: %1.1f%CC", [self getDewpointC], 0x00B0];
+            [line appendFormat:@"Dewpoint: %1.1f%CC", [self getDewpointC], (unsigned short)0x00B0];
         }
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];

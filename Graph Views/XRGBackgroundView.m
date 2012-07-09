@@ -46,7 +46,7 @@
     moduleManager = [[parentWindow moduleManager] retain];
     
  	@synchronized(hostname) {
-		hostname = [[NSString stringWithString:@"XRG"] retain];
+		hostname = [@"XRG" retain];
     }
 	[NSThread detachNewThreadSelector:@selector(getHostname) toTarget:self withObject:nil];
 	

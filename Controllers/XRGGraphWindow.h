@@ -171,9 +171,9 @@
 - (IBAction)setShowDJIA:(id)sender;
 
 // Action helpers
-- (void)setWindowLevelHelper:(int)index;
-- (NSColor *)colorForTag:(int)aTag;
-- (float)transparencyForTag:(int)aTag;
+- (void)setWindowLevelHelper:(NSInteger)index;
+- (NSColor *)colorForTag:(NSInteger)aTag;
+- (float)transparencyForTag:(NSInteger)aTag;
 - (void)setWindowSize:(NSSize)newSize;
 - (void)checkWindowSize;
 

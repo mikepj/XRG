@@ -192,7 +192,7 @@
     [[appSettings graphBGColor] set];
     NSRectFill(inRect);
     
-    int numCPUs = [CPUMiner numberOfCPUs];
+    NSInteger numCPUs = [CPUMiner numberOfCPUs];
     
     if ([appSettings fastCPUUsage]) {
         // draw the divider line
@@ -201,8 +201,8 @@
 		
         // draw the fast cpu info
         [[appSettings graphFG2Color] set];
-        int tmp = 0;
-        int *fastValues = [CPUMiner fastValues];
+        NSInteger tmp = 0;
+        NSInteger *fastValues = [CPUMiner fastValues];
         for (i = 0; i < numCPUs; i++) {
             tmp += fastValues[i];
         }
@@ -222,10 +222,10 @@
     graphRect.size.height = graphRect.size.height / 2. - 1.;
 	
 	// Draw the bottom graph.
-	int *fastValues = [CPUMiner fastValues];
+	NSInteger *fastValues = [CPUMiner fastValues];
 	NSMutableArray *sortedValues = [NSMutableArray arrayWithCapacity:numCPUs];
 	for (i = 0; i < numCPUs; i++) {
-		[sortedValues addObject:[NSNumber numberWithInt:fastValues[i]]];
+		[sortedValues addObject:[NSNumber numberWithInteger:fastValues[i]]];
 	}
 	[sortedValues sortUsingSelector:@selector(compare:)];
 	sortedValues = [NSMutableArray arrayWithArray:[[sortedValues reverseObjectEnumerator] allObjects]];
@@ -336,9 +336,9 @@
             }
             
             if ([CPUMiner uptimeMinutes] < 10) 
-                [rightText appendFormat:@"\n%dd %d:0%d", [CPUMiner uptimeDays], [CPUMiner uptimeHours], [CPUMiner uptimeMinutes]];
+                [rightText appendFormat:@"\n%ldd %ld:0%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
             else
-                [rightText appendFormat:@"\n%dd %d:%d", [CPUMiner uptimeDays], [CPUMiner uptimeHours], [CPUMiner uptimeMinutes]];
+                [rightText appendFormat:@"\n%ldd %ld:%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
         }
     }
     
@@ -373,7 +373,7 @@
     [[appSettings graphBGColor] set];
     NSRectFill(inRect);
     
-    int numCPUs = [CPUMiner numberOfCPUs];
+    NSInteger numCPUs = [CPUMiner numberOfCPUs];
     
     if ([appSettings fastCPUUsage]) {
         // draw the divider line
@@ -382,8 +382,8 @@
 
         // draw the fast cpu info
         [[appSettings graphFG2Color] set];
-        int tmp = 0;
-        int *fastValues = [CPUMiner fastValues];
+        NSInteger tmp = 0;
+        NSInteger *fastValues = [CPUMiner fastValues];
         for (i = 0; i < numCPUs; i++) {
             tmp += fastValues[i];
         }
@@ -445,9 +445,9 @@
         textRect.size.width -= 7;
     }
 
-    NSMutableString *leftText = [[NSMutableString alloc] init];
-    NSMutableString *rightText = [[NSMutableString alloc] init];
-    NSMutableString *centerText = [[NSMutableString alloc] init];
+    NSMutableString *leftText = [NSMutableString string];
+    NSMutableString *rightText = [NSMutableString string];
+    NSMutableString *centerText = [NSMutableString string];
 
     textRect.origin.y = inRect.size.height - textRectHeight;
 
@@ -550,9 +550,9 @@
             }
             
             if ([CPUMiner uptimeMinutes] < 10) 
-                [rightText appendFormat:@"\n%dd %d:0%d", [CPUMiner uptimeDays], [CPUMiner uptimeHours], [CPUMiner uptimeMinutes]];
+                [rightText appendFormat:@"\n%ldd %ld:0%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
             else
-                [rightText appendFormat:@"\n%dd %d:%d", [CPUMiner uptimeDays], [CPUMiner uptimeHours], [CPUMiner uptimeMinutes]];
+                [rightText appendFormat:@"\n%ldd %ld:%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
         }
     }
     
@@ -562,11 +562,7 @@
     if (numCPUs == 2) {
         [centerText drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
     }
-    
-    [leftText release];
-    [rightText release];
-    [centerText release];
-    
+        
     [gc setShouldAntialias:YES];
 }
 

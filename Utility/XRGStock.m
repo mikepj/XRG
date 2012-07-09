@@ -117,7 +117,7 @@
     // s = stock symbol
     // y = 0 (static)
     // g = d/w/m/v  daily, weekly, monthly, dividends
-    NSString *URLString = [NSString stringWithFormat:@"http://itable.finance.yahoo.com/table.csv?a=%d&b=%d&c=%d&d=%d&e=%d&f=%d&y=0&g=d&ignore=.csv&s=%@", a, b, c, d, e, f, symbol];
+    NSString *URLString = [NSString stringWithFormat:@"http://itable.finance.yahoo.com/table.csv?a=%ld&b=%ld&c=%ld&d=%ld&e=%ld&f=%ld&y=0&g=d&ignore=.csv&s=%@", (long)a, (long)b, (long)c, (long)d, (long)e, (long)f, symbol];
     [surl setURLString: URLString];
 	
 	NSString *immediateURLString = [NSString stringWithFormat:@"http://download.finance.yahoo.com/d/quotes.csv?s=%@&f=sl1d1t1c1ohgv&e=.csv", symbol];

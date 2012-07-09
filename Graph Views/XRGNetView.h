@@ -44,7 +44,7 @@
     UInt64                  totalBytesSinceLoad;
     int                     mib[6];
     char                    *buf;
-    int                     alloc;
+    size_t                  alloc;
 
 
     int                     *rxValues;

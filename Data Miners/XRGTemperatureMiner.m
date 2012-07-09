@@ -386,7 +386,7 @@
 						if ((tempInt = [currentValue intValue])) {
 							if (tempInt / 65536 > 1 && tempInt / 65536 < 300) {
 								[self setCurrentValue:(float)tempInt / 65536. 
-											 andUnits:[NSString stringWithFormat:@"%CC", 0x00B0] 
+											 andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]
 										  forLocation:location];
 							}
 						}
@@ -400,12 +400,12 @@
 						if ((tempInt = [currentValue intValue])) {
 							if (tempInt / 10. > 1 && tempInt / 10. < 300) {
 								[self setCurrentValue:(float)tempInt / 10. 
-											 andUnits:[NSString stringWithFormat:@"%CC", 0x00B0] 
+											 andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0] 
 										  forLocation:location];
 							}
 							else if (tempInt / 65536.f > 1 && tempInt / 65536.f < 300) {
 								[self setCurrentValue:(float)tempInt / 65536.f
-											 andUnits:[NSString stringWithFormat:@"%CC", 0x00B0] 
+											 andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0] 
 										  forLocation:location];
 							}
 						}
@@ -426,7 +426,7 @@
 								}
 								
 								[self setCurrentValue:(float)tempInt / 10. 
-											 andUnits:[NSString stringWithFormat:@"%CC", 0x00B0] 
+											 andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0] 
 										  forLocation:location];
 							}							
 						}
@@ -619,7 +619,7 @@
 									}
 										
 									[self setCurrentValue:tempFloat 
-												 andUnits:[NSString stringWithFormat:@"%CC", 0x00B0] 
+												 andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0] 
 											  forLocation:location];
 								}
 							}
@@ -804,7 +804,7 @@
         NSString *humanReadableName = [smcSensors humanReadableNameForKey:key];
 
 		[self setCurrentValue:temperature
-					 andUnits:[NSString stringWithFormat:@"%CC", 0x00B0] 
+					 andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0] 
 				  forLocation:humanReadableName];
 		
 		/* strategy OK for CoreDuos: set both cores temperatures to the current CPU temp */ 
@@ -883,7 +883,7 @@
     }
     
 	NSMutableArray *types = [NSMutableArray arrayWithObjects:
-		[NSString stringWithFormat:@"%CC", 0x00B0], 
+		[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0], 
 		@" rpm", 
 		@"%", 
 		nil];

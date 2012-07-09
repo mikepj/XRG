@@ -706,20 +706,20 @@
     [netMinGraphScaleValue setAction:@selector(setNetMinGraphValueAction:)];
     
     NSString *s;
-    int minByteScale = [[xrgGraphWindow appSettings] netMinGraphScale];
+    NSInteger minByteScale = [[xrgGraphWindow appSettings] netMinGraphScale];
     if (minByteScale < 1024) {
         [netMinGraphScaleUnits selectItemAtIndex:0];
-        s = [[NSString alloc] initWithFormat: @"%d", minByteScale];
+        s = [[NSString alloc] initWithFormat: @"%ld", (long)minByteScale];
         [netMinGraphScaleValue setStringValue:s];
     }
     else if (minByteScale < 1048576) {
         [netMinGraphScaleUnits selectItemAtIndex:1];
-        s = [[NSString alloc] initWithFormat: @"%d", minByteScale / 1024];
+        s = [[NSString alloc] initWithFormat: @"%ld", (long)(minByteScale / 1024)];
         [netMinGraphScaleValue setStringValue:s];
     }
     else {
         [netMinGraphScaleUnits selectItemAtIndex:2];
-        s = [[NSString alloc] initWithFormat: @"%d", minByteScale / 1048576];
+        s = [[NSString alloc] initWithFormat: @"%ld", (long)(minByteScale / 1048576)];
         [netMinGraphScaleValue setStringValue:s];
     }
     [s release];

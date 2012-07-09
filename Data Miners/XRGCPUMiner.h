@@ -30,27 +30,27 @@
 
 @interface XRGCPUMiner : NSObject {
 @private
-    bool                        temperature;
-    bool                        loadAverage;
-    bool                        uptime;
+    BOOL                        temperature;
+    BOOL                        loadAverage;
+    BOOL                        uptime;
 
-    int							numSamples;
-    int							numCPUs;
+    NSInteger					numSamples;
+    NSInteger					numCPUs;
 
-    int							*fastValues;
+    NSInteger					*fastValues;
     NSMutableArray              *userValues;
     NSMutableArray              *systemValues;
     NSMutableArray              *niceValues;
-    float						*immediateUser;
-    float						*immediateSystem;
-    float						*immediateNice;
-    float                       *immediateTotal;
-    float                       *immediateTemperatureC;
-    float						currentLoadAverage;
-    int                         uptimeDays;
-    int                         uptimeHours;
-    int                         uptimeMinutes;
-    int                         uptimeSeconds;
+    CGFloat						*immediateUser;
+    CGFloat						*immediateSystem;
+    CGFloat						*immediateNice;
+    CGFloat                     *immediateTotal;
+    CGFloat                     *immediateTemperatureC;
+    CGFloat						currentLoadAverage;
+    NSInteger                   uptimeDays;
+    NSInteger                   uptimeHours;
+    NSInteger                   uptimeMinutes;
+    NSInteger                   uptimeSeconds;
     NSMutableDictionary         *temperatureKeys;
     XRGTemperatureMiner         *TemperatureMiner;
 
@@ -59,36 +59,36 @@
     
     host_name_port_t		host;
 }
-- (void)setTemperature:(bool)yesNo;
-- (void)setLoadAverage:(bool)yesNo;
-- (void)setUptime:(bool)yesNo;
+- (void)setTemperature:(BOOL)yesNo;
+- (void)setLoadAverage:(BOOL)yesNo;
+- (void)setUptime:(BOOL)yesNo;
 - (void)setTemperatureMiner:(XRGTemperatureMiner *)miner;
 - (XRGTemperatureMiner *)temperatureMiner;
 
 - (void)graphUpdate:(NSTimer *)aTimer;
 - (void)fastUpdate:(NSTimer *)aTimer;
-- (int)calculateCPUUsageForCPUs:(processor_cpu_load_info_t *)lastCPUInfo count:(int)count;
-- (int)getNumCPUs;
-- (float)getLoadAverage;
+- (NSInteger)calculateCPUUsageForCPUs:(processor_cpu_load_info_t *)lastCPUInfo count:(NSInteger)count;
+- (NSInteger)getNumCPUs;
+- (CGFloat)getLoadAverage;
 
 - (void)setCurrentTemperatures;
 
 - (void)setCurrentUptime;
-- (void)setDataSize:(int)newNumSamples;
+- (void)setDataSize:(NSInteger)newNumSamples;
 
-- (float *)currentTemperatureC;
-- (float *)currentTotalUsage;
-- (float *)currentUserUsage;
-- (float *)currentSystemUsage;
-- (float *)currentNiceUsage;
-- (int *)fastValues;
-- (float)currentLoadAverage;
-- (int)uptimeDays;
-- (int)uptimeHours;
-- (int)uptimeMinutes;
-- (int)uptimeSeconds;
-- (NSArray *)dataForCPU:(int)cpuNumber;
+- (CGFloat *)currentTemperatureC;
+- (CGFloat *)currentTotalUsage;
+- (CGFloat *)currentUserUsage;
+- (CGFloat *)currentSystemUsage;
+- (CGFloat *)currentNiceUsage;
+- (NSInteger *)fastValues;
+- (CGFloat)currentLoadAverage;
+- (NSInteger)uptimeDays;
+- (NSInteger)uptimeHours;
+- (NSInteger)uptimeMinutes;
+- (NSInteger)uptimeSeconds;
+- (NSArray *)dataForCPU:(NSInteger)cpuNumber;
 - (NSArray *)combinedData;
 
-- (int)numberOfCPUs;
+- (NSInteger)numberOfCPUs;
 @end

@@ -297,7 +297,7 @@
         [alignLeftAttributes   setObject:graphFont forKey:NSFontAttributeName];
         [alignCenterAttributes setObject:graphFont forKey:NSFontAttributeName];
     
-		self.textRectHeight = [[NSString stringWithFormat:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890%C.:%", 0x00B0] sizeWithAttributes:alignRightAttributes].height;
+		self.textRectHeight = [[NSString stringWithFormat:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890%C.:%%", (unsigned short)0x00B0] sizeWithAttributes:alignRightAttributes].height;
     }
     else {
         NSLog(@"Couldn't change to a nil font.");

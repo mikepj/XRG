@@ -88,8 +88,8 @@
     float width, height;
     height = [appSettings textRectHeight];
     
-    width = [[NSString stringWithFormat:@"CPU 199%CF", 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width;
-    temperatureWidth = [[NSString stringWithFormat:@"199%CF", 0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width;
+    width = [[NSString stringWithFormat:@"CPU 199%CF", (unsigned short)0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width;
+    temperatureWidth = [[NSString stringWithFormat:@"199%CF", (unsigned short)0x00B0] sizeWithAttributes:[appSettings alignRightAttributes]].width;
 	rpmWidth = [@"9999 rpm" sizeWithAttributes:[appSettings alignRightAttributes]].width;
 	
 	[locationSizeCache removeAllObjects];
@@ -226,8 +226,8 @@
 		[s appendString:label];
         
         // Now add the temperature
-        if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", 0x00B0]]) {
-			units = [NSString stringWithFormat:@"%CF", 0x00B0];
+        if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
+			units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
 			locationTemperature = locationTemperature * 1.8 + 32.;
         }
 		
@@ -290,8 +290,8 @@
 		}
 		
         // Now add the temperature
-        if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", 0x00B0]]) {
-			units = [NSString stringWithFormat:@"%CF", 0x00B0];
+        if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
+			units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
 			locationTemperature = locationTemperature * 1.8 + 32.;
 			[s appendFormat:@"%3.1f%@", locationTemperature, units];
 		}

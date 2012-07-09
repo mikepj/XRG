@@ -80,13 +80,12 @@
 - (void)setStockSymbolsFromString:(NSString *)s {
     NSString *uppercaseS = [s uppercaseString];
     NSMutableString *tmpString = [NSMutableString stringWithCapacity: 10];
-    int i;
-    int stringLength = [uppercaseS lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger stringLength = [uppercaseS lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
     char *cString = (char *)[uppercaseS cStringUsingEncoding:NSUTF8StringEncoding];
 
     [stockSymbols removeAllObjects];
     
-    for (i = 0; i < stringLength; i++) {
+    for (NSInteger i = 0; i < stringLength; i++) {
         if (cString[i] == ' ' || cString[i] == '\t' || cString[i] == '\n') {
             continue;
         }
@@ -213,7 +212,7 @@
 
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 
-    int textRectHeight = [appSettings textRectHeight];
+    NSInteger textRectHeight = [appSettings textRectHeight];
     NSRect tmpRect = NSMakeRect(2, 
                                 graphSize.height - textRectHeight, 
                                 graphSize.width - 4, 
@@ -318,8 +317,8 @@
         // now draw some text for each of the stocks.
         [gc setShouldAntialias:[appSettings antialiasText]];
 
-        int heightOfEachStock = [appSettings stockShowChange] ? textRectHeight * 2 : textRectHeight;
-        int maxToShow = tmpRect.origin.y / heightOfEachStock;
+        NSInteger heightOfEachStock = [appSettings stockShowChange] ? textRectHeight * 2 : textRectHeight;
+        NSUInteger maxToShow = tmpRect.origin.y / heightOfEachStock;
         if ([stockObjects count] <= maxToShow) {
             maxToShow = [stockObjects count];
         }
@@ -372,11 +371,11 @@
                     }
                     else if (change > 0) {
                         [s setString:@""];
-                        [s appendFormat:@"%C%2.2f", 0x25B2, change];
+                        [s appendFormat:@"%C%2.2f", (unsigned short)0x25B2, change];
                     }
                     else { // change < 0
                         [s setString:@""];
-                        [s appendFormat:@"%C%2.2f", 0x25BC, change * -1];
+                        [s appendFormat:@"%C%2.2f", (unsigned short)0x25BC, change * -1];
                     }
 
                     [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
@@ -410,7 +409,7 @@
                     [appSettings graphFG3Color] forKey:NSForegroundColorAttributeName];
             }
             [s setString:@""];
-            [s appendFormat:@"%C", 0x25BC];
+            [s appendFormat:@"%C", (unsigned short)0x25BC];
 
             [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
             tmpRect.origin.y -= textRectHeight;
@@ -506,7 +505,7 @@
 - (void)openStock:(id)sender {
 	if (![sender isKindOfClass:[NSMenuItem class]]) return;
 	
-    int i = [(NSMenuItem *)sender tag];
+    NSInteger i = [(NSMenuItem *)sender tag];
     
     [NSTask 
         launchedTaskWithLaunchPath:@"/usr/bin/open"

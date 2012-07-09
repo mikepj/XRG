@@ -29,7 +29,6 @@
 
 #include <assert.h>
 #include <errno.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <sys/sysctl.h>
 #import <mach/mach_host.h>
@@ -59,19 +58,18 @@
     #endif
     
     // Initialize all the variables that depend on the number of processors
-    immediateSystem       = malloc(numCPUs * sizeof(float));
-    immediateUser         = malloc(numCPUs * sizeof(float));
-    immediateNice         = malloc(numCPUs * sizeof(float));
-    immediateTotal        = malloc(numCPUs * sizeof(float));
-    fastValues            = malloc(numCPUs * sizeof(int));
-    immediateTemperatureC = malloc(numCPUs * sizeof(float));
+    immediateSystem       = malloc(numCPUs * sizeof(CGFloat));
+    immediateUser         = malloc(numCPUs * sizeof(CGFloat));
+    immediateNice         = malloc(numCPUs * sizeof(CGFloat));
+    immediateTotal        = malloc(numCPUs * sizeof(CGFloat));
+    fastValues            = malloc(numCPUs * sizeof(NSInteger));
+    immediateTemperatureC = malloc(numCPUs * sizeof(CGFloat));
     lastSlowCPUInfo       = malloc(numCPUs * sizeof(*lastSlowCPUInfo));
     lastFastCPUInfo       = malloc(numCPUs * sizeof(*lastFastCPUInfo));
     
-    temperatureKeys = [[NSMutableDictionary dictionaryWithCapacity:20] retain];
+    temperatureKeys = [[NSMutableDictionary dictionary] retain];
 
-    int i;
-    for (i = 0; i < numCPUs; i++) {
+    for (NSInteger i = 0; i < numCPUs; i++) {
         immediateSystem[i]       = 0;
         immediateUser[i]         = 0;
         immediateNice[i]         = 0;
@@ -87,35 +85,29 @@
     return self;
 }
 
-- (void)setTemperature:(bool)yesNo {
+- (void)setTemperature:(BOOL)yesNo {
     temperature = yesNo;
 }
 
-- (void)setLoadAverage:(bool)yesNo {
+- (void)setLoadAverage:(BOOL)yesNo {
     loadAverage = yesNo;
 }
 
-- (void)setUptime:(bool)yesNo {
+- (void)setUptime:(BOOL)yesNo {
     uptime = yesNo;
 }
 
 - (void)setTemperatureMiner:(XRGTemperatureMiner *)miner {
-    if (TemperatureMiner != nil) {
-        [TemperatureMiner autorelease];
-        TemperatureMiner = nil;
-    }
-    
-    if (miner != nil) {
-        TemperatureMiner = [miner retain];
-    }
+	[TemperatureMiner autorelease];
+	TemperatureMiner = [miner retain];
 }
 
 - (XRGTemperatureMiner *)temperatureMiner {
     return TemperatureMiner;
 }
 
-- (void)setDataSize:(int)newNumSamples {
-    int i;
+- (void)setDataSize:(NSInteger)newNumSamples {
+    NSInteger i;
 
     if (newNumSamples < 0) return;
     
@@ -168,8 +160,7 @@
 - (void)graphUpdate:(NSTimer *)aTimer {
     [self calculateCPUUsageForCPUs:&lastSlowCPUInfo count:numCPUs];
 	
-    int i;
-    for (i = 0; i < numCPUs; i++) {
+    for (NSInteger i = 0; i < numCPUs; i++) {
         [[userValues objectAtIndex:i]   setNextValue:immediateUser[i]];
         [[systemValues objectAtIndex:i] setNextValue:immediateSystem[i]];
         [[niceValues objectAtIndex:i]   setNextValue:immediateNice[i]];
@@ -190,9 +181,8 @@
 - (void)fastUpdate:(NSTimer *)aTimer {
     [self calculateCPUUsageForCPUs:&lastFastCPUInfo count:numCPUs];
 
-    int i;
-    for (i = 0; i < numCPUs; i++) {
-		float difference = fastValues[i] - (immediateUser[i] + immediateSystem[i] + immediateNice[i]);
+    for (NSInteger i = 0; i < numCPUs; i++) {
+		CGFloat difference = fastValues[i] - (immediateUser[i] + immediateSystem[i] + immediateNice[i]);
 		
 		if (difference < 5. && difference > -5.) {
 			fastValues[i] = immediateUser[i] + immediateSystem[i] + immediateNice[i];
@@ -202,7 +192,7 @@
 		}
 		
 		if (fastValues[i] < 0 || fastValues[i] > 100) {
-			float sum = immediateUser[i] + immediateSystem[i] + immediateNice[i];
+			CGFloat sum = immediateUser[i] + immediateSystem[i] + immediateNice[i];
 			
 			if (sum < 0) sum = 0;
 			if (sum > 100) sum = 100;
@@ -212,13 +202,12 @@
     }
 }
 
-- (int)calculateCPUUsageForCPUs:(processor_cpu_load_info_t *)lastCPUInfo count:(int)count {
+- (NSInteger)calculateCPUUsageForCPUs:(processor_cpu_load_info_t *)lastCPUInfo count:(NSInteger)count {
     processor_cpu_load_info_t		newCPUInfo;
     kern_return_t					kr;
     unsigned int					processor_count;
     mach_msg_type_number_t			load_count;
-    int								i;
-    int								totalCPUTicks;
+    NSInteger						totalCPUTicks;
 
     kr = host_processor_info(host, 
                              PROCESSOR_CPU_LOAD_INFO, 
@@ -229,23 +218,22 @@
         return 0;
     }
     else {
-        for (i = 0; i < processor_count; i++) {
+        for (NSInteger i = 0; i < processor_count; i++) {
             if (i >= count) break;
         
             totalCPUTicks = 0;
             
-            int j;
-            for (j = 0; j < CPU_STATE_MAX; j++) {
+            for (NSInteger j = 0; j < CPU_STATE_MAX; j++) {
                 totalCPUTicks += newCPUInfo[i].cpu_ticks[j] - (*lastCPUInfo)[i].cpu_ticks[j];
             }
             
-            immediateUser[i]   = (totalCPUTicks == 0) ? 0 : (float)(newCPUInfo[i].cpu_ticks[CPU_STATE_USER] - (*lastCPUInfo)[i].cpu_ticks[CPU_STATE_USER]) / (float)totalCPUTicks * 100.;
-            immediateSystem[i] = (totalCPUTicks == 0) ? 0 : (float)(newCPUInfo[i].cpu_ticks[CPU_STATE_SYSTEM] - (*lastCPUInfo)[i].cpu_ticks[CPU_STATE_SYSTEM]) / (float)totalCPUTicks * 100.;
-            immediateNice[i]   = (totalCPUTicks == 0) ? 0 : (float)(newCPUInfo[i].cpu_ticks[CPU_STATE_NICE] - (*lastCPUInfo)[i].cpu_ticks[CPU_STATE_NICE]) / (float)totalCPUTicks * 100.;
+            immediateUser[i]   = (totalCPUTicks == 0) ? 0 : (CGFloat)(newCPUInfo[i].cpu_ticks[CPU_STATE_USER] - (*lastCPUInfo)[i].cpu_ticks[CPU_STATE_USER]) / (CGFloat)totalCPUTicks * 100.;
+            immediateSystem[i] = (totalCPUTicks == 0) ? 0 : (CGFloat)(newCPUInfo[i].cpu_ticks[CPU_STATE_SYSTEM] - (*lastCPUInfo)[i].cpu_ticks[CPU_STATE_SYSTEM]) / (CGFloat)totalCPUTicks * 100.;
+            immediateNice[i]   = (totalCPUTicks == 0) ? 0 : (CGFloat)(newCPUInfo[i].cpu_ticks[CPU_STATE_NICE] - (*lastCPUInfo)[i].cpu_ticks[CPU_STATE_NICE]) / (CGFloat)totalCPUTicks * 100.;
             
             immediateTotal[i] = immediateUser[i] + immediateSystem[i] + immediateNice[i];
 
-            for(j = 0; j < CPU_STATE_MAX; j++)
+            for(NSInteger j = 0; j < CPU_STATE_MAX; j++)
                 (*lastCPUInfo)[i].cpu_ticks[j] = newCPUInfo[i].cpu_ticks[j];
         }
         
@@ -253,11 +241,11 @@
                       (vm_address_t)newCPUInfo, 
                       (vm_size_t)(load_count * sizeof(*newCPUInfo)));
                       
-        return (int)processor_count;
+        return (NSInteger)processor_count;
     }
 }
 
-- (int)getNumCPUs {
+- (NSInteger)getNumCPUs {
     processor_cpu_load_info_t		newCPUInfo;
     kern_return_t			kr;
     unsigned int			processor_count;
@@ -276,16 +264,16 @@
                       (vm_address_t)newCPUInfo, 
                       (vm_size_t)(load_count * sizeof(*newCPUInfo)));
                       
-        return (int)processor_count;
+        return (NSInteger)processor_count;
     }
 }
 
-- (float)getLoadAverage {
+- (CGFloat)getLoadAverage {
     host_load_info_data_t loadData;
     mach_msg_type_number_t count = HOST_LOAD_INFO_COUNT;
     
     if (host_statistics(host, HOST_LOAD_INFO, (host_info_t)&loadData, &count) == KERN_SUCCESS)
-        return (float)loadData.avenrun[0] / (float)LOAD_SCALE;
+        return (CGFloat)loadData.avenrun[0] / (CGFloat)LOAD_SCALE;
     else 
         return -1;
 }
@@ -319,64 +307,63 @@
 }
 
 - (void)setCurrentTemperatures {
-    int i;
 
     if (TemperatureMiner != nil) {
         float *temps = [TemperatureMiner currentCPUTemperature];
         
-        for (i = 0; i < [TemperatureMiner numberOfCPUs]; i++) {
+        for (NSInteger i = 0; i < [TemperatureMiner numberOfCPUs]; i++) {
             immediateTemperatureC[i] = temps[i];
         }
     }
 }
 
-- (float *)currentTemperatureC {
+- (CGFloat *)currentTemperatureC {
     return immediateTemperatureC;
 }
 
-- (float *)currentTotalUsage {
+- (CGFloat *)currentTotalUsage {
     return immediateTotal;
 }
 
-- (float *)currentUserUsage {
+- (CGFloat *)currentUserUsage {
     return immediateUser;
 }
 
-- (float *)currentSystemUsage {
+- (CGFloat *)currentSystemUsage {
     return immediateSystem;
 }
 
-- (float *)currentNiceUsage {
+- (CGFloat *)currentNiceUsage {
     return immediateNice;
 }
 
-- (int *)fastValues {
+- (NSInteger *)fastValues {
     return fastValues;
 }
 
-- (float)currentLoadAverage {
+- (CGFloat)currentLoadAverage {
     return currentLoadAverage;
 }
 
-- (int)uptimeDays {
+- (NSInteger)uptimeDays {
     return uptimeDays;
 }
 
-- (int)uptimeHours {
+- (NSInteger)uptimeHours {
     return uptimeHours;
 }
 
-- (int)uptimeMinutes {
+- (NSInteger)uptimeMinutes {
     return uptimeMinutes;
 }
 
-- (int)uptimeSeconds {
+- (NSInteger)uptimeSeconds {
     return uptimeSeconds;
 }
 
 // Returns an NSArray of XRGDataSet objects.  
 // The first XRGDataSet is system cpu usage, the second is user cpu usage, and the third is nice cpu usage.
-- (NSArray *)dataForCPU:(int)cpuNumber {
+- (NSArray *)dataForCPU:(NSInteger)cpuNumber {
 	if (cpuNumber >= [systemValues count] || cpuNumber >= [userValues count] || cpuNumber >= [niceValues count]) return nil;
 	
     NSMutableArray *a = [NSMutableArray arrayWithCapacity:3];
@@ -404,8 +391,7 @@
 	XRGDataSet *tmpUser = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:[userValues objectAtIndex:0]] autorelease];
 	XRGDataSet *tmpNice = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:[niceValues objectAtIndex:0]] autorelease];
 	
-	int i;
-	for (i = 1; i < numCPUs; i++) {
+	for (NSInteger i = 1; i < numCPUs; i++) {
 		[tmpSystem addOtherDataSetValues:[systemValues objectAtIndex:i]];
 		[tmpUser addOtherDataSetValues:[userValues objectAtIndex:i]];
 		[tmpNice addOtherDataSetValues:[niceValues objectAtIndex:i]];
@@ -421,7 +407,7 @@
 	return a;
 }
 
-- (int)numberOfCPUs {
+- (NSInteger)numberOfCPUs {
     return numCPUs;
 }
 

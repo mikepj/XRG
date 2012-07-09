@@ -41,60 +41,60 @@
 @interface XRGBatteryView : XRGGenericView {
 @private
     NSSize                  graphSize;
-    int                     numSamples;
+    NSInteger               numSamples;
     XRGModule               *m;
     
     // Cache Variables
     //NSMutableDictionary     *textWidthCache;
-    float                   NBF_WIDE;
-    float                   NBF_NORMAL;
-    float                   PERCENT_WIDE;
-    float                   CHARGED_WIDE;
-    float                   ESTIMATING_WIDE;
-    float                   ESTIMATING_NORMAL;
-    float                   VOLTAGE_WIDE;
-    float                   VOLTAGE_NORMAL;
-    float                   AMPERAGE_WIDE;
-    float                   AMPERAGE_NORMAL;
-    float                   CURRENT_WIDE;
-    float                   CURRENT_NORMAL;
-    float                   CAPACITY_WIDE;
-    float                   CAPACITY_NORMAL;
-    float                   NBIF_WIDE;
-    float                   NBIF_NORMAL;
-    float                   MAH_STRING;
+    CGFloat                 NBF_WIDE;
+    CGFloat                 NBF_NORMAL;
+    CGFloat                 PERCENT_WIDE;
+    CGFloat                 CHARGED_WIDE;
+    CGFloat                 ESTIMATING_WIDE;
+    CGFloat                 ESTIMATING_NORMAL;
+    CGFloat                 VOLTAGE_WIDE;
+    CGFloat                 VOLTAGE_NORMAL;
+    CGFloat                 AMPERAGE_WIDE;
+    CGFloat                 AMPERAGE_NORMAL;
+    CGFloat                 CURRENT_WIDE;
+    CGFloat                 CURRENT_NORMAL;
+    CGFloat                 CAPACITY_WIDE;
+    CGFloat                 CAPACITY_NORMAL;
+    CGFloat                 NBIF_WIDE;
+    CGFloat                 NBIF_NORMAL;
+    CGFloat                 MAH_STRING;
     
-    int                     *values;
-    int                     currentIndex;
-    int                     maxVal;
+    NSInteger               *values;
+    NSInteger               currentIndex;
+    NSInteger               maxVal;
     
-    int                     *current;
-    int                     *capacity;
-    int                     *charge;
-    int                     *voltage;
-    int                     *amperage;
+    NSInteger               *current;
+    NSInteger               *capacity;
+    NSInteger               *charge;
+    NSInteger               *voltage;
+    NSInteger               *amperage;
     
-    int                     currentPercent;
-    int                     chargeSum;
-    int                     capacitySum;
-    int                     voltageAverage;
-    int                     amperageAverage;
+    NSInteger               currentPercent;
+    NSInteger               chargeSum;
+    NSInteger               capacitySum;
+    NSInteger               voltageAverage;
+    NSInteger               amperageAverage;
     
-    int                     maxVolts;
-    int                     maxAmps;
-	int						minAmps;
+    NSInteger               maxVolts;
+    NSInteger               maxAmps;
+	NSInteger               minAmps;
     
-    int                     powerStatus;
-    int                     lastPowerStatus;
-    int                     numBatteries;
-    int                     displayMode;
-    int                     minutesRemaining;
-    int                     tripleCount;
+    NSInteger               powerStatus;
+    NSInteger               lastPowerStatus;
+    NSInteger               numBatteries;
+    NSInteger               displayMode;
+    NSInteger               minutesRemaining;
+    NSInteger               tripleCount;
     
-    int                     graphPixelTimeFrame;
-    int                     statsUpdateTimeFrame;
-    float                   currentPixelTime;
-    float                   currentStatsTime;
+    NSInteger               graphPixelTimeFrame;
+    NSInteger               statsUpdateTimeFrame;
+    CGFloat                 currentPixelTime;
+    CGFloat                 currentStatsTime;
 }
 - (void)setGraphSize:(NSSize)newSize;
 - (void)setWidth:(int)newWidth;

@@ -961,7 +961,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 ///// Action Helpers /////
 
-- (void)setWindowLevelHelper:(int)index
+- (void)setWindowLevelHelper:(NSInteger)index
 {
     if (index == 0)
     {
@@ -976,7 +976,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     }
 }
 
-- (NSColor *)colorForTag:(int)aTag {
+- (NSColor *)colorForTag:(NSInteger)aTag {
     switch (aTag) {
         case 21:  return [self.appSettings backgroundColor];
         case 22:  return [self.appSettings graphBGColor];
@@ -990,7 +990,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     return nil;
 }
 
-- (float)transparencyForTag:(int)aTag {
+- (float)transparencyForTag:(NSInteger)aTag {
     switch (aTag) {
         case 21: return [self.appSettings backgroundTransparency];
         case 22: return [self.appSettings graphBGTransparency];

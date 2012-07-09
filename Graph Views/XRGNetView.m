@@ -465,8 +465,8 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
 
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 
-    int i, max, tx, rx;
-    int textRectHeight = [appSettings textRectHeight];
+    NSInteger i, max, tx, rx;
+    NSInteger textRectHeight = [appSettings textRectHeight];
     max = [self getMaxValue];
     max = (max > [appSettings netMinGraphScale]) ? max : [appSettings netMinGraphScale];
 
@@ -482,7 +482,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
 
     CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));
     
-    int netGraphMode = [appSettings netGraphMode];
+    NSInteger netGraphMode = [appSettings netGraphMode];
 
 
     /* received data */
@@ -523,11 +523,11 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         tmpRect.origin.y -= textRectHeight;
         tmpRect.size.height += textRectHeight;
         if (max >= 1048576)
-            [s appendFormat:@"\n%3.2fM/s",((float)max / 1048576.)];
+            [s appendFormat:@"\n%3.2fM/s", ((CGFloat)max / 1048576.)];
         else if (max >= 1024)
-            [s appendFormat:@"\n%4.1fK/s",((float)max / 1024.)];
+            [s appendFormat:@"\n%4.1fK/s", ((CGFloat)max / 1024.)];
         else
-            [s appendFormat:@"\n%dB/s", max];
+            [s appendFormat:@"\n%ldB/s", (long)max];
     }
     
     // draw the total bandwidth used if there is room
@@ -536,13 +536,13 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
             if (totalBytesSinceBoot >= 1073741824)
-                [s appendFormat:@"\n%3.2fG", ((float)totalBytesSinceBoot / 1073741824.)];
+                [s appendFormat:@"\n%3.2fG", ((CGFloat)totalBytesSinceBoot / 1073741824.)];
             else if (totalBytesSinceBoot >= 1048576)
-                [s appendFormat:@"\n%3.2fM", ((float)totalBytesSinceBoot / 1048576.)];
+                [s appendFormat:@"\n%3.2fM", ((CGFloat)totalBytesSinceBoot / 1048576.)];
             else if (totalBytesSinceBoot >= 1024)
-                [s appendFormat:@"\n%4.1fK", ((float)totalBytesSinceBoot / 1024.)];
+                [s appendFormat:@"\n%4.1fK", ((CGFloat)totalBytesSinceBoot / 1024.)];
             else
-                [s appendFormat:@"\n%dB", totalBytesSinceBoot];
+                [s appendFormat:@"\n%quB", totalBytesSinceBoot];
         }
     }
     if ([appSettings showTotalBandwidthSinceLoad]) {
@@ -550,13 +550,13 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
             if (totalBytesSinceLoad >= 1073741824)
-                [s appendFormat:@"\n%3.2fG", ((float)totalBytesSinceLoad / 1073741824.)];
+                [s appendFormat:@"\n%3.2fG", ((CGFloat)totalBytesSinceLoad / 1073741824.)];
             else if (totalBytesSinceLoad >= 1048576)
-                [s appendFormat:@"\n%3.2fM", ((float)totalBytesSinceLoad / 1048576.)];
+                [s appendFormat:@"\n%3.2fM", ((CGFloat)totalBytesSinceLoad / 1048576.)];
             else if (totalBytesSinceLoad >= 1024)
-                [s appendFormat:@"\n%4.1fK", ((float)totalBytesSinceLoad / 1024.)];
+                [s appendFormat:@"\n%4.1fK", ((CGFloat)totalBytesSinceLoad / 1024.)];
             else
-                [s appendFormat:@"\n%dB", totalBytesSinceLoad];
+                [s appendFormat:@"\n%quB", totalBytesSinceLoad];
         }
     }
 
@@ -569,28 +569,28 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         
         rx = [self getRecvBytes];
 		if (rx >= 104857600) 
-			[s appendFormat:@"%3.1fM Rx", ((float)rx / 1048576.)];
+			[s appendFormat:@"%3.1fM Rx", ((CGFloat)rx / 1048576.)];
         else if (rx >= 1048576)
-            [s appendFormat:@"%3.2fM Rx",((float)rx / 1048576.)];
+            [s appendFormat:@"%3.2fM Rx", ((CGFloat)rx / 1048576.)];
         else if (rx >= 102400)
-            [s appendFormat:@"%4.0fK Rx",((float)rx / 1024.)];
+            [s appendFormat:@"%4.0fK Rx", ((CGFloat)rx / 1024.)];
         else if (rx >= 1024)
-            [s appendFormat:@"%4.1fK Rx",((float)rx / 1024.)];
+            [s appendFormat:@"%4.1fK Rx", ((CGFloat)rx / 1024.)];
         else
-            [s appendFormat:@"%dB Rx",rx];
+            [s appendFormat:@"%ldB Rx", (long)rx];
         
         
         tx = [self getSendBytes];
 		if (tx >= 104857600) 
-			[s appendFormat:@"\n%3.1fM Tx", ((float)tx / 1048576.)];
+			[s appendFormat:@"\n%3.1fM Tx", ((CGFloat)tx / 1048576.)];
         else if (tx >= 1048576)
-            [s appendFormat:@"\n%3.2fM Tx",((float)tx / 1048576.)];
+            [s appendFormat:@"\n%3.2fM Tx", ((CGFloat)tx / 1048576.)];
         else if (rx >= 102400)
-            [s appendFormat:@"\n%4.0fK Tx",((float)tx / 1024.)];
+            [s appendFormat:@"\n%4.0fK Tx", ((CGFloat)tx / 1024.)];
         else if (tx >= 1024)
-            [s appendFormat:@"\n%4.1fK Tx",((float)tx / 1024.)];
+            [s appendFormat:@"\n%4.1fK Tx", ((CGFloat)tx / 1024.)];
         else
-            [s appendFormat:@"\n%dB Tx",tx];
+            [s appendFormat:@"\n%ldB Tx", (long)tx];
         
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
@@ -600,15 +600,15 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         [s setString:@""];
         rx = [self getRecvBytes];
 		if (rx >= 104857600) 
-			[s appendFormat:@"%3.1fM Rx", ((float)rx / 1048576.)];
+			[s appendFormat:@"%3.1fM Rx", ((CGFloat)rx / 1048576.)];
         else if (rx >= 1048576)
-            [s appendFormat:@"%3.2fM Rx",((float)rx / 1048576.)];
+            [s appendFormat:@"%3.2fM Rx", ((CGFloat)rx / 1048576.)];
         else if (rx >= 102400)
-            [s appendFormat:@"%4.0fK Rx",((float)rx / 1024.)];
+            [s appendFormat:@"%4.0fK Rx", ((CGFloat)rx / 1024.)];
         else if (rx >= 1024)
-            [s appendFormat:@"%4.1fK Rx",((float)rx / 1024.)];
+            [s appendFormat:@"%4.1fK Rx", ((CGFloat)rx / 1024.)];
         else
-            [s appendFormat:@"%dB Rx",rx];
+            [s appendFormat:@"%ldB Rx", (long)rx];
 		
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
         
@@ -616,15 +616,15 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         [s setString:@""];
         tx = [self getSendBytes];
 		if (tx >= 104857600) 
-			[s appendFormat:@"%3.1fM Tx", ((float)tx / 1048576.)];
+			[s appendFormat:@"%3.1fM Tx", ((CGFloat)tx / 1048576.)];
         else if (tx >= 1048576)
-            [s appendFormat:@"%3.2fM Tx",((float)tx / 1048576.)];
+            [s appendFormat:@"%3.2fM Tx", ((CGFloat)tx / 1048576.)];
         else if (tx >= 102400)
-            [s appendFormat:@"%4.0fK Tx",((float)tx / 1024.)];
+            [s appendFormat:@"%4.0fK Tx", ((CGFloat)tx / 1024.)];
         else if (tx >= 1024)
-            [s appendFormat:@"%4.1fK Tx",((float)tx / 1024.)];
+            [s appendFormat:@"%4.1fK Tx", ((CGFloat)tx / 1024.)];
         else
-            [s appendFormat:@"%dB Tx",tx];
+            [s appendFormat:@"%ldB Tx", (long)tx];
 		
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
@@ -634,15 +634,15 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         [s setString:@""];
         tx = [self getSendBytes];
 		if (tx >= 104857600) 
-			[s appendFormat:@"%3.1fM Tx", ((float)tx / 1048576.)];
+			[s appendFormat:@"%3.1fM Tx", ((CGFloat)tx / 1048576.)];
         else if (tx >= 1048576)
-            [s appendFormat:@"%3.2fM Tx",((float)tx / 1048576.)];
+            [s appendFormat:@"%3.2fM Tx", ((CGFloat)tx / 1048576.)];
         else if (tx >= 102400)
-            [s appendFormat:@"%4.0fK Tx",((float)tx / 1024.)];
+            [s appendFormat:@"%4.0fK Tx", ((CGFloat)tx / 1024.)];
         else if (tx >= 1024)
-            [s appendFormat:@"%4.1fK Tx",((float)tx / 1024.)];
+            [s appendFormat:@"%4.1fK Tx", ((CGFloat)tx / 1024.)];
         else
-            [s appendFormat:@"%dB Tx",tx];
+            [s appendFormat:@"%ldB Tx", (long)tx];
 		
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
         
@@ -650,15 +650,15 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         [s setString:@""];
         rx = [self getRecvBytes];
 		if (rx >= 104857600) 
-			[s appendFormat:@"%3.1fM Rx", ((float)rx / 1048576.)];
+			[s appendFormat:@"%3.1fM Rx", ((CGFloat)rx / 1048576.)];
         else if (rx >= 1048576)
-            [s appendFormat:@"%3.2fM Rx",((float)rx / 1048576.)];
+            [s appendFormat:@"%3.2fM Rx", ((CGFloat)rx / 1048576.)];
         else if (rx >= 102400)
-            [s appendFormat:@"%4.0fK Rx",((float)rx / 1024.)];
+            [s appendFormat:@"%4.0fK Rx", ((CGFloat)rx / 1024.)];
         else if (rx >= 1024)
-            [s appendFormat:@"%4.1fK Rx",((float)rx / 1024.)];
+            [s appendFormat:@"%4.1fK Rx", ((CGFloat)rx / 1024.)];
         else
-            [s appendFormat:@"%dB Rx",rx];
+            [s appendFormat:@"%ldB Rx", (long)rx];
 		
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
@@ -811,7 +811,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net)
     struct ppp_msg_hdr msg;
     struct ppp_status status;
     int link = 0; //Assume using ppp0
-    int len;
+    size_t len;
 
     sock = socket(AF_LOCAL, SOCK_STREAM, 0);
     if (sock == -1)

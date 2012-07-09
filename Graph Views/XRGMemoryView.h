@@ -33,8 +33,8 @@
 {
 @private
     NSSize						graphSize;
-    int							numSamples;
-    int							textRectHeight;
+    NSInteger					numSamples;
+    NSInteger					textRectHeight;
     XRGModule                   *m;
     XRGMemoryMiner              *memoryMiner;
 	XRGProcessMiner				*processMiner;

@@ -667,8 +667,7 @@
 		incrementer = 1;
 	}
 	
-	int i;
-	for (i = startIndex; i != doneIndex; i += incrementer) {
+	for (NSInteger i = startIndex; i != doneIndex; i += incrementer) {
 		// if there is a module object reference, then use this as a display module.
 		if ([[displayModules objectAtIndex:i] reference] != nil) {
 			NSSize moduleSize = [[displayModules objectAtIndex:i] currentSize];

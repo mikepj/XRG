@@ -123,14 +123,14 @@
 }
 
 - (void)setWidth:(int)newWidth {
-    int i;
-    int newNumSamples = newWidth;
+    NSInteger i;
+    NSInteger newNumSamples = newWidth;
     maxVal = 0;
     
     if (values) {
-        int *newVals;
-        int newValIndex = newNumSamples - 1;
-        newVals   = calloc(newNumSamples, sizeof(int));
+        NSInteger *newVals;
+        NSInteger newValIndex = newNumSamples - 1;
+        newVals   = calloc(newNumSamples, sizeof(NSInteger));
         
         for (i = currentIndex; i >= 0; i--) {
             if (newValIndex < 0) break;
@@ -149,7 +149,7 @@
         currentIndex = newNumSamples - 1;
     }
     else {
-        values = calloc(newNumSamples, sizeof(int));
+        values = calloc(newNumSamples, sizeof(NSInteger));
         currentIndex = 0;
     }
     numSamples  = newNumSamples;
@@ -220,12 +220,12 @@
         // change the minutes remaining
         if (current && capacity) {
             if (powerStatus == RUNNING_ON_BATTERY) {
-                int changePerMinute = (float)(values[currentIndex] - chargeSum) * (float)(60. / (float)graphPixelTimeFrame);
-                minutesRemaining = (float)chargeSum / (float)changePerMinute;
+                NSInteger changePerMinute = (CGFloat)(values[currentIndex] - chargeSum) * (CGFloat)(60. / (CGFloat)graphPixelTimeFrame);
+                minutesRemaining = (CGFloat)chargeSum / (CGFloat)changePerMinute;
             }
             else if (powerStatus == CHARGING) {
-                int changePerMinute = (float)(chargeSum - values[currentIndex]) * (float)(60. / (float)graphPixelTimeFrame);
-                minutesRemaining = (float)(capacitySum - chargeSum) / (float)changePerMinute;
+                NSInteger changePerMinute = (CGFloat)(chargeSum - values[currentIndex]) * (CGFloat)(60. / (CGFloat)graphPixelTimeFrame);
+                minutesRemaining = (CGFloat)(capacitySum - chargeSum) / (CGFloat)changePerMinute;
             }
         }
         // Check that minutes remaining is reasonable (< 20 hours)
@@ -262,8 +262,8 @@
     }
   
     if ((err = IOPMCopyBatteryInfo(port, &battinfo)) == kIOReturnSuccess && battinfo != NULL) {
-        numBatteries = CFArrayGetCount(battinfo);
-        int i;
+		NSArray *batteryInfoArray = (NSArray *)battinfo;
+        numBatteries = batteryInfoArray.count;
         
         // Since there could be a different number of batteries each time we run this code,
         // we have to reset the arrays that hold the battery values each time.
@@ -278,11 +278,11 @@
             powerStatus = NO_BATTERY;
         }
         else {
-            current  = (int *)calloc(numBatteries, sizeof(int));
-            capacity = (int *)calloc(numBatteries, sizeof(int));
-            charge   = (int *)calloc(numBatteries, sizeof(int));
-            voltage  = (int *)calloc(numBatteries, sizeof(int));
-            amperage = (int *)calloc(numBatteries, sizeof(int));
+            current  = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
+            capacity = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
+            charge   = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
+            voltage  = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
+            amperage = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
         }
             
         currentPercent = 0;
@@ -291,12 +291,10 @@
         voltageAverage = 0;
         amperageAverage = 0;
         
-        int skipBatteries = 0;
+        NSInteger skipBatteries = 0;
         
-        for (i = 0; i < numBatteries; i++) {
-            int flags;
-            CFNumberGetValue(CFDictionaryGetValue(CFArrayGetValueAtIndex(battinfo, i),
-            CFSTR(kIOBatteryFlagsKey)), kCFNumberSInt32Type, &flags);
+        for (NSInteger i = 0; i < numBatteries; i++) {
+            NSInteger flags = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryFlagsKey]] integerValue];
             
             // Check if this is really a battery
             if (flags & kIOPMACnoChargeCapability) {
@@ -318,34 +316,22 @@
             }
             
             // get the current charge
-            CFNumberGetValue(CFDictionaryGetValue(CFArrayGetValueAtIndex(battinfo, i),
-                                                    CFSTR(kIOBatteryCurrentChargeKey)),
-                                kCFNumberSInt32Type, 
-                                &current[i]);
+			current[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryCurrentChargeKey]] integerValue];
             chargeSum += current[i];
             
             // get the total capacity
-            CFNumberGetValue(CFDictionaryGetValue(CFArrayGetValueAtIndex(battinfo, i),
-                                                    CFSTR(kIOBatteryCapacityKey)),
-                                kCFNumberSInt32Type, 
-                                &capacity[i]);
+			capacity[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryCapacityKey]] integerValue];
             capacitySum += capacity[i];
                                 
             // get the current voltage
-            CFNumberGetValue(CFDictionaryGetValue(CFArrayGetValueAtIndex(battinfo, i),
-                                                    CFSTR(kIOBatteryVoltageKey)),
-                                kCFNumberSInt32Type, 
-                                &voltage[i]);
+			voltage[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryVoltageKey]] integerValue];
             if (voltage[i] || i == 0)
                 voltageAverage += voltage[i];
             else 
                 voltageAverage += voltageAverage / i;
                                                 
             // get the current amperage
-            CFNumberGetValue(CFDictionaryGetValue(CFArrayGetValueAtIndex(battinfo, i),
-                                                    CFSTR(kIOBatteryAmperageKey)),
-                                kCFNumberSInt32Type, 
-                                &amperage[i]);
+			amperage[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryAmperageKey]] integerValue];
             if (amperage[i] || i == 0)
                 amperageAverage += amperage[i];
             else 
@@ -522,28 +508,28 @@
         if (minutesRemaining > 0) {
             NSString *mrString;
             if (minutesRemaining % 60 < 10)
-                mrString = [NSString stringWithFormat:@"%d:0%d", minutesRemaining / 60, minutesRemaining % 60];
+                mrString = [NSString stringWithFormat:@"%ld:0%ld", (long)minutesRemaining / 60, (long)minutesRemaining % 60];
             else 
-                mrString = [NSString stringWithFormat:@"%d:%d", minutesRemaining / 60, minutesRemaining % 60];
+                mrString = [NSString stringWithFormat:@"%ld:%ld", (long)minutesRemaining / 60, (long)minutesRemaining % 60];
             
             if (PERCENT_WIDE <= textRect.size.width) {
-                [leftS appendFormat:@"%d%% Charged", currentPercent];
+                [leftS appendFormat:@"%ld%% Charged", (long)currentPercent];
                 [rightS appendFormat:@"%@ Left", mrString];
             }
             else {
-                [leftS appendFormat:@"%d%%", currentPercent];
+                [leftS appendFormat:@"%ld%%", (long)currentPercent];
                 [rightS appendString: mrString];
             }
         }
         else if (powerStatus == CHARGED) {
-            [leftS appendFormat:@"%d%%", currentPercent];
+            [leftS appendFormat:@"%ld%%", (long)currentPercent];
             if (CHARGED_WIDE <= textRect.size.width)
                 [rightS appendFormat:@"Charged"];
             else
                 [rightS appendFormat:@"Chgd."];
         }
         else {
-            [leftS appendFormat:@"%d%%", currentPercent];
+            [leftS appendFormat:@"%ld%%", (long)currentPercent];
             if (ESTIMATING_WIDE <= textRect.size.width)
                 [rightS appendFormat:@"Estimating Left"];
             else if (ESTIMATING_NORMAL <= textRect.size.width)
@@ -603,7 +589,7 @@
             textRect.origin.y -= textRectHeight;
             textRect.size.height += textRectHeight;
             
-            NSString *chargeString = [NSString stringWithFormat:@"\n%dmAh", chargeSum];
+            NSString *chargeString = [NSString stringWithFormat:@"\n%ldmAh", (long)chargeSum];
             
             if (CURRENT_WIDE + MAH_STRING <= textRect.size.width) {
                 [leftS appendString:@"\nRemaining Capacity:"];
@@ -628,7 +614,7 @@
             textRect.origin.y -= textRectHeight;
             textRect.size.height += textRectHeight;
             
-            NSString *capacityString = [NSString stringWithFormat:@"\n%dmAh", capacitySum];
+            NSString *capacityString = [NSString stringWithFormat:@"\n%ldmAh", (long)capacitySum];
             
             if (CAPACITY_WIDE + MAH_STRING <= textRect.size.width) {
                 [leftS appendString:@"\nMaximum Capacity:"];
