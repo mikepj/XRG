@@ -336,7 +336,13 @@ typedef enum {
             result = [self uintValueFromSMC:stuffMeOut.bytes length:dataSize];
             break;
         case kSMCDataTypeSP78:
-            result = [NSNumber numberWithFloat:(((stuffMeOut.bytes[0] * 256 + stuffMeOut.bytes[1]) >> 2)/64.)]; 	
+			if (stuffMeOut.bytes[0] == 0x84)                                         result = [NSNumber numberWithInteger:-124];	// Unstable Temperature
+			else if (stuffMeOut.bytes[0] == 0x83)                                    result = [NSNumber numberWithInteger:-125];	// Temperature below allowed minimum
+			else if (stuffMeOut.bytes[0] == 0x82)                                    result = [NSNumber numberWithInteger:-126];	// Sensor failed to initialize
+			else if (stuffMeOut.bytes[0] == 0x81)                                    result = [NSNumber numberWithInteger:-127];	// Sensor skipped
+			else if (stuffMeOut.bytes[0] == 0x80)                                    result = [NSNumber numberWithInteger:-128];	// Temperature can't be read
+			else if ((stuffMeOut.bytes[0] == 0x7F) && (stuffMeOut.bytes[1] == 0xE7)) result = [NSNumber numberWithFloat:127.9];		// Hot temperature.
+			else                                                                     result = [NSNumber numberWithFloat:(((stuffMeOut.bytes[0] * 256 + stuffMeOut.bytes[1]) >> 2)/64.)];
             break;
         case kSMCDataTypeFPE2:
             result = [self floatNumberFromFPE2:stuffMeOut.bytes length:dataSize]; 
