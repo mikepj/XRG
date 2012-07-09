@@ -825,9 +825,23 @@
             NSString *fanLocation = fanKey;
             
             id fanDict = [values objectForKey:fanKey];
-            [self setCurrentValue:[[fanDict objectForKey:@"Speed"] floatValue]
-                         andUnits:@" rpm"
-                      forLocation:fanLocation];
+			
+			// Find the actual fan speed key.
+			NSArray *fanDictKeys = [fanDict allKeys];
+			NSUInteger speedKeyIndex = [fanDictKeys indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
+				if ([obj hasSuffix:@"Ac"]) {
+					*stop = YES;
+					return YES;
+				}
+				
+				return NO;
+			}];
+			if (speedKeyIndex != NSNotFound) {
+				id fanSpeedKey = [fanDictKeys objectAtIndex:speedKeyIndex];
+				[self setCurrentValue:[[fanDict objectForKey:fanSpeedKey] floatValue]
+							 andUnits:@" rpm"
+						  forLocation:fanLocation];
+			}
         }
     }
 	
@@ -1068,42 +1082,7 @@
 			[valueDictionary setObject:@"CPU B Ambient" forKey:GSLabelKey];
 		}
 		else {
-			const char *s = [location cStringUsingEncoding:NSUTF8StringEncoding];
-			char *s2 = alloca((strlen(s) + 1) * sizeof(char));
-			s2[strlen(s)] = '\0';
-			
-			int j = 0;
-			bool beginningOfWord = YES;
-			while (s[j] != '\0') {
-				if (beginningOfWord) {
-					// leave it upper case
-					s2[j] = s[j];
-				}
-				else if (s[j] >= 'A' && s[j] <= 'Z') {
-					// make this lower case.
-					s2[j] = s[j] - 'A' + 'a';
-				}
-				else {
-					// not an upper case letter, leave it how it is.
-					s2[j] = s[j];
-				}
-				
-				if ((s[j] >= 'A' && s[j] <= 'Z') || (s[j] >= '0' && s[j] <= '9')) {
-					beginningOfWord = NO;
-				}
-				else {
-					beginningOfWord = YES;
-				}
-				
-				j++;
-			}
-			NSMutableString *newString = [NSMutableString stringWithCString:s2 encoding:NSUTF8StringEncoding];
-			[newString replaceOccurrencesOfString:@"cpu" withString:@"CPU" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [newString length])];
-			[newString replaceOccurrencesOfString:@"gpu" withString:@"GPU" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [newString length])];
-			[newString replaceOccurrencesOfString:@"pci" withString:@"PCI" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [newString length])];
-			[newString replaceOccurrencesOfString:@"agp" withString:@"AGP" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [newString length])];
-			
-			[valueDictionary setObject:newString forKey:GSLabelKey];
+			[valueDictionary setObject:location forKey:GSLabelKey];
 		}
 	}
 				
