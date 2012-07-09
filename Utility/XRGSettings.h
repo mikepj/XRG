@@ -26,7 +26,83 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface XRGSettings : NSObject
+@interface XRGSettings : NSObject {
+	// Colors
+	NSColor					*backgroundColor;
+	NSColor					*graphBGColor;
+	NSColor					*graphFG1Color;
+	NSColor					*graphFG2Color;
+	NSColor					*graphFG3Color;
+	NSColor					*borderColor;
+	NSColor					*textColor;
+	
+	// Transparencies
+	CGFloat					backgroundTransparency;
+	CGFloat					graphBGTransparency;
+	CGFloat					graphFG1Transparency;
+	CGFloat					graphFG2Transparency;
+	CGFloat					graphFG3Transparency;
+	CGFloat					borderTransparency;
+	CGFloat					textTransparency;
+    
+	// Text attributes
+	NSFont					*graphFont;
+	NSInteger				textRectHeight;
+	NSMutableParagraphStyle	*alignRight;
+	NSMutableParagraphStyle	*alignLeft;
+	NSMutableParagraphStyle	*alignCenter;
+	NSMutableDictionary		*alignRightAttributes;
+	NSMutableDictionary		*alignLeftAttributes;
+	NSMutableDictionary		*alignCenterAttributes;
+	
+	// Other user defined settings
+	BOOL					fastCPUUsage;
+	BOOL					separateCPUColor;
+	BOOL					showCPUTemperature;
+	NSInteger				cpuTemperatureUnits;
+	BOOL					antiAliasing;
+	NSString				*ICAO;
+	NSInteger				secondaryWeatherGraph;
+	NSInteger				temperatureUnits;
+	NSInteger				distanceUnits;
+	NSInteger				pressureUnits;
+	BOOL					showMemoryPagingGraph;
+	BOOL					memoryShowWired;
+	BOOL					memoryShowActive;
+	BOOL					memoryShowInactive;
+	BOOL					memoryShowFree;
+	BOOL					memoryShowCache;
+	BOOL					memoryShowPage;
+	CGFloat					graphRefresh;
+	BOOL					showLoadAverage;
+	NSInteger				netMinGraphScale;
+	NSString				*stockSymbols;
+	NSInteger				stockGraphTimeFrame;
+	BOOL					stockShowChange;
+	BOOL					showDJIA;
+	NSInteger				windowLevel;
+	BOOL					stickyWindow;
+	BOOL					checkForUpdates;
+	NSInteger				netGraphMode;
+	NSInteger				diskGraphMode;
+	BOOL					dropShadow;
+	BOOL					showTotalBandwidthSinceBoot;
+	BOOL					showTotalBandwidthSinceLoad;
+	NSString				*networkInterface;
+	NSString				*windowTitle;
+	BOOL					autoExpandGraph;
+	BOOL					foregroundWhenExpanding;
+	BOOL					showSummary;
+	NSInteger				minimizeUpDown;
+	BOOL					antialiasText;
+	BOOL					cpuShowAverageUsage;
+	BOOL					cpuShowUptime;
+	NSInteger				tempUnits;
+	NSInteger				tempFG1Location;
+	NSInteger				tempFG2Location;
+	NSInteger				tempFG3Location;
+}
+
 // Colors
 @property (retain,nonatomic) NSColor		*backgroundColor;
 @property (retain,nonatomic) NSColor		*graphBGColor;
