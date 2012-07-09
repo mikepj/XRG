@@ -54,7 +54,7 @@ static SMCKeyDescription sKnownDescriptions[] = {
     { "TG?D", @"GPU Die" },
     { "TG?H", @"GPU Heatsink" },
     { "TG?P", @"GPU Proximity" },
-    { "TH?P", @"Harddisk Proximity" },
+    { "TH?P", @"HD Proximity" },
     { "Th?H", @"Heatsink" },
     { "TM?P", @"Memory Proximity" },
     { "TM?S", @"Memory" },
@@ -78,6 +78,10 @@ static SMCKeyDescription sKnownDescriptions[] = {
 	{ "MO_Y", @"Motion-Y" },
     { "MO_Z", @"Motion-Z" },
 	{ "MOCN", @"Motion" },
+	// Noise: (sourced from http://www.assembla.com/spaces/fakesmc/wiki/Known_SMC_Keys/history )
+	{ "dBA?", @"Noise near Fan" },
+	{ "dBAH", @"Noise near HD" },
+	{ "dBAT", @"Total Noise" },
     // Fans:
     { "F?Ac", @"Fan Speed" },
     { "F?Mn", @"Fan Minimum Speed" },
@@ -224,7 +228,7 @@ typedef enum {
         
         isFanKey = keyChar[0] == 'F' && isdigit( keyChar[1] );
         isTemperatureKey = keyChar[0] == 'T';
-		
+				
         SMCKeyDescription *aDescription = sKnownDescriptions;
         while( !smcLocationName && aDescription->humanReadableName ) {
             keyIndex = [self c4String:keyChar matchesPattern:aDescription->pattern];
@@ -248,7 +252,7 @@ typedef enum {
                         }
                     } 
                     
-                } else {
+                } else if (keyIndex != kDirectMatch) {
                     appendIndexToDescription = YES;
                 }
             }
