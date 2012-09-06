@@ -376,8 +376,13 @@ typedef enum {
 
 - (NSInteger) keyCount
 {
-    NSNumber *count = [self readValue:'#KEY' error:nil];
-    return [count intValue];
+    id count = [self readValue:'#KEY' error:nil];
+	if ([count isKindOfClass:[NSNumber class]]) {
+		return [(NSNumber *)count integerValue];
+	}
+	else {
+		return 0;
+	}
 }
 
 - (uint32_t) keyAtIndex:(NSInteger)anIndex {
