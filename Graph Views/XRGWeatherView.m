@@ -517,7 +517,7 @@
     }
     else {
         // fall back on the integer degree values
-        index = [self findString:"^M?[0-9]{2}/M?[0-9]{2}$" inArray:fields];
+        index = [self findString:"^M?[0-9]{2}/(M?[0-9]{2})?$" inArray:fields];
         if (index == NSNotFound) {
             return -273;
         }
