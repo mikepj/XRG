@@ -79,6 +79,12 @@
     CGFloat height_scaled;
     CGFloat dx = rect.size.width / nSamples;
     CGFloat x;
+	
+	if (fabs(max - min) < 0.001) {
+		// Set the difference of max and min to 1 to avoid a divide by 0.
+		max += 0.5;
+		min -= 0.5;
+	}
 
     CGFloat scale = rect.size.height / (max - min);
     if (flipped) scale *= -1.0f;
