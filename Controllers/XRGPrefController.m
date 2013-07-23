@@ -779,7 +779,7 @@
         [ICAOCode setStringValue:@""];
         
     // Setup station list link
-    NSString *htmlString = @"<a href=\"http://adds.aviationweather.noaa.gov/metars/stations.txt\">Station Listing</a>";
+    NSString *htmlString = @"<a href=\"http://www.aviationweather.gov/static/adds/metars/stations.txt\">Station Listing</a>";
 	const char *cString = [htmlString cStringUsingEncoding:NSASCIIStringEncoding];
 	[weatherStationListLink setAttributedTitle:[[[NSAttributedString alloc] initWithHTML:[NSData dataWithBytes:cString length:strlen(cString)] documentAttributes:nil] autorelease]];
     [weatherStationListLink setTarget:self];
@@ -1255,7 +1255,7 @@
 -(IBAction) openWeatherStationList:(id)sender {
     [NSTask 
         launchedTaskWithLaunchPath:@"/usr/bin/open"
-        arguments:[NSArray arrayWithObject:@"http://adds.aviationweather.noaa.gov/metars/stations.txt"]
+        arguments:[NSArray arrayWithObject:@"http://www.aviationweather.gov/static/adds/metars/stations.txt"]
     ];
 }
 
