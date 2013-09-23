@@ -37,11 +37,6 @@
 
 /************ code from IOPMLibPrivate.c starts here: ***************/ 
 /* internal defines: */ 
-static IOReturn _smcReadKey(
-                            uint32_t key,
-                            uint8_t *outBuf,
-                            uint8_t *outBufMax);
-
 // Todo: verify kSMCKeyNotFound
 enum {
     kSMCKeyNotFound = 0x84
@@ -109,78 +104,6 @@ typedef struct {
     uint32_t            data32;    
     uint8_t             bytes[32];
 }  SMCParamStruct;
-
-static IOReturn callSMCFunction(
-                                int which, 
-                                SMCParamStruct *inputValues, 
-                                SMCParamStruct *outputValues);
-
-
-
-static IOReturn _smcReadKey(
-                            uint32_t key,
-                            uint8_t *outBuf,
-                            uint8_t *outBufMax)
-{
-    SMCParamStruct  stuffMeIn;
-    SMCParamStruct  stuffMeOut;
-    IOReturn        ret;
-    int             i;
-    
-    if (key == 0 || outBuf == NULL) 
-        return kIOReturnCannotWire;
-    
-    // Determine key's data size
-    bzero(outBuf, *outBufMax);
-    bzero(&stuffMeIn, sizeof(SMCParamStruct));
-    bzero(&stuffMeOut, sizeof(SMCParamStruct));
-    stuffMeIn.data8 = kSMCGetKeyInfo;
-    stuffMeIn.key = key;
-    
-    ret = callSMCFunction(kSMCHandleYPCEvent, &stuffMeIn, &stuffMeOut);
-    
-    if (stuffMeOut.result == kSMCKeyNotFound) {
-        ret = kIOReturnNotFound;
-        goto exit;
-    } else if (stuffMeOut.result != kSMCSuccess) {
-        ret = kIOReturnInternalError;
-        goto exit;
-    }
-    
-    // Get Key Value
-    stuffMeIn.data8 = kSMCReadKey;
-    stuffMeIn.key = key;
-    stuffMeIn.keyInfo.dataSize = stuffMeOut.keyInfo.dataSize;
-    bzero(&stuffMeOut, sizeof(SMCParamStruct));
-    ret = callSMCFunction(kSMCHandleYPCEvent, &stuffMeIn, &stuffMeOut);
-    if (stuffMeOut.result == kSMCKeyNotFound) {
-        ret = kIOReturnNotFound;
-        goto exit;
-    } else if (stuffMeOut.result != kSMCSuccess) {
-        ret = kIOReturnInternalError;
-        goto exit;
-    }
-    
-    if (*outBufMax > stuffMeIn.keyInfo.dataSize)
-        *outBufMax = stuffMeIn.keyInfo.dataSize;
-    
-    // Byte-swap data returning from the SMC.
-    // The data at key 'ACID' are not provided by the SMC and do 
-    // NOT need to be byte-swapped.
-    for (i=0; i<*outBufMax; i++) 
-    {
-        if ('ACID' == key)
-        {
-            // Do not byte swap
-            outBuf[i] = stuffMeOut.bytes[i];
-        } else {
-            // Byte swap
-            outBuf[i] = stuffMeOut.bytes[*outBufMax - (i + 1)];
-        }
-    }
-exit:
-    return ret;
-}
 
 static IOReturn callSMCFunction(
                                 int which, 
@@ -317,7 +240,7 @@ typedef enum {
     // Get Key Value
     stuffMeIn.data8 = kSMCReadKey;
     stuffMeIn.key = key;
-    stuffMeIn.keyInfo.dataSize = dataSize;
+    stuffMeIn.keyInfo.dataSize = (IOByteCount)dataSize;
     bzero(&stuffMeOut, sizeof(SMCParamStruct));
     ret = callSMCFunction(kSMCHandleYPCEvent, &stuffMeIn, &stuffMeOut);
     if (stuffMeOut.result == kSMCKeyNotFound) {
@@ -394,7 +317,7 @@ typedef enum {
     bzero(&stuffMeIn, sizeof(SMCParamStruct));
     bzero(&stuffMeOut, sizeof(SMCParamStruct));
     stuffMeIn.data8 = kSMCGetKeyFromIndex;
-    stuffMeIn.data32 = anIndex;
+    stuffMeIn.data32 = (uint32_t)anIndex;
     
     ret = callSMCFunction(kSMCHandleYPCEvent, &stuffMeIn, &stuffMeOut);
     // keyType = stuffMeOut.keyInfo.dataType;

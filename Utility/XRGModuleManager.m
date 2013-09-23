@@ -573,7 +573,7 @@
 	NSSize newResizeModuleSize, newAdjacentModuleSize;
 	
 	int incrementer = graphOrientationVertical ? -1 : 1;
-	if (graphOrientationVertical) index = [displayModules count] - 1 - index;
+	if (graphOrientationVertical) index = (int)[displayModules count] - 1 - index;
 	if (index >= 0 && index < [displayModules count]) {
 		resizeModuleObj = [displayModules objectAtIndex:index];
 		newResizeModuleSize = [resizeModuleObj currentSize];

@@ -163,7 +163,7 @@ typedef enum {
 
 - (NSDictionary *)allValues
 {
-    int           totalKeys, i;
+    NSInteger     totalKeys, i;
     uint32_t      key;
   
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -206,7 +206,7 @@ typedef enum {
     NSMutableSet *unknownTempKeys = [NSMutableSet set];
     NSMutableSet *knownTempKeys = [NSMutableSet set];
     
-	int smcKeyCount = [smc_ keyCount];
+	NSInteger smcKeyCount = [smc_ keyCount];
     NSMutableSet *availableKeys = [NSMutableSet setWithCapacity:smcKeyCount];
 
 	// traverse the available keys, prepare them for sorting

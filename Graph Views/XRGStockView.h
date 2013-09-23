@@ -52,7 +52,6 @@
 - (void)setStockSymbolsFromString:(NSString *)s;
 - (void)resetStockObjects;
 - (void)reloadStockData;
-- (void)reloadStockData;
 - (bool)gettingData;
 - (bool)dataIsReady;
 - (int)convertHeight:(int) yComponent;
