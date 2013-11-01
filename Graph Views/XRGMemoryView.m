@@ -137,21 +137,21 @@
     [[appSettings borderColor] set];
     NSRectFill(tmpRect);
     
-    tmpRect.origin.x   += 2;
-    tmpRect.size.width  = 8;
-    tmpRect.size.height = (CGFloat)[memoryMiner wiredBytes] / max * graphSize.height;
-    [[appSettings graphFG1Color] set];
-    NSRectFill(tmpRect);
-    
-    tmpRect.origin.y   += tmpRect.size.height;
-    tmpRect.size.height = (CGFloat)[memoryMiner activeBytes] / max * graphSize.height;
-    [[appSettings graphFG2Color] set];
-    NSRectFill(tmpRect);
-    
-    tmpRect.origin.y   += tmpRect.size.height;
-    tmpRect.size.height = (CGFloat)[memoryMiner inactiveBytes] / max * graphSize.height;
-    [[appSettings graphFG3Color] set];
-    NSRectFill(tmpRect);
+	tmpRect.origin.x   += 2;
+	tmpRect.size.width  = 8;
+	tmpRect.size.height = (max == 0) ? 0 : (CGFloat)[memoryMiner wiredBytes] / max * graphSize.height;
+	[[appSettings graphFG1Color] set];
+	NSRectFill(tmpRect);
+	
+	tmpRect.origin.y   += tmpRect.size.height;
+	tmpRect.size.height = (max == 0) ? 0 : (CGFloat)[memoryMiner activeBytes] / max * graphSize.height;
+	[[appSettings graphFG2Color] set];
+	NSRectFill(tmpRect);
+	
+	tmpRect.origin.y   += tmpRect.size.height;
+	tmpRect.size.height = (max == 0) ? 0 : (CGFloat)[memoryMiner inactiveBytes] / max * graphSize.height;
+	[[appSettings graphFG3Color] set];
+	NSRectFill(tmpRect);
 	
 	// Draw the swap info.
 	[[appSettings borderColor] set];
@@ -163,7 +163,7 @@
 
 	tmpRect.origin.x += 1;
 	tmpRect.size.width = 8;
-	tmpRect.size.height = (double)[memoryMiner usedSwap] / (double)[memoryMiner totalSwap] * graphSize.height;
+	tmpRect.size.height = ([memoryMiner totalSwap] == 0) ? 0 : (double)[memoryMiner usedSwap] / (double)[memoryMiner totalSwap] * graphSize.height;
 	[[appSettings graphFG1Color] set];
 	NSRectFill(tmpRect);
 
@@ -215,8 +215,8 @@
     if ([appSettings memoryShowCache]) {
         if (tmpRect.origin.y - textRectHeight >= 0) {
             tmpRect.origin.y -= textRectHeight;
-            tmpRect.size.height += textRectHeight;
-            [s appendFormat:@"\nCa: %d%%", (int)((float)[memoryMiner totalCacheHits] / (float)[memoryMiner totalCacheLookups] * 100.)];
+            tmpRect.size.height += textRectHeight;			
+            [s appendFormat:@"\nCa: %d%%", ([memoryMiner totalCacheLookups] == 0) ? 0 : (int)((float)[memoryMiner totalCacheHits] / (float)[memoryMiner totalCacheLookups] * 100.)];
         }
     }
     
@@ -224,10 +224,12 @@
         if (tmpRect.origin.y - textRectHeight >= 0) {
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
-            if ([memoryMiner recentFaults] * 4 > 1024)
-                [s appendFormat:@"\nPF: %4.2fM/s", (float)[memoryMiner recentFaults] / [appSettings graphRefresh] * 4. / 1024.];
-            else
-                [s appendFormat: @"\nPF: %dK/s", (int)((float)[memoryMiner recentFaults] / [appSettings graphRefresh]) * 4];
+			if ([appSettings graphRefresh] != 0) {
+				if ([memoryMiner recentFaults] * 4 > 1024)
+					[s appendFormat:@"\nPF: %4.2fM/s", (float)[memoryMiner recentFaults] / [appSettings graphRefresh] * 4. / 1024.];
+				else
+					[s appendFormat: @"\nPF: %dK/s", (int)((float)[memoryMiner recentFaults] / [appSettings graphRefresh]) * 4];
+			}
         }
     }
 	

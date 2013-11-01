@@ -54,6 +54,8 @@
 
 // Adapted from original drawGraphWithData, but added UpperBound and LowerBound in place of Max, and Filled
 - (void) drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
+	if (nSamples == 0) return;
+	
     NSInteger filledOffset = 0;
     NSInteger currentPointIndex;
 

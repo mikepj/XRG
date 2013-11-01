@@ -311,7 +311,7 @@
         // now draw some text for each of the stocks.
         [gc setShouldAntialias:[appSettings antialiasText]];
 
-        NSInteger heightOfEachStock = [appSettings stockShowChange] ? textRectHeight * 2 : textRectHeight;
+        NSInteger heightOfEachStock = MAX(1, [appSettings stockShowChange] ? textRectHeight * 2 : textRectHeight);
         NSUInteger maxToShow = tmpRect.origin.y / heightOfEachStock;
         if ([stockObjects count] <= maxToShow) {
             maxToShow = [stockObjects count];

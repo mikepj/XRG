@@ -430,7 +430,7 @@
     // draw the volts bar
     percentRect.origin.y -= textRectHeight;
     if (voltage) {
-        percentRect.size.width = rect.size.width * (float)((float)voltageAverage / (float)maxVolts);
+        percentRect.size.width = (maxVolts == 0) ? 0 : rect.size.width * (float)((float)voltageAverage / (float)maxVolts);
         NSRectFill(percentRect);
     }
     
@@ -440,11 +440,11 @@
 	percentRect.origin.x = rect.size.width / 2.;
     if (amperage) {
 		if (amperageAverage > 0) {
-			percentRect.size.width = (rect.size.width / 2.) * (float)((float)amperageAverage / (float)maxAmps);
+			percentRect.size.width = (maxAmps == 0) ? 0 : (rect.size.width / 2.) * (float)((float)amperageAverage / (float)maxAmps);
 			NSRectFill(percentRect);
 		}
 		else {
-			percentRect.size.width = (rect.size.width / 2.) * (float)((float)amperageAverage / (float)minAmps);
+			percentRect.size.width = (minAmps == 0) ? 0 : (rect.size.width / 2.) * (float)((float)amperageAverage / (float)minAmps);
 			percentRect.origin.x -= percentRect.size.width;
 			NSRectFill(percentRect);
 		}
@@ -474,7 +474,7 @@
     if (capacity && percentRect.size.height > 0) {
         CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));
         for (NSInteger i = 0; i < numSamples; ++i) {
-            data[i] = ((CGFloat)values[i] / (CGFloat)capacitySum) * 100;
+            data[i] = (capacitySum == 0) ? 0 : ((CGFloat)values[i] / (CGFloat)capacitySum) * 100;
             if (data[i] > 100) data[i] = 100;
         }
     

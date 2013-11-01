@@ -187,6 +187,7 @@
     NSRectFill(inRect);
     
     NSInteger numCPUs = [CPUMiner numberOfCPUs];
+	if (numCPUs == 0) return;
     
     if ([appSettings fastCPUUsage]) {
         // draw the divider line
@@ -368,6 +369,7 @@
     NSRectFill(inRect);
     
     NSInteger numCPUs = [CPUMiner numberOfCPUs];
+	if (numCPUs == 0) return;
     
     if ([appSettings fastCPUUsage]) {
         // draw the divider line
