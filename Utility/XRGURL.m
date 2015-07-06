@@ -70,8 +70,6 @@ NSString		*userAgent = nil;
 	[self setData:nil];
 	[self setURLString:nil];
 	[self setURLConnection:nil];
-	
-	[super dealloc];
 }
 
 #pragma mark Getter/Setters
@@ -81,8 +79,7 @@ NSString		*userAgent = nil;
 
 - (void) setURLString:(NSString *)newString {
 	if (newString != urlString) {
-		if (urlString != nil) [urlString autorelease];
-		urlString = [newString retain];
+		urlString = newString;
 		
 		// Need to reset our URL object now.
 		if ([urlString length] > 0) {
@@ -99,10 +96,7 @@ NSString		*userAgent = nil;
 }
 
 + (void) setUserAgent:(NSString *)newAgent {
-	if (newAgent != userAgent) {
-		if (userAgent != nil) [userAgent release];
-		userAgent = [newAgent retain];
-	}
+	userAgent = newAgent;
 }
 
 - (void) setCacheMode:(XRGURLCacheMode)mode {
@@ -114,9 +108,8 @@ NSString		*userAgent = nil;
 }
 
 - (void) setData:(NSData *)newData {
-	NSMutableData *newMutableData = newData ? [[NSMutableData dataWithData:newData] retain] : nil;
+	NSMutableData *newMutableData = newData ? [NSMutableData dataWithData:newData] : nil;
 	
-	[urlData release];
 	urlData = newMutableData;
 }
 
@@ -131,19 +124,15 @@ NSString		*userAgent = nil;
 }
 
 - (void) setURL:(NSURL *)newURL {
-	if (newURL != url) {	
-		if (url != nil) [url autorelease];
-		url = [newURL retain];
-	}
+	url = newURL;
 }
 
 - (void) setURLConnection:(NSURLConnection *)newConnection {
 	if (urlConnection != newConnection) {
 		if (urlConnection) {
 			[urlConnection cancel];
-			[urlConnection release];
 		}
-		urlConnection = [newConnection retain];
+		urlConnection = newConnection;
 	}
 }
 

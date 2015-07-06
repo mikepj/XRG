@@ -37,13 +37,13 @@
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setMemoryView:self];
     [parentWindow initTimers]; 
-    appSettings = [[parentWindow appSettings] retain]; 
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings]; 
+    moduleManager = [parentWindow moduleManager];
                                      
     textRectHeight = [appSettings textRectHeight];
     
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"Memory" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"Memory" andReference:self];
     [m setDoesFastUpdate:NO];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
@@ -128,7 +128,6 @@
         
         [self drawGraphWithDataFromDataSet:[memoryMiner faultData] maxValue:[tmpDataSet max] inRect:graphRect flipped:NO filled:YES color:colors[0]];
         
-        [tmpDataSet release];
     }
     
     // draw the immediate memory status
@@ -247,7 +246,6 @@
 	
 	[s drawInRect:tmpRect withAttributes:[appSettings alignLeftAttributes]];
     
-    [s release];
 
     [gc setShouldAntialias:YES];
 }
@@ -258,7 +256,6 @@
 
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 5 Memory Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     // Need to get our process list.
 	[processMiner graphUpdate:nil];
@@ -283,16 +280,13 @@
 		
 		tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%@ - %@ (id %d)", memoryString, command, pid] action:@selector(emptyEvent:) keyEquivalent:@""];
 		[myMenu addItem:tMI];
-		[tMI release];
 	}
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Memory Preferences..." action:@selector(openMemoryPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
      
-    [myMenu autorelease];
     return myMenu;
 }
 

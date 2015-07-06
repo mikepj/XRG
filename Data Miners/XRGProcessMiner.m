@@ -27,7 +27,7 @@
 
 - (void) graphUpdate:(NSTimer *)aTimer {
 	// Init the task.
-	NSTask *task = [[[NSTask alloc] init] autorelease];
+	NSTask *task = [[NSTask alloc] init];
 	[task setLaunchPath:@"/bin/ps"];
 	[task setArguments:@[@"axwwrco", @"%cpu,pid,rss,vsz,nswap,user,command"]];
 	
@@ -42,7 +42,7 @@
 	[task launch];
 		
 	// Get the output string from the file handle data.
-	NSString *outputString = [[[NSString alloc] initWithData:[file readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
+	NSString *outputString = [[NSString alloc] initWithData:[file readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
 	// Parse the output string.
 	NSArray *outputLines = [outputString componentsSeparatedByString:@"\n"];
@@ -96,12 +96,12 @@
 }
 
 - (NSArray *) processesSortedByCPUUsage {
-	NSSortDescriptor *cpuSorter = [[[NSSortDescriptor alloc] initWithKey:XRGProcessPercentCPU ascending:NO selector:@selector(compare:)] autorelease];
+	NSSortDescriptor *cpuSorter = [[NSSortDescriptor alloc] initWithKey:XRGProcessPercentCPU ascending:NO selector:@selector(compare:)];
 	return [processes sortedArrayUsingDescriptors:@[cpuSorter]];
 }
 
 - (NSArray *) processesSortedByMemoryUsage {
-	NSSortDescriptor *memorySorter = [[[NSSortDescriptor alloc] initWithKey:XRGProcessResidentMemorySize ascending:NO selector:@selector(compare:)] autorelease];
+	NSSortDescriptor *memorySorter = [[NSSortDescriptor alloc] initWithKey:XRGProcessResidentMemorySize ascending:NO selector:@selector(compare:)];
 	return [processes sortedArrayUsingDescriptors:@[memorySorter]];
 }
 
@@ -110,10 +110,7 @@
 }
 
 - (void) setProcesses:(NSArray *)values {
-	if (processes != values) {
-		if (processes) [processes autorelease];
-		processes = [values retain];
-	}
+	processes = values;
 }
 
 @end

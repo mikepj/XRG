@@ -43,8 +43,8 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setDiskView:self];
     [parentWindow initTimers]; 
-    appSettings = [[parentWindow appSettings] retain]; 
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings]; 
+    moduleManager = [parentWindow moduleManager];
 
     drivelist  = IO_OBJECT_NULL;  /* needs release */
     masterPort = IO_OBJECT_NULL;
@@ -58,11 +58,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
                                  IOServiceMatching("IOBlockStorageDriver"), 
                                  &drivelist);
 	
-	volumeInfo = [[NSMutableArray arrayWithCapacity:10] retain];
+	volumeInfo = [NSMutableArray arrayWithCapacity:10];
 	[self updateVolumeInfo];
                                      
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"Disk" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"Disk" andReference:self];
     [m setDoesFastUpdate:NO];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:YES];
@@ -435,7 +435,6 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
     
-    [s release];
 
     [gc setShouldAntialias:YES];
 }
@@ -448,15 +447,12 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Disk View"];
     NSMenuItem *tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Disk Utility..." action:@selector(openDiskUtility:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Disk Preferences..." action:@selector(openDiskPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
-    [myMenu autorelease];
     return myMenu;
 }
 

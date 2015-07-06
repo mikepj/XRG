@@ -34,17 +34,17 @@
     [parentWindow setTemperatureView:self];
     [parentWindow initTimers];
     
-    appSettings = [[parentWindow appSettings] retain];
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings];
+    moduleManager = [parentWindow moduleManager];
 	
-	locationSizeCache = [[[NSMutableDictionary alloc] initWithCapacity:20] retain];
+	locationSizeCache = [[NSMutableDictionary alloc] initWithCapacity:20];
     
     TemperatureMiner = [[XRGTemperatureMiner alloc] init];
     [parentWindow setTemperatureMiner:TemperatureMiner];
 	[TemperatureMiner setDisplayFans:YES];
 
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"Temperature" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"Temperature" andReference:self];
     [m setDoesFastUpdate:NO];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
@@ -270,7 +270,7 @@
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Temperature View"] autorelease];
+    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Temperature View"];
     NSMenuItem *tMI;
 
     NSArray *locations = [TemperatureMiner locationKeysInOrder];
@@ -293,16 +293,16 @@
 			[s appendFormat:@"%3.0f%@", locationTemperature, units];
 		}
 
-        tMI = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:s
+        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:s
 																	action:@selector(emptyEvent:) 
-															 keyEquivalent:@""] autorelease];
+															 keyEquivalent:@""];
 
         [myMenu addItem:tMI];
     }
         
     [myMenu addItem:[NSMenuItem separatorItem]];
 
-    tMI = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Temperature Preferences..." action:@selector(openTemperaturePreferences:) keyEquivalent:@""] autorelease];
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Temperature Preferences..." action:@selector(openTemperaturePreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;

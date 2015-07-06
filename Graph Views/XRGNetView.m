@@ -56,8 +56,8 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setNetView:self];
     [parentWindow initTimers];  
-    appSettings = [[parentWindow appSettings] retain];
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings];
+    moduleManager = [parentWindow moduleManager];
     networkInterfaces = [[NSMutableArray alloc] init];
     
     firstTimeStats = YES;
@@ -85,7 +85,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
     [self setCurrentBandwidth];
         
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"Network" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"Network" andReference:self];
     [m setDoesFastUpdate:NO];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
@@ -437,10 +437,6 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
 - (void)setNetworkInterfaces:(char **)interfaces {
     int i = 0;
     
-    if (networkInterfaces) {
-        [networkInterfaces autorelease];
-    }
-    
     networkInterfaces = [[NSMutableArray alloc] init];
     while (interfaces[i][0] != '\0') {
         [networkInterfaces addObject:@(interfaces[i++])];
@@ -658,7 +654,6 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
 
-    [s release];
 
     [gc setShouldAntialias:YES];
 }
@@ -674,31 +669,25 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
 
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Network Interface Traffic" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     for (i = 0; i < numInterfaces; i++) {
         tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%s: RX(%1.1fM) TX(%1.1fM)", interfaceStats[i].if_name, interfaceStats[i].if_in.bytes / 1024. / 1024., interfaceStats[i].if_out.bytes / 1024. / 1024.] action:@selector(emptyEvent:) keyEquivalent:@""];
         [myMenu addItem:tMI];
-        [tMI release];
     }
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Network System Preferences..." action:@selector(openNetworkSystemPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Network Utility..." action:@selector(openNetworkUtility:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Network Preferences..." action:@selector(openNetworkPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
-    [myMenu autorelease];
     return myMenu;
 }
 

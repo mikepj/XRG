@@ -69,11 +69,6 @@
 
 -(void)dealloc {
     free( immediateCPUTemperatureC );
-    [fanLocations release];
-    [locationKeysInOrder release];
-    [sensorData release];
-    [smcSensors release];
-    [super dealloc];
 }
 
 - (int)setNumCPUs {
@@ -358,9 +353,9 @@
     io_object_t serviceObject;
     while ((serviceObject = IOIteratorNext(iterator))) {
         // Put this services object into a CF Dictionary object.
-		NSMutableDictionary *serviceDictionary;
+		CFMutableDictionaryRef sDictionary;
         returnValue = IORegistryEntryCreateCFProperties(serviceObject, 
-														(CFMutableDictionaryRef *)&serviceDictionary, 
+														&sDictionary,
 														kCFAllocatorDefault, 
 														kNilOptions);
         if (returnValue != kIOReturnSuccess) {
@@ -368,6 +363,7 @@
             continue;
         }
 		
+		NSMutableDictionary *serviceDictionary = (NSMutableDictionary *)CFBridgingRelease(sDictionary);
 
 		// Check that this location monitors temperature.
 		id sensorType = serviceDictionary[@"type"];
@@ -448,7 +444,6 @@
 		}		
         
         // Clean up
-        CFRelease(serviceDictionary);
         IOObjectRelease(serviceObject);
     }
     IOObjectRelease(iterator);
@@ -462,16 +457,16 @@
     // Now loop through all the matching services to find any that will give us the fan speeds.
     while ((serviceObject = IOIteratorNext(iterator))) {
         // Put this services object into a CF Dictionary object.
-		NSMutableDictionary *serviceDictionary;
+		CFMutableDictionaryRef sDictionary;
         returnValue = IORegistryEntryCreateCFProperties(serviceObject, 
-														(CFMutableDictionaryRef *)&serviceDictionary, 
+														&sDictionary,
 														kCFAllocatorDefault, 
 														kNilOptions);
         if (returnValue != kIOReturnSuccess) {
             IOObjectRelease(serviceObject);
             continue;
         }
-		
+		NSMutableDictionary *serviceDictionary = (NSMutableDictionary *)CFBridgingRelease(sDictionary);
 		
 		// Check that this location monitors temperature.
 		id sensorType = serviceDictionary[@"type"];
@@ -497,7 +492,6 @@
 		}		
         
         // Clean up
-        CFRelease(serviceDictionary);
         IOObjectRelease(serviceObject);
     }
 	IOObjectRelease(iterator);
@@ -512,12 +506,13 @@
 		// Now loop through all the matching services to find any that will give us the temperatures or fan speeds.
 		while ((serviceObject = IOIteratorNext(iterator))) {
 			// Put this services object into a CF Dictionary object.
-			NSMutableDictionary *serviceDictionary;
-			returnValue = IORegistryEntryCreateCFProperties(serviceObject, (CFMutableDictionaryRef *)&serviceDictionary, kCFAllocatorDefault, kNilOptions);
+			CFMutableDictionaryRef sDictionary;
+			returnValue = IORegistryEntryCreateCFProperties(serviceObject, &sDictionary, kCFAllocatorDefault, kNilOptions);
 			if (returnValue != kIOReturnSuccess) {
 				IOObjectRelease(serviceObject);
 				continue;
 			}
+			NSMutableDictionary *serviceDictionary = (NSMutableDictionary *)CFBridgingRelease(sDictionary);
 			
 			NSMutableArray *controlInfoArray = serviceDictionary[@"control-info"];
 			NSInteger numItems = [controlInfoArray count];
@@ -540,7 +535,6 @@
 			}
 					
 			// Clean up
-			CFRelease(serviceDictionary);
 			IOObjectRelease(serviceObject);
 		}
 		IOObjectRelease(iterator);
@@ -554,16 +548,17 @@
 		// Now loop through all the matching services to find any that will give us the temperatures or fan speeds.
 		while ((serviceObject = IOIteratorNext(iterator))) {
 			// Put this services object into a CF Dictionary object.
-			NSMutableDictionary *serviceDictionary;
+			CFMutableDictionaryRef sDictionary;
 			returnValue = IORegistryEntryCreateCFProperties(serviceObject, 
-															(CFMutableDictionaryRef *)&serviceDictionary, 
+															&sDictionary,
 															kCFAllocatorDefault, 
 															kNilOptions);
 			if (returnValue != kIOReturnSuccess) {
 				IOObjectRelease(serviceObject);
 				continue;
 			}
-			
+			NSMutableDictionary *serviceDictionary = (NSMutableDictionary *)CFBridgingRelease(sDictionary);
+
 			NSArray *IOHWControls = serviceDictionary[@"IOHWControls"];
 			int i;
 			for (i = 0; i < [IOHWControls count]; i++) {
@@ -629,7 +624,6 @@
 			}	
 						
 			// Clean up
-			CFRelease(serviceDictionary);
 			IOObjectRelease(serviceObject);
 		}
 		IOObjectRelease(iterator);	
@@ -643,16 +637,17 @@
 		// Now loop through all the matching services to find any that will give us the temperatures or fan speeds.
 		while ((serviceObject = IOIteratorNext(iterator))) {
 			// Put this services object into a CF Dictionary object.
-			NSMutableDictionary *serviceDictionary;
+			CFMutableDictionaryRef sDictionary;
 			returnValue = IORegistryEntryCreateCFProperties(serviceObject, 
-															(CFMutableDictionaryRef *)&serviceDictionary, 
+															&sDictionary,
 															kCFAllocatorDefault, 
 															kNilOptions);
 			if (returnValue != kIOReturnSuccess) {
 				IOObjectRelease(serviceObject);
 				continue;
 			}
-			
+			NSMutableDictionary *serviceDictionary = (NSMutableDictionary *)CFBridgingRelease(sDictionary);
+
 			NSArray *IOHWControls = serviceDictionary[@"IOHWControls"];
 			int i;
 			for (i = 0; i < [IOHWControls count]; i++) {
@@ -683,7 +678,6 @@
 			}		
 			
 			// Clean up
-			CFRelease(serviceDictionary);
 			IOObjectRelease(serviceObject);
 		}
 		IOObjectRelease(iterator);		
@@ -1066,7 +1060,7 @@
 	// Set the next value in the data set.
 	if (valueDictionary[GSDataSetKey] == nil) {
 		// we have to create an XRGDataSet for this location.
-		XRGDataSet *newSet = [[[XRGDataSet alloc] init] autorelease];
+		XRGDataSet *newSet = [[XRGDataSet alloc] init];
 		[newSet resize:(size_t)numSamples];
 		[newSet setAllValues:value];
 		valueDictionary[GSDataSetKey] = newSet;

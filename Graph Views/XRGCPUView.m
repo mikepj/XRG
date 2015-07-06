@@ -36,14 +36,14 @@
     [parentWindow setCpuView:self];
     [parentWindow initTimers];
     
-    appSettings = [[parentWindow appSettings] retain];
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings];
+    moduleManager = [parentWindow moduleManager];
     
     CPUMiner = [[XRGCPUMiner alloc] init];
 	processMiner = [[XRGProcessMiner alloc] init];
 
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"CPU" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"CPU" andReference:self];
     [m setDoesFastUpdate:YES];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
@@ -257,7 +257,6 @@
 	else {    
 		[self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
 	}
-	[tmpDataSet release];	
 	
     // draw the text
     [gc setShouldAntialias:YES];
@@ -344,9 +343,6 @@
         [centerText drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
     }
     
-    [leftText release];
-    [rightText release];
-    [centerText release];
     
     [gc setShouldAntialias:YES];
 }
@@ -428,7 +424,6 @@
             [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
         }
         
-        [tmpDataSet release];
      
         graphRect.origin.y += graphRect.size.height;
     }
@@ -584,7 +579,6 @@
 
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 5 CPU Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     // Need to get our process list.
 	[processMiner graphUpdate:nil];
@@ -598,22 +592,18 @@
 		
 		tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%1.1f%% - %@ (id %d)", cpu, command, pid] action:@selector(emptyEvent:) keyEquivalent:@""];
 		[myMenu addItem:tMI];
-		[tMI release];
 	}
 	
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Activity Monitor..." action:@selector(openActivityMonitor:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG CPU Preferences..." action:@selector(openCPUPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
-    [myMenu autorelease];
     return myMenu;
 }
 

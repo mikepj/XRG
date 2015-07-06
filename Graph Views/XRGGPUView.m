@@ -35,13 +35,13 @@
 	parentWindow = (XRGGraphWindow *)[self window];
 	[parentWindow setGpuView:self];
 	[parentWindow initTimers];
-	appSettings = [[parentWindow appSettings] retain];
-	moduleManager = [[parentWindow moduleManager] retain];
+	appSettings = [parentWindow appSettings];
+	moduleManager = [parentWindow moduleManager];
 	
 	textRectHeight = [appSettings textRectHeight];
 	
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	m = [[[XRGModule alloc] initWithName:@"GPU" andReference:self] retain];
+	m = [[XRGModule alloc] initWithName:@"GPU" andReference:self];
 	[m setDoesFastUpdate:NO];
 	[m setDoesGraphUpdate:YES];
 	[m setDoesMin5Update:NO];
@@ -113,7 +113,7 @@
 		// Draw the graph.
 		[gc setShouldAntialias:[appSettings antiAliasing]];
 
-		XRGDataSet *usedDataSet = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:totalValues[i]] autorelease];
+		XRGDataSet *usedDataSet = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:totalValues[i]];
 		[usedDataSet subtractOtherDataSetValues:freeValues[i]];
 		if ([usedDataSet max] > 0) {
 			[self drawGraphWithDataFromDataSet:usedDataSet maxValue:[totalValues[i] max] inRect:graphRect flipped:NO filled:YES color:[appSettings graphFG1Color]];

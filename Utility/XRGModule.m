@@ -26,7 +26,7 @@
 
 
 #import "XRGModule.h"
-
+#import "XRGGenericView.h"
 
 @implementation XRGModule
 
@@ -54,102 +54,88 @@
 }
 
 - (XRGModule *)init {
-    name = nil;
-    reference = nil;
-    
-    isDisplayed = YES;
-    displayOrder = -1;
-    
-    maxHeight = 1000.0f;
-    minHeight = 30.0f;
-    minWidth = 30.0f;
-    currentSize = [XRGModule savedSizeForModule:nil];
-    
-    doesMin30Update = NO;
-    doesMin5Update = NO;
-    doesGraphUpdate = YES;
-    doesFastUpdate = NO;
-    alwaysDoesGraphUpdate = NO;
-    
-    isEmptyModule = YES;
-    
+	if (self = [super init]) {
+		name = nil;
+		reference = nil;
+		
+		isDisplayed = YES;
+		displayOrder = -1;
+		
+		maxHeight = 1000.0f;
+		minHeight = 30.0f;
+		minWidth = 30.0f;
+		currentSize = [XRGModule savedSizeForModule:nil];
+		
+		doesMin30Update = NO;
+		doesMin5Update = NO;
+		doesGraphUpdate = YES;
+		doesFastUpdate = NO;
+		alwaysDoesGraphUpdate = NO;
+		
+		isEmptyModule = YES;
+	}
+	
     return self;
 }
 
 - (XRGModule *)initWithName:(NSString *)n {
-    if (n != nil) {
-        name = [n retain];
-    }
-    else {
-        name = nil;
-    }
-    reference = nil;
-    
-    isDisplayed = YES;
-    displayOrder = -1;
-    
-    maxHeight = 1000.0f;
-    minHeight = 30.0f;
-    minWidth = 30.0f;
-    currentSize = [XRGModule savedSizeForModule:self];
-    
-    doesMin30Update = NO;
-    doesMin5Update = NO;
-    doesGraphUpdate = YES;
-    doesFastUpdate = NO;
-    alwaysDoesGraphUpdate = NO;
-    
-    isEmptyModule = NO;
-    
+	if (self = [self init]) {
+		name = n;
+		reference = nil;
+		
+		isDisplayed = YES;
+		displayOrder = -1;
+		
+		maxHeight = 1000.0f;
+		minHeight = 30.0f;
+		minWidth = 30.0f;
+		currentSize = [XRGModule savedSizeForModule:self];
+		
+		doesMin30Update = NO;
+		doesMin5Update = NO;
+		doesGraphUpdate = YES;
+		doesFastUpdate = NO;
+		alwaysDoesGraphUpdate = NO;
+		
+		isEmptyModule = NO;
+	}
+	
     return self;
 }
 
 - (XRGModule *)initWithName:(NSString *)n andReference:(XRGGenericView *)r {
-    if (n != nil) name = [n retain];
-    else          name = nil;
-    
-    if (r != nil) reference = [r retain];
-    else          reference = nil;
-    
-    isDisplayed = YES;
-    displayOrder = -1;
-    
-    maxHeight = 1000.0f;
-    minHeight = 30.0f;
-    minWidth = 30.0f;
-    currentSize = [XRGModule savedSizeForModule:self];
-    
-    doesMin30Update = NO;
-    doesMin5Update = NO;
-    doesGraphUpdate = YES;
-    doesFastUpdate = NO;
-    alwaysDoesGraphUpdate = NO;
-    
-    isEmptyModule = NO;
-    
+	if (self = [self init]) {
+		name = n;
+		reference = r;
+		
+		isDisplayed = YES;
+		displayOrder = -1;
+		
+		maxHeight = 1000.0f;
+		minHeight = 30.0f;
+		minWidth = 30.0f;
+		currentSize = [XRGModule savedSizeForModule:self];
+		
+		doesMin30Update = NO;
+		doesMin5Update = NO;
+		doesGraphUpdate = YES;
+		doesFastUpdate = NO;
+		alwaysDoesGraphUpdate = NO;
+		
+		isEmptyModule = NO;
+	}
+	
     return self;
 }
 
 - (void)setName:(NSString *)n {
-    if (name != nil) [name autorelease];
-    if (n != nil) {
-        name = [n retain];
-        isEmptyModule = NO;
-    }
-    else {
-        name = nil;
-    }
+	name = n;
+	if (name) isEmptyModule = NO;
 }
 
 - (void)setReference:(XRGGenericView *)r {
-    if (reference != nil) [reference autorelease];
-    if (r != nil) {
-        reference = [r retain];
-        isEmptyModule = NO;
-    }
-    else {
-        reference = nil;
-    }
+	reference = r;
+	if (reference) isEmptyModule = NO;
 }
 
 - (void)setIsDisplayed:(bool)d {

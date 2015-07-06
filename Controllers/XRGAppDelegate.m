@@ -30,12 +30,6 @@
 @implementation XRGAppDelegate
 @synthesize xrgGraphWindow, prefController;
 
-- (void) dealloc {
-	[xrgGraphWindow release];
-	[prefController release];
-	
-	[super dealloc];
-}
 
 - (IBAction) showPrefs:(id)sender {
     if(!self.prefController) [NSBundle loadNibNamed:@"Preferences.nib" owner:self];
@@ -109,7 +103,6 @@
 	if (!themeDictionary) {
 		NSRunInformationalAlertPanel(@"Error", @"The theme file dragged is not a valid theme file.", @"OK", nil, nil);
 		NSLog(@"%@", error);
-		[error release];
 	}
 	else {
 		[[self.xrgGraphWindow appSettings] readXTFDictionary:themeDictionary];

@@ -32,13 +32,13 @@
 @implementation XRGPrefController
 - (void)awakeFromNib {
     // Create a toolbar
-    toolbar = [[[NSToolbar alloc] initWithIdentifier:@"preferenceToolbar"] retain];
+    toolbar = [[NSToolbar alloc] initWithIdentifier:@"preferenceToolbar"];
     
     // instantiate the dictionary that will hold the toolbar item list
-    toolbarItems = [[NSMutableDictionary dictionary] retain];
+    toolbarItems = [NSMutableDictionary dictionary];
    
     // add the General toolbar item
-    NSToolbarItem *item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"General"] autorelease];
+    NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:@"General"];
     [item setLabel:@"General"];
     [item setPaletteLabel:@"General"];
     [item setToolTip:@"General Graph Options"];
@@ -48,7 +48,7 @@
     toolbarItems[@"General"] = item;
 
     // add the Appearance toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Colors"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"Colors"];
     [item setLabel:@"Appearance"];
     [item setPaletteLabel:@"Appearance"];
     [item setToolTip:@"Graph Color, Opacity, and Font Options"];
@@ -58,7 +58,7 @@
     toolbarItems[@"Appearance"] = item;
     
     // add the CPU toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"CPU"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"CPU"];
     [item setLabel:@"CPU"];
     [item setPaletteLabel:@"CPU"];
     [item setToolTip:@"CPU Graph Options"];
@@ -68,7 +68,7 @@
     toolbarItems[@"CPU"] = item;
     
     // add the Memory toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"RAM"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"RAM"];
     [item setLabel:@"Memory"];
     [item setPaletteLabel:@"Memory"];
     [item setToolTip:@"Memory Graph Options"];
@@ -78,7 +78,7 @@
     toolbarItems[@"RAM"] = item;
 
     // add the Temperature toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Temperature"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"Temperature"];
     [item setLabel:@"Temperature"];
     [item setPaletteLabel:@"Temperature"];
     [item setToolTip:@"Temperature Graph Options"];
@@ -88,7 +88,7 @@
     toolbarItems[@"Temperature"] = item;
     
     // add the Network toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Network"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"Network"];
     [item setLabel:@"Network"];
     [item setPaletteLabel:@"Network"];
     [item setToolTip:@"Network Graph Options"];
@@ -98,7 +98,7 @@
     toolbarItems[@"Network"] = item;
 
     // add the Disk toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Disk"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"Disk"];
     [item setLabel:@"Disk"];
     [item setPaletteLabel:@"Disk"];
     [item setToolTip:@"Disk Graph Options"];
@@ -108,7 +108,7 @@
     toolbarItems[@"Disk"] = item;
      
     // add the Weather toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Weather"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"Weather"];
     [item setLabel:@"Weather"];
     [item setPaletteLabel:@"Weather"];
     [item setToolTip:@"Weather Graph Options"];
@@ -118,7 +118,7 @@
     toolbarItems[@"Weather"] = item;
 
     // add the Stocks toolbar item
-    item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Stocks"] autorelease];
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:@"Stocks"];
     [item setLabel:@"Stocks"];
     [item setPaletteLabel:@"Stocks"];
     [item setToolTip:@"Stock Graph Options"];
@@ -445,7 +445,6 @@
         s = [[NSString alloc] initWithFormat: @"Graph updates every %2.1f seconds", ref];
         
     [graphRefreshText setStringValue:s];
-    [s release];
     
     // Setup window level
     [windowLevel setTarget:xrgGraphWindow];
@@ -731,7 +730,6 @@
         s = [[NSString alloc] initWithFormat: @"%ld", (long)(minByteScale / 1048576)];
         [netMinGraphScaleValue setStringValue:s];
     }
-    [s release];
     
     // Setup net graph mode
     [netGraphMode setTarget:xrgGraphWindow];
@@ -790,7 +788,7 @@
     // Setup station list link
     NSString *htmlString = @"<a href=\"http://www.aviationweather.gov/static/adds/metars/stations.txt\">Station Listing</a>";
 	const char *cString = [htmlString cStringUsingEncoding:NSASCIIStringEncoding];
-	[weatherStationListLink setAttributedTitle:[[[NSAttributedString alloc] initWithHTML:[NSData dataWithBytes:cString length:strlen(cString)] documentAttributes:nil] autorelease]];
+	[weatherStationListLink setAttributedTitle:[[NSAttributedString alloc] initWithHTML:[NSData dataWithBytes:cString length:strlen(cString)] documentAttributes:nil]];
     [weatherStationListLink setTarget:self];
     [weatherStationListLink setAction:@selector(openWeatherStationList:)];
 
@@ -935,7 +933,6 @@
         if (!themeDictionary) {
             NSRunInformationalAlertPanel(@"Error", @"The theme file specified is not a valid theme file.", @"Okay", nil, nil);
             NSLog(@"%@", error);
-            [error release];
         }
         else {
             @try {
@@ -1055,7 +1052,6 @@
         }
         else {
             NSLog(@"%@", error);
-            [error release];
         }
     }
 }
@@ -1085,7 +1081,6 @@
         s = [[NSString alloc] initWithFormat: @"Graph updates every %2.1f seconds", ref];
     
     [graphRefreshText setStringValue:s];
-    [s release];
 
     [xrgGraphWindow setGraphRefreshActionPart2:sender];
 }
@@ -1263,7 +1258,7 @@
 {
     // We create and autorelease a new NSToolbarItem, and then go through the process of setting up its
     // attributes from the master toolbar item matching that identifier in our dictionary of items.
-    NSToolbarItem *newItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
     NSToolbarItem *item=toolbarItems[itemIdentifier];
     
     [newItem setLabel:[item label]];

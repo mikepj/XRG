@@ -104,13 +104,13 @@
 }
 
 // Colors
-@property (retain,nonatomic) NSColor		*backgroundColor;
-@property (retain,nonatomic) NSColor		*graphBGColor;
-@property (retain,nonatomic) NSColor		*graphFG1Color;
-@property (retain,nonatomic) NSColor		*graphFG2Color;
-@property (retain,nonatomic) NSColor		*graphFG3Color;
-@property (retain,nonatomic) NSColor		*borderColor;
-@property (retain,nonatomic) NSColor		*textColor;
+@property (strong,nonatomic) NSColor		*backgroundColor;
+@property (strong,nonatomic) NSColor		*graphBGColor;
+@property (strong,nonatomic) NSColor		*graphFG1Color;
+@property (strong,nonatomic) NSColor		*graphFG2Color;
+@property (strong,nonatomic) NSColor		*graphFG3Color;
+@property (strong,nonatomic) NSColor		*borderColor;
+@property (strong,nonatomic) NSColor		*textColor;
 
 // Transparencies
 @property (assign,nonatomic) CGFloat		backgroundTransparency;
@@ -122,14 +122,14 @@
 @property (assign,nonatomic) CGFloat		textTransparency;
     
 // Text attributes
-@property (retain,nonatomic) NSFont			*graphFont;
+@property (strong,nonatomic) NSFont			*graphFont;
 @property (assign) NSInteger				textRectHeight;
-@property (retain) NSMutableParagraphStyle	*alignRight;
-@property (retain) NSMutableParagraphStyle	*alignLeft;
-@property (retain) NSMutableParagraphStyle	*alignCenter;
-@property (retain) NSMutableDictionary		*alignRightAttributes;
-@property (retain) NSMutableDictionary		*alignLeftAttributes;
-@property (retain) NSMutableDictionary		*alignCenterAttributes;
+@property (strong) NSMutableParagraphStyle	*alignRight;
+@property (strong) NSMutableParagraphStyle	*alignLeft;
+@property (strong) NSMutableParagraphStyle	*alignCenter;
+@property (strong) NSMutableDictionary		*alignRightAttributes;
+@property (strong) NSMutableDictionary		*alignLeftAttributes;
+@property (strong) NSMutableDictionary		*alignCenterAttributes;
 
 // Other user defined settings
 @property (assign) BOOL			fastCPUUsage;
@@ -137,7 +137,7 @@
 @property (assign) BOOL			showCPUTemperature;
 @property (assign) NSInteger	cpuTemperatureUnits;
 @property (assign) BOOL			antiAliasing;
-@property (retain) NSString		*ICAO;
+@property (strong) NSString		*ICAO;
 @property (assign) NSInteger	secondaryWeatherGraph;
 @property (assign) NSInteger	temperatureUnits;
 @property (assign) NSInteger	distanceUnits;
@@ -152,7 +152,7 @@
 @property (assign) CGFloat		graphRefresh;
 @property (assign) BOOL			showLoadAverage;
 @property (assign) NSInteger	netMinGraphScale;
-@property (retain) NSString		*stockSymbols;
+@property (strong) NSString		*stockSymbols;
 @property (assign) NSInteger	stockGraphTimeFrame;
 @property (assign) BOOL			stockShowChange;
 @property (assign) BOOL			showDJIA;
@@ -164,8 +164,8 @@
 @property (assign) BOOL			dropShadow;
 @property (assign) BOOL			showTotalBandwidthSinceBoot;
 @property (assign) BOOL			showTotalBandwidthSinceLoad;
-@property (retain) NSString		*networkInterface;
-@property (retain) NSString		*windowTitle;
+@property (strong) NSString		*networkInterface;
+@property (strong) NSString		*windowTitle;
 @property (assign) BOOL			autoExpandGraph;
 @property (assign) BOOL			foregroundWhenExpanding;
 @property (assign) BOOL			showSummary;

@@ -60,8 +60,8 @@
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setBatteryView:self];
     [parentWindow initTimers];  
-    appSettings = [[parentWindow appSettings] retain];
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings];
+    moduleManager = [parentWindow moduleManager];
     
     // flush out the first spike
     [self graphUpdate:nil];
@@ -84,7 +84,7 @@
     NBIF_NORMAL       = 0;
     
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"Battery" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"Battery" andReference:self];
     [m setDoesFastUpdate:NO];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
@@ -255,9 +255,9 @@
             return;
         }
     }
-  
+	
     if ((err = IOPMCopyBatteryInfo(port, &battinfo)) == kIOReturnSuccess && battinfo != NULL) {
-		NSArray *batteryInfoArray = (NSArray *)battinfo;
+		NSArray *batteryInfoArray = (NSArray *)CFBridgingRelease(battinfo);
         numBatteries = batteryInfoArray.count;
         
         // Since there could be a different number of batteries each time we run this code,
@@ -357,7 +357,6 @@
             powerStatus = UNKNOWN;
         }
     
-        CFRelease(battinfo);
         [self setNeedsDisplay:YES];
     }  
     else {
@@ -636,9 +635,6 @@
             [centerS drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
         }
 
-        [leftS release];
-        [rightS release];
-        [centerS release];
     }
     else {
         if (NBIF_WIDE <= textRect.size.width) {
@@ -663,9 +659,7 @@
 
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Energy Saver System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
-    [myMenu autorelease];
     return myMenu;
 }
 

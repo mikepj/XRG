@@ -238,7 +238,6 @@
 
 - (void) dealloc {
     if (values) free(values);
-    [super dealloc];
 }
 
 

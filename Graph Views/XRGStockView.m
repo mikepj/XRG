@@ -33,8 +33,8 @@
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setStockView:self];
     [parentWindow initTimers];
-    appSettings = [[parentWindow appSettings] retain];
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings];
+    moduleManager = [parentWindow moduleManager];
 
     stockToShow = 0;
     switchIncrementer = 0;
@@ -43,8 +43,8 @@
     slowIncrementer = 0;
     slowTime = 4;
 
-    stockObjects = [[NSMutableArray arrayWithCapacity:5] retain];
-    stockSymbols = [[NSMutableArray arrayWithCapacity:5] retain];
+    stockObjects = [NSMutableArray arrayWithCapacity:5];
+    stockSymbols = [NSMutableArray arrayWithCapacity:5];
     [self setStockSymbolsFromString:[appSettings stockSymbols]];
     
     djia = [[XRGStock alloc] init];
@@ -53,7 +53,7 @@
 
    
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"Stock" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"Stock" andReference:self];
     [m setDoesFastUpdate:NO];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
@@ -86,7 +86,7 @@
         else if (cString[i] == ',') {
             if ([tmpString length] > 0) {
                 // add the current string to the list
-                [stockSymbols addObject:[[tmpString copy] autorelease]];
+                [stockSymbols addObject:[tmpString copy]];
                 
                 // reset the temp string
                 [tmpString setString:@""];
@@ -99,7 +99,7 @@
     // add the last stock
     if ([tmpString length] > 0) {
         // add the current string to the list
-        [stockSymbols addObject:[[tmpString copy] autorelease]];
+        [stockSymbols addObject:[tmpString copy]];
         
         // reset the temp string
         [tmpString setString:@""];
@@ -116,7 +116,7 @@
     
     [stockObjects removeAllObjects];
     for (i = 0; i < [stockSymbols count]; i++) {
-        XRGStock *tmpStock = [[[XRGStock alloc] init] autorelease];
+        XRGStock *tmpStock = [[XRGStock alloc] init];
         [tmpStock setSymbol:stockSymbols[i]];
         [tmpStock setURL];
         [stockObjects addObject:tmpStock];
@@ -460,28 +460,23 @@
         tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"View Detailed Status for %@", [stockObjects[i] symbol]] action:@selector(openStock:) keyEquivalent:@""];
         [tMI setTag:i];
         [myMenu addItem:tMI];
-        [tMI release];
     }
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"View Detailed Status for DJIA" action:@selector(openDJIA:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
 
 	tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Update Stock Graph Now" action:@selector(updateNow:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
 	
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Stock Preferences..." action:@selector(openStockPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
-    [myMenu autorelease];
     return myMenu;
 }
 

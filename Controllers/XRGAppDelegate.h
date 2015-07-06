@@ -32,8 +32,8 @@
 	XRGPrefController *prefController;
 	id xrgGraphWindow;
 }
-@property (retain) IBOutlet XRGPrefController *prefController;
-@property (retain) IBOutlet id xrgGraphWindow;
+@property (strong) IBOutlet XRGPrefController *prefController;
+@property (strong) IBOutlet id xrgGraphWindow;
 
 - (IBAction) showPrefs:(id)sender;
 - (void) showPrefsWithPanel:(NSString *)panelName;

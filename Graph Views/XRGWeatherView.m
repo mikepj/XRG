@@ -38,8 +38,8 @@
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setWeatherView:self];
     [parentWindow initTimers];  
-    appSettings = [[parentWindow appSettings] retain];
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings];
+    moduleManager = [parentWindow moduleManager];
 
     gettingData          = NO;
     processing           = NO;
@@ -47,7 +47,7 @@
     haveGoodMETARArray   = NO;
     haveGoodDisplayData  = NO;
     stationName = @"";
-    metarArray = [[NSMutableArray arrayWithCapacity:30] retain];
+    metarArray = [NSMutableArray arrayWithCapacity:30];
     secondaryGraphLowerBound = 0;
     
     STATION_WIDE       = 0;
@@ -70,7 +70,7 @@
     [self setURL:[appSettings ICAO]];
 
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-    m = [[[XRGModule alloc] initWithName:@"Weather" andReference:self] retain];
+    m = [[XRGModule alloc] initWithName:@"Weather" andReference:self];
     [m setDoesFastUpdate:NO];
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
@@ -150,8 +150,7 @@
     haveGoodMETARArray   = NO;
     haveGoodDisplayData  = NO;
 
-    [stationName autorelease];
-    stationName = [[icao uppercaseString] retain];
+    stationName = [icao uppercaseString];
     NSString *URLString1 = @"http://adds.aviationweather.gov/metars/index.php?submit=1&chk_metars=on&hoursStr=24&station_ids=";
     //NSString *URLString1 = @"http://www.rap.ucar.edu/weather/surface/index.php?hoursStr=24&metarIds=";
     NSString *URLString2 = @"http://www.rap.ucar.edu/weather/surface/index.php?hoursStr=24&metarIds=";
@@ -229,7 +228,6 @@
                 triedWURL1 = YES;
                 NSString *s = [[NSString alloc] initWithData:[wurl1 getData] encoding:NSASCIIStringEncoding];
                 [self setMETARFromText:s];
-                [s release];
                 newDataToTry = YES;
             }
             else if ([wurl1 didErrorOccur]) {
@@ -250,7 +248,6 @@
                     triedWURL2 = YES;
                     NSString *s = [[NSString alloc] initWithData:[wurl2 getData] encoding:NSASCIIStringEncoding];
                     [self setMETARFromText:s];
-                    [s release];
                     newDataToTry = YES;
                 }
                 else if ([wurl2 didErrorOccur]) {
@@ -932,10 +929,7 @@ int matchRegex(char *pattern, char *inString) {
         
         [leftS drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
         [rightS drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
-        
-        [leftS autorelease];
-        [rightS autorelease];
-    }
+	}
     else {             // invalid data
         if (gettingData) [@"Fetching Data" drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
         else [@"Invalid Data" drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
@@ -1207,7 +1201,6 @@ int matchRegex(char *pattern, char *inString) {
     NSMutableString *line = [NSMutableString stringWithFormat:@"Current Conditions for %@...", icao];
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
       
     if ([self getTemperatureF] == -273) {
         [line setString:@"Temperature: n/a"];
@@ -1221,7 +1214,6 @@ int matchRegex(char *pattern, char *inString) {
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
       
     if ([self getHigh] == -273) {
         [line setString:@"Last 24 hour high temperature: n/a"];
@@ -1235,7 +1227,6 @@ int matchRegex(char *pattern, char *inString) {
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     if ([self getLow] == -273) {
         [line setString:@"Last 24 hour low temperature: n/a"];
@@ -1249,7 +1240,6 @@ int matchRegex(char *pattern, char *inString) {
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     if ([self getWindSpeed] == 0) 
         [line setString:@"Wind: calm"];
@@ -1264,7 +1254,6 @@ int matchRegex(char *pattern, char *inString) {
     if ([self getGustSpeed]) [line appendFormat:@" with gusts of %d mph", [self getGustSpeed]];
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     if ([self getRelativeHumidity] == -1)
         [line setString:@"Relative Humidity: n/a"];
@@ -1274,7 +1263,6 @@ int matchRegex(char *pattern, char *inString) {
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     if ([appSettings distanceUnits] == XRGWEATHER_DISTANCE_MI) {
         if (visibilityInMiles == -1 && visibilityInKilometers == -1)
@@ -1302,7 +1290,6 @@ int matchRegex(char *pattern, char *inString) {
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F) {
         if ([self getDewpointF] == -273)
@@ -1322,7 +1309,6 @@ int matchRegex(char *pattern, char *inString) {
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     [line setString:@"Barometric Pressure: "];
     if ([appSettings pressureUnits] == XRGWEATHER_PRESSURE_IN) {
@@ -1339,7 +1325,6 @@ int matchRegex(char *pattern, char *inString) {
     }
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
@@ -1348,16 +1333,13 @@ int matchRegex(char *pattern, char *inString) {
                               action:@selector(min30Update:) 
                        keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 	
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Weather Preferences..." action:@selector(openWeatherPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
-    [myMenu autorelease];
     return myMenu;
 }
 

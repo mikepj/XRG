@@ -67,7 +67,7 @@
     lastSlowCPUInfo       = malloc(numCPUs * sizeof(*lastSlowCPUInfo));
     lastFastCPUInfo       = malloc(numCPUs * sizeof(*lastFastCPUInfo));
     
-    temperatureKeys = [[NSMutableDictionary dictionary] retain];
+    temperatureKeys = [NSMutableDictionary dictionary];
 
     for (NSInteger i = 0; i < numCPUs; i++) {
         immediateSystem[i]       = 0;
@@ -98,8 +98,7 @@
 }
 
 - (void)setTemperatureMiner:(XRGTemperatureMiner *)miner {
-	[TemperatureMiner autorelease];
-	TemperatureMiner = [miner retain];
+	TemperatureMiner = miner;
 }
 
 - (XRGTemperatureMiner *)temperatureMiner {
@@ -119,38 +118,22 @@
         }
     }
     else {
-        if (userValues) {
-            [userValues release];
-            userValues = nil;
-        }
-        if (systemValues) {
-            [systemValues release];
-            systemValues = nil;
-        }
-        if (niceValues) {
-            [niceValues release];
-            niceValues = nil;
-        }
-        
-        userValues = [[NSMutableArray arrayWithCapacity:numCPUs] retain];
-        systemValues = [[NSMutableArray arrayWithCapacity:numCPUs] retain];
-        niceValues = [[NSMutableArray arrayWithCapacity:numCPUs] retain];
+        userValues = [NSMutableArray arrayWithCapacity:numCPUs];
+        systemValues = [NSMutableArray arrayWithCapacity:numCPUs];
+        niceValues = [NSMutableArray arrayWithCapacity:numCPUs];
         
         for (i = 0; i < numCPUs; i++) {
             XRGDataSet *tmpDataSet = [[XRGDataSet alloc] init];
             [tmpDataSet resize:(size_t)newNumSamples];
             [userValues addObject:tmpDataSet];
-            [tmpDataSet release];
             
             tmpDataSet = [[XRGDataSet alloc] init];
             [tmpDataSet resize:(size_t)newNumSamples];
             [systemValues addObject:tmpDataSet];
-            [tmpDataSet release];
             
             tmpDataSet = [[XRGDataSet alloc] init];
             [tmpDataSet resize:(size_t)newNumSamples];
             [niceValues addObject:tmpDataSet];
-            [tmpDataSet release];
         }
     }
         
@@ -387,9 +370,9 @@
 - (NSArray *)combinedData {
 	if (![systemValues count] || ![userValues count] || ![niceValues count]) return nil;
 	
-	XRGDataSet *tmpSystem = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:systemValues[0]] autorelease];
-	XRGDataSet *tmpUser = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:userValues[0]] autorelease];
-	XRGDataSet *tmpNice = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:niceValues[0]] autorelease];
+	XRGDataSet *tmpSystem = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:systemValues[0]];
+	XRGDataSet *tmpUser = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:userValues[0]];
+	XRGDataSet *tmpNice = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:niceValues[0]];
 	
 	for (NSInteger i = 1; i < numCPUs; i++) {
 		[tmpSystem addOtherDataSetValues:systemValues[i]];

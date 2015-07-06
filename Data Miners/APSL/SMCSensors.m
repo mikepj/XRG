@@ -32,66 +32,12 @@
 #import "SMCInterface.h"
 
 @interface SMCSensors()
-- (int) c4String:(char *)string matchesPattern:(char *)pattern;
+- (int) c4String:(char *)string matchesPattern:(const char *)pattern;
 - (void) buildKeyCache;
 - (BOOL) readSMCValues:(NSSet *) smcKeys toDictionary:(NSMutableDictionary *) destDict;
 - (NSString *) dictKeyFromInt:(uint32_t) key;
 - (uint32_t) keyFromString:(NSString *) key;
 @end
-
-typedef struct { 
-    char pattern[5];
-    NSString *humanReadableName;
-} SMCKeyDescription;
-
-// see <http://www.parhelia.ch/blog/statics/k3_keys.html>
-static SMCKeyDescription sKnownDescriptions[] = {
-    { "TA?P", @"Ambient" },
-    { "TB?T", @"Bottom Sensor" },
-    { "TC?D", @"CPU Die" },
-    { "TC?H", @"CPU Heatsink" },
-    { "TC?P", @"CPU Proximity" }, 
-    { "TG?D", @"GPU Die" },
-    { "TG?H", @"GPU Heatsink" },
-    { "TG?P", @"GPU Proximity" },
-    { "TH?P", @"HD Proximity" },
-    { "Th?H", @"Heatsink" },
-    { "TM?P", @"Memory Proximity" },
-    { "TM?S", @"Memory" },
-    { "Tm?P", @"Misc. local" },
-    { "TMA?", @"DIMM A" },
-    { "TMB?", @"DIMM B" },
-    { "TN?D", @"Northbridge Die" },
-    { "TN?H", @"Northbridge Heatsink" },
-    { "TN?P", @"Northbridge Proximity" },
-    { "TO?P", @"Optical Drive" },
-    { "TL?P", @"LCD"},
-    { "Tp?C", @"Power Supply" },
-    { "Tp?P", @"Power Supply" },
-    { "TS?C", @"Expansion Slot"},
-    { "TW?P", @"Airport" },
-    // sensors:
-    { "ALV0", @"Ambient Light Left" },
-	{ "ALV1", @"Ambient Light Right" },
-	{ "MSLD", @"Clamshell" },
-    { "MO_X", @"Motion-X" },
-	{ "MO_Y", @"Motion-Y" },
-    { "MO_Z", @"Motion-Z" },
-	{ "MOCN", @"Motion" },
-	// Noise: (sourced from http://www.assembla.com/spaces/fakesmc/wiki/Known_SMC_Keys/history )
-	{ "dBA?", @"Noise near Fan" },
-	{ "dBAH", @"Noise near HD" },
-	{ "dBAT", @"Total Noise" },
-    // Fans:
-    { "F?Ac", @"Fan Speed" },
-    { "F?Mn", @"Fan Minimum Speed" },
-    { "F?Mx", @"Fan Maximum Speed" },       
-    { "F?Sf", @"Fan Safe Speed" },
-    { "F?Mt", @"Fan Maximum Target" },
-    { "F?Tg", @"Fan Target Speed" },       
-    { "FS! ", @"Fan Forced Speed" },    
-    { "", nil }	
-};
 
 typedef NS_ENUM(int, DescriptionMatch_t) {
     kNoMatch = -1,
@@ -107,21 +53,60 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 	if( self )
 	{
 		smc_ = [[SMCInterface alloc] init];
-		[self buildKeyCache];	
+		
+		// see <http://www.parhelia.ch/blog/statics/k3_keys.html>
+		self.sKnownDescriptions = @{
+									@"TA?P": @"Ambient",
+									@"TB?T": @"Bottom Sensor",
+									@"TC?D": @"CPU Die",
+									@"TC?H": @"CPU Heatsink",
+									@"TC?P": @"CPU Proximity",
+									@"TG?D": @"GPU Die",
+									@"TG?H": @"GPU Heatsink",
+									@"TG?P": @"GPU Proximity",
+									@"TH?P": @"HD Proximity",
+									@"Th?H": @"Heatsink",
+									@"TM?P": @"Memory Proximity",
+									@"TM?S": @"Memory",
+									@"Tm?P": @"Misc. local",
+									@"TMA?": @"DIMM A",
+									@"TMB?": @"DIMM B",
+									@"TN?D": @"Northbridge Die",
+									@"TN?H": @"Northbridge Heatsink",
+									@"TN?P": @"Northbridge Proximity",
+									@"TO?P": @"Optical Drive",
+									@"TL?P": @"LCD",
+									@"Tp?C": @"Power Supply",
+									@"Tp?P": @"Power Supply",
+									@"TS?C": @"Expansion Slot",
+									@"TW?P": @"Airport",
+									// sensors:
+									@"ALV0": @"Ambient Light Left",
+									@"ALV1": @"Ambient Light Right",
+									@"MSLD": @"Clamshell",
+									@"MO_X": @"Motion-X",
+									@"MO_Y": @"Motion-Y",
+									@"MO_Z": @"Motion-Z",
+									@"MOCN": @"Motion",
+									// Noise: (sourced from http://www.assembla.com/spaces/fakesmc/wiki/Known_SMC_Keys/history )
+									@"dBA?": @"Noise near Fan",
+									@"dBAH": @"Noise near HD",
+									@"dBAT": @"Total Noise",
+									// Fans:
+									@"F?Ac": @"Fan Speed",
+									@"F?Mn": @"Fan Minimum Speed",
+									@"F?Mx": @"Fan Maximum Speed",
+									@"F?Sf": @"Fan Safe Speed",
+									@"F?Mt": @"Fan Maximum Target",
+									@"F?Tg": @"Fan Target Speed",
+									@"FS! ": @"Fan Forced Speed",
+									};
+		
+		[self buildKeyCache];
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[smc_ release];
-    [keyDescriptions_ release]; 
-    [unknownTemperatureKeys_ release];     // property descs for temp properties without description
-    [knownTemperatureKeys_ release];   // property descs for temp properties with description
-    [fanDescriptions_ release]; // dict Fan name <=> NSArray property descs
-
-	[super dealloc];
-}
 
 
 - (NSString *) humanReadableNameForKey:(NSString *)key {
@@ -228,16 +213,15 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
         
         isFanKey = keyChar[0] == 'F' && isdigit( keyChar[1] );
         isTemperatureKey = keyChar[0] == 'T';
-				
-        SMCKeyDescription *aDescription = sKnownDescriptions;
-        while( !smcLocationName && aDescription->humanReadableName ) {
-            keyIndex = [self c4String:keyChar matchesPattern:aDescription->pattern];
-            if( keyIndex != kNoMatch ) {
-                smcLocationName = aDescription->humanReadableName;
-            }
-            ++aDescription;
-        }
-        
+		
+		for (NSString *key in [self.sKnownDescriptions allKeys]) {
+			keyIndex = [self c4String:keyChar matchesPattern:[key UTF8String]];
+			if (keyIndex != kNoMatch) {
+				smcLocationName = self.sKnownDescriptions[key];
+				break;
+			}
+		}
+		
 		if (smcLocationName) {
 			// Figure out if we should add a digit (only if there are more than one with this name).
 			BOOL appendIndexToDescription = NO;
@@ -280,10 +264,10 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
         }
 	}	
     
-    keyDescriptions_ = [descriptions retain];
-    unknownTemperatureKeys_ = [unknownTempKeys retain];
-    knownTemperatureKeys_ = [knownTempKeys retain];
-    fanDescriptions_ = [fanDescriptions retain];
+    keyDescriptions_ = descriptions;
+    unknownTemperatureKeys_ = unknownTempKeys;
+    knownTemperatureKeys_ = knownTempKeys;
+    fanDescriptions_ = fanDescriptions;
 }
 
 - (NSString *) dictKeyFromInt:(uint32_t) key {
@@ -308,7 +292,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 // - kDirectMatch if match, 
 // - 0-15 if a pattern digit is matched.  Input strings better be 4 characters long!
 
-- (int) c4String:(char *)string matchesPattern:(char *)pattern {
+- (int) c4String:(char *)string matchesPattern:(const char *)pattern {
 	DescriptionMatch_t retVal = kNoMatch;
 	int length = 4;
 	if (strlen(string) != length || strlen(pattern) != length) 

@@ -49,10 +49,10 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 - (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
 	// Initialize the settings class
-	self.appSettings = [[[XRGSettings alloc] init] autorelease];
+	self.appSettings = [[XRGSettings alloc] init];
 	
 	// Initialize the module manager class
-	self.moduleManager = [[[XRGModuleManager alloc] initWithWindow:self] autorelease];
+	self.moduleManager = [[XRGModuleManager alloc] initWithWindow:self];
 	
 	// Initialize the font manager
 	fontManager = [NSFontManager sharedFontManager];
@@ -91,25 +91,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     return parentWindow;
 }
 
-- (void) dealloc {
-	[appSettings release];
-	[moduleManager release];
-	
-	[cpuView release];
-	[netView release];
-	[diskView release];
-	[memoryView release];
-	[weatherView release];
-	[stockView release];
-	[batteryView release];
-	[gpuView release];
-	[temperatureView release];
-	[temperatureMiner release];
-	[backgroundView release];
-	
-	[super dealloc];
-}
-
 + (NSMutableDictionary *) getDefaultPrefs {
     NSMutableDictionary *appDefs = [NSMutableDictionary dictionary];
     
@@ -125,37 +106,37 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                                        green: 0.0
                                         blue: 0.0
                                        alpha: 0.9];
-    appDefs[XRG_backgroundColor] = [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]];
+    appDefs[XRG_backgroundColor] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
     c = [NSColor colorWithDeviceRed: 0.0
                               green: 0.0
                                blue: 0.0
                               alpha: 0.9];
-    appDefs[XRG_graphBGColor] = [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]];
+    appDefs[XRG_graphBGColor] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
     c = [NSColor colorWithDeviceRed: 0.165
                               green: 0.224
                                blue: 0.773
                               alpha: 1.0];
-    appDefs[XRG_graphFG1Color] = [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]];
+    appDefs[XRG_graphFG1Color] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
     c = [NSColor colorWithDeviceRed: 0.922
                               green: 0.667
                                blue: 0.337
                               alpha: 1.0];
-    appDefs[XRG_graphFG2Color] = [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]];
+    appDefs[XRG_graphFG2Color] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
     c = [NSColor colorWithDeviceRed: 0.690
                               green: 0.102
                                blue: 0.102
                               alpha: 1.0];
-    appDefs[XRG_graphFG3Color] = [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]];
+    appDefs[XRG_graphFG3Color] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
     c = [NSColor colorWithDeviceRed: 0.0
                               green: 0.0
                                blue: 0.0
                               alpha: 0.4];
-    appDefs[XRG_borderColor] = [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]];
+    appDefs[XRG_borderColor] = [NSArchiver archivedDataWithRootObject:[c copy]];
         
     appDefs[XRG_textColor] = [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]];
     
@@ -315,10 +296,10 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                                    [defs[XRG_windowHeight] floatValue]);
     
     //pass in NSBorderlessWindowMask for the styleMask
-    parentWindow = [[super initWithContentRect: windowRect 
-                                     styleMask: NSBorderlessWindowMask 
-                                       backing: NSBackingStoreBuffered  
-                                         defer: NO] retain];
+    parentWindow = [super initWithContentRect: windowRect
+									styleMask: NSBorderlessWindowMask
+									  backing: NSBackingStoreBuffered
+										defer: NO];
                                          
     //Set the background color to clear
     [parentWindow setBackgroundColor: [NSColor clearColor]];
@@ -374,13 +355,12 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     if (xrgCheckURL == nil) return;
     
     if ([xrgCheckURL didErrorOccur]) {
-        [xrgCheckURL release];
         xrgCheckURL = nil;
     }
     
     if ([xrgCheckURL isDataReady]) {
 		NSString *myVersion = (NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), CFSTR("CFBundleVersion"));
-		NSString *s = [[[NSString alloc] initWithData:[xrgCheckURL getData] encoding:NSASCIIStringEncoding] autorelease];
+		NSString *s = [[NSString alloc] initWithData:[xrgCheckURL getData] encoding:NSASCIIStringEncoding];
         s = [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		
 		if ([self isVersion:s laterThanVersion:myVersion]) {
@@ -390,22 +370,27 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
             
             switch(buttonClicked) {
                 case -1:		// Not Yet
+				{
                     // don't do anything here
                     break;
+				}
                 case 0:			// Disable Checking
+				{
                     [self.appSettings setCheckForUpdates:NO];
                     // save it to the user defaults
                     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
                     [defs setObject: @"NO"  forKey:XRG_checkForUpdates];
                     [defs synchronize];
                     break;
+				}
                 case 1:			// More Info
-                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.gauchosoft.com/xrg/"]];
+				{
+					[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.gauchosoft.com/xrg/"]];
                     break;
-            }
+				}
+			}
         }
         
-        [xrgCheckURL release];
         xrgCheckURL = nil;
     }
 }
@@ -516,11 +501,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void)setController:(XRGAppDelegate *)c {
-    if (controller) {
-        [controller autorelease];
-    }
-    
-    controller = [c retain];
+	controller = c;
 }
 
 ///// End of Initialization Methods /////
@@ -587,8 +568,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [background0 setFrameSize: [self frame].size];
     [background0 setAutoresizesSubviews:YES];
     [background0 setNeedsDisplay:YES];
-    backgroundView = [background0 retain];
-    
+	backgroundView = background0;
+	
     // Little hack to fix initial ghosting problem caused by drop shadows in Panther.
     [parentWindow setHasShadow:[self.appSettings dropShadow]];
 }

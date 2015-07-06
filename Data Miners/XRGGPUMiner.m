@@ -121,7 +121,7 @@
 			
 			CFMutableDictionaryRef perf_properties = (CFMutableDictionaryRef) CFDictionaryGetValue( serviceDictionary, CFSTR("PerformanceStatistics") );
 			if (perf_properties) {
-				NSDictionary *perf = (NSDictionary *)perf_properties;
+				NSDictionary *perf = (__bridge NSDictionary *)(perf_properties);
 				id freeVram = perf[@"vramFreeBytes"];
 				id usedVram = perf[@"vramUsedBytes"];
 				NSLog(@"CPU Wait for GPU: %@", perf[@"hardwareWaitTime"]);
@@ -152,7 +152,7 @@
 			const void *model = CFDictionaryGetValue(serviceDictionary, @"model");
 			if (model != nil) {
 				if (CFGetTypeID(model) == CFDataGetTypeID()) {
-					NSDictionary *service = (NSDictionary *)serviceDictionary;
+					NSDictionary *service = (NSDictionary *)CFBridgingRelease(serviceDictionary);
 					
 					id vramTotal = service[@"VRAM,totalMB"];
 					if ([vramTotal isKindOfClass:[NSNumber class]]) {
@@ -170,7 +170,6 @@
 				}
 			}
 			
-			CFRelease(serviceDictionary);
 			IOObjectRelease(serviceObject);
 		}
 		
@@ -222,11 +221,11 @@
 }
 
 - (NSArray *)totalVRAMDataSets {
-	return [[totalVRAMValues copy] autorelease];
+	return [totalVRAMValues copy];
 }
 
 - (NSArray *)freeVRAMDataSets {
-	return [[freeVRAMValues copy] autorelease];
+	return [freeVRAMValues copy];
 }
 
 @end

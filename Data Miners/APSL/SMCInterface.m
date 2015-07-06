@@ -190,7 +190,6 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
 	if( self )
 	{
         if( [self openConnection] != kIOReturnSuccess ) {
-            [self release];
             return nil;
         }
 	}
@@ -200,7 +199,6 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
 - (void) dealloc
 {
 	[self closeConnection];
-	[super dealloc];
 }
 
 - (id) readValue:(uint32_t) key error:(NSError **) outError {

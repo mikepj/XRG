@@ -60,19 +60,6 @@
         [values3 resize:(size_t)newNumSamples];
     }
     else {
-        if (values1) {
-            [values1 release];
-            values1 = nil;
-        }
-        if (values2) {
-            [values2 release];
-            values2 = nil;
-        }
-        if (values3) {
-            [values3 release];
-            values3 = nil;
-        }
-        
         values1 = [[XRGDataSet alloc] init];
         values2 = [[XRGDataSet alloc] init];
         values3 = [[XRGDataSet alloc] init];

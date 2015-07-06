@@ -41,6 +41,8 @@
        
 } 
 
+@property (strong) NSDictionary *sKnownDescriptions;
+
 // returns an plain dict of values with their 4cc IDs.
 // contains only values where a known conversion from the SMC data type to NSNumber / NDSData is implemented in SMCInterface
 

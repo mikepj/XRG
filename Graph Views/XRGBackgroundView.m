@@ -34,13 +34,13 @@
 @implementation XRGBackgroundView
 
 - (void)awakeFromNib {  
-    parentWindow = (XRGGraphWindow *)[[self window] retain]; 
+    parentWindow = (XRGGraphWindow *)[self window]; 
     
-    appSettings = [[parentWindow appSettings] retain];
-    moduleManager = [[parentWindow moduleManager] retain];
+    appSettings = [parentWindow appSettings];
+    moduleManager = [parentWindow moduleManager];
     
  	@synchronized(hostname) {
-		hostname = [@"XRG" retain];
+		hostname = @"XRG";
     }
 	[NSThread detachNewThreadSelector:@selector(getHostname) toTarget:self withObject:nil];
 	
@@ -162,32 +162,31 @@
 }
 
 - (void)getHostname {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-    NSProcessInfo *proc = [NSProcessInfo processInfo];
-    NSString *s = [proc hostName];
-    NSRange r = [s rangeOfString:@"."];
-    
+        NSProcessInfo *proc = [NSProcessInfo processInfo];
+        NSString *s = [proc hostName];
+        NSRange r = [s rangeOfString:@"."];
+        
 	NSString *newHostname = @"XRG";
-    if (r.location == NSNotFound) {
+        if (r.location == NSNotFound) {
 		if ([s length] > 0)	newHostname = s;
-    }
-    else {
+        }
+        else {
 		if (r.location != 0) newHostname = [s substringToIndex:r.location];
-    }
+        }
 	
 	@synchronized(self) {
 		if (hostname) {
-			[hostname release];
 			hostname = nil;
 		}
 		
-		hostname = [newHostname retain];
+		hostname = newHostname;
 	}
 	
 	[self setNeedsDisplay:YES];
 	
-	[pool release];
+	}
 }
 
 - (BOOL)shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {       
@@ -401,36 +400,29 @@
 
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"About XRG" action:@selector(openAboutBox:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Preferences..." action:@selector(openPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
 
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"XRG Help" action:@selector(openHelp:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
 
     if (uiIsHidden) {
         tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show XRG Dock Icon (After Restart)" action:@selector(showUI:) keyEquivalent:@""];
         [myMenu addItem:tMI];
-        [tMI release];
     }
     else {
         tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Hide XRG Dock Icon (After Restart)" action:@selector(hideUI:) keyEquivalent:@""];
         [myMenu addItem:tMI];
-        [tMI release];
     }
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Quit XRG" action:@selector(quit:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    [tMI release];
     
-    [myMenu autorelease];
     return myMenu;
 }
 
@@ -466,7 +458,6 @@
     if (!d) {
         NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
         NSLog(@"%@", error);
-        [error release];
         return;
     }
     else {
@@ -483,7 +474,6 @@
         }
         else {
 			NSLog(@"%@", error);
-            [error release];
             return;
         }
     }
@@ -515,7 +505,6 @@
     if (!d) {
         NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
         NSLog(@"%@", error);
-        [error release];
         return;
     }
     else {
@@ -532,7 +521,6 @@
         }
         else {
 			NSLog(@"%@", error);
-            [error release];
             return;
         }
     }
@@ -600,7 +588,6 @@
             if (!themeDictionary) {
                 NSRunInformationalAlertPanel(@"Error", @"The theme file dragged is not a valid theme file.", @"OK", nil, nil);
 				NSLog(@"%@", error);
-                [error release];
             }
             else {
 				[appSettings readXTFDictionary:themeDictionary];                
@@ -634,10 +621,7 @@
 }
 
 - (void)setResizeRects:(NSArray *)rects {
-	if (resizeRects != rects) {
-		if (resizeRects) [resizeRects autorelease];
-		resizeRects = [rects retain];
-	}
+	resizeRects = rects;
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {

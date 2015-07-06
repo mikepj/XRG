@@ -37,8 +37,8 @@
 		symbol = nil;
 		label = nil;
 
-		closingPrices = [[NSMutableArray arrayWithCapacity:160] retain];
-		volumes = [[NSMutableArray arrayWithCapacity:160] retain];
+		closingPrices = [NSMutableArray arrayWithCapacity:160];
+		volumes = [NSMutableArray arrayWithCapacity:160];
 		
 		currentPrice = 0;
 		lastChange = 0;
@@ -57,37 +57,15 @@
     return self;
 }
 
-- (void)dealloc {
-	[closingPrices release]; closingPrices = nil;
-	[volumes release]; volumes = nil;
-	
-	[surl release]; surl = nil;
-	[immediateURL release]; immediateURL = nil;
-	
-	[symbol release]; symbol = nil;
-	[label release]; label = nil;
-	
-	[super dealloc];
-}
-
 - (void)setSymbol:(NSString *)s {
     if ([s isEqualToString:@""]) return;
-    if (symbol != nil) {
-        [symbol autorelease];
-		symbol = nil;
-    }
-    if (label != nil) {
-        [label autorelease];
-		label = nil;
-    }
-    
     if (s != nil) {
-        label = [s retain];
+        label = s;
         
         NSMutableString *ms = [NSMutableString stringWithString:s];
         [ms replaceOccurrencesOfString:@"^" withString:@"%5E" options:NSLiteralSearch range:NSMakeRange(0, [ms length])];
     
-        symbol = [ms retain];
+        symbol = ms;
     }
 }
 
@@ -179,9 +157,8 @@
     if ([surl isDataReady] && [immediateURL isDataReady]) {
         NSString *s = [[NSString alloc] initWithData:[surl getData] encoding:NSASCIIStringEncoding];
         [self parseWebData:s];
-		[s release];
 		
-		NSString *immediateString = [[[NSString alloc] initWithData:[immediateURL getData] encoding:NSASCIIStringEncoding] autorelease];
+		NSString *immediateString = [[NSString alloc] initWithData:[immediateURL getData] encoding:NSASCIIStringEncoding];
 		NSArray *elements = [immediateString componentsSeparatedByString:@","];
 		if ([elements count] >= 5) {			// ^DJI (and probably some others) won't return immediate data, so catch that case here.
 			currentPrice = [elements[1] floatValue];
