@@ -90,7 +90,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
     [m setDoesMin30Update:NO];
-    [m setDisplayOrder:4];
+    [m setDisplayOrder:5];
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showNetworkGraph]];
 

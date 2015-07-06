@@ -125,6 +125,7 @@ typedef struct network_interface_stats {
 #define XRG_showDJIA					@"showDJIA"
 
 #define XRG_showCPUGraph				@"showCPUGraph"
+#define XRG_showGPUGraph				@"showGPUGraph"
 #define XRG_showNetworkGraph			@"showNetworkGraph"
 #define XRG_showDiskGraph				@"showDiskGraph"
 #define XRG_showMemoryGraph				@"showMemoryGraph"

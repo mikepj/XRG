@@ -2,21 +2,21 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
-		<string key="IBDocument.HIToolboxVersion">569.00</string>
+		<string key="IBDocument.SystemVersion">14D136</string>
+		<string key="IBDocument.InterfaceBuilderVersion">7706</string>
+		<string key="IBDocument.AppKitVersion">1347.57</string>
+		<string key="IBDocument.HIToolboxVersion">758.70</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2182</string>
+			<string key="NS.object.0">7706</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSCustomView</string>
-			<string>NSWindowTemplate</string>
-			<string>NSView</string>
-			<string>NSMenu</string>
 			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
+			<string>NSMenu</string>
 			<string>NSMenuItem</string>
+			<string>NSView</string>
+			<string>NSWindowTemplate</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -40,7 +40,7 @@
 			<object class="NSWindowTemplate" id="902916312">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{684, 184}, {84, 634}}</string>
+				<string key="NSWindowRect">{{684, 184}, {84, 710}}</string>
 				<int key="NSWTFlags">808976384</int>
 				<string key="NSWindowTitle"/>
 				<string key="NSWindowClass">XRGGraphWindow</string>
@@ -50,17 +50,26 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{81, 140}</string>
 				<object class="NSView" key="NSWindowView" id="823274775">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSCustomView" id="713277443">
 							<reference key="NSNextResponder" ref="823274775"/>
 							<int key="NSvFlags">274</int>
-							<string key="NSFrameSize">{84, 634}</string>
+							<array class="NSMutableArray" key="NSSubviews"/>
+							<string key="NSFrameSize">{84, 710}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="529381800"/>
+							<reference key="NSNextKeyView" ref="61560787"/>
 							<string key="NSClassName">XRGBackgroundView</string>
+							<string key="NSExtension">NSView</string>
+						</object>
+						<object class="NSCustomView" id="61560787">
+							<reference key="NSNextResponder" ref="823274775"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrame">{{4, 615}, {76, 76}}</string>
+							<reference key="NSSuperview" ref="823274775"/>
+							<reference key="NSNextKeyView" ref="529381800"/>
+							<string key="NSClassName">XRGGPUView</string>
 							<string key="NSExtension">NSView</string>
 						</object>
 						<object class="NSCustomView" id="941113982">
@@ -68,7 +77,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{4, 463}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="837841119"/>
 							<string key="NSClassName">XRGNetView</string>
 							<string key="NSExtension">NSView</string>
@@ -76,9 +84,9 @@
 						<object class="NSCustomView" id="529381800">
 							<reference key="NSNextResponder" ref="823274775"/>
 							<int key="NSvFlags">256</int>
+							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{4, 539}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="941113982"/>
 							<string key="NSClassName">XRGCPUView</string>
 							<string key="NSExtension">NSView</string>
@@ -86,9 +94,9 @@
 						<object class="NSCustomView" id="837841119">
 							<reference key="NSNextResponder" ref="823274775"/>
 							<int key="NSvFlags">256</int>
+							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{4, 387}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="196418244"/>
 							<string key="NSClassName">XRGDiskView</string>
 							<string key="NSExtension">NSView</string>
@@ -98,7 +106,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{4, 311}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="497091677"/>
 							<string key="NSClassName">XRGWeatherView</string>
 							<string key="NSExtension">NSView</string>
@@ -108,7 +115,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{4, 235}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="343522526"/>
 							<string key="NSClassName">XRGMemoryView</string>
 							<string key="NSExtension">NSView</string>
@@ -118,7 +124,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{4, 83}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="759211877"/>
 							<string key="NSClassName">XRGStockView</string>
 							<string key="NSExtension">NSView</string>
@@ -126,10 +131,9 @@
 						<object class="NSCustomView" id="759211877">
 							<reference key="NSNextResponder" ref="823274775"/>
 							<int key="NSvFlags">256</int>
+							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{4, 7}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSClassName">XRGTemperatureView</string>
 							<string key="NSExtension">NSView</string>
 						</object>
@@ -138,18 +142,15 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{4, 159}, {76, 76}}</string>
 							<reference key="NSSuperview" ref="823274775"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="177990621"/>
 							<string key="NSClassName">XRGBatteryView</string>
 							<string key="NSExtension">NSView</string>
 						</object>
 					</array>
-					<string key="NSFrameSize">{84, 634}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
+					<string key="NSFrameSize">{84, 710}</string>
 					<reference key="NSNextKeyView" ref="713277443"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {3008, 1669}}</string>
 				<string key="NSMinSize">{81, 162}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -172,6 +173,7 @@
 							<string key="NSResourceName">NSMenuMixedState</string>
 						</object>
 						<string key="NSAction">submenuAction:</string>
+						<reference key="NSTarget" ref="286640138"/>
 						<object class="NSMenu" key="NSSubmenu" id="286640138">
 							<string key="NSTitle">XRG</string>
 							<array class="NSMutableArray" key="NSMenuItems">
@@ -212,6 +214,7 @@
 									<reference key="NSOnImage" ref="848868046"/>
 									<reference key="NSMixedImage" ref="470361238"/>
 									<string key="NSAction">submenuAction:</string>
+									<reference key="NSTarget" ref="888068854"/>
 									<object class="NSMenu" key="NSSubmenu" id="888068854">
 										<object class="NSMutableString" key="NSTitle">
 											<characters key="NS.bytes">Services</characters>
@@ -291,6 +294,7 @@
 						<reference key="NSOnImage" ref="848868046"/>
 						<reference key="NSMixedImage" ref="470361238"/>
 						<string key="NSAction">submenuAction:</string>
+						<reference key="NSTarget" ref="24693367"/>
 						<object class="NSMenu" key="NSSubmenu" id="24693367">
 							<object class="NSMutableString" key="NSTitle">
 								<characters key="NS.bytes">File</characters>
@@ -323,6 +327,7 @@
 									<reference key="NSOnImage" ref="848868046"/>
 									<reference key="NSMixedImage" ref="470361238"/>
 									<string key="NSAction">submenuAction:</string>
+									<reference key="NSTarget" ref="730162231"/>
 									<object class="NSMenu" key="NSSubmenu" id="730162231">
 										<object class="NSMutableString" key="NSTitle">
 											<characters key="NS.bytes">Open Recent</characters>
@@ -428,6 +433,7 @@
 						<reference key="NSOnImage" ref="848868046"/>
 						<reference key="NSMixedImage" ref="470361238"/>
 						<string key="NSAction">submenuAction:</string>
+						<reference key="NSTarget" ref="590466090"/>
 						<object class="NSMenu" key="NSSubmenu" id="590466090">
 							<object class="NSMutableString" key="NSTitle">
 								<characters key="NS.bytes">Edit</characters>
@@ -527,6 +533,7 @@
 									<reference key="NSOnImage" ref="848868046"/>
 									<reference key="NSMixedImage" ref="470361238"/>
 									<string key="NSAction">submenuAction:</string>
+									<reference key="NSTarget" ref="408406992"/>
 									<object class="NSMenu" key="NSSubmenu" id="408406992">
 										<object class="NSMutableString" key="NSTitle">
 											<characters key="NS.bytes">Find</characters>
@@ -589,6 +596,7 @@
 									<reference key="NSOnImage" ref="848868046"/>
 									<reference key="NSMixedImage" ref="470361238"/>
 									<string key="NSAction">submenuAction:</string>
+									<reference key="NSTarget" ref="278507398"/>
 									<object class="NSMenu" key="NSSubmenu" id="278507398">
 										<string key="NSTitle">Spelling</string>
 										<array class="NSMutableArray" key="NSMenuItems">
@@ -634,6 +642,7 @@
 						<reference key="NSOnImage" ref="848868046"/>
 						<reference key="NSMixedImage" ref="470361238"/>
 						<string key="NSAction">submenuAction:</string>
+						<reference key="NSTarget" ref="1040162356"/>
 						<object class="NSMenu" key="NSSubmenu" id="1040162356">
 							<string key="NSTitle">Help</string>
 							<array class="NSMutableArray" key="NSMenuItems">
@@ -660,7 +669,7 @@
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<array class="NSMutableArray" key="connectionRecords">
+			<array key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">unhideAllApplications:</string>
@@ -910,22 +919,20 @@
 							<reference ref="177990621"/>
 							<reference ref="759211877"/>
 							<reference ref="343522526"/>
+							<reference ref="61560787"/>
 						</array>
 						<reference key="parent" ref="902916312"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">196</int>
 						<reference key="object" ref="529381800"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="823274775"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">221</int>
 						<reference key="object" ref="837841119"/>
-						<reference key="parent" ref="823274775"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">239</int>
-						<reference key="object" ref="196418244"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="823274775"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -936,6 +943,7 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">310</int>
 						<reference key="object" ref="713277443"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="823274775"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -951,6 +959,7 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">375</int>
 						<reference key="object" ref="759211877"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="823274775"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -1332,6 +1341,16 @@
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Font Manager</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">379</int>
+						<reference key="object" ref="61560787"/>
+						<reference key="parent" ref="823274775"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">239</int>
+						<reference key="object" ref="196418244"/>
+						<reference key="parent" ref="823274775"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1379,7 +1398,9 @@
 				<string key="189.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="191.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="196.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<reference key="2.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="21.IBPersistedLastKnownCanvasPosition">{620, 463}</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="21.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="221.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1387,12 +1408,15 @@
 				<string key="239.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="309.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<reference key="310.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="310.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="314.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="317.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="356.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<reference key="375.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="375.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="377.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="379.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1412,956 +1436,25 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">378</int>
+			<int key="maxID">379</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGAppDelegate</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">showPrefs:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">showPrefs:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">showPrefs:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="prefController">XRGPrefController</string>
-						<string key="xrgGraphWindow">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="prefController">
-							<string key="name">prefController</string>
-							<string key="candidateClassName">XRGPrefController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="xrgGraphWindow">
-							<string key="name">xrgGraphWindow</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGAppDelegate.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGBackgroundView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGBackgroundView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGBatteryView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGBatteryView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGCPUView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGCPUView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGDiskView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGDiskView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGFramelessWindow</string>
-					<string key="superclassName">NSWindow</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGFramelessWindow.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGGenericView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGGenericView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGGraphWindow</string>
-					<string key="superclassName">XRGFramelessWindow</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="setAntiAliasing:">id</string>
-						<string key="setAntialiasText:">id</string>
-						<string key="setAutoExpandGraph:">id</string>
-						<string key="setBorderWidthAction:">id</string>
-						<string key="setCPUShowAverageUsage:">id</string>
-						<string key="setCPUShowUptime:">id</string>
-						<string key="setCPUTemperatureUnits:">id</string>
-						<string key="setCheckForUpdates:">id</string>
-						<string key="setDiskGraphMode:">id</string>
-						<string key="setDistanceUnits:">id</string>
-						<string key="setDropShadow:">id</string>
-						<string key="setFastCPUUsageCheckbox:">id</string>
-						<string key="setForegroundWhenExpanding:">id</string>
-						<string key="setGraphOrientation:">id</string>
-						<string key="setGraphRefreshActionPart2:">id</string>
-						<string key="setICAO:">id</string>
-						<string key="setMemoryCheckbox:">id</string>
-						<string key="setMinimizeUpDown:">id</string>
-						<string key="setNetGraphMode:">id</string>
-						<string key="setNetworkInterface:">id</string>
-						<string key="setObjectsToColor:">id</string>
-						<string key="setObjectsToTransparency:">id</string>
-						<string key="setPressureUnits:">id</string>
-						<string key="setSecondaryWeatherGraph:">id</string>
-						<string key="setSeparateCPUColor:">id</string>
-						<string key="setShowBatteryGraph:">id</string>
-						<string key="setShowCPUGraph:">id</string>
-						<string key="setShowCPUTemperature:">id</string>
-						<string key="setShowDJIA:">id</string>
-						<string key="setShowDiskGraph:">id</string>
-						<string key="setShowLoadAverage:">id</string>
-						<string key="setShowMemoryGraph:">id</string>
-						<string key="setShowNetGraph:">id</string>
-						<string key="setShowStockGraph:">id</string>
-						<string key="setShowSummary:">id</string>
-						<string key="setShowTemperatureGraph:">id</string>
-						<string key="setShowTotalBandwidthSinceBoot:">id</string>
-						<string key="setShowTotalBandwidthSinceLoad:">id</string>
-						<string key="setShowWeatherGraph:">id</string>
-						<string key="setStickyWindow:">id</string>
-						<string key="setStockGraphTimeFrame:">id</string>
-						<string key="setStockShowChange:">id</string>
-						<string key="setStockSymbols:">id</string>
-						<string key="setTempFG1Location:">id</string>
-						<string key="setTempFG2Location:">id</string>
-						<string key="setTempFG3Location:">id</string>
-						<string key="setTempUnits:">id</string>
-						<string key="setTemperatureUnits:">id</string>
-						<string key="setWindowLevel:">id</string>
-						<string key="setWindowTitle:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="setAntiAliasing:">
-							<string key="name">setAntiAliasing:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setAntialiasText:">
-							<string key="name">setAntialiasText:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setAutoExpandGraph:">
-							<string key="name">setAutoExpandGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setBorderWidthAction:">
-							<string key="name">setBorderWidthAction:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setCPUShowAverageUsage:">
-							<string key="name">setCPUShowAverageUsage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setCPUShowUptime:">
-							<string key="name">setCPUShowUptime:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setCPUTemperatureUnits:">
-							<string key="name">setCPUTemperatureUnits:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setCheckForUpdates:">
-							<string key="name">setCheckForUpdates:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setDiskGraphMode:">
-							<string key="name">setDiskGraphMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setDistanceUnits:">
-							<string key="name">setDistanceUnits:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setDropShadow:">
-							<string key="name">setDropShadow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setFastCPUUsageCheckbox:">
-							<string key="name">setFastCPUUsageCheckbox:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setForegroundWhenExpanding:">
-							<string key="name">setForegroundWhenExpanding:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setGraphOrientation:">
-							<string key="name">setGraphOrientation:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setGraphRefreshActionPart2:">
-							<string key="name">setGraphRefreshActionPart2:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setICAO:">
-							<string key="name">setICAO:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setMemoryCheckbox:">
-							<string key="name">setMemoryCheckbox:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setMinimizeUpDown:">
-							<string key="name">setMinimizeUpDown:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setNetGraphMode:">
-							<string key="name">setNetGraphMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setNetworkInterface:">
-							<string key="name">setNetworkInterface:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setObjectsToColor:">
-							<string key="name">setObjectsToColor:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setObjectsToTransparency:">
-							<string key="name">setObjectsToTransparency:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setPressureUnits:">
-							<string key="name">setPressureUnits:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setSecondaryWeatherGraph:">
-							<string key="name">setSecondaryWeatherGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setSeparateCPUColor:">
-							<string key="name">setSeparateCPUColor:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowBatteryGraph:">
-							<string key="name">setShowBatteryGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowCPUGraph:">
-							<string key="name">setShowCPUGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowCPUTemperature:">
-							<string key="name">setShowCPUTemperature:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowDJIA:">
-							<string key="name">setShowDJIA:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowDiskGraph:">
-							<string key="name">setShowDiskGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowLoadAverage:">
-							<string key="name">setShowLoadAverage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowMemoryGraph:">
-							<string key="name">setShowMemoryGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowNetGraph:">
-							<string key="name">setShowNetGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowStockGraph:">
-							<string key="name">setShowStockGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowSummary:">
-							<string key="name">setShowSummary:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowTemperatureGraph:">
-							<string key="name">setShowTemperatureGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowTotalBandwidthSinceBoot:">
-							<string key="name">setShowTotalBandwidthSinceBoot:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowTotalBandwidthSinceLoad:">
-							<string key="name">setShowTotalBandwidthSinceLoad:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowWeatherGraph:">
-							<string key="name">setShowWeatherGraph:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setStickyWindow:">
-							<string key="name">setStickyWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setStockGraphTimeFrame:">
-							<string key="name">setStockGraphTimeFrame:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setStockShowChange:">
-							<string key="name">setStockShowChange:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setStockSymbols:">
-							<string key="name">setStockSymbols:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setTempFG1Location:">
-							<string key="name">setTempFG1Location:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setTempFG2Location:">
-							<string key="name">setTempFG2Location:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setTempFG3Location:">
-							<string key="name">setTempFG3Location:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setTempUnits:">
-							<string key="name">setTempUnits:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setTemperatureUnits:">
-							<string key="name">setTemperatureUnits:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setWindowLevel:">
-							<string key="name">setWindowLevel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setWindowTitle:">
-							<string key="name">setWindowTitle:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="backgroundView">id</string>
-						<string key="controller">id</string>
-						<string key="preferenceWindow">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="backgroundView">
-							<string key="name">backgroundView</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="controller">
-							<string key="name">controller</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="preferenceWindow">
-							<string key="name">preferenceWindow</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGGraphWindow.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGMemoryView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGMemoryView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGNetView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGNetView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGPrefController</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="CPU:">id</string>
-						<string key="Colors:">id</string>
-						<string key="Disk:">id</string>
-						<string key="General:">id</string>
-						<string key="Network:">id</string>
-						<string key="RAM:">id</string>
-						<string key="Stocks:">id</string>
-						<string key="Temperature:">id</string>
-						<string key="Weather:">id</string>
-						<string key="loadTheme:">id</string>
-						<string key="openWeatherStationList:">id</string>
-						<string key="revert:">id</string>
-						<string key="save:">id</string>
-						<string key="saveTheme:">id</string>
-						<string key="setFont:">id</string>
-						<string key="setGraphRefreshAction:">id</string>
-						<string key="setNetMinGraphUnitsAction:">id</string>
-						<string key="setNetMinGraphValueAction:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="CPU:">
-							<string key="name">CPU:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="Colors:">
-							<string key="name">Colors:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="Disk:">
-							<string key="name">Disk:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="General:">
-							<string key="name">General:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="Network:">
-							<string key="name">Network:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="RAM:">
-							<string key="name">RAM:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="Stocks:">
-							<string key="name">Stocks:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="Temperature:">
-							<string key="name">Temperature:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="Weather:">
-							<string key="name">Weather:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="loadTheme:">
-							<string key="name">loadTheme:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openWeatherStationList:">
-							<string key="name">openWeatherStationList:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="revert:">
-							<string key="name">revert:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="save:">
-							<string key="name">save:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="saveTheme:">
-							<string key="name">saveTheme:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setFont:">
-							<string key="name">setFont:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setGraphRefreshAction:">
-							<string key="name">setGraphRefreshAction:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setNetMinGraphUnitsAction:">
-							<string key="name">setNetMinGraphUnitsAction:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setNetMinGraphValueAction:">
-							<string key="name">setNetMinGraphValueAction:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="CPUPrefView">NSView</string>
-						<string key="ColorPrefView">NSView</string>
-						<string key="DiskPrefView">NSView</string>
-						<string key="GeneralPrefView">NSView</string>
-						<string key="ICAOCode">id</string>
-						<string key="MemoryPrefView">NSView</string>
-						<string key="NetworkPrefView">NSView</string>
-						<string key="StockPrefView">NSView</string>
-						<string key="TemperaturePrefView">NSView</string>
-						<string key="WeatherPrefView">NSView</string>
-						<string key="appearanceAntialiasText">id</string>
-						<string key="backgroundColorWell">id</string>
-						<string key="backgroundTransparency">id</string>
-						<string key="borderColorWell">id</string>
-						<string key="borderTransparency">id</string>
-						<string key="borderWidthSlider">id</string>
-						<string key="checkForUpdates">id</string>
-						<string key="cpuShowAverageUsage">id</string>
-						<string key="cpuShowUptime">id</string>
-						<string key="cpuTemperatureUnits">id</string>
-						<string key="diskGraphMode">id</string>
-						<string key="displayedModules">id</string>
-						<string key="distanceUnits">id</string>
-						<string key="dropShadow">id</string>
-						<string key="enableAntiAliasing">id</string>
-						<string key="fastCPUUsageCheckbox">id</string>
-						<string key="font">id</string>
-						<string key="generalAutoExpandGraph">id</string>
-						<string key="generalForegroundWhenExpanding">id</string>
-						<string key="generalMinimizeUpDown">id</string>
-						<string key="generalShowSummary">id</string>
-						<string key="graphBGColorWell">id</string>
-						<string key="graphBGTransparency">id</string>
-						<string key="graphFG1ColorWell">id</string>
-						<string key="graphFG1Transparency">id</string>
-						<string key="graphFG2ColorWell">id</string>
-						<string key="graphFG2Transparency">id</string>
-						<string key="graphFG3ColorWell">id</string>
-						<string key="graphFG3Transparency">id</string>
-						<string key="graphOrientation">id</string>
-						<string key="graphRefreshText">id</string>
-						<string key="graphRefreshValue">id</string>
-						<string key="hiddenModules">id</string>
-						<string key="memoryShowActive">id</string>
-						<string key="memoryShowCache">id</string>
-						<string key="memoryShowFree">id</string>
-						<string key="memoryShowInactive">id</string>
-						<string key="memoryShowPage">id</string>
-						<string key="memoryShowPagingGraph">id</string>
-						<string key="memoryShowWired">id</string>
-						<string key="netGraphMode">id</string>
-						<string key="netMinGraphScaleUnits">id</string>
-						<string key="netMinGraphScaleValue">id</string>
-						<string key="networkInterface">id</string>
-						<string key="pressureUnits">id</string>
-						<string key="secondaryWeatherGraph">id</string>
-						<string key="separateCPUColor">id</string>
-						<string key="showBatteryGraph">id</string>
-						<string key="showCPUGraph">id</string>
-						<string key="showCPUTemperature">id</string>
-						<string key="showDJIA">id</string>
-						<string key="showDiskGraph">id</string>
-						<string key="showLoadAverage">id</string>
-						<string key="showMemoryGraph">id</string>
-						<string key="showNetGraph">id</string>
-						<string key="showStockGraph">id</string>
-						<string key="showTemperatureGraph">id</string>
-						<string key="showTotalBandwidthSinceBoot">id</string>
-						<string key="showTotalBandwidthSinceLoad">id</string>
-						<string key="showWeatherGraph">id</string>
-						<string key="stickyWindow">id</string>
-						<string key="stockGraphTimeFrame">id</string>
-						<string key="stockShowChange">id</string>
-						<string key="stockSymbols">id</string>
-						<string key="tempFG1Location">id</string>
-						<string key="tempFG2Location">id</string>
-						<string key="tempFG3Location">id</string>
-						<string key="tempUnits">id</string>
-						<string key="temperatureUnits">id</string>
-						<string key="textColorWell">id</string>
-						<string key="textTransparency">id</string>
-						<string key="weatherStationListLink">id</string>
-						<string key="window">NSWindow</string>
-						<string key="windowLevel">id</string>
-						<string key="windowTitle">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="CPUPrefView">
-							<string key="name">CPUPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ColorPrefView">
-							<string key="name">ColorPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="DiskPrefView">
-							<string key="name">DiskPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="GeneralPrefView">
-							<string key="name">GeneralPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ICAOCode">
-							<string key="name">ICAOCode</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="MemoryPrefView">
-							<string key="name">MemoryPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="NetworkPrefView">
-							<string key="name">NetworkPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="StockPrefView">
-							<string key="name">StockPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="TemperaturePrefView">
-							<string key="name">TemperaturePrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="WeatherPrefView">
-							<string key="name">WeatherPrefView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="appearanceAntialiasText">
-							<string key="name">appearanceAntialiasText</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="backgroundColorWell">
-							<string key="name">backgroundColorWell</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="backgroundTransparency">
-							<string key="name">backgroundTransparency</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="borderColorWell">
-							<string key="name">borderColorWell</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="borderTransparency">
-							<string key="name">borderTransparency</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="borderWidthSlider">
-							<string key="name">borderWidthSlider</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkForUpdates">
-							<string key="name">checkForUpdates</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="cpuShowAverageUsage">
-							<string key="name">cpuShowAverageUsage</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="cpuShowUptime">
-							<string key="name">cpuShowUptime</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="cpuTemperatureUnits">
-							<string key="name">cpuTemperatureUnits</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="diskGraphMode">
-							<string key="name">diskGraphMode</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="displayedModules">
-							<string key="name">displayedModules</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="distanceUnits">
-							<string key="name">distanceUnits</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="dropShadow">
-							<string key="name">dropShadow</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="enableAntiAliasing">
-							<string key="name">enableAntiAliasing</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="fastCPUUsageCheckbox">
-							<string key="name">fastCPUUsageCheckbox</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="font">
-							<string key="name">font</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="generalAutoExpandGraph">
-							<string key="name">generalAutoExpandGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="generalForegroundWhenExpanding">
-							<string key="name">generalForegroundWhenExpanding</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="generalMinimizeUpDown">
-							<string key="name">generalMinimizeUpDown</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="generalShowSummary">
-							<string key="name">generalShowSummary</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphBGColorWell">
-							<string key="name">graphBGColorWell</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphBGTransparency">
-							<string key="name">graphBGTransparency</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphFG1ColorWell">
-							<string key="name">graphFG1ColorWell</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphFG1Transparency">
-							<string key="name">graphFG1Transparency</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphFG2ColorWell">
-							<string key="name">graphFG2ColorWell</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphFG2Transparency">
-							<string key="name">graphFG2Transparency</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphFG3ColorWell">
-							<string key="name">graphFG3ColorWell</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphFG3Transparency">
-							<string key="name">graphFG3Transparency</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphOrientation">
-							<string key="name">graphOrientation</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphRefreshText">
-							<string key="name">graphRefreshText</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="graphRefreshValue">
-							<string key="name">graphRefreshValue</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hiddenModules">
-							<string key="name">hiddenModules</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memoryShowActive">
-							<string key="name">memoryShowActive</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memoryShowCache">
-							<string key="name">memoryShowCache</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memoryShowFree">
-							<string key="name">memoryShowFree</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memoryShowInactive">
-							<string key="name">memoryShowInactive</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memoryShowPage">
-							<string key="name">memoryShowPage</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memoryShowPagingGraph">
-							<string key="name">memoryShowPagingGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="memoryShowWired">
-							<string key="name">memoryShowWired</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="netGraphMode">
-							<string key="name">netGraphMode</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="netMinGraphScaleUnits">
-							<string key="name">netMinGraphScaleUnits</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="netMinGraphScaleValue">
-							<string key="name">netMinGraphScaleValue</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="networkInterface">
-							<string key="name">networkInterface</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="pressureUnits">
-							<string key="name">pressureUnits</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="secondaryWeatherGraph">
-							<string key="name">secondaryWeatherGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="separateCPUColor">
-							<string key="name">separateCPUColor</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showBatteryGraph">
-							<string key="name">showBatteryGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showCPUGraph">
-							<string key="name">showCPUGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showCPUTemperature">
-							<string key="name">showCPUTemperature</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showDJIA">
-							<string key="name">showDJIA</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showDiskGraph">
-							<string key="name">showDiskGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showLoadAverage">
-							<string key="name">showLoadAverage</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showMemoryGraph">
-							<string key="name">showMemoryGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showNetGraph">
-							<string key="name">showNetGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showStockGraph">
-							<string key="name">showStockGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showTemperatureGraph">
-							<string key="name">showTemperatureGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showTotalBandwidthSinceBoot">
-							<string key="name">showTotalBandwidthSinceBoot</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showTotalBandwidthSinceLoad">
-							<string key="name">showTotalBandwidthSinceLoad</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showWeatherGraph">
-							<string key="name">showWeatherGraph</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="stickyWindow">
-							<string key="name">stickyWindow</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="stockGraphTimeFrame">
-							<string key="name">stockGraphTimeFrame</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="stockShowChange">
-							<string key="name">stockShowChange</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="stockSymbols">
-							<string key="name">stockSymbols</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tempFG1Location">
-							<string key="name">tempFG1Location</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tempFG2Location">
-							<string key="name">tempFG2Location</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tempFG3Location">
-							<string key="name">tempFG3Location</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tempUnits">
-							<string key="name">tempUnits</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="temperatureUnits">
-							<string key="name">temperatureUnits</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textColorWell">
-							<string key="name">textColorWell</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textTransparency">
-							<string key="name">textTransparency</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="weatherStationListLink">
-							<string key="name">weatherStationListLink</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window">
-							<string key="name">window</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="windowLevel">
-							<string key="name">windowLevel</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="windowTitle">
-							<string key="name">windowTitle</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGPrefController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGStockView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGStockView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGTemperatureView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGTemperatureView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">XRGWeatherView</string>
-					<string key="superclassName">XRGGenericView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/XRGWeatherView.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
+		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">NO</bool>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>
 		</object>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
+			<integer value="4600" key="NS.object.0"/>
+		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{11, 11}</string>
-			<string key="NSMenuMixedState">{10, 3}</string>
+			<string key="NSMenuCheckmark">{12, 12}</string>
+			<string key="NSMenuMixedState">{10, 2}</string>
 		</dictionary>
 	</data>
 </archive>

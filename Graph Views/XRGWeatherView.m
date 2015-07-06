@@ -75,7 +75,7 @@
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
     [m setDoesMin30Update:YES];
-    [m setDisplayOrder:6];
+    [m setDisplayOrder:7];
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showWeatherGraph]];
 

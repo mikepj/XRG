@@ -33,6 +33,7 @@
 #import "XRGWeatherView.h"
 #import "XRGStockView.h"
 #import "XRGBatteryView.h"
+#import "XRGGPUView.h"
 #import "XRGTemperatureView.h"
 #import "XRGBackgroundView.h"
 #import "XRGSettings.h"
@@ -62,6 +63,7 @@
 	XRGModuleManager			*moduleManager;
 	
 	XRGCPUView					*cpuView;
+	XRGGPUView					*gpuView;
 	XRGNetView					*netView;
 	XRGDiskView					*diskView;
 	XRGMemoryView				*memoryView;
@@ -76,6 +78,7 @@
 @property (retain) XRGModuleManager *moduleManager;
 
 @property (retain) XRGCPUView *cpuView;
+@property (retain) XRGGPUView *gpuView;
 @property (retain) XRGNetView *netView;
 @property (retain) XRGDiskView *diskView;
 @property (retain) XRGMemoryView *memoryView;
@@ -112,6 +115,7 @@
 
 // Actions
 - (IBAction)setShowCPUGraph:(id)sender;
+- (IBAction)setShowGPUGraph:(id)sender;
 - (IBAction)setShowNetGraph:(id)sender;
 - (IBAction)setShowDiskGraph:(id)sender;
 - (IBAction)setShowMemoryGraph:(id)sender;

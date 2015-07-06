@@ -229,7 +229,8 @@
     [defs setObject: ([appearanceAntialiasText state] == NSOnState ? @"YES" : @"NO") forKey:XRG_antialiasText];
     
     [defs setObject: ([showCPUGraph state] == NSOnState ? @"YES" : @"NO")            forKey:XRG_showCPUGraph];    
-    [defs setObject: ([showMemoryGraph state] == NSOnState ? @"YES" : @"NO")         forKey:XRG_showMemoryGraph];    
+	[defs setObject: ([showGPUGraph state] == NSOnState ? @"YES" : @"NO")            forKey:XRG_showGPUGraph];
+    [defs setObject: ([showMemoryGraph state] == NSOnState ? @"YES" : @"NO")         forKey:XRG_showMemoryGraph];
     [defs setObject: ([showBatteryGraph state] == NSOnState ? @"YES" : @"NO")        forKey:XRG_showBatteryGraph];
     [defs setObject: ([showTemperatureGraph state] == NSOnState ? @"YES" : @"NO")    forKey:XRG_showTemperatureGraph];
     [defs setObject: ([showNetGraph state] == NSOnState ? @"YES" : @"NO")            forKey:XRG_showNetworkGraph];    
@@ -366,7 +367,15 @@
         [showCPUGraph setState:NSOnState];
     else
         [showCPUGraph setState:NSOffState];
-        
+
+	// Setup show GPU graph
+	[showGPUGraph setTarget:xrgGraphWindow];
+	[showGPUGraph setAction:@selector(setShowGPUGraph:)];
+	if ([[[xrgGraphWindow moduleManager] getModuleByName:@"GPU"] isDisplayed])
+		[showGPUGraph setState:NSOnState];
+	else
+		[showGPUGraph setState:NSOffState];
+
     // Setup show memory graph
     [showMemoryGraph       setTarget:xrgGraphWindow];
     [showMemoryGraph       setAction:@selector(setShowMemoryGraph:)];

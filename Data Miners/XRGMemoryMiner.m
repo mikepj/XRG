@@ -126,7 +126,7 @@
 		usedSwap = swapInfo.xsu_used;
 		totalSwap = swapInfo.xsu_total;
 //		NSLog(@"Used: %d (%3.2fM)    Total: %d (%3.2fM)", usedSwap, (float)usedSwap / 1024. / 1024., totalSwap, (float)totalSwap / 1024. / 1024.);
-    }		
+    }
 }
 
 // actually kilobytes, not bytes

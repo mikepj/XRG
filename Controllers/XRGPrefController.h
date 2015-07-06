@@ -49,6 +49,7 @@
 
     IBOutlet id borderWidthSlider;
     IBOutlet id showCPUGraph;
+	IBOutlet id showGPUGraph;
     IBOutlet id showMemoryGraph;
     IBOutlet id showBatteryGraph;
     IBOutlet id showTemperatureGraph;

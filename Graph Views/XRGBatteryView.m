@@ -89,7 +89,7 @@
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
     [m setDoesMin30Update:NO];
-    [m setDisplayOrder:2];
+    [m setDisplayOrder:3];
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showBatteryGraph]];
 

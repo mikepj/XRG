@@ -49,7 +49,7 @@
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
     [m setDoesMin30Update:NO];
-    [m setDisplayOrder:3];
+    [m setDisplayOrder:4];
     [m setAlwaysDoesGraphUpdate:NO];
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showTemperatureGraph]];

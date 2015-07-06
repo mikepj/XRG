@@ -67,7 +67,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:YES];
     [m setDoesMin30Update:NO];
-    [m setDisplayOrder:5];
+    [m setDisplayOrder:6];
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showDiskGraph]];
 

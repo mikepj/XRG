@@ -36,7 +36,7 @@ io_object_t powerConnection;
 void sleepNotification(void *refcon, io_service_t service, natural_t messageType, void *messageArgument);
 
 @implementation XRGGraphWindow
-@synthesize appSettings, moduleManager, cpuView, netView, diskView, memoryView, weatherView, stockView, batteryView, temperatureView, temperatureMiner, backgroundView;
+@synthesize appSettings, moduleManager, cpuView, gpuView, netView, diskView, memoryView, weatherView, stockView, batteryView, temperatureView, temperatureMiner, backgroundView;
 
 ///// Initialization Methods /////
 
@@ -102,6 +102,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	[weatherView release];
 	[stockView release];
 	[batteryView release];
+	[gpuView release];
 	[temperatureView release];
 	[temperatureMiner release];
 	[backgroundView release];
@@ -204,6 +205,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [appDefs setObject: @"YES"  forKey: XRG_showDiskGraph];
     [appDefs setObject: @"YES"  forKey: XRG_showWeatherGraph];
     [appDefs setObject: @"YES"  forKey: XRG_showStockGraph];
+	[appDefs setObject: @"YES"  forKey: XRG_showGPUGraph];
     [appDefs setObject: @"0"	forKey: XRG_windowLevel];
     [appDefs setObject: @"YES"  forKey: XRG_stickyWindow];
     [appDefs setObject: @"YES"  forKey: XRG_checkForUpdates];
@@ -621,6 +623,12 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"CPU" isDisplayed:([sender state] == NSOnState)];
     [self.moduleManager windowChangedToSize:[self frame].size];
+}
+
+- (IBAction)setShowGPUGraph:(id)sender {
+	[self.backgroundView expandWindow];
+	[self.moduleManager setModule:@"GPU" isDisplayed:([sender state] == NSOnState)];
+	[self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowMemoryGraph:(id)sender {

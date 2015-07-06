@@ -48,7 +48,7 @@
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
     [m setDoesMin30Update:NO];
-    [m setDisplayOrder:1];
+    [m setDisplayOrder:2];
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showMemoryGraph]];
 

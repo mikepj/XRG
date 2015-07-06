@@ -58,7 +58,7 @@
     [m setDoesGraphUpdate:YES];
     [m setDoesMin5Update:NO];
     [m setDoesMin30Update:YES];
-    [m setDisplayOrder:7];
+    [m setDisplayOrder:8];
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showStockGraph]];
 
