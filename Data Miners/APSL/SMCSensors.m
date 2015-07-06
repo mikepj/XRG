@@ -93,14 +93,14 @@ static SMCKeyDescription sKnownDescriptions[] = {
     { "", nil }	
 };
 
-typedef enum {
+typedef NS_ENUM(int, DescriptionMatch_t) {
     kNoMatch = -1,
     kDirectMatch = 0x100
-} DescriptionMatch_t; 
+}; 
 
 @implementation SMCSensors
 
-- (id) init
+- (instancetype) init
 {
 	self = [super init];
 	
@@ -154,9 +154,9 @@ typedef enum {
         NSMutableDictionary *fanDict = [NSMutableDictionary dictionary];
         [resultDict setValue:fanDict forKey:[NSString stringWithFormat:@"Fan #%d", fanIndex]];
         
-        NSSet *smcKeys = [fanDescriptions_ objectForKey:fanIndexString];
+        NSSet *smcKeys = fanDescriptions_[fanIndexString];
         [self readSMCValues:smcKeys toDictionary:fanDict];
-        [fanDict setObject:[NSNumber numberWithBool:(forcedBits & (1 << fanIndex))] forKey:@"Forced"];
+        fanDict[@"Forced"] = [NSNumber numberWithBool:(forcedBits & (1 << fanIndex))];
     }
     return resultDict;
 }
@@ -271,7 +271,7 @@ typedef enum {
             }
         } else if ( isFanKey ) {
             NSString *fanKey = [NSString stringWithFormat:@"%c", keyChar[1]];
-            NSMutableArray *fanValues = [fanDescriptions objectForKey:fanKey];
+            NSMutableArray *fanValues = fanDescriptions[fanKey];
             if( !fanValues ) {
                 fanValues = [NSMutableArray arrayWithCapacity:5];
                 [fanDescriptions setValue:fanValues forKey:fanKey];
@@ -349,7 +349,7 @@ typedef enum {
     for( NSString *aKey in smcKeys  ) {
         id value = [smc_ readValue:[self keyFromString:aKey] error:&error];
         if( !error ) {
-            [destDict setObject:value forKey:aKey];
+            destDict[aKey] = value;
         } else {
             success = NO;
         }

@@ -142,19 +142,19 @@
 	float minValue = 9999999.f;
     
     if ([appSettings tempFG1Location] > 0 && [appSettings tempFG1Location] <= [locations count]) {
-        dataSet1 = [TemperatureMiner dataSetForKey:[locations objectAtIndex:[appSettings tempFG1Location] - 1]];
+        dataSet1 = [TemperatureMiner dataSetForKey:locations[[appSettings tempFG1Location] - 1]];
         if ([dataSet1 max] > maxValue) maxValue = [dataSet1 max];
 		if ([dataSet1 min] < minValue) minValue = [dataSet1 min];
     }
 
     if ([appSettings tempFG2Location] > 0 && [appSettings tempFG2Location] <= [locations count]) {
-        dataSet2 = [TemperatureMiner dataSetForKey:[locations objectAtIndex:[appSettings tempFG2Location] - 1]];
+        dataSet2 = [TemperatureMiner dataSetForKey:locations[[appSettings tempFG2Location] - 1]];
         if ([dataSet2 max] > maxValue) maxValue = [dataSet2 max];
 		if ([dataSet2 min] < minValue) minValue = [dataSet2 min];
     }
 
     if ([appSettings tempFG3Location] > 0 && [appSettings tempFG3Location] <= [locations count]) {
-        dataSet3 = [TemperatureMiner dataSetForKey:[locations objectAtIndex:[appSettings tempFG3Location] - 1]];
+        dataSet3 = [TemperatureMiner dataSetForKey:locations[[appSettings tempFG3Location] - 1]];
         if ([dataSet3 max] > maxValue) maxValue = [dataSet3 max];
  		if ([dataSet3 min] < minValue) minValue = [dataSet3 min];
     }
@@ -188,13 +188,13 @@
 			
 	bool firstLine = YES;
     for (i = 0; i < [locations count]; i++) {
-        NSString *label = [TemperatureMiner labelForKey:[locations objectAtIndex:i]];
+        NSString *label = [TemperatureMiner labelForKey:locations[i]];
 		if (label == nil) {
 			continue;
 		}
 
-        float locationTemperature = [TemperatureMiner currentValueForKey:[locations objectAtIndex:i]];		
-        NSString *units = [TemperatureMiner unitsForLocation:[locations objectAtIndex:i]];
+        float locationTemperature = [TemperatureMiner currentValueForKey:locations[i]];		
+        NSString *units = [TemperatureMiner unitsForLocation:locations[i]];
 		if (units == nil) {
 			units = @"";
 		}
@@ -276,9 +276,9 @@
     NSArray *locations = [TemperatureMiner locationKeysInOrder];
     int i;    
     for (i = 0; i < [locations count]; i++) {
-        NSMutableString *s = [NSMutableString stringWithFormat:@"%@: ", [TemperatureMiner labelForKey:[locations objectAtIndex:i]]];
-        NSString *units = [TemperatureMiner unitsForLocation:[locations objectAtIndex:i]];
-		float locationTemperature = [TemperatureMiner currentValueForKey:[locations objectAtIndex:i]];
+        NSMutableString *s = [NSMutableString stringWithFormat:@"%@: ", [TemperatureMiner labelForKey:locations[i]]];
+        NSString *units = [TemperatureMiner unitsForLocation:locations[i]];
+		float locationTemperature = [TemperatureMiner currentValueForKey:locations[i]];
         if (locationTemperature < 0.001) {
 			continue;
 		}

@@ -299,7 +299,7 @@
         int i;
         lastDayTemps = malloc(sizeof(float) * [metarArray count]);
         for (i = 0; i < [metarArray count]; i++) {
-            lastDayTemps[i] = [self getTemperatureFromMETARFields: [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "]];
+            lastDayTemps[i] = [self getTemperatureFromMETARFields: [metarArray[i] componentsSeparatedByString: @" "]];
             if (i == 0) {
                 high = lastDayTemps[0];
                 low = lastDayTemps[0];
@@ -386,14 +386,14 @@
     }
     
     // split up the metar data
-    metarFields = [[metarArray objectAtIndex:0] componentsSeparatedByString: @" "];
+    metarFields = [metarArray[0] componentsSeparatedByString: @" "];
     numFields = [metarFields count];
     if (numFields < 2) {
         haveGoodDisplayData = NO;
         return;
     }
     
-    if (![[metarFields objectAtIndex:0] isEqualToString: stationName]) {
+    if (![metarFields[0] isEqualToString: stationName]) {
         // the data didn't parse correctly if we don't have the station name first
         haveGoodDisplayData = NO;
         return;	
@@ -433,7 +433,7 @@
 
 - (int)getTimeFromMETARFields:(NSArray *)fields {
     // the time should always be in index 1
-    return [[[fields objectAtIndex:1] substringWithRange: NSMakeRange(2, 4)] intValue];
+    return [[fields[1] substringWithRange: NSMakeRange(2, 4)] intValue];
 }
 
 - (int)getWindDirectionFromMETARFields:(NSArray *)fields {
@@ -442,12 +442,12 @@
         return -2;
     }
     else {
-        if ([[fields objectAtIndex:index] hasPrefix: @"VRB"]) {
+        if ([fields[index] hasPrefix: @"VRB"]) {
             // the wind is variable
             return -1;
         }
         else {
-            return [[[fields objectAtIndex:index] substringWithRange: NSMakeRange(0, 3)] intValue];
+            return [[fields[index] substringWithRange: NSMakeRange(0, 3)] intValue];
         }
     }
 }
@@ -458,12 +458,12 @@
         return -1;
     }
     else {
-        if ([[fields objectAtIndex:index] hasPrefix: @"VRB"]) {
+        if ([fields[index] hasPrefix: @"VRB"]) {
             // the wind is variable
-            return [[[fields objectAtIndex:index] substringWithRange: NSMakeRange(3, 3)] intValue];
+            return [[fields[index] substringWithRange: NSMakeRange(3, 3)] intValue];
         }
         else {
-            return [[[fields objectAtIndex:index] substringWithRange: NSMakeRange(3, 2)] intValue];
+            return [[fields[index] substringWithRange: NSMakeRange(3, 2)] intValue];
         }
     }
 }
@@ -474,9 +474,9 @@
         return -1;
     }
     else {
-        if (![[fields objectAtIndex:index] hasPrefix: @"VRB"]) {
-            if ((char) [[fields objectAtIndex:index] characterAtIndex: 5] == 'G') {
-                return [[[fields objectAtIndex:index] substringWithRange: NSMakeRange(6, 2)] intValue];
+        if (![fields[index] hasPrefix: @"VRB"]) {
+            if ((char) [fields[index] characterAtIndex: 5] == 'G') {
+                return [[fields[index] substringWithRange: NSMakeRange(6, 2)] intValue];
             }
             else {
                 return 0;
@@ -493,7 +493,7 @@
     if (index == NSNotFound)
         return -1;
     else 
-        return [[[fields objectAtIndex:index] substringToIndex: [[fields objectAtIndex:index] rangeOfString: @"SM"].location] floatValue];
+        return [[fields[index] substringToIndex: [fields[index] rangeOfString: @"SM"].location] floatValue];
 }
 
 - (float)getVisibilityInKilometersFromMETARFields:(NSArray *)fields {
@@ -501,7 +501,7 @@
     if (index == NSNotFound)
         return -1;
     else
-        return [[fields objectAtIndex:index] floatValue] / 1000.;
+        return [fields[index] floatValue] / 1000.;
 }
 
 - (float)getTemperatureFromMETARFields:(NSArray *)fields {
@@ -509,8 +509,8 @@
     NSInteger index = [self findString:"^T[01][0-9]{3}[01][0-9]{3}$" inArray:fields];
     if (index != NSNotFound) {
         // good, there are float degree values
-        tempC = [[[fields objectAtIndex:index] substringWithRange: NSMakeRange(2, 3)] floatValue];
-        if ((char) [[fields objectAtIndex:index] characterAtIndex:1] == '1') 
+        tempC = [[fields[index] substringWithRange: NSMakeRange(2, 3)] floatValue];
+        if ((char) [fields[index] characterAtIndex:1] == '1') 
             tempC *= -1;
             
         tempC /= 10;
@@ -522,11 +522,11 @@
             return -273;
         }
         else {
-            if ((char) [[fields objectAtIndex:index] characterAtIndex:0] == 'M') {
-                tempC = [[[fields objectAtIndex:index] substringWithRange: NSMakeRange(1, 2)] intValue] * -1;
+            if ((char) [fields[index] characterAtIndex:0] == 'M') {
+                tempC = [[fields[index] substringWithRange: NSMakeRange(1, 2)] intValue] * -1;
             }
             else {
-                tempC = [[[fields objectAtIndex:index] substringToIndex: 2] intValue];
+                tempC = [[fields[index] substringToIndex: 2] intValue];
             }
         }
     }
@@ -538,8 +538,8 @@
     NSInteger index = [self findString:"^T[01][0-9]{3}[01][0-9]{3}$" inArray:fields];
     if (index != NSNotFound) {
         // good, there are float degree values
-        dptC = [[[fields objectAtIndex:index] substringWithRange: NSMakeRange(6, 3)] floatValue];
-        if ((char) [[fields objectAtIndex:index] characterAtIndex:5] == '1')
+        dptC = [[fields[index] substringWithRange: NSMakeRange(6, 3)] floatValue];
+        if ((char) [fields[index] characterAtIndex:5] == '1')
             dptC *= -1;
             
         dptC /= 10;
@@ -552,13 +552,13 @@
         }
         else {
             int offset = 0;
-            if ((char) [[fields objectAtIndex:index] characterAtIndex:0] == 'M')
+            if ((char) [fields[index] characterAtIndex:0] == 'M')
                 offset = 1;
             
-            if ((char) [[fields objectAtIndex:index] characterAtIndex: 3 + offset] == 'M') 
-                dptC = [[[fields objectAtIndex:index] substringFromIndex: 4 + offset] intValue] * -1;
+            if ((char) [fields[index] characterAtIndex: 3 + offset] == 'M') 
+                dptC = [[fields[index] substringFromIndex: 4 + offset] intValue] * -1;
             else 
-                dptC = [[[fields objectAtIndex:index] substringFromIndex: 3 + offset] intValue];
+                dptC = [[fields[index] substringFromIndex: 3 + offset] intValue];
         }
     }
     return dptC;
@@ -570,7 +570,7 @@
         return 0.;
     }
     else {
-        return [[[fields objectAtIndex:index] substringFromIndex: 1] intValue] / 100.;
+        return [[fields[index] substringFromIndex: 1] intValue] / 100.;
     }
 }
 
@@ -580,7 +580,7 @@
         return 0.;
     }
     else {
-        return [[[fields objectAtIndex:index] substringFromIndex: 1] intValue];
+        return [[fields[index] substringFromIndex: 1] intValue];
     }
 }
 
@@ -603,7 +603,7 @@
     if (s[0] == '\0') return NSNotFound;
         
     for (i = 0; i < [inArray count]; i++) {
-        int retval = matchRegex(s, (char *)[[inArray objectAtIndex:i] lossyCString]);
+        int retval = matchRegex(s, (char *)[inArray[i] lossyCString]);
         if (retval > 0)
             return i;
     }
@@ -642,13 +642,12 @@ int matchRegex(char *pattern, char *inString) {
 }
 
 - (NSArray *)getSecondaryGraphList {
-    return [NSArray arrayWithObjects: @"None",
+    return @[@"None",
                                       @"Wind Speed", 
                                       @"Relative Humidity", 
                                       @"Visibility", 
                                       @"Dewpoint", 
-                                      @"Pressure",
-                                      nil];
+                                      @"Pressure"];
 }
 
 - (void)drawRect:(NSRect)rect {
@@ -967,7 +966,7 @@ int matchRegex(char *pattern, char *inString) {
             secondaryGraphUpperBound = (float)windSpeed;
             for (i = [metarArray count] - 1; i >= 0; i--) {
                 NSInteger index = [metarArray count] - 1 - i;
-                NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
+                NSArray *metarFields = [metarArray[i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getWindSpeedFromMETARFields: metarFields];
                 
                 if (lastDaySecondary[index] == -1)
@@ -983,7 +982,7 @@ int matchRegex(char *pattern, char *inString) {
         case XRGWEATHER_HUMIDITY:
             for (i = [metarArray count] - 1; i >= 0; i--) {
                 NSInteger index = [metarArray count] - 1 - i;
-                NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
+                NSArray *metarFields = [metarArray[i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getRelativeHumidityFromTemperature:[self getTemperatureFromMETARFields: metarFields] andDewpoint:[self getDewpointFromMETARFields: metarFields]];
                 
                 if (lastDaySecondary[index] == -1)
@@ -997,7 +996,7 @@ int matchRegex(char *pattern, char *inString) {
             secondaryGraphUpperBound = visibilityInMiles;
             for (i = [metarArray count] - 1; i >= 0; i--) {
                 NSInteger index = [metarArray count] - 1 - i;
-                NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
+                NSArray *metarFields = [metarArray[i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getVisibilityInMilesFromMETARFields: metarFields];
                 
                 if (lastDaySecondary[index] == -1)
@@ -1017,7 +1016,7 @@ int matchRegex(char *pattern, char *inString) {
             secondaryGraphLowerBound = secondaryGraphUpperBound = dewpointC;
             for (i = [metarArray count] - 1; i >= 0; i--) {
                 NSInteger index = [metarArray count] - 1 - i;
-                NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
+                NSArray *metarFields = [metarArray[i] componentsSeparatedByString: @" "];
                 lastDaySecondary[index] = [self getDewpointFromMETARFields: metarFields];
                 
                 if (lastDaySecondary[index] < -272.)
@@ -1035,7 +1034,7 @@ int matchRegex(char *pattern, char *inString) {
         case XRGWEATHER_PRESSURE:
             secondaryGraphLowerBound = pressureHPA;
             for (i = [metarArray count] - 1; i >= 0; i--) {
-                NSArray *metarFields = [[metarArray objectAtIndex:i] componentsSeparatedByString: @" "];
+                NSArray *metarFields = [metarArray[i] componentsSeparatedByString: @" "];
                 float tmpPressure = [self getPressureInFromMETARFields: metarFields];
                 if ((int)(tmpPressure + .5) == 0)
                     tmpPressure = (float)[self getPressureHPAFromMETARFields: metarFields] * 0.02953;

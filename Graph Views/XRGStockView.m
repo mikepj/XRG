@@ -117,7 +117,7 @@
     [stockObjects removeAllObjects];
     for (i = 0; i < [stockSymbols count]; i++) {
         XRGStock *tmpStock = [[[XRGStock alloc] init] autorelease];
-        [tmpStock setSymbol:[stockSymbols objectAtIndex:i]];
+        [tmpStock setSymbol:stockSymbols[i]];
         [tmpStock setURL];
         [stockObjects addObject:tmpStock];
     }
@@ -142,7 +142,7 @@
     if (!gettingData) return YES;
     
     for (i = 0; i < [stockObjects count]; i++) {
-        tmpStock = [stockObjects objectAtIndex:i];
+        tmpStock = stockObjects[i];
         [tmpStock checkForData];
         if ([tmpStock gettingData]) {
             return NO;
@@ -230,28 +230,28 @@
         }
     
         [[appSettings graphFG1Color] set];
-        if ([[stockObjects objectAtIndex:stockToShow] haveGoodDisplayData]) {
+        if ([stockObjects[stockToShow] haveGoodDisplayData]) {
             // draw the graph
             NSArray *a = nil;
             if ([appSettings stockGraphTimeFrame] == 0)
-                a = [[stockObjects objectAtIndex:stockToShow] get1MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get1MonthValues: graphSize.width];
             else if ([appSettings stockGraphTimeFrame] == 1)
-                a = [[stockObjects objectAtIndex:stockToShow] get3MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get3MonthValues: graphSize.width];
             else if ([appSettings stockGraphTimeFrame] == 2)
-                a = [[stockObjects objectAtIndex:stockToShow] get6MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get6MonthValues: graphSize.width];
             else if ([appSettings stockGraphTimeFrame] == 3)
-                a = [[stockObjects objectAtIndex:stockToShow] get12MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get12MonthValues: graphSize.width];
             
             if ([a count] > 0) {
                 // find the high, low and range of the graph
                 int i;
                 float high, low;
-                low = high = [[a objectAtIndex:0] floatValue];
+                low = high = [a[0] floatValue];
                 for (i = 1; i < [a count]; i++) {
-                    if ([[a objectAtIndex:i] floatValue] > high) 
-                        high = [[a objectAtIndex:i] floatValue];
-                    if ([[a objectAtIndex:i] floatValue] < low)
-                        low = [[a objectAtIndex:i] floatValue];
+                    if ([a[i] floatValue] > high) 
+                        high = [a[i] floatValue];
+                    if ([a[i] floatValue] < low)
+                        low = [a[i] floatValue];
                 }
                                 
                 r = (high - low) * .1;
@@ -261,7 +261,7 @@
                 NSInteger count = [a count];
                 CGFloat *data = alloca(count * sizeof(CGFloat));
                 
-                for (i = 0; i < count; i++) data[i] = [[a objectAtIndex:(count - 1 - i)] floatValue];
+                for (i = 0; i < count; i++) data[i] = [a[(count - 1 - i)] floatValue];
                 
                 [self drawRangedGraphWithData:data size:[a count] currentIndex:(count - 1) upperBound:high lowerBound:low inRect:[self bounds] flipped:NO filled:YES color:[appSettings graphFG1Color]];
             }
@@ -283,12 +283,12 @@
                 if (a != nil) {
                     int i;
                     float high, low;
-                    low = high = [[a objectAtIndex:0] floatValue];
+                    low = high = [a[0] floatValue];
                     for (i = 1; i < [a count]; i++) {
-                        if ([[a objectAtIndex:i] floatValue] > high) 
-                            high = [[a objectAtIndex:i] floatValue];
-                        if ([[a objectAtIndex:i] floatValue] < low)
-                            low = [[a objectAtIndex:i] floatValue];
+                        if ([a[i] floatValue] > high) 
+                            high = [a[i] floatValue];
+                        if ([a[i] floatValue] < low)
+                            low = [a[i] floatValue];
                     }
                     
                     r = (high - low) * .1;
@@ -298,7 +298,7 @@
                     NSInteger count = [a count];
                     CGFloat *data = alloca(count * sizeof(CGFloat));
                     
-                    for (i = 0; i < count; i++) data[i] = [[a objectAtIndex:(count - 1 - i)] floatValue];
+                    for (i = 0; i < count; i++) data[i] = [a[(count - 1 - i)] floatValue];
                     
                     [self drawRangedGraphWithData:data size:[a count] currentIndex:(count - 1) upperBound:high lowerBound:low inRect:[self bounds] flipped:NO filled:NO color:[appSettings graphFG2Color]];
                 }
@@ -325,41 +325,37 @@
         int currentIndex = stockToShow;
         for (i = 0; i < maxToShow; i++) {
             if (currentIndex == stockToShow && [stockObjects count] != 1) {
-                [[appSettings alignRightAttributes] setObject:
-                    [appSettings graphFG3Color] forKey:NSForegroundColorAttributeName];
-                [[appSettings alignLeftAttributes] setObject:
-                    [appSettings graphFG3Color] forKey:NSForegroundColorAttributeName];
+                [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings graphFG3Color];
+                [appSettings alignLeftAttributes][NSForegroundColorAttributeName] = [appSettings graphFG3Color];
             }
 
-            [s setString:[[stockObjects objectAtIndex:currentIndex] label]];
+            [s setString:[stockObjects[currentIndex] label]];
             [s drawInRect:tmpRect withAttributes:[appSettings alignLeftAttributes]];
             
-            NSArray *a = [[stockObjects objectAtIndex:currentIndex] getCurrentPriceAndChange];
+            NSArray *a = [stockObjects[currentIndex] getCurrentPriceAndChange];
             if (a != nil) {
-                if ([[a objectAtIndex:0] intValue] == 0) {
+                if ([a[0] intValue] == 0) {
                     [s setString:@"n/a"];
                 }
                 else {
                     [s setString:@""];
-                    [s appendFormat:@"$%2.2f", [[a objectAtIndex:0] floatValue]];
+                    [s appendFormat:@"$%2.2f", [a[0] floatValue]];
                 }
 
                 [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
                 tmpRect.origin.y -= textRectHeight;
                 
-                if ([[a objectAtIndex:0] intValue] == 0) {
+                if ([a[0] intValue] == 0) {
                     // reset the text color
                     if (currentIndex == stockToShow) {
-                        [[appSettings alignRightAttributes] setObject:
-                            [appSettings textColor] forKey:NSForegroundColorAttributeName];
-                        [[appSettings alignLeftAttributes] setObject:
-                            [appSettings textColor] forKey:NSForegroundColorAttributeName];
+                        [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
+                        [appSettings alignLeftAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
                     }
                     continue;   // skip the last change
                 }
                 
                 if ([appSettings stockShowChange]) {
-                    float change = [[a objectAtIndex:1] floatValue];
+                    float change = [a[1] floatValue];
                     if (change == 0) {
                         [s setString:@"unch"];
                     }
@@ -383,10 +379,8 @@
                 tmpRect.origin.y -= textRectHeight;
             }
             if (currentIndex == stockToShow && [stockObjects count] != 1) {
-                [[appSettings alignRightAttributes] setObject:
-                    [appSettings textColor] forKey:NSForegroundColorAttributeName];
-                [[appSettings alignLeftAttributes] setObject:
-                    [appSettings textColor] forKey:NSForegroundColorAttributeName];
+                [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
+                [appSettings alignLeftAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
             }
             
             // increment currentIndex;
@@ -399,8 +393,7 @@
         if (maxToShow < [stockObjects count]) {
             // need to draw the down arrow.
             if (stockToShow >= maxToShow) {
-                [[appSettings alignRightAttributes] setObject:
-                    [appSettings graphFG3Color] forKey:NSForegroundColorAttributeName];
+                [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings graphFG3Color];
             }
             [s setString:@""];
             [s appendFormat:@"%C", (unsigned short)0x25BC];
@@ -408,8 +401,7 @@
             [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
             tmpRect.origin.y -= textRectHeight;
             if (stockToShow >= maxToShow) {
-                [[appSettings alignRightAttributes] setObject:
-                    [appSettings textColor] forKey:NSForegroundColorAttributeName];
+                [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
             }
         }
         
@@ -430,12 +422,12 @@
         if ([appSettings showDJIA]) {
             NSArray *a = [djia getCurrentPriceAndChange];
             if (a != nil) {
-                if ([[a objectAtIndex:0] intValue] == 0) {
+                if ([a[0] intValue] == 0) {
                     [s setString:@"n/a"];
                 }
                 else {
                     [s setString:@""];
-                    [s appendFormat:@"$%2.2f", [[a objectAtIndex:0] floatValue]];
+                    [s appendFormat:@"$%2.2f", [a[0] floatValue]];
                 }
 
                 [s drawInRect:tmpRect withAttributes:[appSettings alignLeftAttributes]];
@@ -465,7 +457,7 @@
 
     int i;
     for (i = 0; i < [stockObjects count]; i++) {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"View Detailed Status for %@", [[stockObjects objectAtIndex:i] symbol]] action:@selector(openStock:) keyEquivalent:@""];
+        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"View Detailed Status for %@", [stockObjects[i] symbol]] action:@selector(openStock:) keyEquivalent:@""];
         [tMI setTag:i];
         [myMenu addItem:tMI];
         [tMI release];
@@ -503,14 +495,14 @@
     
     [NSTask 
         launchedTaskWithLaunchPath:@"/usr/bin/open"
-        arguments:[NSArray arrayWithObject:[NSMutableString stringWithFormat:@"http://www.google.com/finance?q=%@", [[stockObjects objectAtIndex:i] symbol]]]
+        arguments:@[[NSMutableString stringWithFormat:@"http://www.google.com/finance?q=%@", [stockObjects[i] symbol]]]
     ];
 }
 
 - (void)openDJIA:(NSEvent *)theEvent {
     [NSTask 
         launchedTaskWithLaunchPath:@"/usr/bin/open"
-        arguments:[NSArray arrayWithObject:@"http://www.google.com/finance?q=%5EDJI"]
+        arguments:@[@"http://www.google.com/finance?q=%5EDJI"]
     ];
 }
 

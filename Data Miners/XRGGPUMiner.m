@@ -30,7 +30,7 @@
 
 @implementation XRGGPUMiner
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	if (self) {
 		totalVRAMValues = nil;

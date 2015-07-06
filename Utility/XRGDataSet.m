@@ -30,7 +30,7 @@
 @implementation XRGDataSet
 @synthesize values, numValues, currentIndex, min, max, sum;
 
-- (id) init {
+- (instancetype) init {
 	self = [super init];
 	
 	if (self) {
@@ -47,7 +47,7 @@
     return self;
 }
 
-- (id) initWithContentsOfOtherDataSet:(XRGDataSet *)otherDataSet {
+- (instancetype) initWithContentsOfOtherDataSet:(XRGDataSet *)otherDataSet {
     if (!otherDataSet) return nil;
     
 	self = [self init];

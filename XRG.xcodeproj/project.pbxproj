@@ -367,6 +367,11 @@
 				CLASSPREFIX = XRG;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Gaucho Software";
+				TargetAttributes = {
+					273ECE6415740DE700E65D82 = {
+						DevelopmentTeam = 28EXY66HMA;
+					};
+				};
 			};
 			buildConfigurationList = 273ECE5F15740DE700E65D82 /* Build configuration list for PBXProject "XRG" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -514,9 +519,12 @@
 		273ECE8415740DE800E65D82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Other Sources/XRG-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "XRG-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -526,9 +534,12 @@
 		273ECE8515740DE800E65D82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Other Sources/XRG-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "XRG-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

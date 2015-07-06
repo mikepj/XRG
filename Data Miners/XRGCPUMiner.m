@@ -37,7 +37,7 @@
 #undef DEBUG_2_CPUS
 
 @implementation XRGCPUMiner
-- (id)init {
+- (instancetype)init {
     host = mach_host_self();
     
     unsigned int count = HOST_BASIC_INFO_COUNT;
@@ -113,9 +113,9 @@
     
     if(userValues && systemValues && niceValues) {
         for (i = 0; i < numCPUs; i++) {
-            [[userValues objectAtIndex:i] resize:(size_t)newNumSamples];
-            [[systemValues objectAtIndex:i] resize:(size_t)newNumSamples];
-            [[niceValues objectAtIndex:i] resize:(size_t)newNumSamples];
+            [userValues[i] resize:(size_t)newNumSamples];
+            [systemValues[i] resize:(size_t)newNumSamples];
+            [niceValues[i] resize:(size_t)newNumSamples];
         }
     }
     else {
@@ -161,9 +161,9 @@
     [self calculateCPUUsageForCPUs:&lastSlowCPUInfo count:numCPUs];
 	
     for (NSInteger i = 0; i < numCPUs; i++) {
-        [[userValues objectAtIndex:i]   setNextValue:immediateUser[i]];
-        [[systemValues objectAtIndex:i] setNextValue:immediateSystem[i]];
-        [[niceValues objectAtIndex:i]   setNextValue:immediateNice[i]];
+        [userValues[i]   setNextValue:immediateUser[i]];
+        [systemValues[i] setNextValue:immediateSystem[i]];
+        [niceValues[i]   setNextValue:immediateNice[i]];
     }
 
     // Debug 2 CPUs
@@ -368,15 +368,15 @@
 	
     NSMutableArray *a = [NSMutableArray arrayWithCapacity:3];
     
-	XRGDataSet *sys = [systemValues objectAtIndex:cpuNumber];
+	XRGDataSet *sys = systemValues[cpuNumber];
 	if (sys) [a addObject:sys];
 	else return nil;
 	
-	XRGDataSet *usr = [userValues objectAtIndex:cpuNumber];
+	XRGDataSet *usr = userValues[cpuNumber];
     if (usr) [a addObject:usr];
 	else return nil;
 	
-    XRGDataSet *nice = [niceValues objectAtIndex:cpuNumber];
+    XRGDataSet *nice = niceValues[cpuNumber];
 	if (nice) [a addObject:nice];
 	else return nil;
     
@@ -387,14 +387,14 @@
 - (NSArray *)combinedData {
 	if (![systemValues count] || ![userValues count] || ![niceValues count]) return nil;
 	
-	XRGDataSet *tmpSystem = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:[systemValues objectAtIndex:0]] autorelease];
-	XRGDataSet *tmpUser = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:[userValues objectAtIndex:0]] autorelease];
-	XRGDataSet *tmpNice = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:[niceValues objectAtIndex:0]] autorelease];
+	XRGDataSet *tmpSystem = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:systemValues[0]] autorelease];
+	XRGDataSet *tmpUser = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:userValues[0]] autorelease];
+	XRGDataSet *tmpNice = [[[XRGDataSet alloc] initWithContentsOfOtherDataSet:niceValues[0]] autorelease];
 	
 	for (NSInteger i = 1; i < numCPUs; i++) {
-		[tmpSystem addOtherDataSetValues:[systemValues objectAtIndex:i]];
-		[tmpUser addOtherDataSetValues:[userValues objectAtIndex:i]];
-		[tmpNice addOtherDataSetValues:[niceValues objectAtIndex:i]];
+		[tmpSystem addOtherDataSetValues:systemValues[i]];
+		[tmpUser addOtherDataSetValues:userValues[i]];
+		[tmpNice addOtherDataSetValues:niceValues[i]];
 	}
 	
 	[tmpSystem divideAllValuesBy:numCPUs];
@@ -403,7 +403,7 @@
 	
 	if (tmpSystem == nil || tmpUser == nil || tmpNice == nil) return nil;
 	
-	NSArray *a = [NSArray arrayWithObjects:tmpSystem, tmpUser, tmpNice, nil];
+	NSArray *a = @[tmpSystem, tmpUser, tmpNice];
 	return a;
 }
 

@@ -289,7 +289,7 @@
         NSInteger skipBatteries = 0;
         
         for (NSInteger i = 0; i < numBatteries; i++) {
-            NSInteger flags = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryFlagsKey]] integerValue];
+            NSInteger flags = [[batteryInfoArray[i] valueForKey:@kIOBatteryFlagsKey] integerValue];
             
             // Check if this is really a battery
             if (flags & kIOPMACnoChargeCapability) {
@@ -311,22 +311,22 @@
             }
             
             // get the current charge
-			current[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryCurrentChargeKey]] integerValue];
+			current[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryCurrentChargeKey] integerValue];
             chargeSum += current[i];
             
             // get the total capacity
-			capacity[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryCapacityKey]] integerValue];
+			capacity[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryCapacityKey] integerValue];
             capacitySum += capacity[i];
                                 
             // get the current voltage
-			voltage[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryVoltageKey]] integerValue];
+			voltage[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryVoltageKey] integerValue];
             if (voltage[i] || i == 0)
                 voltageAverage += voltage[i];
             else 
                 voltageAverage += voltageAverage / i;
                                                 
             // get the current amperage
-			amperage[i] = [[[batteryInfoArray objectAtIndex:i] valueForKey:[NSString stringWithUTF8String:kIOBatteryAmperageKey]] integerValue];
+			amperage[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryAmperageKey] integerValue];
             if (amperage[i] || i == 0)
                 amperageAverage += amperage[i];
             else 
@@ -672,7 +672,7 @@
 - (void)openEnergySaverSystemPreferences:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:[NSArray arrayWithObject:@"/System/Library/PreferencePanes/EnergySaver.prefPane"]
+      arguments:@[@"/System/Library/PreferencePanes/EnergySaver.prefPane"]
     ];
 }
 

@@ -156,7 +156,7 @@ exit:
 #pragma mark -
 /**** Key types. For more types see <http://www.parhelia.ch/blog/statics/k3_keys.html>  ****/
 
-typedef enum {
+typedef NS_ENUM(unsigned int, SMCDataType_t) {
     // decoded to NSNumber:
     kSMCDataTypeUInt8 = 'ui8 ',
     kSMCDataTypeUInt16 = 'ui16',
@@ -170,11 +170,11 @@ typedef enum {
     kSMCDataTypeBuffer = 'ch8*',
     kSMCDataTypeHEX = 'hex_',
     kSMCDataTypeFP88 = 'fp88'
-} SMCDataType_t;
+};
 
 
 @interface SMCInterface()
-- (IOReturn) openConnection;
+@property (readonly) IOReturn openConnection;
 - (void) closeConnection;
 - (id) uintValueFromSMC:(uint8_t *)data length:(size_t) size ;
 - (NSNumber *)floatNumberFromFPE2:(uint8_t *)data length:(size_t) size;
@@ -183,7 +183,7 @@ typedef enum {
 
 @implementation SMCInterface
 
-- (id) init
+- (instancetype) init
 {
 	self = [super init];
 	
@@ -259,12 +259,12 @@ typedef enum {
             result = [self uintValueFromSMC:stuffMeOut.bytes length:dataSize];
             break;
         case kSMCDataTypeSP78:
-			if (stuffMeOut.bytes[0] == 0x84)                                         result = [NSNumber numberWithInteger:-124];	// Unstable Temperature
-			else if (stuffMeOut.bytes[0] == 0x83)                                    result = [NSNumber numberWithInteger:-125];	// Temperature below allowed minimum
-			else if (stuffMeOut.bytes[0] == 0x82)                                    result = [NSNumber numberWithInteger:-126];	// Sensor failed to initialize
-			else if (stuffMeOut.bytes[0] == 0x81)                                    result = [NSNumber numberWithInteger:-127];	// Sensor skipped
-			else if (stuffMeOut.bytes[0] == 0x80)                                    result = [NSNumber numberWithInteger:-128];	// Temperature can't be read
-			else if ((stuffMeOut.bytes[0] == 0x7F) && (stuffMeOut.bytes[1] == 0xE7)) result = [NSNumber numberWithFloat:127.9];		// Hot temperature.
+			if (stuffMeOut.bytes[0] == 0x84)                                         result = @-124;	// Unstable Temperature
+			else if (stuffMeOut.bytes[0] == 0x83)                                    result = @-125;	// Temperature below allowed minimum
+			else if (stuffMeOut.bytes[0] == 0x82)                                    result = @-126;	// Sensor failed to initialize
+			else if (stuffMeOut.bytes[0] == 0x81)                                    result = @-127;	// Sensor skipped
+			else if (stuffMeOut.bytes[0] == 0x80)                                    result = @-128;	// Temperature can't be read
+			else if ((stuffMeOut.bytes[0] == 0x7F) && (stuffMeOut.bytes[1] == 0xE7)) result = @127.9f;		// Hot temperature.
 			else                                                                     result = [NSNumber numberWithFloat:(((stuffMeOut.bytes[0] * 256 + stuffMeOut.bytes[1]) >> 2)/64.)];
             break;
         case kSMCDataTypeFPE2:
@@ -276,7 +276,7 @@ typedef enum {
         case kSMCDataTypeInt16:
         {
             short value = ((int) stuffMeOut.bytes[0] << 8) + stuffMeOut.bytes[1];
-            result = [NSNumber numberWithShort:value]; 
+            result = @(value); 
             break;
         }
         case kSMCDataTypeFlag:
@@ -367,7 +367,7 @@ typedef enum {
         result += *data;
         ++data;
     }
-    return [NSNumber numberWithUnsignedInt:result];
+    return @(result);
 }
 
 - (NSNumber *)floatNumberFromFPE2:(uint8_t *)data length:(size_t) size {
@@ -383,6 +383,6 @@ typedef enum {
             value += data[i] << (size - 1 - i) * (8 - exponent);
     }
     
-    return [NSNumber numberWithFloat:value];
+    return @(value);
 }
 @end

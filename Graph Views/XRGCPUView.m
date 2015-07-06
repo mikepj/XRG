@@ -220,7 +220,7 @@
 	NSInteger *fastValues = [CPUMiner fastValues];
 	NSMutableArray *sortedValues = [NSMutableArray arrayWithCapacity:numCPUs];
 	for (i = 0; i < numCPUs; i++) {
-		[sortedValues addObject:[NSNumber numberWithInteger:fastValues[i]]];
+		[sortedValues addObject:@(fastValues[i])];
 	}
 	[sortedValues sortUsingSelector:@selector(compare:)];
 	sortedValues = [NSMutableArray arrayWithArray:[[sortedValues reverseObjectEnumerator] allObjects]];
@@ -229,7 +229,7 @@
 	
 	[[appSettings graphFG1Color] set];
 	for (i = 0; i < numCPUs; i++) {
-		NSRectFill(NSMakeRect(cpuRect.origin.x, cpuRect.origin.y, (int)(cpuRect.size.width - 1), [[sortedValues objectAtIndex:i] floatValue] / 100. * cpuRect.size.height));
+		NSRectFill(NSMakeRect(cpuRect.origin.x, cpuRect.origin.y, (int)(cpuRect.size.width - 1), [sortedValues[i] floatValue] / 100. * cpuRect.size.height));
 		cpuRect.origin.x += cpuRect.size.width;
 	}
 	    	
@@ -243,16 +243,16 @@
 	NSArray *cpuData = [CPUMiner combinedData];
 	if ([cpuData count] < 3) return;
 	// Create a tmpDataSet of the same size as the other ones so we can do some manipulations.
-	XRGDataSet *tmpDataSet = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:[cpuData objectAtIndex:0]];
-	[tmpDataSet addOtherDataSetValues:[cpuData objectAtIndex:1]];
-	[tmpDataSet addOtherDataSetValues:[cpuData objectAtIndex:2]];
+	XRGDataSet *tmpDataSet = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:cpuData[0]];
+	[tmpDataSet addOtherDataSetValues:cpuData[1]];
+	[tmpDataSet addOtherDataSetValues:cpuData[2]];
 	if ([appSettings separateCPUColor]) {
 		[self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[2]];
 		
-		[tmpDataSet subtractOtherDataSetValues:[cpuData objectAtIndex:2]];    
+		[tmpDataSet subtractOtherDataSetValues:cpuData[2]];    
 		[self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[1]];
 		
-		[self drawGraphWithDataFromDataSet:[cpuData objectAtIndex:0] maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
+		[self drawGraphWithDataFromDataSet:cpuData[0] maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
 	}
 	else {    
 		[self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
@@ -275,7 +275,7 @@
 	
 	// Draw the first line with the label and current CPU usage
 	[leftText setString:@"CPU"];
-	[rightText appendFormat:@"%3.f%%", MAX(0, ([(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])) * [CPUMiner numberOfCPUs]];
+	[rightText appendFormat:@"%3.f%%", MAX(0, ([(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])) * [CPUMiner numberOfCPUs]];
 	
 	// draw the average usage text
 	if ([appSettings cpuShowAverageUsage]) {
@@ -293,9 +293,9 @@
 			float usageSum = 0;
 			for (i = 0; i < numCPUs; i++) {
 				NSArray *cpuData = [CPUMiner dataForCPU:i];
-				usageSum += [[cpuData objectAtIndex:0] average];
-				usageSum += [[cpuData objectAtIndex:1] average];
-				usageSum += [[cpuData objectAtIndex:2] average];
+				usageSum += [cpuData[0] average];
+				usageSum += [cpuData[1] average];
+				usageSum += [cpuData[2] average];
 			}
 			
 			[rightText appendFormat:@"\n%3.1f%%", usageSum / (float)(numCPUs)];
@@ -411,18 +411,18 @@
         NSArray *cpuData = [CPUMiner dataForCPU:cpu];
         
         // Create a tmpDataSet of the same size as the other ones so we can do some manipulations.
-        XRGDataSet *tmpDataSet = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:[cpuData objectAtIndex:0]];
-        [tmpDataSet addOtherDataSetValues:[cpuData objectAtIndex:1]];
-        [tmpDataSet addOtherDataSetValues:[cpuData objectAtIndex:2]];
+        XRGDataSet *tmpDataSet = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:cpuData[0]];
+        [tmpDataSet addOtherDataSetValues:cpuData[1]];
+        [tmpDataSet addOtherDataSetValues:cpuData[2]];
         
         if (colorful)
         {
             [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[2]];
     
-            [tmpDataSet subtractOtherDataSetValues:[cpuData objectAtIndex:2]];    
+            [tmpDataSet subtractOtherDataSetValues:cpuData[2]];    
             [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[1]];
     
-            [self drawGraphWithDataFromDataSet:[cpuData objectAtIndex:0] maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
+            [self drawGraphWithDataFromDataSet:cpuData[0] maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
         }
         else {    
             [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
@@ -451,7 +451,7 @@
         // Draw the first line with the label and current CPU usage
         [leftText setString:@"CPU"];
         NSArray *cpuData = [CPUMiner dataForCPU:0];
-        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])];
+        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])];
 
         // draw the average usage text
         if ([appSettings cpuShowAverageUsage]) {
@@ -468,9 +468,9 @@
                 
                 float usageSum = 0;
                 NSArray *cpuData = [CPUMiner dataForCPU:0];
-                usageSum += [[cpuData objectAtIndex:0] average];
-                usageSum += [[cpuData objectAtIndex:1] average];
-                usageSum += [[cpuData objectAtIndex:2] average];
+                usageSum += [cpuData[0] average];
+                usageSum += [cpuData[1] average];
+                usageSum += [cpuData[2] average];
         
                 [rightText appendFormat:@"\n%3.1f%%", usageSum];
             }
@@ -480,10 +480,10 @@
         // Draw the first line with the label and current CPU usage
         [centerText setString:@"CPU"];
         NSArray *cpuData = [CPUMiner dataForCPU:0];
-        [leftText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])];
+        [leftText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])];
         
         cpuData = [CPUMiner dataForCPU:1];
-        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)[cpuData objectAtIndex:0] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:1] currentValue] + [(XRGDataSet *)[cpuData objectAtIndex:2] currentValue])];
+        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])];
 
         // draw the average usage text
         if ([appSettings cpuShowAverageUsage]) {
@@ -500,17 +500,17 @@
                 
                 float usageSum = 0;
                 NSArray *cpuData = [CPUMiner dataForCPU:0];
-                usageSum += [[cpuData objectAtIndex:0] average];
-                usageSum += [[cpuData objectAtIndex:1] average];
-                usageSum += [[cpuData objectAtIndex:2] average];
+                usageSum += [cpuData[0] average];
+                usageSum += [cpuData[1] average];
+                usageSum += [cpuData[2] average];
         
                 [leftText appendFormat:@"\n%3.1f%%", usageSum];
                 
                 usageSum = 0;
                 cpuData = [CPUMiner dataForCPU:1];
-                usageSum += [[cpuData objectAtIndex:0] average];
-                usageSum += [[cpuData objectAtIndex:1] average];
-                usageSum += [[cpuData objectAtIndex:2] average];
+                usageSum += [cpuData[0] average];
+                usageSum += [cpuData[1] average];
+                usageSum += [cpuData[2] average];
         
                 [rightText appendFormat:@"\n%3.1f%%", usageSum];
             }
@@ -591,10 +591,10 @@
 	NSArray *sortedProcesses = [processMiner processesSortedByCPUUsage];
 	int i;
 	for (i = 0; i < 10; i++) {
-		NSDictionary *process = [sortedProcesses objectAtIndex:i];
-		float cpu = [[process objectForKey:XRGProcessPercentCPU] floatValue];
-		int pid = [[process objectForKey:XRGProcessID] intValue];
-		NSString *command = [process objectForKey:XRGProcessCommand];
+		NSDictionary *process = sortedProcesses[i];
+		float cpu = [process[XRGProcessPercentCPU] floatValue];
+		int pid = [process[XRGProcessID] intValue];
+		NSString *command = process[XRGProcessCommand];
 		
 		tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%1.1f%% - %@ (id %d)", cpu, command, pid] action:@selector(emptyEvent:) keyEquivalent:@""];
 		[myMenu addItem:tMI];
@@ -640,7 +640,7 @@
 - (void)openActivityMonitor:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:[NSArray arrayWithObject:@"/Applications/Utilities/Activity Monitor.app"]
+      arguments:@[@"/Applications/Utilities/Activity Monitor.app"]
     ];
 }
 

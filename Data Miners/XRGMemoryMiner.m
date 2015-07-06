@@ -29,7 +29,7 @@
 
 @implementation XRGMemoryMiner
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	if (self) {
 		host = mach_host_self();

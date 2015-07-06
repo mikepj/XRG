@@ -28,7 +28,7 @@
 
 @interface NSString (NSStringUtil)
 
-- (BOOL)boolValue;
-- (NSString *)stringWithoutXMLTags;
+@property (readonly) BOOL boolValue;
+@property (readonly, copy) NSString *stringWithoutXMLTags;
 
 @end

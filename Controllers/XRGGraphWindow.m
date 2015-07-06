@@ -46,7 +46,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [defaults registerDefaults:[self getDefaultPrefs]];
 }
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
 	// Initialize the settings class
 	self.appSettings = [[[XRGSettings alloc] init] autorelease];
@@ -113,228 +113,206 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 + (NSMutableDictionary *) getDefaultPrefs {
     NSMutableDictionary *appDefs = [NSMutableDictionary dictionary];
     
-    [appDefs setObject: @"0.9" forKey:XRG_backgroundTransparency];
-    [appDefs setObject: @"0.9" forKey:XRG_graphBGTransparency];
-    [appDefs setObject: @"1.0" forKey:XRG_graphFG1Transparency];
-    [appDefs setObject: @"1.0" forKey:XRG_graphFG2Transparency];
-    [appDefs setObject: @"1.0" forKey:XRG_graphFG3Transparency];
-    [appDefs setObject: @"0.4" forKey:XRG_borderTransparency];
-    [appDefs setObject: @"1.0" forKey:XRG_textTransparency];
+    appDefs[XRG_backgroundTransparency] = @"0.9";
+    appDefs[XRG_graphBGTransparency] = @"0.9";
+    appDefs[XRG_graphFG1Transparency] = @"1.0";
+    appDefs[XRG_graphFG2Transparency] = @"1.0";
+    appDefs[XRG_graphFG3Transparency] = @"1.0";
+    appDefs[XRG_borderTransparency] = @"0.4";
+    appDefs[XRG_textTransparency] = @"1.0";
     
     NSColor *c = [NSColor colorWithDeviceRed: 0.0
                                        green: 0.0
                                         blue: 0.0
                                        alpha: 0.9];
-    [appDefs setObject:
-        [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]]
-        forKey: XRG_backgroundColor
-    ];
+    appDefs[XRG_backgroundColor] = [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]];
     
     c = [NSColor colorWithDeviceRed: 0.0
                               green: 0.0
                                blue: 0.0
                               alpha: 0.9];
-    [appDefs setObject:
-        [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]]
-        forKey: XRG_graphBGColor
-    ];
+    appDefs[XRG_graphBGColor] = [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]];
     
     c = [NSColor colorWithDeviceRed: 0.165
                               green: 0.224
                                blue: 0.773
                               alpha: 1.0];
-    [appDefs setObject:
-        [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]]
-        forKey: XRG_graphFG1Color
-    ];
+    appDefs[XRG_graphFG1Color] = [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]];
     
     c = [NSColor colorWithDeviceRed: 0.922
                               green: 0.667
                                blue: 0.337
                               alpha: 1.0];
-    [appDefs setObject:
-        [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]]
-        forKey: XRG_graphFG2Color
-    ];
+    appDefs[XRG_graphFG2Color] = [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]];
     
     c = [NSColor colorWithDeviceRed: 0.690
                               green: 0.102
                                blue: 0.102
                               alpha: 1.0];
-    [appDefs setObject:
-        [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]]
-        forKey: XRG_graphFG3Color
-    ];
+    appDefs[XRG_graphFG3Color] = [NSArchiver archivedDataWithRootObject:[[c copy] autorelease]];
     
     c = [NSColor colorWithDeviceRed: 0.0
                               green: 0.0
                                blue: 0.0
                               alpha: 0.4];
-    [appDefs setObject:
-        [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]]
-        forKey: XRG_borderColor
-    ];
+    appDefs[XRG_borderColor] = [NSArchiver archivedDataWithRootObject: [[c copy] autorelease]];
         
-    [appDefs setObject: 
-        [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]] 
-        forKey: XRG_textColor
-    ];
+    appDefs[XRG_textColor] = [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]];
     
-    [appDefs setObject:[NSArchiver archivedDataWithRootObject:[NSFont fontWithName:@"Lucida Grande" size:9.0]]
-                forKey:XRG_graphFont];
+    appDefs[XRG_graphFont] = [NSArchiver archivedDataWithRootObject:[NSFont fontWithName:@"Lucida Grande" size:9.0]];
                 
-    [appDefs setObject: @"YES"  forKey: XRG_antialiasText];
+    appDefs[XRG_antialiasText] = @"YES";
     
-    [appDefs setObject: @"140"  forKey: XRG_windowWidth];
-    [appDefs setObject: @"700"  forKey: XRG_windowHeight];
+    appDefs[XRG_windowWidth] = @"140";
+    appDefs[XRG_windowHeight] = @"700";
 	
 	NSScreen *mainScreen = [NSScreen mainScreen];
 	NSRect screenFrame = [mainScreen frame];
-	[appDefs setObject: [NSNumber numberWithInt:screenFrame.origin.x + (0.5 * screenFrame.size.width) - 70]  forKey: XRG_windowOriginX];
-    [appDefs setObject: [NSNumber numberWithInt:screenFrame.origin.y + screenFrame.size.height - 50 - 700]   forKey: XRG_windowOriginY];
+	appDefs[XRG_windowOriginX] = [NSNumber numberWithInt:screenFrame.origin.x + (0.5 * screenFrame.size.width) - 70];
+    appDefs[XRG_windowOriginY] = [NSNumber numberWithInt:screenFrame.origin.y + screenFrame.size.height - 50 - 700];
     
-    [appDefs setObject: @"4"    forKey: XRG_borderWidth];
-    [appDefs setObject: @"YES"  forKey: XRG_graphOrientationVertical];
-    [appDefs setObject: @"YES"  forKey: XRG_antiAliasing];
-    [appDefs setObject: @"1.0"  forKey: XRG_graphRefresh];
-    [appDefs setObject: @"YES"  forKey: XRG_showCPUGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_showMemoryGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_showBatteryGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_showTemperatureGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_showNetworkGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_showDiskGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_showWeatherGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_showStockGraph];
-	[appDefs setObject: @"YES"  forKey: XRG_showGPUGraph];
-    [appDefs setObject: @"0"	forKey: XRG_windowLevel];
-    [appDefs setObject: @"YES"  forKey: XRG_stickyWindow];
-    [appDefs setObject: @"YES"  forKey: XRG_checkForUpdates];
-    [appDefs setObject: @"NO"   forKey: XRG_dropShadow];
-    [appDefs setObject: @""     forKey: XRG_windowLevel];
-    [appDefs setObject: @"YES"  forKey: XRG_autoExpandGraph];
-    [appDefs setObject: @"NO"   forKey: XRG_foregroundWhenExpanding];
-    [appDefs setObject: @"YES"  forKey: XRG_showSummary];
-    [appDefs setObject: @""     forKey: XRG_minimizeUpDown];
+    appDefs[XRG_borderWidth] = @"4";
+    appDefs[XRG_graphOrientationVertical] = @"YES";
+    appDefs[XRG_antiAliasing] = @"YES";
+    appDefs[XRG_graphRefresh] = @"1.0";
+    appDefs[XRG_showCPUGraph] = @"YES";
+    appDefs[XRG_showMemoryGraph] = @"YES";
+    appDefs[XRG_showBatteryGraph] = @"YES";
+    appDefs[XRG_showTemperatureGraph] = @"YES";
+    appDefs[XRG_showNetworkGraph] = @"YES";
+    appDefs[XRG_showDiskGraph] = @"YES";
+    appDefs[XRG_showWeatherGraph] = @"YES";
+    appDefs[XRG_showStockGraph] = @"YES";
+	appDefs[XRG_showGPUGraph] = @"YES";
+    appDefs[XRG_windowLevel] = @"0";
+    appDefs[XRG_stickyWindow] = @"YES";
+    appDefs[XRG_checkForUpdates] = @"YES";
+    appDefs[XRG_dropShadow] = @"NO";
+    appDefs[XRG_windowLevel] = @"";
+    appDefs[XRG_autoExpandGraph] = @"YES";
+    appDefs[XRG_foregroundWhenExpanding] = @"NO";
+    appDefs[XRG_showSummary] = @"YES";
+    appDefs[XRG_minimizeUpDown] = @"";
     
-    [appDefs setObject: @"NO"   forKey: XRG_fastCPUUsage];
-    [appDefs setObject: @"YES"  forKey: XRG_separateCPUColor];
-    [appDefs setObject: @"NO"   forKey: XRG_showCPUTemperature];
-    [appDefs setObject: @"0"    forKey: XRG_cpuTemperatureUnits];
-    [appDefs setObject: @"YES"  forKey: XRG_showLoadAverage];
-    [appDefs setObject: @"YES"  forKey: XRG_cpuShowAverageUsage];
-    [appDefs setObject: @"YES"  forKey: XRG_cpuShowUptime];
+    appDefs[XRG_fastCPUUsage] = @"NO";
+    appDefs[XRG_separateCPUColor] = @"YES";
+    appDefs[XRG_showCPUTemperature] = @"NO";
+    appDefs[XRG_cpuTemperatureUnits] = @"0";
+    appDefs[XRG_showLoadAverage] = @"YES";
+    appDefs[XRG_cpuShowAverageUsage] = @"YES";
+    appDefs[XRG_cpuShowUptime] = @"YES";
     
-    [appDefs setObject: @"YES"  forKey: XRG_showMemoryPagingGraph];
-    [appDefs setObject: @"YES"  forKey: XRG_memoryShowWired];
-    [appDefs setObject: @"YES"  forKey: XRG_memoryShowActive];
-    [appDefs setObject: @"YES"  forKey: XRG_memoryShowInactive];
-    [appDefs setObject: @"YES"  forKey: XRG_memoryShowFree];
-    [appDefs setObject: @"YES"  forKey: XRG_memoryShowCache];
-    [appDefs setObject: @"YES"  forKey: XRG_memoryShowPage];
+    appDefs[XRG_showMemoryPagingGraph] = @"YES";
+    appDefs[XRG_memoryShowWired] = @"YES";
+    appDefs[XRG_memoryShowActive] = @"YES";
+    appDefs[XRG_memoryShowInactive] = @"YES";
+    appDefs[XRG_memoryShowFree] = @"YES";
+    appDefs[XRG_memoryShowCache] = @"YES";
+    appDefs[XRG_memoryShowPage] = @"YES";
     
-    [appDefs setObject: @"0"    forKey: XRG_tempUnits];
-    [appDefs setObject: @"0"    forKey: XRG_tempFG1Location];
-    [appDefs setObject: @"1"    forKey: XRG_tempFG2Location];
-    [appDefs setObject: @"2"    forKey: XRG_tempFG3Location];
+    appDefs[XRG_tempUnits] = @"0";
+    appDefs[XRG_tempFG1Location] = @"0";
+    appDefs[XRG_tempFG2Location] = @"1";
+    appDefs[XRG_tempFG3Location] = @"2";
 
-    [appDefs setObject: @"1024" forKey: XRG_netMinGraphScale];
-    [appDefs setObject: @"0"    forKey: XRG_netGraphMode];
-    [appDefs setObject: @"YES"  forKey: XRG_showTotalBandwidthSinceBoot];
-    [appDefs setObject: @"YES"  forKey: XRG_showTotalBandwidthSinceLoad];
-    [appDefs setObject: @"All"  forKey: XRG_networkInterface];
+    appDefs[XRG_netMinGraphScale] = @"1024";
+    appDefs[XRG_netGraphMode] = @"0";
+    appDefs[XRG_showTotalBandwidthSinceBoot] = @"YES";
+    appDefs[XRG_showTotalBandwidthSinceLoad] = @"YES";
+    appDefs[XRG_networkInterface] = @"All";
 
-    [appDefs setObject: @"0"    forKey: XRG_diskGraphMode];
+    appDefs[XRG_diskGraphMode] = @"0";
 
-    [appDefs setObject: @"KMOP" forKey: XRG_ICAO];
-    [appDefs setObject: @"1"    forKey: XRG_secondaryWeatherGraph];
-    [appDefs setObject: @"0"    forKey: XRG_temperatureUnits];
-    [appDefs setObject: @"0"    forKey: XRG_distanceUnits];
-    [appDefs setObject: @"0"    forKey: XRG_pressureUnits];
+    appDefs[XRG_ICAO] = @"KMOP";
+    appDefs[XRG_secondaryWeatherGraph] = @"1";
+    appDefs[XRG_temperatureUnits] = @"0";
+    appDefs[XRG_distanceUnits] = @"0";
+    appDefs[XRG_pressureUnits] = @"0";
     
-    [appDefs setObject: @"AAPL" forKey: XRG_stockSymbols];
-    [appDefs setObject: @"3"    forKey: XRG_stockGraphTimeFrame];
-    [appDefs setObject: @"YES"  forKey: XRG_stockShowChange];
-    [appDefs setObject: @"YES"  forKey: XRG_showDJIA];
+    appDefs[XRG_stockSymbols] = @"AAPL";
+    appDefs[XRG_stockGraphTimeFrame] = @"3";
+    appDefs[XRG_stockShowChange] = @"YES";
+    appDefs[XRG_showDJIA] = @"YES";
 
     return appDefs;
 }
 
 - (void) setupSettingsFromDictionary:(NSDictionary *) defs {
-    [self        setBorderWidth:             [[defs objectForKey:XRG_borderWidth] intValue]];
-    [self.appSettings setAntiAliasing:            [[defs objectForKey:XRG_antiAliasing] boolValue]];
-    [self.appSettings setGraphRefresh:            [[defs objectForKey:XRG_graphRefresh] floatValue]];
-    [self.appSettings setStickyWindow:            [[defs objectForKey:XRG_stickyWindow] boolValue]];
-    [self.appSettings setWindowLevel:             [[defs objectForKey:XRG_windowLevel] intValue]];
-    [self.appSettings setCheckForUpdates:         [[defs objectForKey:XRG_checkForUpdates] boolValue]];
-    [self.appSettings setDropShadow:              [[defs objectForKey:XRG_dropShadow] boolValue]];
-    [self.appSettings setWindowTitle:             [defs objectForKey:XRG_windowTitle]];
-    [self.appSettings setAutoExpandGraph:         [[defs objectForKey:XRG_autoExpandGraph] boolValue]];
-    [self.appSettings setForegroundWhenExpanding: [[defs objectForKey:XRG_foregroundWhenExpanding] boolValue]];
-    [self.appSettings setShowSummary:             [[defs objectForKey:XRG_showSummary] boolValue]];
-    [self.appSettings setMinimizeUpDown:          [[defs objectForKey:XRG_minimizeUpDown] intValue]];
+    [self        setBorderWidth:             [defs[XRG_borderWidth] intValue]];
+    [self.appSettings setAntiAliasing:            [defs[XRG_antiAliasing] boolValue]];
+    [self.appSettings setGraphRefresh:            [defs[XRG_graphRefresh] floatValue]];
+    [self.appSettings setStickyWindow:            [defs[XRG_stickyWindow] boolValue]];
+    [self.appSettings setWindowLevel:             [defs[XRG_windowLevel] intValue]];
+    [self.appSettings setCheckForUpdates:         [defs[XRG_checkForUpdates] boolValue]];
+    [self.appSettings setDropShadow:              [defs[XRG_dropShadow] boolValue]];
+    [self.appSettings setWindowTitle:             defs[XRG_windowTitle]];
+    [self.appSettings setAutoExpandGraph:         [defs[XRG_autoExpandGraph] boolValue]];
+    [self.appSettings setForegroundWhenExpanding: [defs[XRG_foregroundWhenExpanding] boolValue]];
+    [self.appSettings setShowSummary:             [defs[XRG_showSummary] boolValue]];
+    [self.appSettings setMinimizeUpDown:          [defs[XRG_minimizeUpDown] intValue]];
 
-    [self.appSettings setBackgroundColor:        [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_backgroundColor]]];
-    [self.appSettings setGraphBGColor:           [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphBGColor]]];
-    [self.appSettings setGraphFG1Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG1Color]]];
-    [self.appSettings setGraphFG2Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG2Color]]];
-    [self.appSettings setGraphFG3Color:          [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFG3Color]]];
-    [self.appSettings setBorderColor:            [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_borderColor]]];
-    [self.appSettings setTextColor:              [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_textColor]]];
-    [self.appSettings setGraphFont:              [NSUnarchiver unarchiveObjectWithData: [defs objectForKey:XRG_graphFont]]];
-    [self.appSettings setAntialiasText:          [[defs objectForKey:XRG_antialiasText] boolValue]];
-    [self.appSettings setBackgroundTransparency: [[defs objectForKey:XRG_backgroundTransparency] floatValue]];
-    [self.appSettings setGraphBGTransparency:    [[defs objectForKey:XRG_graphBGTransparency] floatValue]];
-    [self.appSettings setGraphFG1Transparency:   [[defs objectForKey:XRG_graphFG1Transparency] floatValue]];
-    [self.appSettings setGraphFG2Transparency:   [[defs objectForKey:XRG_graphFG2Transparency] floatValue]];
-    [self.appSettings setGraphFG3Transparency:   [[defs objectForKey:XRG_graphFG3Transparency] floatValue]];
-    [self.appSettings setBorderTransparency:     [[defs objectForKey:XRG_borderTransparency] floatValue]];
-    [self.appSettings setTextTransparency:       [[defs objectForKey:XRG_textTransparency] floatValue]];
+    [self.appSettings setBackgroundColor:        [NSUnarchiver unarchiveObjectWithData: defs[XRG_backgroundColor]]];
+    [self.appSettings setGraphBGColor:           [NSUnarchiver unarchiveObjectWithData: defs[XRG_graphBGColor]]];
+    [self.appSettings setGraphFG1Color:          [NSUnarchiver unarchiveObjectWithData: defs[XRG_graphFG1Color]]];
+    [self.appSettings setGraphFG2Color:          [NSUnarchiver unarchiveObjectWithData: defs[XRG_graphFG2Color]]];
+    [self.appSettings setGraphFG3Color:          [NSUnarchiver unarchiveObjectWithData: defs[XRG_graphFG3Color]]];
+    [self.appSettings setBorderColor:            [NSUnarchiver unarchiveObjectWithData: defs[XRG_borderColor]]];
+    [self.appSettings setTextColor:              [NSUnarchiver unarchiveObjectWithData: defs[XRG_textColor]]];
+    [self.appSettings setGraphFont:              [NSUnarchiver unarchiveObjectWithData: defs[XRG_graphFont]]];
+    [self.appSettings setAntialiasText:          [defs[XRG_antialiasText] boolValue]];
+    [self.appSettings setBackgroundTransparency: [defs[XRG_backgroundTransparency] floatValue]];
+    [self.appSettings setGraphBGTransparency:    [defs[XRG_graphBGTransparency] floatValue]];
+    [self.appSettings setGraphFG1Transparency:   [defs[XRG_graphFG1Transparency] floatValue]];
+    [self.appSettings setGraphFG2Transparency:   [defs[XRG_graphFG2Transparency] floatValue]];
+    [self.appSettings setGraphFG3Transparency:   [defs[XRG_graphFG3Transparency] floatValue]];
+    [self.appSettings setBorderTransparency:     [defs[XRG_borderTransparency] floatValue]];
+    [self.appSettings setTextTransparency:       [defs[XRG_textTransparency] floatValue]];
 
-    [self.appSettings setFastCPUUsage:           [[defs objectForKey:XRG_fastCPUUsage] boolValue]];
-    [self.appSettings setSeparateCPUColor:       [[defs objectForKey:XRG_separateCPUColor] boolValue]];
-    [self.appSettings setShowCPUTemperature:     [[defs objectForKey:XRG_showCPUTemperature] boolValue]];
-    [self.appSettings setCpuTemperatureUnits:    [[defs objectForKey:XRG_cpuTemperatureUnits] intValue]];
-    [self.appSettings setShowLoadAverage:        [[defs objectForKey:XRG_showLoadAverage] boolValue]];
-    [self.appSettings setCpuShowAverageUsage:    [[defs objectForKey:XRG_cpuShowAverageUsage] boolValue]];
-    [self.appSettings setCpuShowUptime:          [[defs objectForKey:XRG_cpuShowUptime] boolValue]];
+    [self.appSettings setFastCPUUsage:           [defs[XRG_fastCPUUsage] boolValue]];
+    [self.appSettings setSeparateCPUColor:       [defs[XRG_separateCPUColor] boolValue]];
+    [self.appSettings setShowCPUTemperature:     [defs[XRG_showCPUTemperature] boolValue]];
+    [self.appSettings setCpuTemperatureUnits:    [defs[XRG_cpuTemperatureUnits] intValue]];
+    [self.appSettings setShowLoadAverage:        [defs[XRG_showLoadAverage] boolValue]];
+    [self.appSettings setCpuShowAverageUsage:    [defs[XRG_cpuShowAverageUsage] boolValue]];
+    [self.appSettings setCpuShowUptime:          [defs[XRG_cpuShowUptime] boolValue]];
 
-    [self.appSettings setICAO:                   [defs objectForKey:XRG_ICAO]];
-    [self.appSettings setSecondaryWeatherGraph:  [[defs objectForKey:XRG_secondaryWeatherGraph] intValue]];
-    [self.appSettings setTemperatureUnits:       [[defs objectForKey:XRG_temperatureUnits] intValue]];
-    [self.appSettings setDistanceUnits:          [[defs objectForKey:XRG_distanceUnits] intValue]];
-    [self.appSettings setPressureUnits:          [[defs objectForKey:XRG_pressureUnits] intValue]];
+    [self.appSettings setICAO:                   defs[XRG_ICAO]];
+    [self.appSettings setSecondaryWeatherGraph:  [defs[XRG_secondaryWeatherGraph] intValue]];
+    [self.appSettings setTemperatureUnits:       [defs[XRG_temperatureUnits] intValue]];
+    [self.appSettings setDistanceUnits:          [defs[XRG_distanceUnits] intValue]];
+    [self.appSettings setPressureUnits:          [defs[XRG_pressureUnits] intValue]];
 
-    [self.appSettings setShowMemoryPagingGraph:  [[defs objectForKey:XRG_showMemoryPagingGraph] boolValue]];
-    [self.appSettings setMemoryShowWired:        [[defs objectForKey:XRG_memoryShowWired] boolValue]];
-    [self.appSettings setMemoryShowActive:       [[defs objectForKey:XRG_memoryShowActive] boolValue]];
-    [self.appSettings setMemoryShowInactive:     [[defs objectForKey:XRG_memoryShowInactive] boolValue]];
-    [self.appSettings setMemoryShowFree:         [[defs objectForKey:XRG_memoryShowFree] boolValue]];
-    [self.appSettings setMemoryShowCache:        [[defs objectForKey:XRG_memoryShowCache] boolValue]];
-    [self.appSettings setMemoryShowPage:         [[defs objectForKey:XRG_memoryShowPage] boolValue]];
+    [self.appSettings setShowMemoryPagingGraph:  [defs[XRG_showMemoryPagingGraph] boolValue]];
+    [self.appSettings setMemoryShowWired:        [defs[XRG_memoryShowWired] boolValue]];
+    [self.appSettings setMemoryShowActive:       [defs[XRG_memoryShowActive] boolValue]];
+    [self.appSettings setMemoryShowInactive:     [defs[XRG_memoryShowInactive] boolValue]];
+    [self.appSettings setMemoryShowFree:         [defs[XRG_memoryShowFree] boolValue]];
+    [self.appSettings setMemoryShowCache:        [defs[XRG_memoryShowCache] boolValue]];
+    [self.appSettings setMemoryShowPage:         [defs[XRG_memoryShowPage] boolValue]];
     
-    [self.appSettings setTempUnits:              [[defs objectForKey:XRG_tempUnits] intValue]];
-    [self.appSettings setTempFG1Location:        [[defs objectForKey:XRG_tempFG1Location] intValue]];
-    [self.appSettings setTempFG2Location:        [[defs objectForKey:XRG_tempFG2Location] intValue]];
-    [self.appSettings setTempFG3Location:        [[defs objectForKey:XRG_tempFG3Location] intValue]];
+    [self.appSettings setTempUnits:              [defs[XRG_tempUnits] intValue]];
+    [self.appSettings setTempFG1Location:        [defs[XRG_tempFG1Location] intValue]];
+    [self.appSettings setTempFG2Location:        [defs[XRG_tempFG2Location] intValue]];
+    [self.appSettings setTempFG3Location:        [defs[XRG_tempFG3Location] intValue]];
 
-    [self.appSettings setNetMinGraphScale:            [[defs objectForKey:XRG_netMinGraphScale] intValue]];
-    [self.appSettings setNetGraphMode:                [[defs objectForKey:XRG_netGraphMode] intValue]];
-    [self.appSettings setShowTotalBandwidthSinceBoot: [[defs objectForKey:XRG_showTotalBandwidthSinceBoot] boolValue]];
-    [self.appSettings setShowTotalBandwidthSinceLoad: [[defs objectForKey:XRG_showTotalBandwidthSinceLoad] boolValue]];
-    [self.appSettings setNetworkInterface:            [defs objectForKey:XRG_networkInterface]];
+    [self.appSettings setNetMinGraphScale:            [defs[XRG_netMinGraphScale] intValue]];
+    [self.appSettings setNetGraphMode:                [defs[XRG_netGraphMode] intValue]];
+    [self.appSettings setShowTotalBandwidthSinceBoot: [defs[XRG_showTotalBandwidthSinceBoot] boolValue]];
+    [self.appSettings setShowTotalBandwidthSinceLoad: [defs[XRG_showTotalBandwidthSinceLoad] boolValue]];
+    [self.appSettings setNetworkInterface:            defs[XRG_networkInterface]];
 
-    [self.appSettings setDiskGraphMode:          [[defs objectForKey:XRG_diskGraphMode] intValue]];
+    [self.appSettings setDiskGraphMode:          [defs[XRG_diskGraphMode] intValue]];
 
-    [self.appSettings setStockSymbols:           [defs objectForKey: XRG_stockSymbols]];
-    [self.appSettings setStockGraphTimeFrame:    [[defs objectForKey:XRG_stockGraphTimeFrame] intValue]];
-    [self.appSettings setStockShowChange:        [[defs objectForKey:XRG_stockShowChange] boolValue]];
-    [self.appSettings setShowDJIA:               [[defs objectForKey:XRG_showDJIA] boolValue]];
+    [self.appSettings setStockSymbols:           defs[XRG_stockSymbols]];
+    [self.appSettings setStockGraphTimeFrame:    [defs[XRG_stockGraphTimeFrame] intValue]];
+    [self.appSettings setStockShowChange:        [defs[XRG_stockShowChange] boolValue]];
+    [self.appSettings setShowDJIA:               [defs[XRG_showDJIA] boolValue]];
         
     // Set up our window.
-    NSRect windowRect = NSMakeRect([[defs objectForKey:XRG_windowOriginX] floatValue], 
-                                   [[defs objectForKey:XRG_windowOriginY] floatValue],
-                                   [[defs objectForKey:XRG_windowWidth] floatValue], 
-                                   [[defs objectForKey:XRG_windowHeight] floatValue]);
+    NSRect windowRect = NSMakeRect([defs[XRG_windowOriginX] floatValue], 
+                                   [defs[XRG_windowOriginY] floatValue],
+                                   [defs[XRG_windowWidth] floatValue], 
+                                   [defs[XRG_windowHeight] floatValue]);
     
     //pass in NSBorderlessWindowMask for the styleMask
     parentWindow = [[super initWithContentRect: windowRect 
@@ -358,9 +336,9 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     // Set these after we have initialized the parentWindow
     [self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self setWindowRect:windowRect].size];
-    [self setWindowLevelHelper: [[defs objectForKey:XRG_windowLevel] intValue]];    
+    [self setWindowLevelHelper: [defs[XRG_windowLevel] intValue]];    
         
-    [self.moduleManager setGraphOrientationVertical: [[defs objectForKey:XRG_graphOrientationVertical] boolValue]];
+    [self.moduleManager setGraphOrientationVertical: [defs[XRG_graphOrientationVertical] boolValue]];
     [self setMinSize:[self.moduleManager getMinSize]];
 }
 
@@ -452,8 +430,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 		
 		NSInteger i;
 		for (i = 0; i < numIterationsToDo; i++) {
-			NSUInteger latestBLocation = [[latestComponents objectAtIndex:i] rangeOfString:@"b"].location;
-			NSUInteger currentBLocation = [[currentComponents objectAtIndex:i] rangeOfString:@"b"].location;
+			NSUInteger latestBLocation = [latestComponents[i] rangeOfString:@"b"].location;
+			NSUInteger currentBLocation = [currentComponents[i] rangeOfString:@"b"].location;
 
 			int latestNumber = 0;
 			int currentNumber = 0;
@@ -461,39 +439,39 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 			int currentBetaNumber = 999999;
 			
 			if (latestBLocation != NSNotFound) {
-				NSArray *tmpArray = [[latestComponents objectAtIndex:i] componentsSeparatedByString:@"b"];
+				NSArray *tmpArray = [latestComponents[i] componentsSeparatedByString:@"b"];
 				
 				if ([tmpArray count] >= 2) {
-					latestNumber = [[tmpArray objectAtIndex:0] intValue];
-					latestBetaNumber = [[tmpArray objectAtIndex:1] intValue];
+					latestNumber = [tmpArray[0] intValue];
+					latestBetaNumber = [tmpArray[1] intValue];
 				}
 				else if ([tmpArray count] == 1) {
-					latestNumber = [[tmpArray objectAtIndex:0] intValue];
+					latestNumber = [tmpArray[0] intValue];
 				}
 				else {
 					latestNumber = 0;
 				}
 			}
 			else {
-				latestNumber = [[latestComponents objectAtIndex:i] intValue];
+				latestNumber = [latestComponents[i] intValue];
 			}
 			
 			if (currentBLocation != NSNotFound) {
-				NSArray *tmpArray = [[currentComponents objectAtIndex:i] componentsSeparatedByString:@"b"];
+				NSArray *tmpArray = [currentComponents[i] componentsSeparatedByString:@"b"];
 				
 				if ([tmpArray count] >= 2) {
-					currentNumber = [[tmpArray objectAtIndex:0] intValue];
-					currentBetaNumber = [[tmpArray objectAtIndex:1] intValue];
+					currentNumber = [tmpArray[0] intValue];
+					currentBetaNumber = [tmpArray[1] intValue];
 				}
 				else if ([tmpArray count] == 1) {
-					currentNumber = [[tmpArray objectAtIndex:0] intValue];
+					currentNumber = [tmpArray[0] intValue];
 				}
 				else {
 					currentNumber = 0;
 				}
 			}
 			else {
-				currentNumber = [[currentComponents objectAtIndex:i] intValue];
+				currentNumber = [currentComponents[i] intValue];
 			}
 			
 			// Error checking
@@ -904,7 +882,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     else {
         NSArray *interfaces = [self.netView networkInterfaces];
         if (selectedRow - 1 < [interfaces count])
-            [self.appSettings setNetworkInterface:[interfaces objectAtIndex:(selectedRow - 1)]];
+            [self.appSettings setNetworkInterface:interfaces[(selectedRow - 1)]];
         else
             [self.appSettings setNetworkInterface:@"All"];
     }

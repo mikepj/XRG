@@ -228,11 +228,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 		long blockSize = buf[i].f_bsize;
 		
 		NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:5];
-		[d setObject:[NSString stringWithUTF8String:buf[i].f_fstypename]								forKey:@"FS Type"];
-		[d setObject:[NSNumber numberWithLongLong:(long long)buf[i].f_blocks * (long long)blockSize]	forKey:@"Total Bytes"];
-		[d setObject:[NSNumber numberWithLongLong:(long long)buf[i].f_bfree * (long long)blockSize]		forKey:@"Free Bytes"];
-		[d setObject:[NSString stringWithUTF8String:buf[i].f_mntonname]									forKey:@"Mount Point"];
-		[d setObject:[NSNumber numberWithLongLong:buf[i].f_files - buf[i].f_ffree]						forKey:@"Total Files"];
+		d[@"FS Type"] = @(buf[i].f_fstypename);
+		d[@"Total Bytes"] = @((long long)buf[i].f_blocks * (long long)blockSize);
+		d[@"Free Bytes"] = @((long long)buf[i].f_bfree * (long long)blockSize);
+		d[@"Mount Point"] = @(buf[i].f_mntonname);
+		d[@"Total Files"] = [NSNumber numberWithLongLong:buf[i].f_files - buf[i].f_ffree];
 		
 		[volumeInfo addObject:d];
 	}
@@ -463,7 +463,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 - (void)openDiskUtility:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:[NSArray arrayWithObject:@"/Applications/Utilities/Disk Utility.app"]
+      arguments:@[@"/Applications/Utilities/Disk Utility.app"]
     ];
 }
 

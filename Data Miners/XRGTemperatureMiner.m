@@ -35,7 +35,7 @@
 #undef DEBUG
 
 @implementation XRGTemperatureMiner
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	
 	if (self) {
@@ -117,7 +117,7 @@
 	NSEnumerator *enumerator = [sensorData objectEnumerator];
 	id value;
 	while (value = [enumerator nextObject]) {
-		[value setObject:@"NO" forKey:GSEnable];
+		value[GSEnable] = @"NO";
 	}
     	
 #if __ppc__    	
@@ -200,9 +200,9 @@
 	// Before returning, go through the values and find the ones that aren't enabled.
 	enumerator = [sensorData objectEnumerator];
 	while (value = [enumerator nextObject]) {
-		if ([[value objectForKey:GSEnable] boolValue] == NO) {
-			[[value objectForKey:GSDataSetKey] setNextValue:0];
-			[value setObject:[NSNumber numberWithInt:0] forKey:GSCurrentValueKey];
+		if ([value[GSEnable] boolValue] == NO) {
+			[value[GSDataSetKey] setNextValue:0];
+			value[GSCurrentValueKey] = @0;
 		}
 	}
 }
@@ -370,17 +370,17 @@
 		
 
 		// Check that this location monitors temperature.
-		id sensorType = [serviceDictionary objectForKey:@"type"];
+		id sensorType = serviceDictionary[@"type"];
 		if ([sensorType isKindOfClass:[NSString class]]) {
 			// Get the value of the location key in the service dictionary.
-			id location = [serviceDictionary objectForKey:@"location"];
+			id location = serviceDictionary[@"location"];
 			
 			// Now check that our location key is not null and has a string value.
 			if ([location isKindOfClass:[NSString class]]) {
 			
 				if ([sensorType isEqualToString:@"temperature"]) {
 					// This is a temperature sensor.
-					id currentValue = [serviceDictionary objectForKey:@"current-value"];
+					id currentValue = serviceDictionary[@"current-value"];
 					if ([currentValue isKindOfClass:[NSNumber class]]) {
 						int tempInt;
 						if ((tempInt = [currentValue intValue])) {
@@ -394,7 +394,7 @@
 				}
 				else if ([sensorType isEqualToString:@"temp"]) {
 					// This is a temperature sensor (different type found in the iMac G5 for one.
-					id currentValue = [serviceDictionary objectForKey:@"current-value"];
+					id currentValue = serviceDictionary[@"current-value"];
 					if ([currentValue isKindOfClass:[NSNumber class]]) {
 						int tempInt;
 						if ((tempInt = [currentValue intValue])) {
@@ -413,7 +413,7 @@
 				}
 				else if ([sensorType isEqualToString:@"adc"]) {
 					// This is an ADC sensor.  The only known value we can get from here is CPU [AB] AD7417 AD1 on the G5s (old method, less accurate)
-					id currentValue = [serviceDictionary objectForKey:@"current-value"];
+					id currentValue = serviceDictionary[@"current-value"];
 					if ([currentValue isKindOfClass:[NSNumber class]]) {
 						int tempInt;
 						if ((tempInt = [currentValue intValue])) {
@@ -434,7 +434,7 @@
 				}
 				else if ([sensorType isEqualToString:@"fanspeed"]) {
 					// This is an fan speed sensor found on the exhaust fans of Powerbooks.  
-					id currentValue = [serviceDictionary objectForKey:@"current-value"];
+					id currentValue = serviceDictionary[@"current-value"];
 					if ([currentValue isKindOfClass:[NSNumber class]]) {
 						int tempInt;
 						if ((tempInt = [currentValue intValue])) {
@@ -474,16 +474,16 @@
 		
 		
 		// Check that this location monitors temperature.
-		id sensorType = [serviceDictionary objectForKey:@"type"];
+		id sensorType = serviceDictionary[@"type"];
 		if ([sensorType isKindOfClass:[NSString class]]) {
 			// Get the value of the location key in the service dictionary.
-			id location = [serviceDictionary objectForKey:@"location"];
+			id location = serviceDictionary[@"location"];
 			
 			// Now check that our location key is not null and has a string value.
 			if ([location isKindOfClass:[NSString class]]) {
 				
 				if ([sensorType isEqualToString:@"fan-rpm"]) {
-					id currentValue = [serviceDictionary objectForKey:@"target-value"];
+					id currentValue = serviceDictionary[@"target-value"];
 					if ([currentValue isKindOfClass:[NSNumber class]]) {
 						int tempInt;
 						if ((tempInt = [currentValue intValue])) {
@@ -519,16 +519,16 @@
 				continue;
 			}
 			
-			NSMutableArray *controlInfoArray = [serviceDictionary objectForKey:@"control-info"];
+			NSMutableArray *controlInfoArray = serviceDictionary[@"control-info"];
 			NSInteger numItems = [controlInfoArray count];
 			NSInteger i;
 			for (i = 0; i < numItems; i++) {
-				NSString *value = [[controlInfoArray objectAtIndex:i] objectForKey:@"target-value"];
+				NSString *value = controlInfoArray[i][@"target-value"];
 				if ([value intValue] == 0) {
 					continue;
 				}
 				
-				NSMutableString *loc = [NSMutableString stringWithString:(NSString *)[[controlInfoArray objectAtIndex:i] objectForKey:@"location"]];
+				NSMutableString *loc = [NSMutableString stringWithString:(NSString *)controlInfoArray[i][@"location"]];
 				if (![loc hasSuffix:@"PUMP"]) {
 					[loc appendString:@" Fan"];
 				}
@@ -536,7 +536,7 @@
 				[self setCurrentValue:[value floatValue] 
 							 andUnits:@" rpm" 
 						  forLocation:loc];
-				[fanLocations setObject:@"" forKey:loc];
+				fanLocations[loc] = @"";
 			}
 					
 			// Clean up
@@ -564,28 +564,28 @@
 				continue;
 			}
 			
-			NSArray *IOHWControls = [serviceDictionary objectForKey:@"IOHWControls"];
+			NSArray *IOHWControls = serviceDictionary[@"IOHWControls"];
 			int i;
 			for (i = 0; i < [IOHWControls count]; i++) {
 				// Check that this location monitors temperature.
-				id sensorType = [[IOHWControls objectAtIndex:i] objectForKey:@"type"];
+				id sensorType = IOHWControls[i][@"type"];
 				if ([sensorType isKindOfClass:[NSString class]]) {
 					// Get the value of the location key in the service dictionary.
-					id location = [[IOHWControls objectAtIndex:i] objectForKey:@"location"];
+					id location = IOHWControls[i][@"location"];
 					
 					// Now check that our location key is not null and has a string value.
 					if ([location isKindOfClass:[NSString class]]) {
 						
 						if ([sensorType isEqualToString:@"fan-pwm"]) {
 							// This is an fan speed sensor found on the exhaust fans of Powerbooks.  
-							id currentValue = [[IOHWControls objectAtIndex:i] objectForKey:@"target-value"];
+							id currentValue = IOHWControls[i][@"target-value"];
 							if ([currentValue isKindOfClass:[NSNumber class]]) {
 								int tempInt;
 								if ((tempInt = [currentValue intValue])) {
 									[self setCurrentValue:(float)tempInt 
 												 andUnits:@"%"
 											  forLocation:location];
-									[fanLocations setObject:@"" forKey:location];
+									fanLocations[location] = @"";
 								}
 							}
 						}
@@ -593,21 +593,21 @@
 				} 
 			}	
 			
-			IOHWControls = [serviceDictionary objectForKey:@"IOHWSensors"];
+			IOHWControls = serviceDictionary[@"IOHWSensors"];
 			for (i = 0; i < [IOHWControls count]; i++) {
 				// This is an ADC sensor.  The only known value we can get from here is CPU [AB] AD7417 AD1 on the G5s (new method, more accurate, will replace values found earlier)
 				// Check that this location monitors temperature.
-				id sensorType = [[IOHWControls objectAtIndex:i] objectForKey:@"type"];
+				id sensorType = IOHWControls[i][@"type"];
 				if ([sensorType isKindOfClass:[NSString class]]) {
 					// Get the value of the location key in the service dictionary.
-					id location = [[IOHWControls objectAtIndex:i] objectForKey:@"location"];
+					id location = IOHWControls[i][@"location"];
 					
 					// Now check that our location key is not null and has a string value.
 					if ([location isKindOfClass:[NSString class]]) {
 						
 						if ([sensorType isEqualToString:@"temperature"]) {
 							// This is an fan speed sensor found on the exhaust fans of Powerbooks.  
-							id currentValue = [[IOHWControls objectAtIndex:i] objectForKey:@"current-value"];
+							id currentValue = IOHWControls[i][@"current-value"];
 							if ([currentValue isKindOfClass:[NSNumber class]]) {
 								float tempFloat;
 								if ((tempFloat = [currentValue floatValue] / 65536.f) && [(NSString *)location hasSuffix:@"AD1"]) {
@@ -653,28 +653,28 @@
 				continue;
 			}
 			
-			NSArray *IOHWControls = [serviceDictionary objectForKey:@"IOHWControls"];
+			NSArray *IOHWControls = serviceDictionary[@"IOHWControls"];
 			int i;
 			for (i = 0; i < [IOHWControls count]; i++) {
 				// Check that this location monitors temperature.
-				id sensorType = [[IOHWControls objectAtIndex:i] objectForKey:@"type"];
+				id sensorType = IOHWControls[i][@"type"];
 				if ([sensorType isKindOfClass:[NSString class]]) {
 					// Get the value of the location key in the service dictionary.
-					id location = [[IOHWControls objectAtIndex:i] objectForKey:@"location"];
+					id location = IOHWControls[i][@"location"];
 					
 					// Now check that our location key is not null and has a string value.
 					if ([location isKindOfClass:[NSString class]]) {
 						
 						if ([sensorType isEqualToString:@"fan-rpm"]) {
 							// This is an fan speed sensor found on the exhaust fans of Powerbooks.  
-							id currentValue = [[IOHWControls objectAtIndex:i] objectForKey:@"target-value"];
+							id currentValue = IOHWControls[i][@"target-value"];
 							if ([currentValue isKindOfClass:[NSNumber class]]) {
 								int tempInt;
 								if ((tempInt = [currentValue intValue])) {
 									[self setCurrentValue:(float)tempInt 
 												 andUnits:@" rpm"
 											  forLocation:location];
-									[fanLocations setObject:@"" forKey:location];
+									fanLocations[location] = @"";
 								}
 							}
 						}
@@ -691,49 +691,49 @@
         	
     // Now check our NSDictionary for keys that give CPU temperature
     id tmpDictionary;
-    tmpDictionary = [sensorData objectForKey:@"CPU TOPSIDE"];
+    tmpDictionary = sensorData[@"CPU TOPSIDE"];
     if (tmpDictionary != nil) {
         // This is a 12" Aluminum Powerbook
-        immediateCPUTemperatureC[0] = [[tmpDictionary objectForKey:GSCurrentValueKey] floatValue];
+        immediateCPUTemperatureC[0] = [tmpDictionary[GSCurrentValueKey] floatValue];
     }
     
-    tmpDictionary = [sensorData objectForKey:@"CPU BOTTOMSIDE"];
+    tmpDictionary = sensorData[@"CPU BOTTOMSIDE"];
     if (tmpDictionary != nil) {
         // This is a 15" or 17" Aluminum Powerbook, or a G4 iBook
-        immediateCPUTemperatureC[0] = [[tmpDictionary objectForKey:GSCurrentValueKey] floatValue];
+        immediateCPUTemperatureC[0] = [tmpDictionary[GSCurrentValueKey] floatValue];
     }
     
-    tmpDictionary = [sensorData objectForKey:@"CPU CORE"];
+    tmpDictionary = sensorData[@"CPU CORE"];
     if (tmpDictionary != nil) {
         // This should be on G4 Powerbooks and iBooks
-        immediateCPUTemperatureC[0] = [[tmpDictionary objectForKey:GSCurrentValueKey] floatValue];
+        immediateCPUTemperatureC[0] = [tmpDictionary[GSCurrentValueKey] floatValue];
     }
 
-    tmpDictionary = [sensorData objectForKey:@"CPU A AD7417 AMB"];
+    tmpDictionary = sensorData[@"CPU A AD7417 AMB"];
     if (tmpDictionary != nil) {
         // CPU 1 on a PowerMac G5
-        immediateCPUTemperatureC[0] = [[tmpDictionary objectForKey:GSCurrentValueKey] floatValue];
+        immediateCPUTemperatureC[0] = [tmpDictionary[GSCurrentValueKey] floatValue];
     }
 
-    tmpDictionary = [sensorData objectForKey:@"CPU B AD7417 AMB"];
+    tmpDictionary = sensorData[@"CPU B AD7417 AMB"];
     if (tmpDictionary != nil) {
         // CPU 2 on a PowerMac G5
         if (numCPUs > 1) {
-            immediateCPUTemperatureC[1] = [[tmpDictionary objectForKey:GSCurrentValueKey] floatValue];
+            immediateCPUTemperatureC[1] = [tmpDictionary[GSCurrentValueKey] floatValue];
         }
     }
 
-    tmpDictionary = [sensorData objectForKey:@"CPU A Diode Temp"];
+    tmpDictionary = sensorData[@"CPU A Diode Temp"];
     if (tmpDictionary != nil) {
         // CPU 1 on a PowerMac G5 if it's available.
-        immediateCPUTemperatureC[0] = [[tmpDictionary objectForKey:GSCurrentValueKey] floatValue];
+        immediateCPUTemperatureC[0] = [tmpDictionary[GSCurrentValueKey] floatValue];
     }
 	
-    tmpDictionary = [sensorData objectForKey:@"CPU B Diode Temp"];
+    tmpDictionary = sensorData[@"CPU B Diode Temp"];
     if (tmpDictionary != nil) {
         // CPU 2 on a PowerMac G5 if it's available.
         if (numCPUs > 1) {
-            immediateCPUTemperatureC[1] = [[tmpDictionary objectForKey:GSCurrentValueKey] floatValue];
+            immediateCPUTemperatureC[1] = [tmpDictionary[GSCurrentValueKey] floatValue];
         }
     }
 }
@@ -797,7 +797,7 @@
 	
 	while( nil != (key = [keyEnum nextObject]) )
 	{
-		id aValue = [values objectForKey:key];
+		id aValue = values[key];
 		if (![aValue isKindOfClass:[NSNumber class]]) continue;		// Fix TE..
         
 		float temperature = [aValue floatValue];
@@ -821,10 +821,10 @@
         values = [smcSensors fanValues];
         NSArray *keys = [values allKeys];
         for (i = 0; i < [keys count]; i++) {
-            id fanKey = [keys objectAtIndex:i];
+            id fanKey = keys[i];
             NSString *fanLocation = fanKey;
             
-            id fanDict = [values objectForKey:fanKey];
+            id fanDict = values[fanKey];
 			
 			// Find the actual fan speed key.
 			NSArray *fanDictKeys = [fanDict allKeys];
@@ -837,8 +837,8 @@
 				return NO;
 			}];
 			if (speedKeyIndex != NSNotFound) {
-				id fanSpeedKey = [fanDictKeys objectAtIndex:speedKeyIndex];
-				[self setCurrentValue:[[fanDict objectForKey:fanSpeedKey] floatValue]
+				id fanSpeedKey = fanDictKeys[speedKeyIndex];
+				[self setCurrentValue:[fanDict[fanSpeedKey] floatValue]
 							 andUnits:@" rpm"
 						  forLocation:fanLocation];
 			}
@@ -856,7 +856,7 @@
 		
 		int i;
 		for (i = 0; i < [fanLocationKeys count]; i++) {
-			NSString *location = [fanLocationKeys objectAtIndex:i];
+			NSString *location = fanLocationKeys[i];
 			
 			[sensorData removeObjectForKey:location];			
 		}
@@ -879,7 +879,7 @@
 }
 
 - (NSString *)unitsForLocation:(NSString *)location {
-	return [[sensorData objectForKey:location] objectForKey:GSUnitsKey];
+	return sensorData[location][GSUnitsKey];
 }
 
 - (void)regenerateLocationKeyOrder {
@@ -891,7 +891,7 @@
 	[locationKeysInOrder removeAllObjects];
 
     for (i = 0; i < numLocations; i++) {
-        if ([locations objectAtIndex:i] == nil) {
+        if (locations[i] == nil) {
             alreadyUsed[i] = YES;
         }
     }
@@ -917,8 +917,8 @@
 		for (i = 0; i < numLocations; i++) {
 			if (alreadyUsed[i]) continue;
 			
-			NSString *location = [locations objectAtIndex:i];
-			if (![[[sensorData objectForKey:location] objectForKey:GSUnitsKey] isEqualToString:[types objectAtIndex:typeIndex]]) {
+			NSString *location = locations[i];
+			if (![sensorData[location][GSUnitsKey] isEqualToString:types[typeIndex]]) {
 				continue;
 			}
 
@@ -1007,8 +1007,8 @@
 		
 		// Loop through and add any left overs
 		for (i = 0; i < numLocations; i++) {
-			if (!alreadyUsed[i] & [[[sensorData objectForKey:[locations objectAtIndex:i]] objectForKey:GSUnitsKey] isEqualToString:[types objectAtIndex:typeIndex]]) {
-				[tmpOthers addObject:[locations objectAtIndex:i]];
+			if (!alreadyUsed[i] & [sensorData[locations[i]][GSUnitsKey] isEqualToString:types[typeIndex]]) {
+				[tmpOthers addObject:locations[i]];
 				alreadyUsed[i] = YES;
 			}
 		}
@@ -1028,10 +1028,10 @@
 }
 
 - (float)currentValueForKey:(NSString *)locationKey {
-	NSDictionary *tmpDictionary = [sensorData objectForKey:locationKey];
+	NSDictionary *tmpDictionary = sensorData[locationKey];
 	if (tmpDictionary == nil) return 0;
 	
-    NSNumber *n = [tmpDictionary objectForKey:GSCurrentValueKey];
+    NSNumber *n = tmpDictionary[GSCurrentValueKey];
     
     if (n != nil) {
         return [n floatValue];
@@ -1045,44 +1045,44 @@
 	bool needRegen = NO;
 	
 	// Need to find the right dictionary for this location
-	NSMutableDictionary *valueDictionary = [sensorData objectForKey:location];
+	NSMutableDictionary *valueDictionary = sensorData[location];
 	
 	// If we didn't find it, we need to create a new one and insert it into our collection.
 	if (valueDictionary == nil) {
 		valueDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
-		[sensorData setObject:valueDictionary forKey:location];
+		sensorData[location] = valueDictionary;
 		needRegen = YES;
 	}
 	
 	// Set the units
-	[valueDictionary setObject:units forKey:GSUnitsKey];
+	valueDictionary[GSUnitsKey] = units;
 		
 	// Set the current value in the sensor data dictionary
-	[valueDictionary setObject:[NSNumber numberWithFloat:value] forKey:GSCurrentValueKey];
+	valueDictionary[GSCurrentValueKey] = @(value);
 	
 	// Set that this sensor is enabled.
-	[valueDictionary setObject:@"YES" forKey:GSEnable];
+	valueDictionary[GSEnable] = @"YES";
 	
 	// Set the next value in the data set.
-	if ([valueDictionary objectForKey:GSDataSetKey] == nil) {
+	if (valueDictionary[GSDataSetKey] == nil) {
 		// we have to create an XRGDataSet for this location.
 		XRGDataSet *newSet = [[[XRGDataSet alloc] init] autorelease];
 		[newSet resize:(size_t)numSamples];
 		[newSet setAllValues:value];
-		[valueDictionary setObject:newSet forKey:GSDataSetKey];
+		valueDictionary[GSDataSetKey] = newSet;
 	}
-	[[valueDictionary objectForKey:GSDataSetKey] setNextValue:value];
+	[valueDictionary[GSDataSetKey] setNextValue:value];
 	
 	// If this location doesn't have a label, generate one.
-	if ([valueDictionary objectForKey:GSLabelKey] == nil) {
+	if (valueDictionary[GSLabelKey] == nil) {
 		if ([location isEqualToString:@"CPU A AD7417 AMB"]) {
-			[valueDictionary setObject:@"CPU A Ambient" forKey:GSLabelKey];
+			valueDictionary[GSLabelKey] = @"CPU A Ambient";
 		}
 		else if ([location isEqualToString:@"CPU B AD7417 AMB"]) {
-			[valueDictionary setObject:@"CPU B Ambient" forKey:GSLabelKey];
+			valueDictionary[GSLabelKey] = @"CPU B Ambient";
 		}
 		else {
-			[valueDictionary setObject:location forKey:GSLabelKey];
+			valueDictionary[GSLabelKey] = location;
 		}
 	}
 				
@@ -1098,14 +1098,14 @@
 }
 
 - (XRGDataSet *)dataSetForKey:(NSString *)locationKey {
-	NSDictionary *tmpDictionary = [sensorData objectForKey:locationKey];
+	NSDictionary *tmpDictionary = sensorData[locationKey];
 	if (tmpDictionary == nil) return nil;
 
-    return [tmpDictionary objectForKey:GSDataSetKey];
+    return tmpDictionary[GSDataSetKey];
 }
 
 - (NSString *)labelForKey:(NSString *)locationKey {
-    id label = [[sensorData objectForKey:locationKey] objectForKey:GSLabelKey];
+    id label = sensorData[locationKey][GSLabelKey];
     
     if (label == nil) {
         return locationKey;
@@ -1120,7 +1120,7 @@
 
     int i;
     for (i = 0; i < [a count]; i++) {
-		[[[sensorData objectForKey:[a objectAtIndex:i]] objectForKey:GSDataSetKey] resize:(size_t)newNumSamples];
+		[sensorData[a[i]][GSDataSetKey] resize:(size_t)newNumSamples];
     }
     
     numSamples = newNumSamples;

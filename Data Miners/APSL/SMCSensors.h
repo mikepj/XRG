@@ -44,12 +44,12 @@
 // returns an plain dict of values with their 4cc IDs.
 // contains only values where a known conversion from the SMC data type to NSNumber / NDSData is implemented in SMCInterface
 
-- (NSDictionary *)allValues;
+@property (readonly, copy) NSDictionary *allValues;
 
 // as far as their meaning is known (==guessable), the values have human readable keys
 // Fan values - returns an NSDictionary of NSDictionaries 
 
-- (NSDictionary *)fanValues;
+@property (readonly, copy) NSDictionary *fanValues;
 
 // Temperature senor values
 // withUnknownSensors: include sensors where humanReadableNameForKey will fail
@@ -58,7 +58,7 @@
 - (NSDictionary *)temperatureValuesExtended:(BOOL) withUnknownSensors;
 
 // additional sensors (motion etc.). 
-- (NSDictionary *)sensorValues;
+@property (readonly, copy) NSDictionary *sensorValues;
 
 // lookup a human readbale description of the 4 character string key.
 // will return key, if no description can be found

@@ -58,7 +58,7 @@
                                                                   errorDescription:&error];
         
         if (d) {
-            if (![d objectForKey:@"NSUIElement"] || [[d objectForKey:@"NSUIElement"] isEqualToString:@"NO"]) {
+            if (!d[@"NSUIElement"] || [d[@"NSUIElement"] isEqualToString:@"NO"]) {
                 uiIsHidden = NO;
             }
             else {
@@ -72,7 +72,7 @@
     clickedMinimized = NO;
     lastWidth = [self frame].size.width;
     
-    [self registerForDraggedTypes:[NSArray arrayWithObjects: NSFilenamesPboardType, nil]];
+    [self registerForDraggedTypes:@[NSFilenamesPboardType]];
     
     [parentWindow setBackgroundView: self];
 }
@@ -313,7 +313,7 @@
     // Hide the modules.
     NSArray *a = [moduleManager displayList];
     for (i = 0; i < [a count]; i++) {
-        XRGGenericView *ref = [[a objectAtIndex:i] reference];
+        XRGGenericView *ref = [a[i] reference];
         if (ref != nil) {
             [ref setHidden:YES];
         }
@@ -385,7 +385,7 @@
 	// Show the modules again.
     NSArray *a = [moduleManager displayList];
     for (i = 0; i < [a count]; i++) {
-        XRGGenericView *ref = [[a objectAtIndex:i] reference];
+        XRGGenericView *ref = [a[i] reference];
         if (ref != nil) {
             [ref setHidden:NO];
         }
@@ -470,7 +470,7 @@
         return;
     }
     else {
-        [d setObject: @"YES" forKey:@"NSUIElement"];
+        d[@"NSUIElement"] = @"YES";
         
         NSData *newPlist = [NSPropertyListSerialization dataFromPropertyList:d
                                                                       format:NSPropertyListXMLFormat_v1_0
@@ -489,7 +489,7 @@
     }
     
     // Finally, touch our .app directory to update the cache.
-    [NSTask launchedTaskWithLaunchPath:@"/usr/bin/touch" arguments:[NSArray arrayWithObject:[[NSBundle mainBundle] bundlePath]]];    
+    [NSTask launchedTaskWithLaunchPath:@"/usr/bin/touch" arguments:@[[[NSBundle mainBundle] bundlePath]]];    
     
     NSRunInformationalAlertPanel(@"Hiding the XRG Dock Icon", @"Please re-launch XRG for changes to take effect.", @"OK", nil, nil);
     uiIsHidden = YES;
@@ -519,7 +519,7 @@
         return;
     }
     else {
-        [d setObject: @"NO" forKey:@"NSUIElement"];
+        d[@"NSUIElement"] = @"NO";
         
         NSData *newPlist = [NSPropertyListSerialization dataFromPropertyList:d
                                                                       format:NSPropertyListXMLFormat_v1_0
@@ -538,7 +538,7 @@
     }
     
     // Finally, touch our .app directory to update the cache.
-    [NSTask launchedTaskWithLaunchPath:@"/usr/bin/touch" arguments:[NSArray arrayWithObject:[[NSBundle mainBundle] bundlePath]]];    
+    [NSTask launchedTaskWithLaunchPath:@"/usr/bin/touch" arguments:@[[[NSBundle mainBundle] bundlePath]]];    
 
     NSRunInformationalAlertPanel(@"Showing the XRG Dock Icon", @"Please re-launch XRG for changes to take effect.", @"OK", nil, nil);
     uiIsHidden = NO;
@@ -558,7 +558,7 @@
     if ( [[pasteBoard types] containsObject:NSFilenamesPboardType] ) {
         if (sourceDragMask & NSDragOperationCopy) {
             NSArray *files = [pasteBoard propertyListForType:NSFilenamesPboardType];
-            if ([files count] == 1 && [[files objectAtIndex:0] hasSuffix:@".xtf"]) {
+            if ([files count] == 1 && [files[0] hasSuffix:@".xtf"]) {
                 return NSDragOperationCopy;
             }
             else {
@@ -576,7 +576,7 @@
         NSArray *files = [pasteBoard propertyListForType:NSFilenamesPboardType];
         
         // Check the same conditions as in draggingEntered:
-        if ([files count] == 1 && [[files objectAtIndex:0] hasSuffix:@".xtf"]) {
+        if ([files count] == 1 && [files[0] hasSuffix:@".xtf"]) {
             NSString *path;
             NSData *themeData;
             NSString *error;        
@@ -584,7 +584,7 @@
             NSDictionary *themeDictionary;
             
             /* if successful, open file under designated name */
-            path = [files objectAtIndex:0];
+            path = files[0];
 
             themeData = [NSData dataWithContentsOfFile:path];
             

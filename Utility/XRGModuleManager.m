@@ -59,7 +59,7 @@
     // if it exists already, then update it based on name
     int i;
     for (i = 0; i < [allModules count]; i++) {
-        if ([[[allModules objectAtIndex:i] name] isEqualToString:[m name]]) { // we found the module, update it
+        if ([[allModules[i] name] isEqualToString:[m name]]) { // we found the module, update it
             [self updateModule:m];
             return;
         }
@@ -70,7 +70,7 @@
     if ([m isDisplayed]) {
         // find the location that the new module should be added at.
         for (i = 0; i < [displayModules count]; i++) {
-            if ([[displayModules objectAtIndex:i] displayOrder] > [m displayOrder]) {
+            if ([displayModules[i] displayOrder] > [m displayOrder]) {
                 // this is the spot where we want to insert
                 break;
             }
@@ -89,7 +89,7 @@
     int i;
         
     for (i = 0; i < [allModules count]; i++) {
-        if ([[[allModules objectAtIndex:i] name] isEqualToString:[m name]]) { // we found the module, update it
+        if ([[allModules[i] name] isEqualToString:[m name]]) { // we found the module, update it
 			[allModules removeObjectAtIndex:i];
             [allModules addObject:m];
             break;
@@ -97,7 +97,7 @@
     }
     
     for (i = 0; i < [displayModules count]; i++) {
-        if ([[[displayModules objectAtIndex:i] name] isEqualToString:[m name]]) { // we found the module, update it
+        if ([[displayModules[i] name] isEqualToString:[m name]]) { // we found the module, update it
 			[displayModules removeObjectAtIndex:i];
             break;
         }
@@ -106,7 +106,7 @@
     if ([m isDisplayed]) {
         // find the location that the new module should be added at.
         for (i = 0; i < [displayModules count]; i++) {
-            if ([[displayModules objectAtIndex:i] displayOrder] > [m displayOrder]) {
+            if ([displayModules[i] displayOrder] > [m displayOrder]) {
                 // this is the spot where we want to insert
                 break;
             }
@@ -116,7 +116,7 @@
     }
     
     for (i = 0; i < [alwaysUpdateModules count]; i++) {
-        if ([[[alwaysUpdateModules objectAtIndex:i] name] isEqualToString:[m name]]) {  // we found the module, update it
+        if ([[alwaysUpdateModules[i] name] isEqualToString:[m name]]) {  // we found the module, update it
             [alwaysUpdateModules removeObjectAtIndex:i];
             break;
         }
@@ -140,8 +140,8 @@
      
     // find the module
     for (i = 0; i < [allModules count]; i++) {
-        if ([[[allModules objectAtIndex:i] name] isEqualToString:name]) { // we found the module, update it
-            foundModule = [allModules objectAtIndex:i];
+        if ([[allModules[i] name] isEqualToString:name]) { // we found the module, update it
+            foundModule = allModules[i];
             break;
         }
     }
@@ -157,7 +157,7 @@
         if (yesNo == YES) {
             // find the location that the new module should be added at.
             for (i = 0; i < [displayModules count]; i++) {
-                if ([[displayModules objectAtIndex:i] displayOrder] > [foundModule displayOrder]) {
+                if ([displayModules[i] displayOrder] > [foundModule displayOrder]) {
                     // this is the spot where we want to insert
                     break;
                 }
@@ -179,8 +179,8 @@
 - (XRGModule *)getModuleByName:(NSString *)name {
     int i;
     for (i = 0; i < [allModules count]; i++) {
-        if ([[[allModules objectAtIndex:i] name] isEqualToString:name]) { 
-            return [allModules objectAtIndex:i];
+        if ([[allModules[i] name] isEqualToString:name]) { 
+            return allModules[i];
         }
     }
     
@@ -190,8 +190,8 @@
 - (XRGModule *)getModuleByReference:(id)reference {
     int i;
     for (i = 0; i < [allModules count]; i++) {
-        if ([[allModules objectAtIndex:i] reference] == reference) {
-            return [allModules objectAtIndex:i];
+        if ([allModules[i] reference] == reference) {
+            return allModules[i];
         }
     }
     
@@ -207,11 +207,11 @@
         
     if (graphOrientationVertical) {    
         for (i = 0; i < [displayModules count]; i++) {
-            if (minSize.width < [(XRGModule *)[displayModules objectAtIndex:i] minWidth]) {
-                minSize.width = [(XRGModule *)[displayModules objectAtIndex:i] minWidth];
+            if (minSize.width < [(XRGModule *)displayModules[i] minWidth]) {
+                minSize.width = [(XRGModule *)displayModules[i] minWidth];
             }
-            if (minSize.height < [(XRGModule *)[displayModules objectAtIndex:i] minHeight]) {
-                minSize.height = [(XRGModule *)[displayModules objectAtIndex:i] minHeight];
+            if (minSize.height < [(XRGModule *)displayModules[i] minHeight]) {
+                minSize.height = [(XRGModule *)displayModules[i] minHeight];
             }
         }
         if ([myWindow minimized]) {
@@ -223,11 +223,11 @@
     }
     else {
         for (i = 0; i < [displayModules count]; i++) {
-            if (minSize.height < [(XRGModule *)[displayModules objectAtIndex:i] minHeight]) {
-                minSize.height = [(XRGModule *)[displayModules objectAtIndex:i] minHeight];
+            if (minSize.height < [(XRGModule *)displayModules[i] minHeight]) {
+                minSize.height = [(XRGModule *)displayModules[i] minHeight];
             }
-            if (minSize.width < [(XRGModule *)[displayModules objectAtIndex:i] minWidth]) {
-                minSize.width = [(XRGModule *)[displayModules objectAtIndex:i] minWidth];
+            if (minSize.width < [(XRGModule *)displayModules[i] minWidth]) {
+                minSize.width = [(XRGModule *)displayModules[i] minWidth];
             }
         }
         if ([myWindow minimized]) {
@@ -264,7 +264,7 @@
 - (int)numModulesDisplayed {
     int i, count = 0;
     for (i = 0; i < [displayModules count]; i++) {
-        if (![[displayModules objectAtIndex:i] isEmptyModule]) {
+        if (![displayModules[i] isEmptyModule]) {
             count++;
         }
     }
@@ -289,7 +289,7 @@
     NSSize zeroSize = NSMakeSize(0,0);
     // Undisplay all the modules
     for (i = 0; i < [allModules count]; i++) {
-		XRGModule *m = [allModules objectAtIndex:i];
+		XRGModule *m = allModules[i];
         if ([m reference] != nil && [m isDisplayed] == NO) {
             [m setCurrentSize:zeroSize];
             [[m reference] setGraphSize:zeroSize];
@@ -300,7 +300,7 @@
     // Let the modules know they are being resized and modify the frames for the new sizes.
     for (i = 0; i < [displayModules count]; i++) {
         // as long as the reference exists in the module at this index, set the graph sizes, etc.
-		XRGModule *m = [displayModules objectAtIndex:i];
+		XRGModule *m = displayModules[i];
         if ([m reference] != nil) {
             [m setCurrentSize:newGraphSize];
             [[m reference] setGraphSize:newGraphSize];
@@ -312,8 +312,8 @@
     if (graphOrientationVertical) {
         for (i = [displayModules count] - 1; i >= 0; i--) {
             // as long as the reference exists, update the module
-            if ([[displayModules objectAtIndex:i] reference] != nil) {
-                [[[displayModules objectAtIndex:i] reference] setFrameOrigin: newOriginPoint];
+            if ([displayModules[i] reference] != nil) {
+                [[displayModules[i] reference] setFrameOrigin: newOriginPoint];
                 newOriginPoint.y += newGraphSize.height + moduleSeparatorWidth;
             }
         }
@@ -322,8 +322,8 @@
         newOriginPoint.x += [[myWindow appSettings] textRectHeight] + moduleSeparatorWidth;
         for (i = 0; i < [displayModules count]; i++) {
             // again, as long as the reference exists, update the module
-            if ([[displayModules objectAtIndex:i] reference] != nil) {
-                [[[displayModules objectAtIndex:i] reference] setFrameOrigin:newOriginPoint];
+            if ([displayModules[i] reference] != nil) {
+                [[displayModules[i] reference] setFrameOrigin:newOriginPoint];
                 newOriginPoint.x += newGraphSize.width + moduleSeparatorWidth;
             }
         }
@@ -474,7 +474,7 @@
     NSInteger i, n = [displayModules count];
     
     for (i = 0; i < n; i++) {
-        if ([[displayModules objectAtIndex:i] reference]) [[[displayModules objectAtIndex:i] reference] updateMinSize];
+        if ([displayModules[i] reference]) [[displayModules[i] reference] updateMinSize];
     }
     
     if (myWindow != nil) {
@@ -496,7 +496,7 @@
     NSInteger N = [displayModules count];
     id module;
     for (i = 0; i < N; i++) {
-        module = [displayModules objectAtIndex:i];
+        module = displayModules[i];
         if ([module doesMin30Update] && [module reference] != nil) {
             [[module reference] min30Update:nil];
         }
@@ -510,7 +510,7 @@
     NSInteger N = [displayModules count];
     id module;
     for (i = 0; i < N; i++) {
-        module = [displayModules objectAtIndex:i];
+        module = displayModules[i];
         if ([module doesMin5Update] && [module reference] != nil) {
             [[module reference] min5Update:nil];
         }
@@ -524,14 +524,14 @@
     NSInteger N = [displayModules count];
     id obj;
     for (i = 0; i < N; i++) {
-        obj = [displayModules objectAtIndex:i];
+        obj = displayModules[i];
         if ([obj doesGraphUpdate] && [obj reference] != nil) {
             [[obj reference] graphUpdate:nil];
         }
     }
     
     for (i = 0; i < [alwaysUpdateModules count]; i++) {
-        obj = [alwaysUpdateModules objectAtIndex:i];
+        obj = alwaysUpdateModules[i];
         if (![obj isDisplayed] && [obj reference] != nil) {
             [[obj reference] graphUpdate:nil];
         }
@@ -545,7 +545,7 @@
     NSInteger N = [displayModules count];
     id obj;
     for (i = 0; i < N; i++) {
-        obj = [displayModules objectAtIndex:i];
+        obj = displayModules[i];
         if ([obj doesFastUpdate] && [obj reference] != nil) {
             [[obj reference] fastUpdate:nil];
         }
@@ -575,7 +575,7 @@
 	int incrementer = graphOrientationVertical ? -1 : 1;
 	if (graphOrientationVertical) index = (int)[displayModules count] - 1 - index;
 	if (index >= 0 && index < [displayModules count]) {
-		resizeModuleObj = [displayModules objectAtIndex:index];
+		resizeModuleObj = displayModules[index];
 		newResizeModuleSize = [resizeModuleObj currentSize];
 		
 		if (graphOrientationVertical) {
@@ -596,7 +596,7 @@
 	
 	int adjacentIndex = index + incrementer;
 	if (adjacentIndex >= 0 && adjacentIndex < [displayModules count]) {
-		adjacentModuleObj = [displayModules objectAtIndex:adjacentIndex];
+		adjacentModuleObj = displayModules[adjacentIndex];
 		newAdjacentModuleSize = [adjacentModuleObj currentSize];
 		
 		if (graphOrientationVertical) {
@@ -631,9 +631,9 @@
 	if (graphOrientationVertical) {
 		for (i = [displayModules count] - 1; i >= 0; i--) {
 			// as long as the reference exists, update the module
-			if ([[displayModules objectAtIndex:i] reference] != nil) {
-				[[[displayModules objectAtIndex:i] reference] setFrameOrigin: newOriginPoint];
-				newOriginPoint.y += [[displayModules objectAtIndex:i] currentSize].height + moduleSeparatorWidth;
+			if ([displayModules[i] reference] != nil) {
+				[[displayModules[i] reference] setFrameOrigin: newOriginPoint];
+				newOriginPoint.y += [displayModules[i] currentSize].height + moduleSeparatorWidth;
 			}
 		}
 	}
@@ -641,9 +641,9 @@
 		newOriginPoint.x += [[myWindow appSettings] textRectHeight] + moduleSeparatorWidth;
 		for (i = 0; i < [displayModules count]; i++) {
 			// again, as long as the reference exists, update the module
-			if ([[displayModules objectAtIndex:i] reference] != nil) {
-				[[[displayModules objectAtIndex:i] reference] setFrameOrigin:newOriginPoint];
-				newOriginPoint.x += [[displayModules objectAtIndex:i] currentSize].width + moduleSeparatorWidth;
+			if ([displayModules[i] reference] != nil) {
+				[[displayModules[i] reference] setFrameOrigin:newOriginPoint];
+				newOriginPoint.x += [displayModules[i] currentSize].width + moduleSeparatorWidth;
 			}
 		}
 	} 
@@ -673,8 +673,8 @@
 	
 	for (NSInteger i = startIndex; i != doneIndex; i += incrementer) {
 		// if there is a module object reference, then use this as a display module.
-		if ([[displayModules objectAtIndex:i] reference] != nil) {
-			NSSize moduleSize = [[displayModules objectAtIndex:i] currentSize];
+		if ([displayModules[i] reference] != nil) {
+			NSSize moduleSize = [displayModules[i] currentSize];
 
 			if (graphOrientationVertical) {
 				originPoint.y += moduleSize.height + moduleSeparatorWidth;

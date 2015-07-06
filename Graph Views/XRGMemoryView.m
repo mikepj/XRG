@@ -265,10 +265,10 @@
 	NSArray *sortedProcesses = [processMiner processesSortedByMemoryUsage];
 	int i;
 	for (i = 0; i < 10; i++) {
-		NSDictionary *process = [sortedProcesses objectAtIndex:i];
-		u_int32_t memory = [[process objectForKey:XRGProcessResidentMemorySize] intValue];
-		int pid = [[process objectForKey:XRGProcessID] intValue];
-		NSString *command = [process objectForKey:XRGProcessCommand];
+		NSDictionary *process = sortedProcesses[i];
+		u_int32_t memory = [process[XRGProcessResidentMemorySize] intValue];
+		int pid = [process[XRGProcessID] intValue];
+		NSString *command = process[XRGProcessCommand];
 		
 		NSString *memoryString;
 		if (memory > 1024 * 1024) {

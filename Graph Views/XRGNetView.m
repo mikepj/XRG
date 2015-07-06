@@ -319,7 +319,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         interfaceStats[0].if_out.bsd_bytes_prev = 0;
         
         if (strcmp(interface_name, "lo0") != 0)
-            [networkInterfaces addObject:[NSString stringWithCString:interface_name encoding:NSUTF8StringEncoding]];
+            [networkInterfaces addObject:@(interface_name)];
 
         numInterfaces++;
     }
@@ -415,7 +415,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
             interfaceStats[numInterfaces].if_out.bsd_bytes_prev = 0;
             
             if (strcmp(interface_name, "lo0") != 0)
-                [networkInterfaces addObject:[NSString stringWithCString:interface_name encoding:NSUTF8StringEncoding]];
+                [networkInterfaces addObject:@(interface_name)];
             
             numInterfaces++;
         }
@@ -443,7 +443,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
     
     networkInterfaces = [[NSMutableArray alloc] init];
     while (interfaces[i][0] != '\0') {
-        [networkInterfaces addObject:[NSString stringWithCString:interfaces[i++] encoding:NSUTF8StringEncoding]];
+        [networkInterfaces addObject:@(interfaces[i++])];
     }
 }
 
@@ -708,14 +708,14 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
 - (void)openNetworkSystemPreferences:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:[NSArray arrayWithObject:@"/System/Library/PreferencePanes/Network.prefPane"]
+      arguments:@[@"/System/Library/PreferencePanes/Network.prefPane"]
     ];
 }
 
 - (void)openNetworkUtility:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:[NSArray arrayWithObject:@"/Applications/Utilities/Network Utility.app"]
+      arguments:@[@"/Applications/Utilities/Network Utility.app"]
     ];
 }
 

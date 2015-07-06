@@ -136,7 +136,7 @@
                                               windowFrame.origin.y + (windowFrame.size.height / 2));
     
     for (i = 0; i < [screens count]; i++) {
-        NSRect frame = [[screens objectAtIndex:i] visibleFrame];
+        NSRect frame = [screens[i] visibleFrame];
         if (centerOfWindowFrame.x >= frame.origin.x && 
             centerOfWindowFrame.x <= frame.origin.x + frame.size.width &&
             centerOfWindowFrame.y >= frame.origin.y &&
@@ -153,8 +153,8 @@
         fullFrame = [[self screen] frame];
     }
     else {
-        screenFrame = [[screens objectAtIndex:i] visibleFrame];
-        fullFrame = [[screens objectAtIndex:i] frame];
+        screenFrame = [screens[i] visibleFrame];
+        fullFrame = [screens[i] frame];
     }
     screenFrame.size.width = fullFrame.size.width;
     screenFrame.size.height += screenFrame.origin.y - fullFrame.origin.y;

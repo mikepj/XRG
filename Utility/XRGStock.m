@@ -30,7 +30,7 @@
 
 @implementation XRGStock
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	
 	if (self) {
@@ -184,8 +184,8 @@
 		NSString *immediateString = [[[NSString alloc] initWithData:[immediateURL getData] encoding:NSASCIIStringEncoding] autorelease];
 		NSArray *elements = [immediateString componentsSeparatedByString:@","];
 		if ([elements count] >= 5) {			// ^DJI (and probably some others) won't return immediate data, so catch that case here.
-			currentPrice = [[elements objectAtIndex:1] floatValue];
-			lastChange = [[elements objectAtIndex:4] floatValue];
+			currentPrice = [elements[1] floatValue];
+			lastChange = [elements[4] floatValue];
 		}
 		
 		[surl setData:nil];
@@ -212,22 +212,22 @@
 
 	NSArray *lines = [webData componentsSeparatedByString:@"\n"];
 	for (i = 1; i < [lines count]; i++) {		// Skip the first line containing the column headers.
-		NSString *line = [lines objectAtIndex:i];
+		NSString *line = lines[i];
 		NSArray *lineElements = [line componentsSeparatedByString:@","];
 		if ([lineElements count] >= 7) {
-			[closingPrices addObject:[NSNumber numberWithFloat:[[lineElements objectAtIndex:6] floatValue]]];
-			[volumes addObject:[NSNumber numberWithInt:[[lineElements objectAtIndex:5] intValue]]];
+			[closingPrices addObject:@([lineElements[6] floatValue])];
+			[volumes addObject:@([lineElements[5] intValue])];
 		}
 	}
 	
 	NSInteger count = [closingPrices count];
 	if (count > 0) {
 		float high, low;
-		high = [[closingPrices objectAtIndex:0] floatValue];
-		low = [[closingPrices objectAtIndex:0] floatValue];
+		high = [closingPrices[0] floatValue];
+		low = [closingPrices[0] floatValue];
 		
 		for (i = 1; i < count; i++) {
-			float val = [[closingPrices objectAtIndex:i] floatValue];
+			float val = [closingPrices[i] floatValue];
 			high = MAX(val, high);
 			low = MIN(val, low);
 		}
@@ -279,12 +279,12 @@
 
     if (max > numClosingPrices - baseIndex) {
         for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:i]];
+            [retvals addObject:closingPrices[i]];
         }
     }
     else {
         for (i = 0; i < max; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:(baseIndex + ((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
+            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
         }
     }
 
@@ -301,12 +301,12 @@
 
     if (max > numClosingPrices - baseIndex) {
         for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:i]];
+            [retvals addObject:closingPrices[i]];
         }
     }
     else {
         for (i = 0; i < max; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:(baseIndex + ((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
+            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
         }
     }
 
@@ -323,12 +323,12 @@
 
     if (max > numClosingPrices - baseIndex) {
         for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:i]];
+            [retvals addObject:closingPrices[i]];
         }
     }
     else {
         for (i = 0; i < max; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:(baseIndex + ((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
+            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
         }
     }
 
@@ -345,12 +345,12 @@
 
     if (max > numClosingPrices - baseIndex) {
         for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:i]];
+            [retvals addObject:closingPrices[i]];
         }
     }
     else {
         for (i = 0; i < max; i++) {
-            [retvals addObject:[closingPrices objectAtIndex:(baseIndex + ((float)i / (float)max * (float)(numClosingPrices - 1 - baseIndex)))]];
+            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (float)(numClosingPrices - 1 - baseIndex)))]];
         }
     }
 
@@ -362,12 +362,12 @@
     
     NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:2];
 	if (currentPrice == 0 || currentPrice == HUGE_VAL || currentPrice == -HUGE_VAL || lastChange == HUGE_VAL || lastChange == -HUGE_VAL) {
-		[retvals addObject:[closingPrices objectAtIndex:0]];
-		[retvals addObject:[NSNumber numberWithFloat:[[closingPrices objectAtIndex:0] floatValue] - [[closingPrices objectAtIndex:1] floatValue]]];
+		[retvals addObject:closingPrices[0]];
+		[retvals addObject:@([closingPrices[0] floatValue] - [closingPrices[1] floatValue])];
 	}
 	else {
-		[retvals addObject:[NSNumber numberWithFloat:currentPrice]];
-		[retvals addObject:[NSNumber numberWithFloat:lastChange]];
+		[retvals addObject:@(currentPrice)];
+		[retvals addObject:@(lastChange)];
 	}
     
     return retvals;

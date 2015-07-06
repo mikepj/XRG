@@ -45,7 +45,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-General.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(General:)];
-    [toolbarItems setObject:item forKey:@"General"];
+    toolbarItems[@"General"] = item;
 
     // add the Appearance toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Colors"] autorelease];
@@ -55,7 +55,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-Appearance.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(Colors:)];
-    [toolbarItems setObject:item forKey:@"Appearance"];
+    toolbarItems[@"Appearance"] = item;
     
     // add the CPU toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"CPU"] autorelease];
@@ -65,7 +65,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-CPU.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(CPU:)];
-    [toolbarItems setObject:item forKey:@"CPU"];
+    toolbarItems[@"CPU"] = item;
     
     // add the Memory toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"RAM"] autorelease];
@@ -75,7 +75,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-Memory.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(RAM:)];
-    [toolbarItems setObject:item forKey:@"RAM"];
+    toolbarItems[@"RAM"] = item;
 
     // add the Temperature toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Temperature"] autorelease];
@@ -85,7 +85,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-Temperature.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(Temperature:)];
-    [toolbarItems setObject:item forKey:@"Temperature"];
+    toolbarItems[@"Temperature"] = item;
     
     // add the Network toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Network"] autorelease];
@@ -95,7 +95,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-Network.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(Network:)];
-    [toolbarItems setObject:item forKey:@"Network"];
+    toolbarItems[@"Network"] = item;
 
     // add the Disk toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Disk"] autorelease];
@@ -105,7 +105,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-Disk.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(Disk:)];
-    [toolbarItems setObject:item forKey:@"Disk"];
+    toolbarItems[@"Disk"] = item;
      
     // add the Weather toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Weather"] autorelease];
@@ -115,7 +115,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-Weather.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(Weather:)];
-    [toolbarItems setObject:item forKey:@"Weather"];
+    toolbarItems[@"Weather"] = item;
 
     // add the Stocks toolbar item
     item = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Stocks"] autorelease];
@@ -125,7 +125,7 @@
     [item setImage:[NSImage imageNamed:@"Preferences-Stocks.tiff"]];
     [item setTarget:self];
     [item setAction:@selector(Stocks:)];
-    [toolbarItems setObject:item forKey:@"Stocks"];
+    toolbarItems[@"Stocks"] = item;
     // we want to handle the actions for the toolbar
     [toolbar setDelegate:self];
 	[toolbar setSelectedItemIdentifier:@"General"];
@@ -300,7 +300,7 @@
     else {
         NSArray *interfaces = [[xrgGraphWindow netView] networkInterfaces];
         if (selectedRow - 1 < [interfaces count])
-            [defs setObject:[interfaces objectAtIndex:(selectedRow - 1)] forKey:XRG_networkInterface];
+            [defs setObject:interfaces[(selectedRow - 1)] forKey:XRG_networkInterface];
         else
             [defs setObject:@"All" forKey:XRG_networkInterface];
     }
@@ -762,9 +762,9 @@
     NSString *selectedInterface = [[xrgGraphWindow appSettings] networkInterface];
     int i;
     for (i = 0; i < [interfaces count]; i++) {
-        [networkInterface addItemWithTitle:[interfaces objectAtIndex:i]];
+        [networkInterface addItemWithTitle:interfaces[i]];
         
-        if ([selectedInterface isEqualToString:[interfaces objectAtIndex:i]])
+        if ([selectedInterface isEqualToString:interfaces[i]])
             [networkInterface selectItemAtIndex:(i + 1)];
     }
 }
@@ -803,7 +803,7 @@
     [secondaryWeatherGraph removeAllItems];
     int i;
     for (i = 0; i < [items count]; i++) {
-        [secondaryWeatherGraph addItemWithTitle: [items objectAtIndex:i]];
+        [secondaryWeatherGraph addItemWithTitle: items[i]];
     }
     selection = [[xrgGraphWindow appSettings] secondaryWeatherGraph];
     if (selection < 0 || selection >= [secondaryWeatherGraph numberOfItems])
@@ -895,7 +895,7 @@
 }
 
 - (IBAction)loadTheme:(id)sender {                   
-    NSArray *fileTypes = [NSArray arrayWithObject:@"xtf"];
+    NSArray *fileTypes = @[@"xtf"];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
 
     [oPanel setAllowsMultipleSelection:NO];
@@ -919,7 +919,7 @@
     /* if successful, open file under designated name */
     if (returnCode == NSOKButton) {
         NSArray *filenames = [sheet URLs];
-        NSURL *path = [filenames objectAtIndex:0];
+        NSURL *path = filenames[0];
 
         themeData = [NSData dataWithContentsOfURL:path];
         
@@ -939,46 +939,46 @@
         }
         else {
             @try {
-                NSData *d = [themeDictionary objectForKey:XRG_backgroundColor];
+                NSData *d = themeDictionary[XRG_backgroundColor];
                 [backgroundColorWell setColor:[NSUnarchiver unarchiveObjectWithData:d]];
                 
-                d = [themeDictionary objectForKey:XRG_graphBGColor];
+                d = themeDictionary[XRG_graphBGColor];
                 [graphBGColorWell setColor:[NSUnarchiver unarchiveObjectWithData:d]];
                 
-                d = [themeDictionary objectForKey:XRG_graphFG1Color];
+                d = themeDictionary[XRG_graphFG1Color];
                 [graphFG1ColorWell setColor:[NSUnarchiver unarchiveObjectWithData:d]];
                 
-                d = [themeDictionary objectForKey:XRG_graphFG2Color];
+                d = themeDictionary[XRG_graphFG2Color];
                 [graphFG2ColorWell setColor:[NSUnarchiver unarchiveObjectWithData:d]];
                 
-                d = [themeDictionary objectForKey:XRG_graphFG3Color];
+                d = themeDictionary[XRG_graphFG3Color];
                 [graphFG3ColorWell setColor:[NSUnarchiver unarchiveObjectWithData:d]];
                 
-                d = [themeDictionary objectForKey:XRG_borderColor];
+                d = themeDictionary[XRG_borderColor];
                 [borderColorWell setColor:[NSUnarchiver unarchiveObjectWithData:d]];
                 
-                d = [themeDictionary objectForKey:XRG_textColor];
+                d = themeDictionary[XRG_textColor];
                 [textColorWell setColor:[NSUnarchiver unarchiveObjectWithData:d]];
                 
-                NSNumber *n = (NSNumber *)[themeDictionary objectForKey:XRG_backgroundTransparency];
+                NSNumber *n = (NSNumber *)themeDictionary[XRG_backgroundTransparency];
                 [backgroundTransparency setFloatValue: [n floatValue]];
                 
-                n = (NSNumber *)[themeDictionary objectForKey:XRG_graphBGTransparency];
+                n = (NSNumber *)themeDictionary[XRG_graphBGTransparency];
                 [graphBGTransparency setFloatValue:    [n floatValue]];
                 
-                n = (NSNumber *)[themeDictionary objectForKey:XRG_graphFG1Transparency];
+                n = (NSNumber *)themeDictionary[XRG_graphFG1Transparency];
                 [graphFG1Transparency setFloatValue:   [n floatValue]];
                 
-                n = (NSNumber *)[themeDictionary objectForKey:XRG_graphFG2Transparency];
+                n = (NSNumber *)themeDictionary[XRG_graphFG2Transparency];
                 [graphFG2Transparency setFloatValue:   [n floatValue]];
                 
-                n = (NSNumber *)[themeDictionary objectForKey:XRG_graphFG3Transparency];
+                n = (NSNumber *)themeDictionary[XRG_graphFG3Transparency];
                 [graphFG3Transparency setFloatValue:   [n floatValue]];
                 
-                n = (NSNumber *)[themeDictionary objectForKey:XRG_borderTransparency];
+                n = (NSNumber *)themeDictionary[XRG_borderTransparency];
                 [borderTransparency setFloatValue:     [n floatValue]];
                 
-                n = (NSNumber *)[themeDictionary objectForKey:XRG_textTransparency];
+                n = (NSNumber *)themeDictionary[XRG_textTransparency];
                 [textTransparency setFloatValue:       [n floatValue]];
                 
                 [xrgGraphWindow setObjectsToColor:backgroundColorWell];
@@ -1006,7 +1006,7 @@
 - (IBAction)saveTheme:(id)sender {
     NSSavePanel *sp = [NSSavePanel savePanel];
     
-    [sp setAllowedFileTypes:[NSArray arrayWithObject:@"xtf"]];
+    [sp setAllowedFileTypes:@[@"xtf"]];
     /* display the NSSavePanel */
     [sp beginSheetForDirectory:NSHomeDirectory() 
                           file:@"My Theme.xtf" 
@@ -1027,37 +1027,23 @@
         // Create the property dictionary
         NSMutableDictionary *colorPrefs = [NSMutableDictionary dictionary];
 
-        [colorPrefs setObject:[NSNumber numberWithFloat:[backgroundTransparency floatValue]]
-                       forKey:XRG_backgroundTransparency];
-        [colorPrefs setObject:[NSNumber numberWithFloat:[graphBGTransparency floatValue]]
-                       forKey:XRG_graphBGTransparency];
-        [colorPrefs setObject:[NSNumber numberWithFloat:[graphFG1Transparency floatValue]]
-                       forKey:XRG_graphFG1Transparency];
-        [colorPrefs setObject:[NSNumber numberWithFloat:[graphFG2Transparency floatValue]]
-                       forKey:XRG_graphFG2Transparency];
-        [colorPrefs setObject:[NSNumber numberWithFloat:[graphFG3Transparency floatValue]]
-                       forKey:XRG_graphFG3Transparency];
-        [colorPrefs setObject:[NSNumber numberWithFloat:[borderTransparency floatValue]]
-                       forKey:XRG_borderTransparency];
-        [colorPrefs setObject:[NSNumber numberWithFloat:[textTransparency floatValue]]
-                       forKey:XRG_textTransparency];
+        colorPrefs[XRG_backgroundTransparency] = @([backgroundTransparency floatValue]);
+        colorPrefs[XRG_graphBGTransparency] = @([graphBGTransparency floatValue]);
+        colorPrefs[XRG_graphFG1Transparency] = @([graphFG1Transparency floatValue]);
+        colorPrefs[XRG_graphFG2Transparency] = @([graphFG2Transparency floatValue]);
+        colorPrefs[XRG_graphFG3Transparency] = @([graphFG3Transparency floatValue]);
+        colorPrefs[XRG_borderTransparency] = @([borderTransparency floatValue]);
+        colorPrefs[XRG_textTransparency] = @([textTransparency floatValue]);
         
                 //[NSArchiver archivedDataWithRootObject:[c copy]]
 
-        [colorPrefs setObject:[NSArchiver archivedDataWithRootObject:[backgroundColorWell color]] 
-                       forKey:XRG_backgroundColor];
-        [colorPrefs setObject:[NSArchiver archivedDataWithRootObject:[graphBGColorWell color]]
-                       forKey:XRG_graphBGColor];
-        [colorPrefs setObject:[NSArchiver archivedDataWithRootObject:[graphFG1ColorWell color]]
-                       forKey:XRG_graphFG1Color];
-        [colorPrefs setObject:[NSArchiver archivedDataWithRootObject:[graphFG2ColorWell color]]
-                       forKey:XRG_graphFG2Color];
-        [colorPrefs setObject:[NSArchiver archivedDataWithRootObject:[graphFG3ColorWell color]]
-                       forKey:XRG_graphFG3Color];
-        [colorPrefs setObject:[NSArchiver archivedDataWithRootObject:[borderColorWell color]]
-                       forKey:XRG_borderColor];
-        [colorPrefs setObject:[NSArchiver archivedDataWithRootObject:[textColorWell color]]
-                       forKey:XRG_textColor];
+        colorPrefs[XRG_backgroundColor] = [NSArchiver archivedDataWithRootObject:[backgroundColorWell color]];
+        colorPrefs[XRG_graphBGColor] = [NSArchiver archivedDataWithRootObject:[graphBGColorWell color]];
+        colorPrefs[XRG_graphFG1Color] = [NSArchiver archivedDataWithRootObject:[graphFG1ColorWell color]];
+        colorPrefs[XRG_graphFG2Color] = [NSArchiver archivedDataWithRootObject:[graphFG2ColorWell color]];
+        colorPrefs[XRG_graphFG3Color] = [NSArchiver archivedDataWithRootObject:[graphFG3ColorWell color]];
+        colorPrefs[XRG_borderColor] = [NSArchiver archivedDataWithRootObject:[borderColorWell color]];
+        colorPrefs[XRG_textColor] = [NSArchiver archivedDataWithRootObject:[textColorWell color]];
                     
         xmlData = [NSPropertyListSerialization dataFromPropertyList:colorPrefs
                                                              format:NSPropertyListXMLFormat_v1_0
@@ -1264,7 +1250,7 @@
 -(IBAction) openWeatherStationList:(id)sender {
     [NSTask 
         launchedTaskWithLaunchPath:@"/usr/bin/open"
-        arguments:[NSArray arrayWithObject:@"http://www.aviationweather.gov/static/adds/metars/stations.txt"]
+        arguments:@[@"http://www.aviationweather.gov/static/adds/metars/stations.txt"]
     ];
 }
 
@@ -1278,7 +1264,7 @@
     // We create and autorelease a new NSToolbarItem, and then go through the process of setting up its
     // attributes from the master toolbar item matching that identifier in our dictionary of items.
     NSToolbarItem *newItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
-    NSToolbarItem *item=[toolbarItems objectForKey:itemIdentifier];
+    NSToolbarItem *item=toolbarItems[itemIdentifier];
     
     [newItem setLabel:[item label]];
     [newItem setPaletteLabel:[item paletteLabel]];
@@ -1305,17 +1291,17 @@
 // This method is required of NSToolbar delegates.  It returns an array holding identifiers for the default
 // set of toolbar items.  It can also be called by the customization palette to display the default toolbar.    
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:@"General", @"Appearance", @"CPU", @"RAM", @"Temperature", @"Network", @"Disk", @"Weather", @"Stocks", nil];
+    return @[@"General", @"Appearance", @"CPU", @"RAM", @"Temperature", @"Network", @"Disk", @"Weather", @"Stocks"];
 }
 
 // This method is required of NSToolbar delegates.  It returns an array holding identifiers for all allowed
 // toolbar items in this toolbar.  Any not listed here will not be available in the customization palette.
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:@"General", @"Appearance", @"CPU", @"RAM", @"Temperature", @"Network", @"Disk", @"Weather", @"Stocks", nil];
+    return @[@"General", @"Appearance", @"CPU", @"RAM", @"Temperature", @"Network", @"Disk", @"Weather", @"Stocks"];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:@"General", @"Appearance", @"CPU", @"RAM", @"Temperature", @"Network", @"Disk", @"Weather", @"Stocks", nil];
+    return @[@"General", @"Appearance", @"CPU", @"RAM", @"Temperature", @"Network", @"Disk", @"Weather", @"Stocks"];
 }
 
 - (void) windowWillClose:(NSNotification *)aNotification {
