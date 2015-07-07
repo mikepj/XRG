@@ -640,11 +640,11 @@ int matchRegex(char *pattern, char *inString) {
 
 - (NSArray *)getSecondaryGraphList {
     return @[@"None",
-                                      @"Wind Speed", 
-                                      @"Relative Humidity", 
-                                      @"Visibility", 
-                                      @"Dewpoint", 
-                                      @"Pressure"];
+			 @"Wind Speed",
+			 @"Relative Humidity",
+			 @"Visibility",
+			 @"Dewpoint",
+			 @"Pressure"];
 }
 
 - (void)drawRect:(NSRect)rect {
