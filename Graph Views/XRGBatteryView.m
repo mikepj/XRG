@@ -31,6 +31,9 @@
 #include <IOKit/pwr_mgt/IOPM.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
 
+#include "IOKit/ps/IOPowerSources.h"
+#include "IOKit/ps/IOPSKeys.h"
+
 @implementation XRGBatteryView
 
 - (void)awakeFromNib {    
@@ -362,9 +365,29 @@
     else {
         powerStatus = UNKNOWN;
     }
-    
+	
     return;
 }
+
+/*! Lots of UPS devices don't reveal anything really useful here other than time to empty and charge %.  Leaving this here for possible future use though. */
+//- (void)upsUpdate {
+//	CFTypeRef powerBlob = IOPSCopyPowerSourcesInfo();
+//	if (powerBlob != NULL) {
+//		CFArrayRef powerSourceKeys = IOPSCopyPowerSourcesList(powerBlob);
+//		if (powerSourceKeys != NULL) {
+//			for (NSInteger i = 0; i < CFArrayGetCount(powerSourceKeys); i++) {
+//				CFTypeRef powerSourceKey = CFArrayGetValueAtIndex(powerSourceKeys, i);
+//				CFDictionaryRef powerD = IOPSGetPowerSourceDescription(powerBlob, powerSourceKey);
+//				if (powerD != NULL) {
+//					
+//				}
+//			}
+//			CFRelease(powerSourceKeys);
+//		}
+//		
+//		CFRelease(powerBlob);
+//	}
+//}
 
 - (void)drawRect:(NSRect)rect {
     if ([self isHidden]) return;
