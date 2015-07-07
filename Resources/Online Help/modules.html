@@ -3,7 +3,7 @@
         <title>XRG Graph Module Help</title>
         <style type="text/css" media="screen">
         <!--
-            body { font-family:Lucidia Grande; font-size: 11pt; }
+            body { font-family:Helvetica; font-size: 11pt; }
             h3   { margin-bottom: 5px; }
         -->
         </style>
@@ -36,11 +36,23 @@
                 <td width="20">&nbsp;</td>
             </tr>
             <tr><td colspan="4">&nbsp;</td></tr>
+			<tr>
+				<td width="20">&nbsp;</td>
+				<td>
+					<b>The GPU Graph</b><br>
+					<p>The GPU Graph shows a graphical representation of the status of your graphics card.  The graph will be split if you have multiple graphics cards.  Each graph will plot a representation of the graphics memory usage as well as a representation of the amount of time the CPU spends waiting for the graphics card to draw.</p>
+					<p>The filled area shows the percentage of the VRAM that is being used.  The top line of text shows the amount of memory being used (in MB) and the percentage of memory in use.</p>
+					<p>A line is also plotted on the graph that shows the amount of time the CPU spends waiting for the graphics card to complete its processing and drawing operations.  This matches the second line of text showing the actual wait time.  Usually this is a certain number of milliseconds (ms).  The lower this time is, the better.  Higher values indicate that your CPU is spending a lot of time waiting for your GPU, and the GPU isn't able to keep up with current activity.</p>
+				</td>
+				<td><!--<img src="images/gpu.gif"/>--></td>
+				<td width="20">&nbsp;</td>
+			</tr>
+			<tr><td colspan="4">&nbsp;</td></tr>
             <tr>
                 <td width="20">&nbsp;</td>
                 <td>
                     <b>The Memory Graph</b><br>
-                    <p>The Memory Graph is divided into 3 main sections.  The first is the informational text.  The text shows (F)ree memory, (I)nactive memory, (A)ctive memory, (W)ired memory, (Ca)che hit rate, (P)age (F)aults, (V)irtual Memory (U)sed, and (V)irtual Memory (T)otal.  Free Memory is self-explanatory, it's the amount of RAM that isn't allocated by any applications.  Inactive memory is memory that is either left over from previous applications, or is in use by current applications but not readily available in the system memory map.  Active memory is memory used by current applications and is in the system memory map.  Wired memory is allocated by the kernel and cannot be swapped out to disk; it's locked, or wired into main memory.  Cache hit rate is the percentage of the time that the operating system looks for a memory page in cache and finds it.  The higher your cache hit rate, the more efficient your machine is running.  The page fault value is the number of times that a page fault occurs multiplied by the size of a memory page (4k), to give a rough estimate of the bandwidth being used by page faults.  Finally, the total virtual memory is the total size of swap files on disk, while used virtual memory is the amount of space used in those swap files.</p>  
+                    <p>The Memory Graph is divided into 3 main sections.  The first is the informational text.  The text shows (F)ree memory, (I)nactive memory, (A)ctive memory, (W)ired memory, (Ca)che hit rate, (P)age (F)aults, (V)irtual Memory (U)sed, and (V)irtual Memory (T)otal.  Free Memory is self-explanatory, it's the amount of RAM that isn't allocated by any applications.  Inactive memory is memory that is either left over from previous applications, or is in use by current applications but not readily available in the system memory map.  Active memory is memory used by current applications and is in the system memory map.  Wired memory is allocated by the kernel and cannot be swapped out to disk; it's locked, or wired into main memory.  Cache hit rate is the percentage of the time that the operating system looks for a memory page in cache and finds it.  The higher your cache hit rate, the more efficient your machine is running.  The page fault value is the number of times that a page fault occurs multiplied by the size of a memory page (4k), to give a rough estimate of the bandwidth being used by page faults.  Finally, the total virtual memory is the total size of swap files on disk, while used virtual memory is the amount of space used in those swap files.</p>
                                         
                     <p>The second main section is a graphical representation of the memory allocated along the right size of the graph.  There are two columns here, one for real memory, and one for virtual memory.  In the real memory column, Graph Foreground Color 1 shows the amount of wired memory, Graph Foreground Color 2 shows the amount of active memory, Graph Foreground Color 3 shows the amount of inactive memory, and the Graph Background Color shows the amount of memory that is free.  The virtual memory column just shows the amount of swap space used with respect to the amount of swap space allocated on disk.</p>
                     
