@@ -95,47 +95,29 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     NSMutableDictionary *appDefs = [NSMutableDictionary dictionary];
     
     appDefs[XRG_backgroundTransparency] = @"0.9";
-    appDefs[XRG_graphBGTransparency] = @"0.9";
-    appDefs[XRG_graphFG1Transparency] = @"1.0";
-    appDefs[XRG_graphFG2Transparency] = @"1.0";
-    appDefs[XRG_graphFG3Transparency] = @"1.0";
-    appDefs[XRG_borderTransparency] = @"0.4";
-    appDefs[XRG_textTransparency] = @"1.0";
+    appDefs[XRG_graphBGTransparency]    = @"0.9";
+    appDefs[XRG_graphFG1Transparency]   = @"1.0";
+    appDefs[XRG_graphFG2Transparency]   = @"1.0";
+    appDefs[XRG_graphFG3Transparency]   = @"1.0";
+    appDefs[XRG_borderTransparency]     = @"0.4";
+    appDefs[XRG_textTransparency]       = @"1.0";
     
-    NSColor *c = [NSColor colorWithDeviceRed: 0.0
-                                       green: 0.0
-                                        blue: 0.0
-                                       alpha: 0.9];
+    NSColor *c = [NSColor colorWithDeviceRed: 0.0 green: 0.0 blue: 0.0 alpha: 0.9];
     appDefs[XRG_backgroundColor] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
-    c = [NSColor colorWithDeviceRed: 0.0
-                              green: 0.0
-                               blue: 0.0
-                              alpha: 0.9];
+    c = [NSColor colorWithDeviceRed: 0.0 green: 0.0 blue: 0.0 alpha: 0.9];
     appDefs[XRG_graphBGColor] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
-    c = [NSColor colorWithDeviceRed: 0.165
-                              green: 0.224
-                               blue: 0.773
-                              alpha: 1.0];
+    c = [NSColor colorWithDeviceRed: 0.165 green: 0.224 blue: 0.773 alpha: 1.0];
     appDefs[XRG_graphFG1Color] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
-    c = [NSColor colorWithDeviceRed: 0.922
-                              green: 0.667
-                               blue: 0.337
-                              alpha: 1.0];
+    c = [NSColor colorWithDeviceRed: 0.922 green: 0.667 blue: 0.337 alpha: 1.0];
     appDefs[XRG_graphFG2Color] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
-    c = [NSColor colorWithDeviceRed: 0.690
-                              green: 0.102
-                               blue: 0.102
-                              alpha: 1.0];
+    c = [NSColor colorWithDeviceRed: 0.690 green: 0.102 blue: 0.102 alpha: 1.0];
     appDefs[XRG_graphFG3Color] = [NSArchiver archivedDataWithRootObject:[c copy]];
     
-    c = [NSColor colorWithDeviceRed: 0.0
-                              green: 0.0
-                               blue: 0.0
-                              alpha: 0.4];
+    c = [NSColor colorWithDeviceRed: 0.0 green: 0.0 blue: 0.0 alpha: 0.4];
     appDefs[XRG_borderColor] = [NSArchiver archivedDataWithRootObject:[c copy]];
         
     appDefs[XRG_textColor] = [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]];
@@ -219,7 +201,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void) setupSettingsFromDictionary:(NSDictionary *) defs {
-    [self        setBorderWidth:             [defs[XRG_borderWidth] intValue]];
+    [self             setBorderWidth:             [defs[XRG_borderWidth] intValue]];
     [self.appSettings setAntiAliasing:            [defs[XRG_antiAliasing] boolValue]];
     [self.appSettings setGraphRefresh:            [defs[XRG_graphRefresh] floatValue]];
     [self.appSettings setStickyWindow:            [defs[XRG_stickyWindow] boolValue]];
