@@ -52,7 +52,7 @@
 		self.borderTransparency     = 0;
 		self.textTransparency       = 0;
 
-		self.graphFont = [NSFont fontWithName:@"Lucida Grande" size:8.0];
+		self.graphFont = [NSFont systemFontOfSize:10.];
 		self.alignRight = [[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil];
 		self.alignLeft = [[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil];
 		self.alignCenter = [[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone: nil];
