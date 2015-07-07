@@ -66,6 +66,8 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 									@"TG?P": @"GPU Proximity",
 									@"TH?P": @"HD Proximity",
 									@"Th?H": @"Heatsink",
+									@"TI?P": @"Thunderbolt",
+									@"TL?P": @"LCD Proximity",
 									@"TM?P": @"Memory Proximity",
 									@"TM?S": @"Memory",
 									@"Tm?P": @"Misc. local",
@@ -78,6 +80,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 									@"TL?P": @"LCD",
 									@"Tp?C": @"Power Supply",
 									@"Tp?P": @"Power Supply",
+									@"Ts?P": @"Palm Rest",
 									@"TS?C": @"Expansion Slot",
 									@"TW?P": @"Airport",
 									// sensors:
