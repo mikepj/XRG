@@ -30,16 +30,13 @@
 #define XRGProcessID					@"pid"
 #define XRGProcessCommand				@"command"
 
-@interface XRGProcessMiner : NSObject {
-	NSArray			*processes;
-}
+@interface XRGProcessMiner : NSObject
+
+@property NSArray *processes;
 
 - (void) graphUpdate:(NSTimer *)aTimer;
 
 - (NSArray *) processesSortedByCPUUsage;
 - (NSArray *) processesSortedByMemoryUsage;
-
-- (NSArray *) processes;
-- (void) setProcesses:(NSArray *)values;
 
 @end

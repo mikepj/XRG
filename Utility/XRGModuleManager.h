@@ -34,11 +34,11 @@
     NSMutableArray	*allModules;
     NSMutableArray	*displayModules;
     NSMutableArray  *alwaysUpdateModules;
-    int				moduleSeparatorWidth;
     XRGGraphWindow	*myWindow;
-
-    bool			graphOrientationVertical;
 }
+
+@property BOOL graphOrientationVertical;
+@property CGFloat moduleSeparatorWidth;
 
 - (XRGModuleManager *)initWithWindow:(XRGGraphWindow *)gw;
 
@@ -61,12 +61,6 @@
 - (void)min5Update;
 - (void)graphUpdate;
 - (void)fastUpdate;
-
-- (int)moduleSeparatorWidth;
-- (void)setModuleSeparatorWidth:(int)width;
-
-- (bool)graphOrientationVertical;
-- (void)setGraphOrientationVertical:(bool)onOff;
 
 - (float) resizeModuleNumber:(int)index byDelta:(float)delta;
 - (NSArray *) resizeRects;

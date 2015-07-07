@@ -71,13 +71,13 @@
 
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Weather" andReference:self];
-    [m setDoesFastUpdate:NO];
-    [m setDoesGraphUpdate:YES];
-    [m setDoesMin5Update:NO];
-    [m setDoesMin30Update:YES];
-    [m setDisplayOrder:7];
+    m.doesFastUpdate = NO;
+    m.doesGraphUpdate = YES;
+    m.doesMin5Update = NO;
+    m.doesMin30Update = YES;
+    m.displayOrder = 7;
     [self updateMinSize];
-    [m setIsDisplayed: (bool)[defs boolForKey:XRG_showWeatherGraph]];
+    m.isDisplayed = [defs boolForKey:XRG_showWeatherGraph];
 
     [[parentWindow moduleManager] addModule:m];
     [self setGraphSize:[m currentSize]];

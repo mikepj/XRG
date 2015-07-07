@@ -44,8 +44,8 @@
     float                       AVG_NORMAL;
      
     int                         numSamples;
-//    bool						inFastUpdate;
 }
+
 - (void)setGraphSize:(NSSize)newSize;
 - (void)setWidth:(int)newWidth;
 - (void)updateMinSize;

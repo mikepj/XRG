@@ -31,7 +31,7 @@
 
 @interface XRGMemoryMiner : NSObject {
 @private
-    int				numSamples;
+    int							numSamples;
 
     XRGDataSet                  *values1;
     XRGDataSet                  *values2;
@@ -41,11 +41,11 @@
     vm_statistics_data_t		currentDiffs;
     vm_statistics_data_t		lastStats;
 	
-	u_int64_t					usedSwap;
-	u_int64_t					totalSwap;
-	
 	u_int32_t					pageSize;
 }
+
+@property u_int64_t usedSwap;
+@property u_int64_t totalSwap;
 
 - (void)getLatestMemoryInfo;
 - (void)setDataSize:(int)newNumSamples;
@@ -63,8 +63,6 @@
 - (u_int32_t)recentPageOuts;
 - (u_int32_t)totalCacheLookups;
 - (u_int32_t)totalCacheHits;
-- (u_int64_t)usedSwap;
-- (u_int64_t)totalSwap;
 - (XRGDataSet *)faultData;
 - (XRGDataSet *)pageInData;
 - (XRGDataSet *)pageOutData;

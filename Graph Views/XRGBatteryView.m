@@ -85,11 +85,11 @@
     
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Battery" andReference:self];
-    [m setDoesFastUpdate:NO];
-    [m setDoesGraphUpdate:YES];
-    [m setDoesMin5Update:NO];
-    [m setDoesMin30Update:NO];
-    [m setDisplayOrder:3];
+    m.doesFastUpdate = NO;
+    m.doesGraphUpdate = YES;
+    m.doesMin5Update = NO;
+    m.doesMin30Update = NO;
+    m.displayOrder = 3;
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showBatteryGraph]];
 

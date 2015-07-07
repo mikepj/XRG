@@ -42,11 +42,11 @@
 	
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	m = [[XRGModule alloc] initWithName:@"GPU" andReference:self];
-	[m setDoesFastUpdate:NO];
-	[m setDoesGraphUpdate:YES];
-	[m setDoesMin5Update:NO];
-	[m setDoesMin30Update:NO];
-	[m setDisplayOrder:1];
+	m.doesFastUpdate = NO;
+	m.doesGraphUpdate = YES;
+	m.doesMin5Update = NO;
+	m.doesMin30Update = NO;
+	m.displayOrder = 1;
 	[self updateMinSize];
 	[m setIsDisplayed: (bool)[defs boolForKey:XRG_showGPUGraph]];
 	
@@ -74,9 +74,8 @@
 }
 
 - (void)updateMinSize {
-	float width, height;
-	height = [appSettings textRectHeight] * 2;
-	width = [@"W: 9999M" sizeWithAttributes:[appSettings alignRightAttributes]].width + 19 + 6;
+	float height = [appSettings textRectHeight] * 2;
+	float width = [@"GPU 9: 9999M" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6;
 	
 	[m setMinWidth: width];
 	[m setMinHeight: height];
@@ -84,7 +83,6 @@
 
 - (void)graphUpdate:(NSTimer *)aTimer {
 	[graphicsMiner getLatestGraphicsInfo];
-	
 	[self setNeedsDisplay:YES];
 }
 

@@ -44,10 +44,9 @@
 		unsigned int count = HOST_BASIC_INFO_COUNT;
 		host_basic_info_data_t info;
 		host_info(host, HOST_BASIC_INFO, (host_info_t)&info, &count);
-				
 		
 		// Set the number of CPUs
-		numCPUs = [self setNumCPUs];
+		numCPUs = [self numberOfCPUs];
 		
 		// Initialize any variables that depend on the number of processors
 		immediateCPUTemperatureC = malloc(numCPUs * sizeof(float));
@@ -58,9 +57,9 @@
 		}
 
 		displayFans = YES;
-		fanLocations        = [[NSMutableDictionary alloc] initWithCapacity:20];
-		locationKeysInOrder = [[NSMutableArray alloc] initWithCapacity:20];	
-		sensorData          = [[NSMutableDictionary alloc] initWithCapacity:20];
+		fanLocations = [NSMutableDictionary dictionary];
+		locationKeysInOrder = [NSMutableArray array];
+		sensorData = [NSMutableDictionary dictionary];
 		smcSensors = [[SMCSensors alloc] init];
 	}
 
@@ -68,10 +67,10 @@
 }
 
 -(void)dealloc {
-    free( immediateCPUTemperatureC );
+    free(immediateCPUTemperatureC);
 }
 
-- (int)setNumCPUs {
+- (int)numberOfCPUs {
     processor_cpu_load_info_t		newCPUInfo;
     kern_return_t					kr;
     unsigned int					processor_count;
@@ -82,20 +81,13 @@
                              &processor_count, 
                              (processor_info_array_t *)&newCPUInfo, 
                              &load_count);
-    if(kr != KERN_SUCCESS) {
+    if (kr != KERN_SUCCESS) {
         return 0;
     }
     else {
-        vm_deallocate(mach_task_self(), 
-                      (vm_address_t)newCPUInfo, 
-                      (vm_size_t)(load_count * sizeof(*newCPUInfo)));
-                      
+        vm_deallocate(mach_task_self(), (vm_address_t)newCPUInfo, (vm_size_t)(load_count * sizeof(*newCPUInfo)));
         return (int)processor_count;
     }
-}
-
-- (int)numberOfCPUs {
-    return numCPUs;
 }
 
 - (void)setCurrentTemperatures {
@@ -859,11 +851,6 @@
 	}
 }
 
-- (float *)currentCPUTemperature {
-    [self setCurrentTemperatures];
-    return immediateCPUTemperatureC;
-}
-
 - (NSArray *)locationKeys {
     return [sensorData allKeys];
 }
@@ -1036,7 +1023,7 @@
 }
 
 - (void)setCurrentValue:(float)value andUnits:(NSString *)units forLocation:(NSString *)location {
-	bool needRegen = NO;
+	BOOL needRegen = NO;
 	
 	// Need to find the right dictionary for this location
 	NSMutableDictionary *valueDictionary = sensorData[location];
@@ -1112,8 +1099,7 @@
 - (void)setDataSize:(int)newNumSamples {
     NSArray *a = [sensorData allKeys];
 
-    int i;
-    for (i = 0; i < [a count]; i++) {
+    for (int i = 0; i < [a count]; i++) {
 		[sensorData[a[i]][GSDataSetKey] resize:(size_t)newNumSamples];
     }
     

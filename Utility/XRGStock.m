@@ -34,24 +34,24 @@
 	self = [super init];
 	
 	if (self) {
-		symbol = nil;
-		label = nil;
+		_symbol = nil;
+		_label = nil;
 
-		closingPrices = [NSMutableArray arrayWithCapacity:160];
-		volumes = [NSMutableArray arrayWithCapacity:160];
+		_closingPrices = [NSMutableArray arrayWithCapacity:160];
+		_volumes = [NSMutableArray arrayWithCapacity:160];
 		
-		currentPrice = 0;
-		lastChange = 0;
-		highWeekPrice = 0;
-		lowWeekPrice = 0;
+		_currentPrice = 0;
+		_lastChange = 0;
+		_highWeekPrice = 0;
+		_lowWeekPrice = 0;
 		
-		surl = [[XRGURL alloc] init];
-		immediateURL = [[XRGURL alloc] init];
+		_surl = [[XRGURL alloc] init];
+		_immediateURL = [[XRGURL alloc] init];
 		
-		gettingData = NO;
-		haveGoodURL = NO;
-		haveGoodStockArray = NO;
-		haveGoodDisplayData = NO;
+		_gettingData = NO;
+		_haveGoodURL = NO;
+		_haveGoodStockArray = NO;
+		_haveGoodDisplayData = NO;
 	}
     
     return self;
@@ -60,12 +60,12 @@
 - (void)setSymbol:(NSString *)s {
     if ([s isEqualToString:@""]) return;
     if (s != nil) {
-        label = s;
+        self.label = s;
         
         NSMutableString *ms = [NSMutableString stringWithString:s];
         [ms replaceOccurrencesOfString:@"^" withString:@"%5E" options:NSLiteralSearch range:NSMakeRange(0, [ms length])];
     
-        symbol = ms;
+        _symbol = ms;
     }
 }
 
@@ -79,8 +79,8 @@
                                                                         minutes:0 
                                                                         seconds:0]; 
                                                                         
-    haveGoodURL = NO;
-    if (symbol == nil) return;
+    self.haveGoodURL = NO;
+    if (self.symbol == nil) return;
                                                                         
     a = [lastYear monthOfYear] - 1;
     b = [lastYear dayOfMonth];
@@ -99,84 +99,84 @@
     // s = stock symbol
     // y = 0 (static)
     // g = d/w/m/v  daily, weekly, monthly, dividends
-    NSString *URLString = [NSString stringWithFormat:@"http://itable.finance.yahoo.com/table.csv?a=%ld&b=%ld&c=%ld&d=%ld&e=%ld&f=%ld&y=0&g=d&ignore=.csv&s=%@", (long)a, (long)b, (long)c, (long)d, (long)e, (long)f, symbol];
-    [surl setURLString: URLString];
+    NSString *URLString = [NSString stringWithFormat:@"http://itable.finance.yahoo.com/table.csv?a=%ld&b=%ld&c=%ld&d=%ld&e=%ld&f=%ld&y=0&g=d&ignore=.csv&s=%@", (long)a, (long)b, (long)c, (long)d, (long)e, (long)f, self.symbol];
+    [self.surl setURLString: URLString];
 	
-	NSString *immediateURLString = [NSString stringWithFormat:@"http://download.finance.yahoo.com/d/quotes.csv?s=%@&f=sl1d1t1c1ohgv&e=.csv", symbol];
-	[immediateURL setURLString:immediateURLString];
+	NSString *immediateURLString = [NSString stringWithFormat:@"http://download.finance.yahoo.com/d/quotes.csv?s=%@&f=sl1d1t1c1ohgv&e=.csv", self.symbol];
+	[self.immediateURL setURLString:immediateURLString];
 
-    if ([surl haveGoodURL] && [immediateURL haveGoodURL]) haveGoodURL = YES;
+	if ([self.surl haveGoodURL] && [self.immediateURL haveGoodURL]) self.haveGoodURL = YES;
 
-    gettingData = NO;
+    self.gettingData = NO;
 }
 
 - (void)resetData {
-    if (surl != nil) [surl cancelLoading];
+    if (self.surl != nil) [self.surl cancelLoading];
     
-    haveGoodStockArray = NO;
-    haveGoodDisplayData = NO;
+    self.haveGoodStockArray = NO;
+    self.haveGoodDisplayData = NO;
     
-    [closingPrices removeAllObjects];
-    [volumes removeAllObjects];
+    [self.closingPrices removeAllObjects];
+    [self.volumes removeAllObjects];
     
-    currentPrice = 0;
-    highWeekPrice = 0;
-    lowWeekPrice = 0;
+    self.currentPrice = 0;
+    self.highWeekPrice = 0;
+    self.lowWeekPrice = 0;
     
-    gettingData = NO;
+    self.gettingData = NO;
 }
 
 - (void)loadData {
-    if (!haveGoodURL) {
-        haveGoodStockArray = NO;
-        haveGoodDisplayData = NO;
+    if (!self.haveGoodURL) {
+        self.haveGoodStockArray = NO;
+        self.haveGoodDisplayData = NO;
         return;
     }
     
-    gettingData = YES;
-    [surl loadURLInBackground];
-	[immediateURL loadURLInBackground];
+    self.gettingData = YES;
+    [self.surl loadURLInBackground];
+	[self.immediateURL loadURLInBackground];
 }
 
 - (void)checkForData {
-    if (gettingData == NO) return;
-    if (surl == nil) {
-        haveGoodStockArray = NO;
-        haveGoodDisplayData = NO;
-        gettingData = NO;
+    if (self.gettingData == NO) return;
+    if (self.surl == nil) {
+        self.haveGoodStockArray = NO;
+        self.haveGoodDisplayData = NO;
+        self.gettingData = NO;
         return;
     }
-    if ([surl didErrorOccur]) {
-        haveGoodStockArray = NO;
-        haveGoodDisplayData = NO;
-        [surl cancelLoading];
-        gettingData = NO;
+    if ([self.surl didErrorOccur]) {
+        self.haveGoodStockArray = NO;
+        self.haveGoodDisplayData = NO;
+        [self.surl cancelLoading];
+        self.gettingData = NO;
         return;
     }
     
-    if ([surl isDataReady] && [immediateURL isDataReady]) {
-        NSString *s = [[NSString alloc] initWithData:[surl getData] encoding:NSASCIIStringEncoding];
+    if ([self.surl isDataReady] && [self.immediateURL isDataReady]) {
+        NSString *s = [[NSString alloc] initWithData:[self.surl getData] encoding:NSASCIIStringEncoding];
         [self parseWebData:s];
 		
-		NSString *immediateString = [[NSString alloc] initWithData:[immediateURL getData] encoding:NSASCIIStringEncoding];
+		NSString *immediateString = [[NSString alloc] initWithData:[self.immediateURL getData] encoding:NSASCIIStringEncoding];
 		NSArray *elements = [immediateString componentsSeparatedByString:@","];
 		if ([elements count] >= 5) {			// ^DJI (and probably some others) won't return immediate data, so catch that case here.
-			currentPrice = [elements[1] floatValue];
-			lastChange = [elements[4] floatValue];
+			self.currentPrice = [elements[1] floatValue];
+			self.lastChange = [elements[4] floatValue];
 		}
 		
-		[surl setData:nil];
-		[immediateURL setData:nil];
+		[self.surl setData:nil];
+		[self.immediateURL setData:nil];
 		
-        if ((([closingPrices count] > 0) && ([volumes count] > 0)) || ((currentPrice != 0) && (lastChange != 0))) {
-            haveGoodStockArray = YES;
-            haveGoodDisplayData = YES;
-            gettingData = NO;
+        if (((self.closingPrices.count > 0) && (self.volumes.count > 0)) || ((self.currentPrice != 0) && (self.lastChange != 0))) {
+            self.haveGoodStockArray = YES;
+            self.haveGoodDisplayData = YES;
+            self.gettingData = NO;
         }
         else {
-            haveGoodStockArray = NO;
-            haveGoodDisplayData = NO;
-            gettingData = NO;
+            self.haveGoodStockArray = NO;
+            self.haveGoodDisplayData = NO;
+            self.gettingData = NO;
         }
     }
 }
@@ -184,178 +184,89 @@
 - (void)parseWebData:(NSString *)webData {
 	int i;
 	
-    [closingPrices removeAllObjects];
-    [volumes removeAllObjects];
+    [self.closingPrices removeAllObjects];
+    [self.volumes removeAllObjects];
 
 	NSArray *lines = [webData componentsSeparatedByString:@"\n"];
 	for (i = 1; i < [lines count]; i++) {		// Skip the first line containing the column headers.
 		NSString *line = lines[i];
 		NSArray *lineElements = [line componentsSeparatedByString:@","];
 		if ([lineElements count] >= 7) {
-			[closingPrices addObject:@([lineElements[6] floatValue])];
-			[volumes addObject:@([lineElements[5] intValue])];
+			[self.closingPrices addObject:@([lineElements[6] floatValue])];
+			[self.volumes addObject:@([lineElements[5] intValue])];
 		}
 	}
 	
-	NSInteger count = [closingPrices count];
+	NSInteger count = self.closingPrices.count;
 	if (count > 0) {
 		float high, low;
-		high = [closingPrices[0] floatValue];
-		low = [closingPrices[0] floatValue];
+		high = [self.closingPrices[0] floatValue];
+		low = [self.closingPrices[0] floatValue];
 		
 		for (i = 1; i < count; i++) {
-			float val = [closingPrices[i] floatValue];
+			float val = [self.closingPrices[i] floatValue];
 			high = MAX(val, high);
 			low = MIN(val, low);
 		}
 		
-		highWeekPrice = high;
-		lowWeekPrice = low;
+		self.highWeekPrice = high;
+		self.lowWeekPrice = low;
 	}
 }
 
-- (float)currentPrice {
-    return currentPrice;
-}
-
-- (float)highWeekPrice {
-    return highWeekPrice;
-}
-
-- (float)lowWeekPrice {
-    return lowWeekPrice;
-}
-
-- (bool)haveGoodDisplayData {
-    return haveGoodDisplayData;
-}
-
-- (bool)gettingData {
-    return gettingData;
-}
-
-- (bool)errorOccurred {
-    return (!gettingData && haveGoodDisplayData);
-}
-
-- (NSArray *)closingPrices {
-    return closingPrices;
-}
-
-- (NSArray *)volumes {
-    return volumes;
+- (BOOL)errorOccurred {
+    return (!self.gettingData && self.haveGoodDisplayData);
 }
 
 - (NSArray *)get1MonthValues:(int)max {
-    if (!haveGoodDisplayData) return nil;
-
-    NSInteger i;
-	NSInteger numClosingPrices = [closingPrices count];
-    NSInteger baseIndex = numClosingPrices * (float)(11./12.);
-    NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
-
-    if (max > numClosingPrices - baseIndex) {
-        for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:closingPrices[i]];
-        }
-    }
-    else {
-        for (i = 0; i < max; i++) {
-            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
-        }
-    }
-
-    return retvals;
+	return [self getValuesForDays:self.closingPrices.count / 12 max:max];
 }
 
 - (NSArray *)get3MonthValues:(int)max {
-    if (!haveGoodDisplayData) return nil;
-
-    NSInteger i;
-	NSInteger numClosingPrices = [closingPrices count];
-    NSInteger baseIndex = numClosingPrices * (float)(3./4.);
-    NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
-
-    if (max > numClosingPrices - baseIndex) {
-        for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:closingPrices[i]];
-        }
-    }
-    else {
-        for (i = 0; i < max; i++) {
-            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
-        }
-    }
-
-    return retvals;
+	return [self getValuesForDays:self.closingPrices.count / 4 max:max];
 }
 
 - (NSArray *)get6MonthValues:(int)max {
-    if (!haveGoodDisplayData) return nil;
-
-    NSInteger i;
-	NSInteger numClosingPrices = [closingPrices count];
-    NSInteger baseIndex = numClosingPrices / 2;
-    NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
-
-    if (max > numClosingPrices - baseIndex) {
-        for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:closingPrices[i]];
-        }
-    }
-    else {
-        for (i = 0; i < max; i++) {
-            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
-        }
-    }
-
-    return retvals;
+	return [self getValuesForDays:self.closingPrices.count / 2 max:max];
 }
 
 - (NSArray *)get12MonthValues:(int)max {
-    if (!haveGoodDisplayData) return nil;
+	return [self getValuesForDays:self.closingPrices.count max:max];
+}
 
-    NSInteger i;
-	NSInteger numClosingPrices = [closingPrices count];
-    NSInteger baseIndex = 0;
-    NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:max];
-
-    if (max > numClosingPrices - baseIndex) {
-        for (i = 0; i < numClosingPrices - 1 - baseIndex; i++) {
-            [retvals addObject:closingPrices[i]];
-        }
-    }
-    else {
-        for (i = 0; i < max; i++) {
-            [retvals addObject:closingPrices[(baseIndex + (int)((float)i / (float)max * (float)(numClosingPrices - 1 - baseIndex)))]];
-        }
-    }
-
-    return retvals;
+- (NSArray *)getValuesForDays:(NSInteger)daysCount max:(NSInteger)max {
+	if (!self.haveGoodDisplayData) return nil;
+	
+	NSInteger numClosingPrices = self.closingPrices.count;
+	NSInteger baseIndex = MAX(numClosingPrices - 1 - daysCount, 0);
+	NSMutableArray *retvals = [NSMutableArray array];
+	
+	if (max > numClosingPrices - baseIndex) {
+		[retvals addObjectsFromArray:[self.closingPrices subarrayWithRange:NSMakeRange(0, daysCount)]];
+	}
+	else {
+		for (NSInteger i = 0; i < max; i++) {
+			[retvals addObject:self.closingPrices[(baseIndex + (int)((float)i / (float)max * (numClosingPrices - 1 - baseIndex)))]];
+		}
+	}
+	
+	return retvals;
 }
 
 - (NSArray *)getCurrentPriceAndChange {
-    if (!haveGoodDisplayData) return nil;
+    if (!self.haveGoodDisplayData) return nil;
     
     NSMutableArray *retvals = [NSMutableArray arrayWithCapacity:2];
-	if (currentPrice == 0 || currentPrice == HUGE_VAL || currentPrice == -HUGE_VAL || lastChange == HUGE_VAL || lastChange == -HUGE_VAL) {
-		[retvals addObject:closingPrices[0]];
-		[retvals addObject:@([closingPrices[0] floatValue] - [closingPrices[1] floatValue])];
+	if ((self.currentPrice == 0) || (self.currentPrice == HUGE_VAL) || (self.currentPrice == -HUGE_VAL) || (self.lastChange == HUGE_VAL) || (self.lastChange == -HUGE_VAL)) {
+		[retvals addObject:self.closingPrices[0]];
+		[retvals addObject:@([self.closingPrices[0] floatValue] - [self.closingPrices[1] floatValue])];
 	}
 	else {
-		[retvals addObject:@(currentPrice)];
-		[retvals addObject:@(lastChange)];
+		[retvals addObject:@(self.currentPrice)];
+		[retvals addObject:@(self.lastChange)];
 	}
     
     return retvals;
-}
-
-- (NSString *)symbol {
-    return symbol;
-}
-
-- (NSString *)label {
-    return label;
 }
 
 @end

@@ -40,25 +40,25 @@
 #import "XRGModuleManager.h"
 
 @interface XRGGraphWindow : XRGFramelessWindow
-{
-    // Timers
-    NSTimer						*min30Timer;
-    NSTimer                     *min5Timer;
-    NSTimer						*graphTimer;
-    NSTimer						*fastTimer;
+
+// Timers
+@property NSTimer *min30Timer;
+@property NSTimer *min5Timer;
+@property NSTimer *graphTimer;
+@property NSTimer *fastTimer;
     
-    // Module references
-    NSWindow					*parentWindow;
+// Module references
+@property NSWindow *parentWindow;
     
-    // Settings
-    NSFontManager               *fontManager;
+// Settings
+@property NSFontManager *fontManager;
     
-    // Outlets
-    IBOutlet id					preferenceWindow;
-    IBOutlet id                 controller;
+// Outlets
+@property IBOutlet id preferenceWindow;
+@property IBOutlet XRGAppDelegate *controller;
     
-    XRGURL						*xrgCheckURL;
-}
+@property XRGURL *xrgCheckURL;
+
 @property XRGSettings *appSettings;
 @property XRGModuleManager *moduleManager;
 
@@ -85,8 +85,6 @@
 - (bool)isVersion:(NSString *)latestVersion laterThanVersion:(NSString *)currentVersion;
 - (XRGSettings *)appSettings;
 - (XRGModuleManager *)moduleManager;
-- (XRGAppDelegate *)controller;
-- (void)setController:(XRGAppDelegate *)c;
 
 // Timer methods
 - (void)initTimers;

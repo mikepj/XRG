@@ -28,8 +28,6 @@
 #import "XRGGraphWindow.h"
 
 @implementation XRGAppDelegate
-@synthesize xrgGraphWindow, prefController;
-
 
 - (IBAction) showPrefs:(id)sender {
     if(!self.prefController) [NSBundle loadNibNamed:@"Preferences.nib" owner:self];
@@ -73,11 +71,11 @@
 }
 
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[[self.xrgGraphWindow moduleManager] windowChangedToSize:self.xrgGraphWindow.frame.size];
+	[self.xrgGraphWindow.moduleManager windowChangedToSize:self.xrgGraphWindow.frame.size];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:XRG_windowIsMinimized]) {
 		// minimize the window.
-		[[self.xrgGraphWindow backgroundView] minimizeWindow];
+		[self.xrgGraphWindow.backgroundView minimizeWindow];
 	}
 }
 
@@ -105,7 +103,7 @@
 		NSLog(@"%@", error);
 	}
 	else {
-		[[self.xrgGraphWindow appSettings] readXTFDictionary:themeDictionary];
+		[self.xrgGraphWindow.appSettings readXTFDictionary:themeDictionary];
 		[self.xrgGraphWindow display];
 	}
 

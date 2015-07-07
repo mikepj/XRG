@@ -27,28 +27,29 @@
 #import <Foundation/Foundation.h>
 #import "XRGURL.h"
 
-@interface XRGStock : NSObject {
-    NSString            *label;
-    NSString			*symbol;
-    
-    NSMutableArray		*closingPrices;
-    NSMutableArray		*volumes;
-    
-    float				currentPrice;
-	float				lastChange;
-    float				highWeekPrice;		// 52 week high
-    float				lowWeekPrice;		// 52 week low
+@interface XRGStock : NSObject
 
-    XRGURL				*surl;
-	XRGURL				*immediateURL;
-    
-    bool				gettingData;
-    bool				haveGoodURL;
-    bool				haveGoodStockArray;
-    bool				haveGoodDisplayData;
-}
+@property NSString *label;
+@property (nonatomic) NSString *symbol;
 
-- (void)setSymbol:(NSString *)s;
+@property XRGURL *surl;
+@property XRGURL *immediateURL;
+
+@property CGFloat currentPrice;
+@property CGFloat lastChange;
+/// 52 week high
+@property CGFloat highWeekPrice;
+/// 52 week low
+@property CGFloat lowWeekPrice;
+
+@property BOOL gettingData;
+@property BOOL haveGoodURL;
+@property BOOL haveGoodStockArray;
+@property BOOL haveGoodDisplayData;
+
+@property NSMutableArray *closingPrices;
+@property NSMutableArray *volumes;
+
 - (NSString *)symbol;
 - (NSString *)label;
 - (void)setURL;
@@ -57,19 +58,12 @@
 - (void)checkForData;
 - (void)parseWebData:(NSString *)webData;
 
-- (float)currentPrice;
-- (float)highWeekPrice;
-- (float)lowWeekPrice;
-- (bool)haveGoodDisplayData;
-- (NSArray *)closingPrices;
-- (NSArray *)volumes;
 - (NSArray *)get1MonthValues:(int)max;
 - (NSArray *)get3MonthValues:(int)max;
 - (NSArray *)get6MonthValues:(int)max;
 - (NSArray *)get12MonthValues:(int)max;
 - (NSArray *)getCurrentPriceAndChange;
 
-- (bool)gettingData;
-- (bool)errorOccurred;
+- (BOOL)errorOccurred;
 
 @end

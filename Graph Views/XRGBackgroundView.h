@@ -46,12 +46,11 @@
 	
 	NSPoint				viewPointClicked;
 	
-	NSArray				*resizeRects;
-	
 	NSTrackingRectTag	trackingRect;
 }
 
-@property (atomic) NSString *hostname;
+@property NSString *hostname;
+@property NSArray *resizeRects;
 
 - (void)getHostname;
 - (void)offsetDrawingOrigin:(NSSize)offset;
@@ -59,6 +58,5 @@
 - (void)minimizeWindow;
 - (void)expandWindow;
 - (void)mouseDownAction:(NSEvent *)theEvent;
-- (void)setResizeRects:(NSArray *)rects;
 
 @end

@@ -26,15 +26,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface XRGGPUMiner : NSObject {
-	NSInteger					numSamples;					// Represents the number of samples in each XRGDataSet object.
-	NSInteger					numGPUs;					// Represents the number of XRGDataSet objects in each of the following arrays.
-	NSMutableArray				*totalVRAMValues;			// Values of XRGDataSet objects representing total memory for each GPU.
-	NSMutableArray				*freeVRAMValues;			// Values of XRGDataSet objects representing free memory for each GPU.
-}
+@interface XRGGPUMiner : NSObject
 
-- (NSArray *)totalVRAMDataSets;
-- (NSArray *)freeVRAMDataSets;
+/// Represents the number of samples in each XRGDataSet object.
+@property NSInteger numSamples;
+
+/// Represents the number of XRGDataSet objects in each of the following arrays.
+@property (nonatomic) NSInteger numberOfGPUs;
+
+/// Values of XRGDataSet objects representing total memory for each GPU.
+@property (readonly) NSArray *totalVRAMDataSets;
+/// Values of XRGDataSet objects representing free memory for each GPU.
+@property (readonly) NSArray *freeVRAMDataSets;
 
 - (void)getLatestGraphicsInfo;
 - (void)setDataSize:(NSInteger)newNumSamples;

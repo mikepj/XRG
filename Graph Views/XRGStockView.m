@@ -54,13 +54,13 @@
    
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Stock" andReference:self];
-    [m setDoesFastUpdate:NO];
-    [m setDoesGraphUpdate:YES];
-    [m setDoesMin5Update:NO];
-    [m setDoesMin30Update:YES];
-    [m setDisplayOrder:8];
+	m.doesFastUpdate = NO;
+	m.doesGraphUpdate = YES;
+	m.doesMin5Update = NO;
+	m.doesMin30Update = YES;
+	m.displayOrder = 8;
     [self updateMinSize];
-    [m setIsDisplayed: (bool)[defs boolForKey:XRG_showStockGraph]];
+    m.isDisplayed = [defs boolForKey:XRG_showStockGraph];
 
     [[parentWindow moduleManager] addModule:m];
     [self setGraphSize:[m currentSize]];
@@ -122,7 +122,7 @@
         [stockObjects addObject:tmpStock];
     }
     
-    gettingData = NO;
+    self.gettingData = NO;
 }
 
 - (void)reloadStockData {
@@ -132,14 +132,14 @@
     [djia resetData];
     [djia loadData];
     
-    gettingData = YES;
+    self.gettingData = YES;
 }
 
 - (bool)dataIsReady {
     int i;
     XRGStock *tmpStock;
     
-    if (!gettingData) return YES;
+    if (!self.gettingData) return YES;
     
     for (i = 0; i < [stockObjects count]; i++) {
         tmpStock = stockObjects[i];
@@ -154,16 +154,8 @@
         return NO;
     }
     
-    gettingData = NO;
+    self.gettingData = NO;
     return YES;
-}
-
-- (bool)gettingData {
-    return gettingData;
-}
-
-- (void)setGraphSize:(NSSize)newSize {
-    graphSize = newSize;
 }
 
 - (void)updateMinSize {
@@ -177,7 +169,7 @@
 
 - (void)ticker {
 	switchIncrementer++;
-	if (gettingData == YES || switchIncrementer >= switchTime) {
+	if ((self.gettingData == YES) || (switchIncrementer >= switchTime)) {
         switchIncrementer = 0;
         if ([stockObjects count]) stockToShow = (stockToShow + 1) % [stockObjects count];
         [self dataIsReady];
@@ -192,7 +184,7 @@
     if (slowIncrementer == 0) {
         [self reloadStockData];
 		
-		gettingData = YES;
+		self.gettingData = YES;
     }
     slowIncrementer = (slowIncrementer + 1) % slowTime;
 }
@@ -208,8 +200,8 @@
 
     NSInteger textRectHeight = [appSettings textRectHeight];
     NSRect tmpRect = NSMakeRect(2, 
-                                graphSize.height - textRectHeight, 
-                                graphSize.width - 4, 
+                                self.graphSize.height - textRectHeight,
+                                self.graphSize.width - 4,
                                 textRectHeight);
     NSMutableString *s = [NSMutableString stringWithString:@""];
     int i;
@@ -222,7 +214,7 @@
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
     if ([stockObjects count]) {
-        if (gettingData) {  // we are getting data, display a status and return
+        if (self.gettingData) {  // we are getting data, display a status and return
             [s setString:@"Fetching Data"];
 
             [s drawInRect:tmpRect withAttributes:[appSettings alignLeftAttributes]];
@@ -234,13 +226,13 @@
             // draw the graph
             NSArray *a = nil;
             if ([appSettings stockGraphTimeFrame] == 0)
-                a = [stockObjects[stockToShow] get1MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get1MonthValues:self.graphSize.width];
             else if ([appSettings stockGraphTimeFrame] == 1)
-                a = [stockObjects[stockToShow] get3MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get3MonthValues:self.graphSize.width];
             else if ([appSettings stockGraphTimeFrame] == 2)
-                a = [stockObjects[stockToShow] get6MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get6MonthValues:self.graphSize.width];
             else if ([appSettings stockGraphTimeFrame] == 3)
-                a = [stockObjects[stockToShow] get12MonthValues: graphSize.width];
+                a = [stockObjects[stockToShow] get12MonthValues:self.graphSize.width];
             
             if ([a count] > 0) {
                 // find the high, low and range of the graph
@@ -272,13 +264,13 @@
             if ([djia haveGoodDisplayData]) {
                 NSArray *a = nil;
                 if ([appSettings stockGraphTimeFrame] == 0)
-                    a = [djia get1MonthValues: graphSize.width];
+                    a = [djia get1MonthValues: self.graphSize.width];
                 else if ([appSettings stockGraphTimeFrame] == 1)
-                    a = [djia get3MonthValues: graphSize.width];
+                    a = [djia get3MonthValues: self.graphSize.width];
                 else if ([appSettings stockGraphTimeFrame] == 2)
-                    a = [djia get6MonthValues: graphSize.width];
+                    a = [djia get6MonthValues: self.graphSize.width];
                 else if ([appSettings stockGraphTimeFrame] == 3)
-                    a = [djia get12MonthValues: graphSize.width];
+                    a = [djia get12MonthValues: self.graphSize.width];
                     
                 if (a != nil) {
                     int i;
@@ -322,7 +314,7 @@
                 maxToShow--;
         }
             
-        int currentIndex = stockToShow;
+        NSInteger currentIndex = stockToShow;
         for (i = 0; i < maxToShow; i++) {
             if (currentIndex == stockToShow && [stockObjects count] != 1) {
                 [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings graphFG3Color];
@@ -448,7 +440,7 @@
 }
 
 - (int)convertHeight:(int) yComponent {
-    return (yComponent >= 0 ? yComponent : 0) * (graphSize.height) / 100;
+    return (yComponent >= 0 ? yComponent : 0) * (self.graphSize.height) / 100;
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {

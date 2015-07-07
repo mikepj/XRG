@@ -35,8 +35,8 @@
 		allModules = [NSMutableArray arrayWithCapacity:10];
 		displayModules = [NSMutableArray arrayWithCapacity:10];
 		alwaysUpdateModules = [NSMutableArray arrayWithCapacity:5];
-		moduleSeparatorWidth = 2;
-		graphOrientationVertical = YES;
+		self.moduleSeparatorWidth = 2;
+		self.graphOrientationVertical = YES;
 		myWindow = nil;
 	}
     return self;
@@ -205,7 +205,7 @@
     
     NSSize minSize = NSMakeSize(0, 0);
         
-    if (graphOrientationVertical) {    
+    if (self.graphOrientationVertical) {
         for (i = 0; i < [displayModules count]; i++) {
             if (minSize.width < [(XRGModule *)displayModules[i] minWidth]) {
                 minSize.width = [(XRGModule *)displayModules[i] minWidth];
@@ -218,7 +218,7 @@
             minSize.height = [[myWindow appSettings] textRectHeight];
         }
         else {
-            minSize.height = [[myWindow appSettings] textRectHeight] + ((int)minSize.height * [displayModules count]) + (moduleSeparatorWidth * [displayModules count]);
+            minSize.height = [[myWindow appSettings] textRectHeight] + ((int)minSize.height * [displayModules count]) + (self.moduleSeparatorWidth * [displayModules count]);
         }
     }
     else {
@@ -234,7 +234,7 @@
             minSize.width = [[myWindow appSettings] textRectHeight];
         }
         else {
-            minSize.width = [[myWindow appSettings] textRectHeight] + ((int)minSize.width * [displayModules count]) + (moduleSeparatorWidth * [displayModules count]);
+            minSize.width = [[myWindow appSettings] textRectHeight] + ((int)minSize.width * [displayModules count]) + (self.moduleSeparatorWidth * [displayModules count]);
         }
     }
     
@@ -277,12 +277,12 @@
 	
     NSInteger i;
     NSSize newGraphSize;
-    if (graphOrientationVertical) {
+    if (self.graphOrientationVertical) {
         newGraphSize = NSMakeSize(newSize.width - (2 * [myWindow borderWidth]), 
-                                  ((newSize.height - (2 * [myWindow borderWidth]) - [[myWindow appSettings] textRectHeight] - (moduleSeparatorWidth * [self numModulesDisplayed])) / [self numModulesDisplayed]));
+                                  ((newSize.height - (2 * [myWindow borderWidth]) - [[myWindow appSettings] textRectHeight] - (self.moduleSeparatorWidth * [self numModulesDisplayed])) / [self numModulesDisplayed]));
     }
     else {
-        newGraphSize = NSMakeSize((newSize.width - (2 * [myWindow borderWidth]) - [[myWindow appSettings] textRectHeight] - (moduleSeparatorWidth * [self numModulesDisplayed])) / [self numModulesDisplayed],
+        newGraphSize = NSMakeSize((newSize.width - (2 * [myWindow borderWidth]) - [[myWindow appSettings] textRectHeight] - (self.moduleSeparatorWidth * [self numModulesDisplayed])) / [self numModulesDisplayed],
                                   newSize.height - (2 * [myWindow borderWidth]));
     }
     
@@ -309,22 +309,22 @@
     }
 	
     NSPoint newOriginPoint = NSMakePoint([myWindow borderWidth], [myWindow borderWidth]);
-    if (graphOrientationVertical) {
+    if (self.graphOrientationVertical) {
         for (i = [displayModules count] - 1; i >= 0; i--) {
             // as long as the reference exists, update the module
             if ([displayModules[i] reference] != nil) {
                 [[displayModules[i] reference] setFrameOrigin: newOriginPoint];
-                newOriginPoint.y += newGraphSize.height + moduleSeparatorWidth;
+                newOriginPoint.y += newGraphSize.height + self.moduleSeparatorWidth;
             }
         }
     }
     else {
-        newOriginPoint.x += [[myWindow appSettings] textRectHeight] + moduleSeparatorWidth;
+        newOriginPoint.x += [[myWindow appSettings] textRectHeight] + self.moduleSeparatorWidth;
         for (i = 0; i < [displayModules count]; i++) {
             // again, as long as the reference exists, update the module
             if ([displayModules[i] reference] != nil) {
                 [[displayModules[i] reference] setFrameOrigin:newOriginPoint];
-                newOriginPoint.x += newGraphSize.width + moduleSeparatorWidth;
+                newOriginPoint.x += newGraphSize.width + self.moduleSeparatorWidth;
             }
         }
     } 
@@ -552,33 +552,17 @@
     }
 }
 
-- (int)moduleSeparatorWidth {
-    return moduleSeparatorWidth;
-}
-
-- (void)setModuleSeparatorWidth:(int)width {
-    moduleSeparatorWidth = width;
-}
-
-- (bool)graphOrientationVertical {
-    return graphOrientationVertical;
-}
-
-- (void)setGraphOrientationVertical:(bool)onOff {
-    graphOrientationVertical = onOff;
-}
-
 - (float) resizeModuleNumber:(int)index byDelta:(float)delta {	
 	XRGModule *resizeModuleObj = nil, *adjacentModuleObj = nil;
 	NSSize newResizeModuleSize, newAdjacentModuleSize;
 	
-	int incrementer = graphOrientationVertical ? -1 : 1;
-	if (graphOrientationVertical) index = (int)[displayModules count] - 1 - index;
+	int incrementer = self.graphOrientationVertical ? -1 : 1;
+	if (self.graphOrientationVertical) index = (int)[displayModules count] - 1 - index;
 	if (index >= 0 && index < [displayModules count]) {
 		resizeModuleObj = displayModules[index];
 		newResizeModuleSize = [resizeModuleObj currentSize];
 		
-		if (graphOrientationVertical) {
+		if (self.graphOrientationVertical) {
 			newResizeModuleSize.height += delta;
 			if (newResizeModuleSize.height < [resizeModuleObj minHeight]) {
 				delta += [resizeModuleObj minHeight] - newResizeModuleSize.height;
@@ -599,7 +583,7 @@
 		adjacentModuleObj = displayModules[adjacentIndex];
 		newAdjacentModuleSize = [adjacentModuleObj currentSize];
 		
-		if (graphOrientationVertical) {
+		if (self.graphOrientationVertical) {
 			newAdjacentModuleSize.height -= delta;
 			if (newAdjacentModuleSize.height < [adjacentModuleObj minHeight]) {
 				newResizeModuleSize.height -= [adjacentModuleObj minHeight] - newAdjacentModuleSize.height;
@@ -628,22 +612,22 @@
 	
 	NSInteger i;
 	NSPoint newOriginPoint = NSMakePoint([myWindow borderWidth], [myWindow borderWidth]);
-	if (graphOrientationVertical) {
+	if (self.graphOrientationVertical) {
 		for (i = [displayModules count] - 1; i >= 0; i--) {
 			// as long as the reference exists, update the module
 			if ([displayModules[i] reference] != nil) {
 				[[displayModules[i] reference] setFrameOrigin: newOriginPoint];
-				newOriginPoint.y += [displayModules[i] currentSize].height + moduleSeparatorWidth;
+				newOriginPoint.y += [displayModules[i] currentSize].height + self.moduleSeparatorWidth;
 			}
 		}
 	}
 	else {
-		newOriginPoint.x += [[myWindow appSettings] textRectHeight] + moduleSeparatorWidth;
+		newOriginPoint.x += [[myWindow appSettings] textRectHeight] + self.moduleSeparatorWidth;
 		for (i = 0; i < [displayModules count]; i++) {
 			// again, as long as the reference exists, update the module
 			if ([displayModules[i] reference] != nil) {
 				[[displayModules[i] reference] setFrameOrigin:newOriginPoint];
-				newOriginPoint.x += [displayModules[i] currentSize].width + moduleSeparatorWidth;
+				newOriginPoint.x += [displayModules[i] currentSize].width + self.moduleSeparatorWidth;
 			}
 		}
 	} 
@@ -659,7 +643,7 @@
 	NSInteger startIndex = 0, doneIndex = 0, incrementer = 1;
     NSPoint originPoint = NSMakePoint([myWindow borderWidth], [myWindow borderWidth]);
 	
-	if (graphOrientationVertical) {
+	if (self.graphOrientationVertical) {
 		startIndex = [displayModules count] - 1;
 		doneIndex = 0;
 		incrementer = -1;
@@ -667,7 +651,7 @@
 	else {
 		startIndex = 0;
 		doneIndex = [displayModules count] - 1;
-		originPoint.x += [[myWindow appSettings] textRectHeight] + moduleSeparatorWidth;
+		originPoint.x += [[myWindow appSettings] textRectHeight] + self.moduleSeparatorWidth;
 		incrementer = 1;
 	}
 	
@@ -676,13 +660,13 @@
 		if ([displayModules[i] reference] != nil) {
 			NSSize moduleSize = [displayModules[i] currentSize];
 
-			if (graphOrientationVertical) {
-				originPoint.y += moduleSize.height + moduleSeparatorWidth;
-				[resizeRects addObject:[NSValue valueWithRect:NSMakeRect(originPoint.x, originPoint.y - 2, moduleSize.width, moduleSeparatorWidth + 2)]];
+			if (self.graphOrientationVertical) {
+				originPoint.y += moduleSize.height + self.moduleSeparatorWidth;
+				[resizeRects addObject:[NSValue valueWithRect:NSMakeRect(originPoint.x, originPoint.y - 2, moduleSize.width, self.moduleSeparatorWidth + 2)]];
 			}
 			else {
 				originPoint.x += moduleSize.width;
-				[resizeRects addObject:[NSValue valueWithRect:NSMakeRect(originPoint.x - 2, originPoint.y, moduleSeparatorWidth + 2, moduleSize.height)]];
+				[resizeRects addObject:[NSValue valueWithRect:NSMakeRect(originPoint.x - 2, originPoint.y, self.moduleSeparatorWidth + 2, moduleSize.height)]];
 			}			
 		}
 	}

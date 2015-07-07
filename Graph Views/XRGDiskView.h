@@ -53,8 +53,8 @@
 
     io_stats				i_dsk;
     io_stats				o_dsk;
-
 }
+
 - (void)setGraphSize:(NSSize)newSize;
 - (void)setWidth:(int)newWidth;
 - (void)updateMinSize;
@@ -62,7 +62,8 @@
 - (void)graphUpdate:(NSTimer *)aTimer;
 - (void)min5Update:(NSTimer *)aTimer;
 - (void)updateVolumeInfo;
-- (int)getReadB;
-- (int)getWriteB;
-- (int)getMaxValue;
+
+- (NSString *)readBytesString;
+- (NSString *)writeBytesString;
+
 @end

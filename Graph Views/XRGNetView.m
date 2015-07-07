@@ -86,11 +86,11 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Network" andReference:self];
-    [m setDoesFastUpdate:NO];
-    [m setDoesGraphUpdate:YES];
-    [m setDoesMin5Update:NO];
-    [m setDoesMin30Update:NO];
-    [m setDisplayOrder:5];
+	m.doesFastUpdate = NO;
+	m.doesGraphUpdate = YES;
+	m.doesMin5Update = NO;
+	m.doesMin30Update = NO;
+	m.displayOrder = 5;
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showNetworkGraph]];
 

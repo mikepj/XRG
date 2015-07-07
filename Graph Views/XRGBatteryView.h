@@ -96,6 +96,7 @@
     CGFloat                 currentPixelTime;
     CGFloat                 currentStatsTime;
 }
+
 - (void)setGraphSize:(NSSize)newSize;
 - (void)setWidth:(int)newWidth;
 - (void)updateMinSize;

@@ -33,16 +33,17 @@ enum {
 };
 typedef int XRGURLCacheMode;
 
-@interface XRGURL : NSObject {
-	NSURLConnection *urlConnection;
-    NSURL			*url;
-    NSString		*urlString;
-    NSMutableData	*urlData;
-	bool			isLoading;
-    bool			dataReady;
-    bool			errorOccurred;
-	XRGURLCacheMode	cacheMode;
-}
+@interface XRGURL : NSObject
+@property NSURLConnection *urlConnection;
+@property (setter=setURL:) NSURL *url;
+@property (setter=setURLString:) NSString *urlString;
+@property (getter=getData) NSMutableData *urlData;
+
+@property BOOL isLoading;
+@property (getter=isDataReady) BOOL dataReady;
+@property (getter=didErrorOccur) BOOL errorOccurred;
+
+@property XRGURLCacheMode cacheMode;
 
 - (id) initWithURLString:(NSString *)urlS;
 
@@ -56,7 +57,6 @@ typedef int XRGURLCacheMode;
 - (void) setData:(NSData *)newData;
 - (void) appendData:(NSData *)appendData;
 
-- (void) setURL:(NSURL *)newURL;
 - (void) setURLConnection:(NSURLConnection *)newConnection;
 - (void) setUserAgentForRequest:(NSMutableURLRequest *)request;
 
@@ -67,11 +67,7 @@ typedef int XRGURLCacheMode;
 - (void) cancelLoading;
 
 #pragma mark Status Methods
-- (bool) isLoading;
-- (bool) isDataReady;
-- (bool) didErrorOccur;
-- (void) setErrorOccurred;
-- (bool) haveGoodURL;
+- (BOOL) haveGoodURL;
 
 #pragma mark Notifications
 

@@ -31,20 +31,21 @@
 
 @interface XRGStockView : XRGGenericView {
 @private
-    NSSize				graphSize;
-    bool				gettingData;
     XRGModule           *m;
 
     NSMutableArray		*stockSymbols;
     NSMutableArray		*stockObjects;
     XRGStock			*djia;
-    int					slowIncrementer;
-    int					slowTime;
-    int					switchIncrementer;
-    int					switchTime;
-    int					stockToShow;
+    NSInteger			slowIncrementer;
+    NSInteger			slowTime;
+    NSInteger			switchIncrementer;
+    NSInteger			switchTime;
+    NSInteger			stockToShow;
 }
-- (void)setGraphSize:(NSSize)newSize;
+
+@property NSSize graphSize;
+@property BOOL gettingData;
+
 - (void)updateMinSize;
 - (void)ticker;
 - (void)graphUpdate:(NSTimer *)aTimer;
@@ -52,7 +53,6 @@
 - (void)setStockSymbolsFromString:(NSString *)s;
 - (void)resetStockObjects;
 - (void)reloadStockData;
-- (bool)gettingData;
 - (bool)dataIsReady;
 - (int)convertHeight:(int) yComponent;
 

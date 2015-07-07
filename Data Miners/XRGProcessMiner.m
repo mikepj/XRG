@@ -49,8 +49,7 @@
 	NSMutableArray *newProcessArray = [NSMutableArray arrayWithCapacity:[outputLines count]];
 	
 	// For each line (excluding the first header line).
-	int i;
-	for (i = 1; i < [outputLines count]; i++) {
+	for (int i = 1; i < [outputLines count]; i++) {
 		NSString *line = outputLines[i];
 		NSArray *lineComponents = [line componentsSeparatedByString:@" "];
 		NSMutableArray *lineComponentsNoBlanks = [NSMutableArray arrayWithCapacity:[lineComponents count]];
@@ -79,14 +78,14 @@
 			}
 			if ([nswapString isEqualToString:@"-"]) nswapString = @"0";
 			
-			NSDictionary *d = @{XRGProcessCommand: commandString,
-				XRGProcessPercentCPU: @([percentCPUString floatValue]),
-				XRGProcessID: @([pid intValue]),
-				XRGProcessResidentMemorySize: @([rssString intValue]),
-				XRGProcessVirtualMemorySize: @([vssString intValue]),
-				XRGProcessTotalSwaps: @([nswapString intValue]),
-				XRGProcessUser: userString,
-				XRGProcessCommand: commandString};
+			NSDictionary *d = @{ XRGProcessCommand: commandString,
+								 XRGProcessPercentCPU: @([percentCPUString floatValue]),
+								 XRGProcessID: @([pid intValue]),
+								 XRGProcessResidentMemorySize: @([rssString intValue]),
+								 XRGProcessVirtualMemorySize: @([vssString intValue]),
+								 XRGProcessTotalSwaps: @([nswapString intValue]),
+								 XRGProcessUser: userString,
+								 XRGProcessCommand: commandString };
 			
 			[newProcessArray addObject:d];
 		}
@@ -97,20 +96,12 @@
 
 - (NSArray *) processesSortedByCPUUsage {
 	NSSortDescriptor *cpuSorter = [[NSSortDescriptor alloc] initWithKey:XRGProcessPercentCPU ascending:NO selector:@selector(compare:)];
-	return [processes sortedArrayUsingDescriptors:@[cpuSorter]];
+	return [self.processes sortedArrayUsingDescriptors:@[cpuSorter]];
 }
 
 - (NSArray *) processesSortedByMemoryUsage {
 	NSSortDescriptor *memorySorter = [[NSSortDescriptor alloc] initWithKey:XRGProcessResidentMemorySize ascending:NO selector:@selector(compare:)];
-	return [processes sortedArrayUsingDescriptors:@[memorySorter]];
-}
-
-- (NSArray *) processes {
-	return processes;
-}
-
-- (void) setProcesses:(NSArray *)values {
-	processes = values;
+	return [self.processes sortedArrayUsingDescriptors:@[memorySorter]];
 }
 
 @end

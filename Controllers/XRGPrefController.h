@@ -29,8 +29,6 @@
 @class XRGGraphWindow;
 
 @interface XRGPrefController : NSObject<NSToolbarDelegate> {
-    XRGGraphWindow *xrgGraphWindow;
-    
     // toolbar objects
 	NSToolbar *toolbar;
     NSMutableDictionary *toolbarItems;
@@ -133,6 +131,9 @@
     IBOutlet id hiddenModules;
     IBOutlet id displayedModules;
 }
+
+@property (weak) XRGGraphWindow *xrgGraphWindow;
+
 - (IBAction)save:(id)sender;
 - (IBAction)revert:(id)sender;
 - (IBAction)loadTheme:(id)sender;
@@ -164,17 +165,17 @@
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar;
 
 //Action methods
--(IBAction) General:(id)sender;
--(IBAction) Colors:(id)sender;
--(IBAction) CPU:(id)sender;
--(IBAction) RAM:(id)sender;
--(IBAction) Temperature:(id)sender;
--(IBAction) Network:(id)sender;
--(IBAction) Disk:(id)sender;
--(IBAction) Weather:(id)sender;
--(IBAction) Stocks:(id)sender;
+- (IBAction)General:(id)sender;
+- (IBAction)Colors:(id)sender;
+- (IBAction)CPU:(id)sender;
+- (IBAction)RAM:(id)sender;
+- (IBAction)Temperature:(id)sender;
+- (IBAction)Network:(id)sender;
+- (IBAction)Disk:(id)sender;
+- (IBAction)Weather:(id)sender;
+- (IBAction)Stocks:(id)sender;
 - (IBAction)setFont:(id)sender;
 
--(IBAction) openWeatherStationList:(id)sender;
+- (IBAction)openWeatherStationList:(id)sender;
 
 @end

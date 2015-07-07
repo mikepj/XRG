@@ -33,12 +33,12 @@
 - (instancetype)init {
 	self = [super init];
 	if (self) {
-		totalVRAMValues = nil;
-		freeVRAMValues = nil;
-		numSamples = 0;
-		numGPUs = 0;
+		_totalVRAMDataSets = nil;
+		_freeVRAMDataSets = nil;
+		self.numSamples = 0;
+		self.numberOfGPUs = 0;
 		
-		[self setNumGPUs:1];
+		[self setNumberOfGPUs:1];
 		[self getLatestGraphicsInfo];
 	}
 	
@@ -49,51 +49,56 @@
 - (void)setDataSize:(NSInteger)newNumSamples {
 	if (newNumSamples < 0) return;
 	
-	for (XRGDataSet *values in totalVRAMValues) {
+	for (XRGDataSet *values in self.totalVRAMDataSets) {
 		[values resize:newNumSamples];
 	}
-	for (XRGDataSet *values in freeVRAMValues) {
+	for (XRGDataSet *values in self.freeVRAMDataSets) {
 		[values resize:newNumSamples];
 	}
 	
-	numSamples  = newNumSamples;
+	self.numSamples = newNumSamples;
 }
 
-- (void)setNumGPUs:(NSInteger)newNumGPUs {
-	if (!totalVRAMValues) totalVRAMValues = [[NSMutableArray alloc] init];
-	if (!freeVRAMValues) freeVRAMValues = [[NSMutableArray alloc] init];
-	
-	if (newNumGPUs == 0) {
-		[totalVRAMValues removeAllObjects];
-		[freeVRAMValues removeAllObjects];
+- (void)setNumberOfGPUs:(NSInteger)newNumGPUs {
+	if ((self.totalVRAMDataSets.count == newNumGPUs) && (self.freeVRAMDataSets.count == newNumGPUs)) {
+		return;
 	}
 	
+	NSMutableArray *newTotal = [NSMutableArray array];
+	NSMutableArray *newFree = [NSMutableArray array];
+	
+	if (self.totalVRAMDataSets.count) [newTotal addObjectsFromArray:self.totalVRAMDataSets];
+	if (self.freeVRAMDataSets.count) [newFree addObjectsFromArray:self.freeVRAMDataSets];
+	
 	// Make sure we want at least 1 sample.
-	numSamples = MAX(1, numSamples);
+	self.numSamples = MAX(1, self.numSamples);
 	
 	// Add new XRGDataSets if needed.
 	for (NSInteger i = 0; i < newNumGPUs; i++) {
-		if (totalVRAMValues.count <= i) {
+		if (newTotal.count <= i) {
 			XRGDataSet *s = [[XRGDataSet alloc] init];
-			[s resize:numSamples];
-			[totalVRAMValues addObject:s];
+			[s resize:self.numSamples];
+			[newTotal addObject:s];
 		}
-		if (freeVRAMValues.count <= i) {
+		if (newFree.count <= i) {
 			XRGDataSet *s = [[XRGDataSet alloc] init];
-			[s resize:numSamples];
-			[freeVRAMValues addObject:s];
+			[s resize:self.numSamples];
+			[newFree addObject:s];
 		}
 	}
 
 	// Remove extra XRGDataSets if needed.
-	if (totalVRAMValues.count > newNumGPUs) {
-		totalVRAMValues = [NSMutableArray arrayWithArray:[totalVRAMValues subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
+	if (newTotal.count > newNumGPUs) {
+		newTotal = [NSMutableArray arrayWithArray:[newTotal subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
 	}
-	if (freeVRAMValues.count > newNumGPUs) {
-		freeVRAMValues = [NSMutableArray arrayWithArray:[freeVRAMValues subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
+	if (newFree.count > newNumGPUs) {
+		newFree = [NSMutableArray arrayWithArray:[newFree subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
 	}
 	
-	numGPUs = newNumGPUs;
+	_totalVRAMDataSets = newTotal;
+	_freeVRAMDataSets = newFree;
+	
+	self.numberOfGPUs = newNumGPUs;
 }
 
 
@@ -178,7 +183,7 @@
 	
 	NSInteger numValues = MIN(usedVRAMArray.count, freeVRAMArray.count);
 	numValues = MIN(numValues, totalVRAMArray.count);
-	[self setNumGPUs:numValues];
+	[self setNumberOfGPUs:numValues];
 
 	
 	for (NSInteger i = 0; i < numValues; i++) {
@@ -214,18 +219,10 @@
 		}
 		
 		if (okay) {
-			[totalVRAMValues[i] setNextValue:total];
-			[freeVRAMValues[i] setNextValue:free];
+			[self.totalVRAMDataSets[i] setNextValue:total];
+			[self.freeVRAMDataSets[i] setNextValue:free];
 		}
 	}
-}
-
-- (NSArray *)totalVRAMDataSets {
-	return [totalVRAMValues copy];
-}
-
-- (NSArray *)freeVRAMDataSets {
-	return [freeVRAMValues copy];
 }
 
 @end

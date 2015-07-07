@@ -30,40 +30,36 @@
 
 @interface XRGCPUMiner : NSObject {
 @private
-    BOOL                        temperature;
-    BOOL                        loadAverage;
-    BOOL                        uptime;
 
     NSInteger					numSamples;
-    NSInteger					numCPUs;
 
-    NSInteger					*fastValues;
-    NSMutableArray              *userValues;
-    NSMutableArray              *systemValues;
-    NSMutableArray              *niceValues;
     CGFloat						*immediateUser;
     CGFloat						*immediateSystem;
     CGFloat						*immediateNice;
     CGFloat                     *immediateTotal;
-    CGFloat                     *immediateTemperatureC;
-    CGFloat						currentLoadAverage;
-    NSInteger                   uptimeDays;
-    NSInteger                   uptimeHours;
-    NSInteger                   uptimeMinutes;
-    NSInteger                   uptimeSeconds;
     NSMutableDictionary         *temperatureKeys;
-    XRGTemperatureMiner         *TemperatureMiner;
 
     processor_cpu_load_info_t   lastSlowCPUInfo;
     processor_cpu_load_info_t   lastFastCPUInfo;
     
     host_name_port_t		host;
 }
-- (void)setTemperature:(BOOL)yesNo;
-- (void)setLoadAverage:(BOOL)yesNo;
-- (void)setUptime:(BOOL)yesNo;
-- (void)setTemperatureMiner:(XRGTemperatureMiner *)miner;
-- (XRGTemperatureMiner *)temperatureMiner;
+
+@property BOOL loadAverage;
+@property BOOL uptime;
+
+@property NSInteger uptimeDays;
+@property NSInteger uptimeHours;
+@property NSInteger uptimeMinutes;
+@property NSInteger uptimeSeconds;
+
+@property NSInteger numberOfCPUs;
+@property CGFloat currentLoadAverage;
+
+@property NSInteger *fastValues;
+@property NSMutableArray *userValues;
+@property NSMutableArray *systemValues;
+@property NSMutableArray *niceValues;
 
 - (void)graphUpdate:(NSTimer *)aTimer;
 - (void)fastUpdate:(NSTimer *)aTimer;
@@ -71,24 +67,10 @@
 - (NSInteger)getNumCPUs;
 - (CGFloat)getLoadAverage;
 
-- (void)setCurrentTemperatures;
-
 - (void)setCurrentUptime;
 - (void)setDataSize:(NSInteger)newNumSamples;
 
-- (CGFloat *)currentTemperatureC;
-- (CGFloat *)currentTotalUsage;
-- (CGFloat *)currentUserUsage;
-- (CGFloat *)currentSystemUsage;
-- (CGFloat *)currentNiceUsage;
-- (NSInteger *)fastValues;
-- (CGFloat)currentLoadAverage;
-- (NSInteger)uptimeDays;
-- (NSInteger)uptimeHours;
-- (NSInteger)uptimeMinutes;
-- (NSInteger)uptimeSeconds;
 - (NSArray *)dataForCPU:(NSInteger)cpuNumber;
 - (NSArray *)combinedData;
 
-- (NSInteger)numberOfCPUs;
 @end

@@ -54,7 +54,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	self.moduleManager = [[XRGModuleManager alloc] initWithWindow:self];
 	
 	// Initialize the font manager
-	fontManager = [NSFontManager sharedFontManager];
+	self.fontManager = [NSFontManager sharedFontManager];
 	
 	// Initialize resizing variables
 	isResizingTL = isResizingTC = isResizingTR = NO;
@@ -63,7 +63,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	
 	// Initialize other status variables.
 	systemJustWokeUp = NO;
-	xrgCheckURL = nil;
+	self.xrgCheckURL = nil;
 	
 	// Get the User Defaults object
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
@@ -87,7 +87,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 		[self checkServerForUpdates];
 	}
 	
-    return parentWindow;
+    return self.parentWindow;
 }
 
 + (NSMutableDictionary *) getDefaultPrefs {
@@ -277,23 +277,23 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                                    [defs[XRG_windowHeight] floatValue]);
     
     //pass in NSBorderlessWindowMask for the styleMask
-    parentWindow = [super initWithContentRect: windowRect
-									styleMask: NSBorderlessWindowMask
-									  backing: NSBackingStoreBuffered
-										defer: NO];
+    self.parentWindow = [super initWithContentRect:windowRect
+										 styleMask:NSBorderlessWindowMask
+										   backing:NSBackingStoreBuffered
+											 defer:NO];
                                          
     //Set the background color to clear
-    [parentWindow setBackgroundColor: [NSColor clearColor]];
+    [self.parentWindow setBackgroundColor:[NSColor clearColor]];
 
     //set the transparency close to one.
-    [parentWindow setAlphaValue: 0.99];
+    [self.parentWindow setAlphaValue:0.99];
 
     //turn off opaqueness
-    [parentWindow setOpaque: NO];
+    [self.parentWindow setOpaque:NO];
 
-    [parentWindow useOptimizedDrawing: YES];
+    [self.parentWindow useOptimizedDrawing:YES];
 
-    [parentWindow setHasShadow: [self.appSettings dropShadow]];
+    [self.parentWindow setHasShadow:self.appSettings.dropShadow];
     
     // Set these after we have initialized the parentWindow
     [self setMinSize:[self.moduleManager getMinSize]];
@@ -327,21 +327,21 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (void)checkServerForUpdates {
-    xrgCheckURL = [[XRGURL alloc] init];
-    [xrgCheckURL setURLString:@"http://download.gauchosoft.com/xrg/latest_version.txt"];
-    [xrgCheckURL loadURLInBackground];
+    self.xrgCheckURL = [[XRGURL alloc] init];
+    [self.xrgCheckURL setURLString:@"http://download.gauchosoft.com/xrg/latest_version.txt"];
+    [self.xrgCheckURL loadURLInBackground];
 }
 
 - (void)checkServerForUpdatesPostProcess {
-    if (xrgCheckURL == nil) return;
+    if (self.xrgCheckURL == nil) return;
     
-    if ([xrgCheckURL didErrorOccur]) {
-        xrgCheckURL = nil;
+    if ([self.xrgCheckURL didErrorOccur]) {
+        self.xrgCheckURL = nil;
     }
     
-    if ([xrgCheckURL isDataReady]) {
+    if ([self.xrgCheckURL isDataReady]) {
 		NSString *myVersion = (NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), CFSTR("CFBundleVersion"));
-		NSString *s = [[NSString alloc] initWithData:[xrgCheckURL getData] encoding:NSASCIIStringEncoding];
+		NSString *s = [[NSString alloc] initWithData:[self.xrgCheckURL getData] encoding:NSASCIIStringEncoding];
         s = [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		
 		if ([self isVersion:s laterThanVersion:myVersion]) {
@@ -372,7 +372,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 			}
         }
         
-        xrgCheckURL = nil;
+        self.xrgCheckURL = nil;
     }
 }
 
@@ -476,48 +476,39 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 		}
 	}
 }
-
-- (XRGAppDelegate *)controller {
-    return controller;
-}
-
-- (void)setController:(XRGAppDelegate *)c {
-	controller = c;
-}
-
 ///// End of Initialization Methods /////
 
 
 ///// Timer Methods /////
 
 - (void)initTimers {
-    if (!min30Timer) {
-        min30Timer = [NSTimer scheduledTimerWithTimeInterval: 1800.0
-                                                      target: self
-                                                    selector: @selector(min30Update:)
-                                                    userInfo: nil
-                                                     repeats: YES];
+    if (!self.min30Timer) {
+        self.min30Timer = [NSTimer scheduledTimerWithTimeInterval:1800.0
+														   target:self
+														 selector:@selector(min30Update:)
+														 userInfo:nil
+														  repeats:YES];
     }
-    if (!min5Timer) {
-        min5Timer = [NSTimer scheduledTimerWithTimeInterval: 300.0
-                                                     target: self
-                                                   selector: @selector(min5Update:)
-                                                   userInfo: nil
-                                                    repeats: YES];
+    if (!self.min5Timer) {
+        self.min5Timer = [NSTimer scheduledTimerWithTimeInterval:300.0
+														  target:self
+														selector:@selector(min5Update:)
+														userInfo:nil
+														 repeats:YES];
     }
-    if (!graphTimer) {
-        graphTimer = [NSTimer scheduledTimerWithTimeInterval: [self.appSettings graphRefresh] 
-                                                      target: self 
-                                                    selector: @selector(graphUpdate:) 
-                                                    userInfo: nil 
-                                                     repeats: YES];
+    if (!self.graphTimer) {
+        self.graphTimer = [NSTimer scheduledTimerWithTimeInterval:self.appSettings.graphRefresh
+														   target:self
+														 selector:@selector(graphUpdate:)
+														 userInfo:nil
+														  repeats:YES];
     }
-    if (!fastTimer) {
-		fastTimer = [NSTimer scheduledTimerWithTimeInterval: 0.2
-													 target: self
-												   selector: @selector(fastUpdate:)
-												   userInfo: nil
-													repeats: YES];
+    if (!self.fastTimer) {
+		self.fastTimer = [NSTimer scheduledTimerWithTimeInterval:0.2
+														  target:self
+														selector:@selector(fastUpdate:)
+														userInfo:nil
+														 repeats:YES];
     }
 }
 
@@ -531,10 +522,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (void)graphUpdate:(NSTimer *)aTimer {
     [self.moduleManager graphUpdate];
-    
-    if (xrgCheckURL != nil) {
-        [self checkServerForUpdatesPostProcess];
-    }
+    [self checkServerForUpdatesPostProcess];
 }
 
 - (void)fastUpdate:(NSTimer *)aTimer {
@@ -546,13 +534,10 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 ///// Methods that set up module references /////
 - (void)setBackgroundView:(id)background {
-    [background setFrameSize: [self frame].size];
+    [background setFrameSize:self.frame.size];
     [background setAutoresizesSubviews:YES];
     [background setNeedsDisplay:YES];
 	_backgroundView = background;
-	
-    // Little hack to fix initial ghosting problem caused by drop shadows in Panther.
-    [parentWindow setHasShadow:[self.appSettings dropShadow]];
 }
 ///// End of methods that set up module references /////
 
@@ -621,7 +606,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 - (IBAction)setBorderWidthAction:(id)sender {
     [self.backgroundView expandWindow];
     [self setBorderWidth: [sender intValue]];
-    [self.moduleManager windowChangedToSize:[parentWindow frame].size];
+    [self.moduleManager windowChangedToSize:self.parentWindow.frame.size];
     [self setMinSize:[self.moduleManager getMinSize]];
 }
 
@@ -635,7 +620,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	[self.moduleManager setGraphOrientationVertical:([sender indexOfSelectedItem] == 0)];	// 0 = vertical, 1 = horizontal
     
     if (graphCurrentlyVertical != [self.moduleManager graphOrientationVertical]) {        
-        NSRect tmpRect = NSMakeRect([parentWindow frame].origin.x, [parentWindow frame].origin.y, [parentWindow frame].size.height, [parentWindow frame].size.width);
+        NSRect tmpRect = NSMakeRect(self.parentWindow.frame.origin.x, self.parentWindow.frame.origin.y, self.parentWindow.frame.size.height, self.parentWindow.frame.size.width);
         [self setMinSize:[self.moduleManager getMinSize]];
         [self setWindowRect:tmpRect];
 	}
@@ -660,12 +645,12 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	f = roundf(f * 5.) * 0.2;
     [self.appSettings setGraphRefresh:f];
     
-    [graphTimer invalidate];    
-    graphTimer = [NSTimer scheduledTimerWithTimeInterval: f
-                                                  target: self
-                                                selector: @selector(graphUpdate:)
-                                                userInfo: nil
-                                                 repeats: YES];
+    [self.graphTimer invalidate];
+    self.graphTimer = [NSTimer scheduledTimerWithTimeInterval:f
+													   target:self
+													 selector:@selector(graphUpdate:)
+													 userInfo:nil
+													  repeats:YES];
 }
 
 - (IBAction)setWindowLevel:(id)sender {
@@ -686,7 +671,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (IBAction)setDropShadow:(id)sender {
-    [parentWindow setHasShadow:([sender state] == NSOnState)];
+    [self.parentWindow setHasShadow:([sender state] == NSOnState)];
     [self.appSettings setDropShadow:([sender state] == NSOnState)];
 }
 

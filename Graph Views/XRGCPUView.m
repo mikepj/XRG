@@ -44,11 +44,11 @@
 
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"CPU" andReference:self];
-    [m setDoesFastUpdate:YES];
-    [m setDoesGraphUpdate:YES];
-    [m setDoesMin5Update:NO];
-    [m setDoesMin30Update:NO];
-    [m setDisplayOrder:0];
+    m.doesFastUpdate = YES;
+    m.doesGraphUpdate = YES;
+    m.doesMin5Update = NO;
+    m.doesMin30Update = NO;
+    m.displayOrder = 0;
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showCPUGraph]];
 
@@ -109,12 +109,6 @@
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {
-    // Before calling setTemperature, make sure CPUMiner has a TemperatureMiner.
-    if ([CPUMiner temperatureMiner] == nil) {
-        // it doesn't have one, try to get it from the graph window.
-        [CPUMiner setTemperatureMiner:[parentWindow temperatureMiner]];
-    }
-    [CPUMiner setTemperature:[appSettings showCPUTemperature]];
     [CPUMiner setLoadAverage:[appSettings showLoadAverage]];
     [CPUMiner setUptime:YES];
     [CPUMiner graphUpdate:aTimer];

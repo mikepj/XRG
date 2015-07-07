@@ -613,10 +613,6 @@
 	trackingRect = [self addTrackingRect:bounds owner:self userData:nil assumeInside:NO];
 }
 
-- (void)setResizeRects:(NSArray *)rects {
-	resizeRects = rects;
-}
-
 - (void)mouseEntered:(NSEvent *)theEvent {
 	//    NSLog(@"mouseEntered start\n");
 	if (clickedMinimized && [appSettings autoExpandGraph]) {

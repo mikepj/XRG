@@ -28,20 +28,19 @@
 
 
 @implementation XRGDataSet
-@synthesize values, numValues, currentIndex, min, max, sum;
 
 - (instancetype) init {
 	self = [super init];
 	
 	if (self) {
-		values = NULL;
+		_values = NULL;
 		
-		min = 0;
-		max = 0;
-		sum = 0;
+		_min = 0;
+		_max = 0;
+		_sum = 0;
 			
-		currentIndex = 0;
-		numValues = 0;
+		_currentIndex = 0;
+		_numValues = 0;
 	}
     
     return self;
@@ -52,19 +51,19 @@
     
 	self = [self init];
 	if (self) {
-		numValues = otherDataSet.numValues;
-		if (numValues == 0) return self;
+		_numValues = otherDataSet.numValues;
+		if (_numValues == 0) return self;
 		
 		// Get a copy of the other values and set the current index
 		CGFloat *otherValues = otherDataSet.values;
-		values = calloc(numValues, sizeof(CGFloat));
-		memcpy(values, otherValues, numValues * sizeof(CGFloat));
+		_values = calloc(_numValues, sizeof(CGFloat));
+		memcpy(_values, otherValues, _numValues * sizeof(CGFloat));
 		self.currentIndex = otherDataSet.currentIndex;
 		
 		// Set the other class variables.
-		max = otherDataSet.max;
-		min = otherDataSet.min;
-		sum = otherDataSet.sum;
+		_max = otherDataSet.max;
+		_min = otherDataSet.min;
+		_sum = otherDataSet.sum;
 	}
     
     return self;
@@ -237,7 +236,7 @@
 }
 
 - (void) dealloc {
-    if (values) free(values);
+    if (_values) free(_values);
 }
 
 

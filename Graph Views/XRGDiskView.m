@@ -63,11 +63,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
                                      
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Disk" andReference:self];
-    [m setDoesFastUpdate:NO];
-    [m setDoesGraphUpdate:YES];
-    [m setDoesMin5Update:YES];
-    [m setDoesMin30Update:NO];
-    [m setDisplayOrder:6];
+	m.doesFastUpdate = NO;
+	m.doesGraphUpdate = YES;
+	m.doesMin5Update = YES;
+	m.doesMin30Update = NO;
+	m.displayOrder = 6;
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showDiskGraph]];
 
@@ -242,18 +242,6 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 	free(buf);
 }
 
-- (int)getReadB {
-    return readBytes;
-}
-
-- (int)getWriteB {
-    return writeBytes;
-}
-
-- (int)getMaxValue {
-    return maxVal;
-}
-
 - (void)drawRect:(NSRect)rect {
     if ([self isHidden]) return;
 
@@ -263,7 +251,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 
-    int i, read, write, max;
+    int i, max;
     NSInteger textRectHeight = [appSettings textRectHeight];
     
     [[appSettings graphBGColor] set];    
@@ -306,7 +294,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     if (tmpRect.origin.y - textRectHeight > 0) {
         tmpRect.origin.y -= textRectHeight;
         tmpRect.size.height += textRectHeight;
-        max = [self getMaxValue];
+        max = maxVal;
         if (max >= 1048576)
             [s appendFormat:@"\n%3.2fM/s",((float)max / 1048576.)];
         else if (max >= 1024)
@@ -339,100 +327,29 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     if ([appSettings diskGraphMode] == 0) {
         tmpRect.origin.y = 0;
         tmpRect.size.height = textRectHeight * 2;
-        read = [self getReadB];
-        [s setString:@""];
-		if (read >= 104857600) 
-            [s appendFormat:@"%3.1fM R",((float)read / 1048576.)];
-        else if (read >= 1048576)
-            [s appendFormat:@"%3.2fM R",((float)read / 1048576.)];
-		else if (read >= 102400) 
-            [s appendFormat:@"%4.0fK R",((float)read / 1024.)];
-        else if (read >= 1024)
-            [s appendFormat:@"%4.1fK R",((float)read / 1024.)];
-        else
-            [s appendFormat:@"%dB R",read];
-        
-        write = [self getWriteB];
-		if (write >= 104857600)
-            [s appendFormat:@"\n%3.1fM W",((float)write / 1048576.)];
-        else if (write >= 1048576)
-            [s appendFormat:@"\n%3.2fM W",((float)write / 1048576.)];
-		else if (write >= 102400)
-            [s appendFormat:@"\n%4.0fK W",((float)write / 1024.)];
-        else if (write >= 1024)
-            [s appendFormat:@"\n%4.1fK W",((float)write / 1024.)];
-        else
-            [s appendFormat:@"\n%dB W",write];
-            
+		
+		[s setString:@""];
+		[s appendString:[self readBytesString]];
+		[s appendString:@"\n"];
+		[s appendString:[self writeBytesString]];
+	
         [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
     else if ([appSettings diskGraphMode] == 1) {
         tmpRect.origin.y = 0;
         tmpRect.size.height = textRectHeight;
-        [s setString:@""];
-        write = [self getWriteB];
-		if (write >= 104857600)
-            [s appendFormat:@"%3.1fM W",((float)write / 1048576.)];
-        else if (write >= 1048576)
-            [s appendFormat:@"%3.2fM W",((float)write / 1048576.)];
-		else if (write >= 102400)
-            [s appendFormat:@"%4.0fK W",((float)write / 1024.)];
-        else if (write >= 1024)
-            [s appendFormat:@"%4.1fK W",((float)write / 1024.)];
-        else
-            [s appendFormat:@"%dB W",write];
-            
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [[self writeBytesString] drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
 
         tmpRect.origin.y = graphSize.height - textRectHeight;
-        read = [self getReadB];
-        [s setString:@""];
-		if (read >= 104857600)
-            [s appendFormat:@"%3.1fM R",((float)read / 1048576.)];
-        else if (read >= 1048576)
-            [s appendFormat:@"%3.2fM R",((float)read / 1048576.)];
-		else if (read >= 102400)
-            [s appendFormat:@"%4.0fK R",((float)read / 1024.)];
-        else if (read >= 1024)
-            [s appendFormat:@"%4.1fK R",((float)read / 1024.)];
-        else
-            [s appendFormat:@"%dB R",read];
-            
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [[self readBytesString] drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
     else { // [appSettings diskGraphMode] == 2
         tmpRect.origin.y = 0;
         tmpRect.size.height = textRectHeight;
-        read = [self getReadB];
-        [s setString:@""];
-		if (read >= 104857600)
-            [s appendFormat:@"%3.1fM R",((float)read / 1048576.)];
-        else if (read >= 1048576)
-            [s appendFormat:@"%3.2fM R",((float)read / 1048576.)];
-		else if (read >= 102400)
-            [s appendFormat:@"%4.0fK R",((float)read / 1024.)];
-        else if (read >= 1024)
-            [s appendFormat:@"%4.1fK R",((float)read / 1024.)];
-        else
-            [s appendFormat:@"%dB R",read];
-            
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [[self readBytesString] drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
 
         tmpRect.origin.y = graphSize.height - textRectHeight;
-        [s setString:@""];
-        write = [self getWriteB];
-		if (write >= 104857600)
-            [s appendFormat:@"%3.1fM W",((float)write / 1048576.)];
-        else if (write >= 1048576)
-            [s appendFormat:@"%3.2fM W",((float)write / 1048576.)];
-		else if (write >= 102400)
-            [s appendFormat:@"%4.0fK W",((float)write / 1024.)];
-        else if (write >= 1024)
-            [s appendFormat:@"%4.1fK W",((float)write / 1024.)];
-        else
-            [s appendFormat:@"%dB W",write];
-            
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [[self writeBytesString] drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
     
 
@@ -483,6 +400,32 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     [parentWindow mouseUp:theEvent];
 }
 
+- (NSString *)readBytesString {
+	if (readBytes >= 104857600)
+		return [NSString stringWithFormat:@"%3.1fM R",((float)readBytes / 1048576.)];
+	else if (readBytes >= 1048576)
+		return [NSString stringWithFormat:@"%3.2fM R",((float)readBytes / 1048576.)];
+	else if (readBytes >= 102400)
+		return [NSString stringWithFormat:@"%4.0fK R",((float)readBytes / 1024.)];
+	else if (readBytes >= 1024)
+		return [NSString stringWithFormat:@"%4.1fK R",((float)readBytes / 1024.)];
+	else
+		return [NSString stringWithFormat:@"%dB R", readBytes];
+}
+
+- (NSString *)writeBytesString {
+	if (writeBytes >= 104857600)
+		return [NSString stringWithFormat:@"%3.1fM W", ((float)writeBytes / 1048576.)];
+	else if (writeBytes >= 1048576)
+		return [NSString stringWithFormat:@"%3.2fM W", ((float)writeBytes / 1048576.)];
+	else if (writeBytes >= 102400)
+		return [NSString stringWithFormat:@"%4.0fK W", ((float)writeBytes / 1024.)];
+	else if (writeBytes >= 1024)
+		return [NSString stringWithFormat:@"%4.1fK W", ((float)writeBytes / 1024.)];
+	else
+		return [NSString stringWithFormat:@"%dB W", writeBytes];
+}
+
 @end
 
 void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk)
@@ -530,3 +473,4 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk)
     i_dsk->bytes = totalReadBytes;
     o_dsk->bytes = totalWriteBytes;
 }
+

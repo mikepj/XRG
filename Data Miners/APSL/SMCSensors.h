@@ -43,27 +43,24 @@
 
 @property (strong) NSDictionary *sKnownDescriptions;
 
-// returns an plain dict of values with their 4cc IDs.
-// contains only values where a known conversion from the SMC data type to NSNumber / NDSData is implemented in SMCInterface
-
+/// returns an plain dict of values with their 4cc IDs.
+/// contains only values where a known conversion from the SMC data type to NSNumber / NDSData is implemented in SMCInterface
 @property (readonly, copy) NSDictionary *allValues;
 
-// as far as their meaning is known (==guessable), the values have human readable keys
-// Fan values - returns an NSDictionary of NSDictionaries 
-
+/// as far as their meaning is known (==guessable), the values have human readable keys
+/// Fan values - returns an NSDictionary of NSDictionaries
 @property (readonly, copy) NSDictionary *fanValues;
 
-// Temperature senor values
-// withUnknownSensors: include sensors where humanReadableNameForKey will fail
-// return an NSDictionary with key: SMCSensorName, value: NSNumber with tdegree emperature in Celsius
-
+/// Temperature senor values
+/// withUnknownSensors: include sensors where humanReadableNameForKey will fail
+/// return an NSDictionary with key: SMCSensorName, value: NSNumber with tdegree emperature in Celsius
 - (NSDictionary *)temperatureValuesExtended:(BOOL) withUnknownSensors;
 
-// additional sensors (motion etc.). 
+/// additional sensors (motion etc.).
 @property (readonly, copy) NSDictionary *sensorValues;
 
-// lookup a human readbale description of the 4 character string key.
-// will return key, if no description can be found
-
+/// lookup a human readbale description of the 4 character string key.
+/// will return key, if no description can be found
 - (NSString *) humanReadableNameForKey:(NSString *)key;
+
 @end

@@ -26,157 +26,82 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface XRGSettings : NSObject {
-	// Colors
-	NSColor					*backgroundColor;
-	NSColor					*graphBGColor;
-	NSColor					*graphFG1Color;
-	NSColor					*graphFG2Color;
-	NSColor					*graphFG3Color;
-	NSColor					*borderColor;
-	NSColor					*textColor;
-	
-	// Transparencies
-	CGFloat					backgroundTransparency;
-	CGFloat					graphBGTransparency;
-	CGFloat					graphFG1Transparency;
-	CGFloat					graphFG2Transparency;
-	CGFloat					graphFG3Transparency;
-	CGFloat					borderTransparency;
-	CGFloat					textTransparency;
-    
-	// Text attributes
-	NSFont					*graphFont;
-	NSInteger				textRectHeight;
-	NSMutableParagraphStyle	*alignRight;
-	NSMutableParagraphStyle	*alignLeft;
-	NSMutableParagraphStyle	*alignCenter;
-	NSMutableDictionary		*alignRightAttributes;
-	NSMutableDictionary		*alignLeftAttributes;
-	NSMutableDictionary		*alignCenterAttributes;
-	
-	// Other user defined settings
-	BOOL					fastCPUUsage;
-	BOOL					separateCPUColor;
-	BOOL					showCPUTemperature;
-	NSInteger				cpuTemperatureUnits;
-	BOOL					antiAliasing;
-	NSString				*ICAO;
-	NSInteger				secondaryWeatherGraph;
-	NSInteger				temperatureUnits;
-	NSInteger				distanceUnits;
-	NSInteger				pressureUnits;
-	BOOL					showMemoryPagingGraph;
-	BOOL					memoryShowWired;
-	BOOL					memoryShowActive;
-	BOOL					memoryShowInactive;
-	BOOL					memoryShowFree;
-	BOOL					memoryShowCache;
-	BOOL					memoryShowPage;
-	CGFloat					graphRefresh;
-	BOOL					showLoadAverage;
-	NSInteger				netMinGraphScale;
-	NSString				*stockSymbols;
-	NSInteger				stockGraphTimeFrame;
-	BOOL					stockShowChange;
-	BOOL					showDJIA;
-	NSInteger				windowLevel;
-	BOOL					stickyWindow;
-	BOOL					checkForUpdates;
-	NSInteger				netGraphMode;
-	NSInteger				diskGraphMode;
-	BOOL					dropShadow;
-	BOOL					showTotalBandwidthSinceBoot;
-	BOOL					showTotalBandwidthSinceLoad;
-	NSString				*networkInterface;
-	NSString				*windowTitle;
-	BOOL					autoExpandGraph;
-	BOOL					foregroundWhenExpanding;
-	BOOL					showSummary;
-	NSInteger				minimizeUpDown;
-	BOOL					antialiasText;
-	BOOL					cpuShowAverageUsage;
-	BOOL					cpuShowUptime;
-	NSInteger				tempUnits;
-	NSInteger				tempFG1Location;
-	NSInteger				tempFG2Location;
-	NSInteger				tempFG3Location;
-}
+@interface XRGSettings : NSObject
 
 // Colors
-@property (strong,nonatomic) NSColor		*backgroundColor;
-@property (strong,nonatomic) NSColor		*graphBGColor;
-@property (strong,nonatomic) NSColor		*graphFG1Color;
-@property (strong,nonatomic) NSColor		*graphFG2Color;
-@property (strong,nonatomic) NSColor		*graphFG3Color;
-@property (strong,nonatomic) NSColor		*borderColor;
-@property (strong,nonatomic) NSColor		*textColor;
+@property (nonatomic) NSColor		*backgroundColor;
+@property (nonatomic) NSColor		*graphBGColor;
+@property (nonatomic) NSColor		*graphFG1Color;
+@property (nonatomic) NSColor		*graphFG2Color;
+@property (nonatomic) NSColor		*graphFG3Color;
+@property (nonatomic) NSColor		*borderColor;
+@property (nonatomic) NSColor		*textColor;
 
 // Transparencies
-@property (assign,nonatomic) CGFloat		backgroundTransparency;
-@property (assign,nonatomic) CGFloat		graphBGTransparency;
-@property (assign,nonatomic) CGFloat		graphFG1Transparency;
-@property (assign,nonatomic) CGFloat		graphFG2Transparency;
-@property (assign,nonatomic) CGFloat		graphFG3Transparency;
-@property (assign,nonatomic) CGFloat		borderTransparency;
-@property (assign,nonatomic) CGFloat		textTransparency;
+@property (nonatomic) CGFloat		backgroundTransparency;
+@property (nonatomic) CGFloat		graphBGTransparency;
+@property (nonatomic) CGFloat		graphFG1Transparency;
+@property (nonatomic) CGFloat		graphFG2Transparency;
+@property (nonatomic) CGFloat		graphFG3Transparency;
+@property (nonatomic) CGFloat		borderTransparency;
+@property (nonatomic) CGFloat		textTransparency;
     
 // Text attributes
-@property (strong,nonatomic) NSFont			*graphFont;
-@property (assign) NSInteger				textRectHeight;
-@property (strong) NSMutableParagraphStyle	*alignRight;
-@property (strong) NSMutableParagraphStyle	*alignLeft;
-@property (strong) NSMutableParagraphStyle	*alignCenter;
-@property (strong) NSMutableDictionary		*alignRightAttributes;
-@property (strong) NSMutableDictionary		*alignLeftAttributes;
-@property (strong) NSMutableDictionary		*alignCenterAttributes;
+@property (nonatomic) NSFont		*graphFont;
+@property NSInteger					textRectHeight;
+@property NSMutableParagraphStyle	*alignRight;
+@property NSMutableParagraphStyle	*alignLeft;
+@property NSMutableParagraphStyle	*alignCenter;
+@property NSMutableDictionary		*alignRightAttributes;
+@property NSMutableDictionary		*alignLeftAttributes;
+@property NSMutableDictionary		*alignCenterAttributes;
 
 // Other user defined settings
-@property (assign) BOOL			fastCPUUsage;
-@property (assign) BOOL			separateCPUColor;
-@property (assign) BOOL			showCPUTemperature;
-@property (assign) NSInteger	cpuTemperatureUnits;
-@property (assign) BOOL			antiAliasing;
-@property (strong) NSString		*ICAO;
-@property (assign) NSInteger	secondaryWeatherGraph;
-@property (assign) NSInteger	temperatureUnits;
-@property (assign) NSInteger	distanceUnits;
-@property (assign) NSInteger	pressureUnits;
-@property (assign) BOOL			showMemoryPagingGraph;
-@property (assign) BOOL			memoryShowWired;
-@property (assign) BOOL			memoryShowActive;
-@property (assign) BOOL			memoryShowInactive;
-@property (assign) BOOL			memoryShowFree;
-@property (assign) BOOL			memoryShowCache;
-@property (assign) BOOL			memoryShowPage;
-@property (assign) CGFloat		graphRefresh;
-@property (assign) BOOL			showLoadAverage;
-@property (assign) NSInteger	netMinGraphScale;
-@property (strong) NSString		*stockSymbols;
-@property (assign) NSInteger	stockGraphTimeFrame;
-@property (assign) BOOL			stockShowChange;
-@property (assign) BOOL			showDJIA;
-@property (assign) NSInteger	windowLevel;
-@property (assign) BOOL			stickyWindow;
-@property (assign) BOOL			checkForUpdates;
-@property (assign) NSInteger	netGraphMode;
-@property (assign) NSInteger	diskGraphMode;
-@property (assign) BOOL			dropShadow;
-@property (assign) BOOL			showTotalBandwidthSinceBoot;
-@property (assign) BOOL			showTotalBandwidthSinceLoad;
-@property (strong) NSString		*networkInterface;
-@property (strong) NSString		*windowTitle;
-@property (assign) BOOL			autoExpandGraph;
-@property (assign) BOOL			foregroundWhenExpanding;
-@property (assign) BOOL			showSummary;
-@property (assign) NSInteger	minimizeUpDown;
-@property (assign) BOOL			antialiasText;
-@property (assign) BOOL			cpuShowAverageUsage;
-@property (assign) BOOL			cpuShowUptime;
-@property (assign) NSInteger	tempUnits;
-@property (assign) NSInteger	tempFG1Location;
-@property (assign) NSInteger	tempFG2Location;
-@property (assign) NSInteger	tempFG3Location;
+@property BOOL			fastCPUUsage;
+@property BOOL			separateCPUColor;
+@property BOOL			showCPUTemperature;
+@property NSInteger		cpuTemperatureUnits;
+@property BOOL			antiAliasing;
+@property NSString		*ICAO;
+@property NSInteger		secondaryWeatherGraph;
+@property NSInteger		temperatureUnits;
+@property NSInteger		distanceUnits;
+@property NSInteger		pressureUnits;
+@property BOOL			showMemoryPagingGraph;
+@property BOOL			memoryShowWired;
+@property BOOL			memoryShowActive;
+@property BOOL			memoryShowInactive;
+@property BOOL			memoryShowFree;
+@property BOOL			memoryShowCache;
+@property BOOL			memoryShowPage;
+@property CGFloat		graphRefresh;
+@property BOOL			showLoadAverage;
+@property NSInteger		netMinGraphScale;
+@property NSString		*stockSymbols;
+@property NSInteger		stockGraphTimeFrame;
+@property BOOL			stockShowChange;
+@property BOOL			showDJIA;
+@property NSInteger		windowLevel;
+@property BOOL			stickyWindow;
+@property BOOL			checkForUpdates;
+@property NSInteger		netGraphMode;
+@property NSInteger		diskGraphMode;
+@property BOOL			dropShadow;
+@property BOOL			showTotalBandwidthSinceBoot;
+@property BOOL			showTotalBandwidthSinceLoad;
+@property NSString		*networkInterface;
+@property NSString		*windowTitle;
+@property BOOL			autoExpandGraph;
+@property BOOL			foregroundWhenExpanding;
+@property BOOL			showSummary;
+@property NSInteger		minimizeUpDown;
+@property BOOL			antialiasText;
+@property BOOL			cpuShowAverageUsage;
+@property BOOL			cpuShowUptime;
+@property NSInteger		tempUnits;
+@property NSInteger		tempFG1Location;
+@property NSInteger		tempFG2Location;
+@property NSInteger		tempFG3Location;
 
 - (void) readXTFDictionary:(NSDictionary *)xtfD;
 

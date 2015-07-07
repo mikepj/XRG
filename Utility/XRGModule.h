@@ -29,30 +29,29 @@
 
 @class XRGGenericView;
 
-@interface XRGModule : NSObject {
-    // Identifying variables
-    NSString 		*name;
-    XRGGenericView	*reference;
-    
-    // Display variables
-    bool			isDisplayed;
-    int				displayOrder;
-    
-    // Size variables
-    float			maxHeight;		
-    float			minHeight;
-    float			minWidth;			// none of the modules have a max width
-    NSSize			currentSize;
-    
-    // Update variables
-    bool			doesMin30Update;
-    bool            doesMin5Update;
-    bool			doesGraphUpdate;
-    bool			doesFastUpdate;
-    bool            alwaysDoesGraphUpdate;
-    
-    bool			isEmptyModule;
-}
+@interface XRGModule : NSObject
+// Identifying variables
+@property (nonatomic) NSString *name;
+@property (nonatomic) XRGGenericView *reference;
+
+// Display variables
+@property (nonatomic) BOOL isDisplayed;
+@property (nonatomic) NSInteger displayOrder;
+
+// Size variables
+@property (nonatomic) CGFloat maxHeight;
+@property (nonatomic) CGFloat minHeight;
+@property (nonatomic) CGFloat minWidth;			// none of the modules have a max width
+@property (nonatomic) NSSize currentSize;
+
+// Update variables
+@property (nonatomic) BOOL doesMin30Update;
+@property (nonatomic) BOOL doesMin5Update;
+@property (nonatomic) BOOL doesGraphUpdate;
+@property (nonatomic) BOOL doesFastUpdate;
+@property (nonatomic) BOOL alwaysDoesGraphUpdate;
+
+@property BOOL isEmptyModule;
 
 + (void) saveSizeForModule:(XRGModule *)module;
 + (NSSize) savedSizeForModule:(XRGModule *)module;
@@ -63,38 +62,18 @@
 - (void)setName:(NSString *)n;
 - (void)setReference:(XRGGenericView *)r;
 
-- (void)setIsDisplayed:(bool)d;
-- (void)setDisplayOrder:(int)order;
+- (void)setIsDisplayed:(BOOL)d;
+- (void)setDisplayOrder:(NSInteger)order;
 
-- (void)setMaxHeight:(float)h;
-- (void)setMinHeight:(float)h;
-- (void)setMinWidth:(float)w;
+- (void)setMaxHeight:(CGFloat)h;
+- (void)setMinHeight:(CGFloat)h;
+- (void)setMinWidth:(CGFloat)w;
 - (void)setCurrentSize:(NSSize)newSize;
 
-- (void)setDoesMin30Update:(bool)yesNo;
-- (void)setDoesMin5Update:(bool)yesNo;
-- (void)setDoesGraphUpdate:(bool)yesNo;
-- (void)setDoesFastUpdate:(bool)yesNo;
-- (void)setAlwaysDoesGraphUpdate:(bool)yesNo;
-
-
-- (NSString *)name;
-- (XRGGenericView *)reference;
-
-- (bool)isEmptyModule;
-
-- (bool)isDisplayed;
-- (int)displayOrder;
-
-- (float)maxHeight;
-- (float)minHeight;
-- (float)minWidth;
-- (NSSize)currentSize;
-
-- (bool)doesMin30Update;
-- (bool)doesMin5Update;
-- (bool)doesGraphUpdate;
-- (bool)doesFastUpdate;
-- (bool)alwaysDoesGraphUpdate;
+- (void)setDoesMin30Update:(BOOL)yesNo;
+- (void)setDoesMin5Update:(BOOL)yesNo;
+- (void)setDoesGraphUpdate:(BOOL)yesNo;
+- (void)setDoesFastUpdate:(BOOL)yesNo;
+- (void)setAlwaysDoesGraphUpdate:(BOOL)yesNo;
 
 @end

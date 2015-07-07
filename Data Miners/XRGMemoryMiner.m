@@ -38,7 +38,8 @@
 		values2 = [[XRGDataSet alloc] init];
 		values3 = [[XRGDataSet alloc] init];
 		
-		usedSwap = totalSwap = 0.;
+		self.usedSwap = 0;
+		self.totalSwap = 0;
 		
 		int mib[2] = { CTL_HW, HW_PAGESIZE };
 		size_t sz = sizeof(pageSize);
@@ -110,8 +111,8 @@
     struct xsw_usage swapInfo;
     size_t swapLength = sizeof(swapInfo);
     if (sysctl(vmmib, 2, &swapInfo, &swapLength, NULL, 0) >= 0) {
-		usedSwap = swapInfo.xsu_used;
-		totalSwap = swapInfo.xsu_total;
+		self.usedSwap = swapInfo.xsu_used;
+		self.totalSwap = swapInfo.xsu_total;
 //		NSLog(@"Used: %d (%3.2fM)    Total: %d (%3.2fM)", usedSwap, (float)usedSwap / 1024. / 1024., totalSwap, (float)totalSwap / 1024. / 1024.);
     }
 }
@@ -163,14 +164,6 @@
 
 - (u_int32_t)totalCacheHits {
     return lastStats.hits;
-}
-
-- (u_int64_t)usedSwap {
-	return usedSwap;
-}
-
-- (u_int64_t)totalSwap {
-	return totalSwap;
 }
 
 - (XRGDataSet *)faultData {
