@@ -577,7 +577,7 @@
     NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"CPU View"];
     NSMenuItem *tMI;
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 5 CPU Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 10 CPU Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     // Need to get our process list.

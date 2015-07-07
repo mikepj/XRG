@@ -254,7 +254,7 @@
     NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Memory View"];
     NSMenuItem *tMI;
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 5 Memory Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 10 Memory Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     // Need to get our process list.
