@@ -35,6 +35,7 @@
 	if (self) {
 		_totalVRAMDataSets = nil;
 		_freeVRAMDataSets = nil;
+		_cpuWaitDataSets = nil;
 		self.numSamples = 0;
 		self.numberOfGPUs = 0;
 		
@@ -55,20 +56,28 @@
 	for (XRGDataSet *values in self.freeVRAMDataSets) {
 		[values resize:newNumSamples];
 	}
+	for (XRGDataSet *values in self.cpuWaitDataSets) {
+		[values resize:newNumSamples];
+	}
 	
 	self.numSamples = newNumSamples;
 }
 
 - (void)setNumberOfGPUs:(NSInteger)newNumGPUs {
-	if ((self.totalVRAMDataSets.count == newNumGPUs) && (self.freeVRAMDataSets.count == newNumGPUs)) {
+	if ((self.totalVRAMDataSets.count == newNumGPUs) &&
+		(self.freeVRAMDataSets.count == newNumGPUs) &&
+		(self.cpuWaitDataSets.count == newNumGPUs))
+	{
 		return;
 	}
 	
 	NSMutableArray *newTotal = [NSMutableArray array];
 	NSMutableArray *newFree = [NSMutableArray array];
+	NSMutableArray *newCPUWait = [NSMutableArray array];
 	
 	if (self.totalVRAMDataSets.count) [newTotal addObjectsFromArray:self.totalVRAMDataSets];
 	if (self.freeVRAMDataSets.count) [newFree addObjectsFromArray:self.freeVRAMDataSets];
+	if (self.cpuWaitDataSets.count) [newCPUWait addObjectsFromArray:self.cpuWaitDataSets];
 	
 	// Make sure we want at least 1 sample.
 	self.numSamples = MAX(1, self.numSamples);
@@ -85,6 +94,11 @@
 			[s resize:self.numSamples];
 			[newFree addObject:s];
 		}
+		if (newCPUWait.count <= i) {
+			XRGDataSet *s = [[XRGDataSet alloc] init];
+			[s resize:self.numSamples];
+			[newCPUWait addObject:s];
+		}
 	}
 
 	// Remove extra XRGDataSets if needed.
@@ -94,9 +108,13 @@
 	if (newFree.count > newNumGPUs) {
 		newFree = [NSMutableArray arrayWithArray:[newFree subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
 	}
+	if (newCPUWait.count > newNumGPUs) {
+		newCPUWait = [NSMutableArray arrayWithArray:[newCPUWait subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
+	}
 	
 	_totalVRAMDataSets = newTotal;
 	_freeVRAMDataSets = newFree;
+	_cpuWaitDataSets = newCPUWait;
 	
 	self.numberOfGPUs = newNumGPUs;
 }
@@ -110,6 +128,7 @@
 	NSMutableArray *usedVRAMArray = [NSMutableArray array];
 	NSMutableArray *freeVRAMArray = [NSMutableArray array];
 	NSMutableArray *totalVRAMArray = [NSMutableArray array];
+	NSMutableArray *cpuWaitArray = [NSMutableArray array];
 	
 	if (IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(kIOAcceleratorClassName), &iterator) == kIOReturnSuccess) {
 		// Iterator for devices found
@@ -129,12 +148,14 @@
 				NSDictionary *perf = (__bridge NSDictionary *)(perf_properties);
 				id freeVram = perf[@"vramFreeBytes"];
 				id usedVram = perf[@"vramUsedBytes"];
-				NSLog(@"CPU Wait for GPU: %@", perf[@"hardwareWaitTime"]);
+				id cpuWait = perf[@"hardwareWaitTime"];
 				
 				if ([freeVram isKindOfClass:[NSNumber class]]) [freeVRAMArray addObject:freeVram];
 				else [freeVRAMArray addObject:@(-1)];
 				if ([usedVram isKindOfClass:[NSNumber class]]) [usedVRAMArray addObject:usedVram];
 				else [usedVRAMArray addObject:@(-1)];
+				if ([cpuWait isKindOfClass:[NSNumber class]]) [cpuWaitArray addObject:cpuWait];
+				else [cpuWaitArray addObject:@(0)];
 			}
 			
 			CFRelease(serviceDictionary);
@@ -190,6 +211,7 @@
 		long long total = [totalVRAMArray[i] longLongValue];
 		long long used = [usedVRAMArray[i] longLongValue];
 		long long free = [freeVRAMArray[i] longLongValue];
+		long long cpuWait = [cpuWaitArray[i] longLongValue];
 		
 		BOOL okay = NO;
 		if ((total == -1) && (used != -1) && (free != -1)) {
@@ -222,6 +244,8 @@
 			[self.totalVRAMDataSets[i] setNextValue:total];
 			[self.freeVRAMDataSets[i] setNextValue:free];
 		}
+		
+		[self.cpuWaitDataSets[i] setNextValue:cpuWait];
 	}
 }
 

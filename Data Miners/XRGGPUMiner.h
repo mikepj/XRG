@@ -34,10 +34,12 @@
 /// Represents the number of XRGDataSet objects in each of the following arrays.
 @property (nonatomic) NSInteger numberOfGPUs;
 
-/// Values of XRGDataSet objects representing total memory for each GPU.
+/// Values are XRGDataSet objects representing total memory for each GPU.
 @property (readonly) NSArray *totalVRAMDataSets;
-/// Values of XRGDataSet objects representing free memory for each GPU.
+/// Values are XRGDataSet objects representing free memory for each GPU.
 @property (readonly) NSArray *freeVRAMDataSets;
+/// Values are XRGDataSet objects representing the CPU wait time for the GPU (units: nanoseconds).
+@property (readonly) NSArray *cpuWaitDataSets;
 
 - (void)getLatestGraphicsInfo;
 - (void)setDataSize:(NSInteger)newNumSamples;

@@ -95,6 +95,7 @@
 	NSLog(@"In Graphics DrawRect.");
 #endif
 	
+	NSArray *cpuWaitValues = [graphicsMiner cpuWaitDataSets];
 	NSArray *totalValues = [graphicsMiner totalVRAMDataSets];
 	NSArray *freeValues = [graphicsMiner freeVRAMDataSets];
 	if ((totalValues.count != freeValues.count) || (totalValues.count == 0)) {
@@ -111,6 +112,7 @@
 		// Draw the graph.
 		[gc setShouldAntialias:[appSettings antiAliasing]];
 
+		// VRAM Usage
 		XRGDataSet *usedDataSet = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:totalValues[i]];
 		[usedDataSet subtractOtherDataSetValues:freeValues[i]];
 		if ([usedDataSet max] > 0) {
@@ -121,6 +123,9 @@
 			NSRectFill(NSMakeRect(graphRect.origin.x, graphRect.origin.y, graphRect.size.width, 1.));
 		}
 		
+		// CPU Wait
+		[self drawGraphWithDataFromDataSet:cpuWaitValues[i] maxValue:MAX([cpuWaitValues[i] max], 100) inRect:graphRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
+		
 		// Draw the text
 		[gc setShouldAntialias:[appSettings antialiasText]];
 		NSRect textRect = graphRect;
@@ -129,17 +134,37 @@
 		CGFloat t = [(XRGDataSet *)totalValues[i] currentValue];
 		CGFloat f = [(XRGDataSet *)freeValues[i] currentValue];
 		
+		// CPU Wait Time Text
+		NSString *waitText = nil;
+		CGFloat w = [(XRGDataSet *)cpuWaitValues[i] currentValue];
+		if (w < 0) {
+			// Don't print anything.
+			waitText = @"";
+		}
+		else if (w < 1000.) {
+			waitText = [NSString stringWithFormat:@"%d ns", (int)w];
+		}
+		else if (w < 1000000.) {
+			waitText = [NSString stringWithFormat:@"%d µs", (int)(w / 1000)];
+		}
+		else if (w < 1000000000.) {
+			waitText = [NSString stringWithFormat:@"%d ms", (int)(w / 1000000)];
+		}
+		else {
+			waitText = [NSString stringWithFormat:@"%d s", (int)(w / 1000000000)];
+		}
+		
 		if (textRect.size.width < 90) {
 			[[NSString stringWithFormat:@"GPU %d", (int)i] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
 			if (t > 0) {
-				[[NSString stringWithFormat:@"%dM", (int)((t - f) / 1024. / 1024.)] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+				[[NSString stringWithFormat:@"%dM\n%@", (int)((t - f) / 1024. / 1024.), waitText] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
 			}
 		}
 		else {
 			[[NSString stringWithFormat:@"GPU %d", (int)i] drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
 
 			if (t > 0) {
-				[[NSString stringWithFormat:@"%dM", (int)((t - f) / 1024. / 1024.)] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+				[[NSString stringWithFormat:@"%dM\n%@", (int)((t - f) / 1024. / 1024.), waitText] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
 				[[NSString stringWithFormat:@"%d%%", (int)((t - f) / t * 100.)] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
 			}
 		}
