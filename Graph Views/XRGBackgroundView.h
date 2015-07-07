@@ -45,13 +45,14 @@
     NSRect              unminimizedRect;
 	
 	NSPoint				viewPointClicked;
-    
-    NSString            *hostname;
 	
 	NSArray				*resizeRects;
 	
 	NSTrackingRectTag	trackingRect;
 }
+
+@property (atomic) NSString *hostname;
+
 - (void)getHostname;
 - (void)offsetDrawingOrigin:(NSSize)offset;
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize;

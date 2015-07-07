@@ -39,10 +39,8 @@
     appSettings = [parentWindow appSettings];
     moduleManager = [parentWindow moduleManager];
     
- 	@synchronized(hostname) {
-		hostname = @"XRG";
-    }
-	[NSThread detachNewThreadSelector:@selector(getHostname) toTarget:self withObject:nil];
+	self.hostname = @"XRG";
+	[self getHostname];
 	
     // Find out whether or not the App's UI is being displayed.
     NSString *plistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/Contents/Info.plist"];
@@ -150,9 +148,7 @@
 
     NSString *title = [appSettings windowTitle];
     if (!title || [title isEqualToString:@""]) {
-		@synchronized(hostname) {	
-			[hostname drawInRect:titleRect withAttributes:[appSettings alignCenterAttributes]];
-		}
+		[self.hostname drawInRect:titleRect withAttributes:[appSettings alignCenterAttributes]];
     }
     else {
         [title drawInRect:titleRect withAttributes:[appSettings alignCenterAttributes]];
@@ -162,30 +158,27 @@
 }
 
 - (void)getHostname {
-	@autoreleasepool {
-	
-        NSProcessInfo *proc = [NSProcessInfo processInfo];
-        NSString *s = [proc hostName];
-        NSRange r = [s rangeOfString:@"."];
-        
-	NSString *newHostname = @"XRG";
-        if (r.location == NSNotFound) {
-		if ([s length] > 0)	newHostname = s;
-        }
-        else {
-		if (r.location != 0) newHostname = [s substringToIndex:r.location];
-        }
-	
-	@synchronized(self) {
-		if (hostname) {
-			hostname = nil;
-		}
+	// Run this in a background thread because it might take a little bit of time.
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		NSProcessInfo *proc = [NSProcessInfo processInfo];
+		NSString *s = [proc hostName];
+		NSRange r = [s rangeOfString:@"."];
 		
-		hostname = newHostname;
-	}
-	
-	[self setNeedsDisplay:YES];
-	
+		NSString *newHostname = @"XRG";
+		if (r.location == NSNotFound) {
+			if ([s length] > 0)	newHostname = s;
+		}
+		else {
+			if (r.location != 0) newHostname = [s substringToIndex:r.location];
+		}
+		self.hostname = newHostname;
+
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self setNeedsDisplay:YES];
+		});
+	});
+
+	@autoreleasepool {
 	}
 }
 
