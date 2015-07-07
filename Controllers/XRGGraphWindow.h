@@ -58,36 +58,21 @@
     IBOutlet id                 controller;
     
     XRGURL						*xrgCheckURL;
-	
-	XRGSettings					*appSettings;
-	XRGModuleManager			*moduleManager;
-	
-	XRGCPUView					*cpuView;
-	XRGGPUView					*gpuView;
-	XRGNetView					*netView;
-	XRGDiskView					*diskView;
-	XRGMemoryView				*memoryView;
-	XRGWeatherView				*weatherView;
-	XRGStockView				*stockView;
-	XRGBatteryView				*batteryView;
-	XRGTemperatureView			*temperatureView;
-	XRGTemperatureMiner			*temperatureMiner;
-	IBOutlet id					backgroundView;
 }
-@property (retain) XRGSettings *appSettings;
-@property (retain) XRGModuleManager *moduleManager;
+@property XRGSettings *appSettings;
+@property XRGModuleManager *moduleManager;
 
-@property (retain) XRGCPUView *cpuView;
-@property (retain) XRGGPUView *gpuView;
-@property (retain) XRGNetView *netView;
-@property (retain) XRGDiskView *diskView;
-@property (retain) XRGMemoryView *memoryView;
-@property (retain) XRGWeatherView *weatherView;
-@property (retain) XRGStockView *stockView;
-@property (retain) XRGBatteryView *batteryView;
-@property (retain) XRGTemperatureView *temperatureView;
-@property (retain) XRGTemperatureMiner *temperatureMiner;
-@property (retain,nonatomic) IBOutlet id backgroundView;
+@property XRGCPUView *cpuView;
+@property XRGGPUView *gpuView;
+@property XRGNetView *netView;
+@property XRGDiskView *diskView;
+@property XRGMemoryView *memoryView;
+@property XRGWeatherView *weatherView;
+@property XRGStockView *stockView;
+@property XRGBatteryView *batteryView;
+@property XRGTemperatureView *temperatureView;
+@property XRGTemperatureMiner *temperatureMiner;
+@property (nonatomic) IBOutlet id backgroundView;
 
 // Initialization
 + (void)initialize;
@@ -111,7 +96,7 @@
 - (void)fastUpdate:(NSTimer *)aTimer;
 
 // Methods that set up module references
-- (void)setBackgroundView:(id)background0;
+- (void)setBackgroundView:(id)background;
 
 // Actions
 - (IBAction)setShowCPUGraph:(id)sender;
