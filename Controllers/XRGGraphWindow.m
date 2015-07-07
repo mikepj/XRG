@@ -140,7 +140,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
         
     appDefs[XRG_textColor] = [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]];
     
-    appDefs[XRG_graphFont] = [NSArchiver archivedDataWithRootObject:[NSFont fontWithName:@"Lucida Grande" size:9.0]];
+    appDefs[XRG_graphFont] = [NSArchiver archivedDataWithRootObject:[NSFont systemFontOfSize:10.0]];
                 
     appDefs[XRG_antialiasText] = @"YES";
     
