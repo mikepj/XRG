@@ -143,7 +143,7 @@
 				continue;
 			}
 			
-			CFMutableDictionaryRef perf_properties = (CFMutableDictionaryRef) CFDictionaryGetValue( serviceDictionary, CFSTR("PerformanceStatistics") );
+			CFMutableDictionaryRef perf_properties = (CFMutableDictionaryRef) CFDictionaryGetValue(serviceDictionary, CFSTR("PerformanceStatistics"));
 			if (perf_properties) {
 				NSDictionary *perf = (__bridge NSDictionary *)(perf_properties);
 				id freeVram = perf[@"vramFreeBytes"];
@@ -178,7 +178,7 @@
 			const void *model = CFDictionaryGetValue(serviceDictionary, @"model");
 			if (model != nil) {
 				if (CFGetTypeID(model) == CFDataGetTypeID()) {
-					NSDictionary *service = (NSDictionary *)CFBridgingRelease(serviceDictionary);
+					NSDictionary *service = (__bridge NSDictionary *)serviceDictionary;
 					
 					id vramTotal = service[@"VRAM,totalMB"];
 					if ([vramTotal isKindOfClass:[NSNumber class]]) {
@@ -196,6 +196,7 @@
 				}
 			}
 			
+			CFRelease(serviceDictionary);
 			IOObjectRelease(serviceObject);
 		}
 		
