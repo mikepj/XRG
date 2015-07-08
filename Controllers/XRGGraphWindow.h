@@ -46,10 +46,7 @@
 @property NSTimer *min5Timer;
 @property NSTimer *graphTimer;
 @property NSTimer *fastTimer;
-    
-// Module references
-@property NSWindow *parentWindow;
-    
+
 // Settings
 @property NSFontManager *fontManager;
     
@@ -76,8 +73,8 @@
 
 // Initialization
 + (void)initialize;
-+ (NSMutableDictionary*) getDefaultPrefs;
-- (void) setupSettingsFromDictionary:(NSDictionary *) defs;
++ (NSMutableDictionary*)getDefaultPrefs;
+- (void)setupSettingsFromDictionary:(NSDictionary *) defs;
 - (bool)systemJustWokeUp;
 - (void)setSystemJustWokeUp:(bool)yesNo;
 - (void)checkServerForUpdates;

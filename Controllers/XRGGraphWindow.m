@@ -45,49 +45,50 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [defaults registerDefaults:[self getDefaultPrefs]];
 }
 
-- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
-{
-	// Initialize the settings class
-	self.appSettings = [[XRGSettings alloc] init];
-	
-	// Initialize the module manager class
-	self.moduleManager = [[XRGModuleManager alloc] initWithWindow:self];
-	
-	// Initialize the font manager
-	self.fontManager = [NSFontManager sharedFontManager];
-	
-	// Initialize resizing variables
-	isResizingTL = isResizingTC = isResizingTR = NO;
-	isResizingML = isResizingMR = NO;
-	isResizingBL = isResizingBC = isResizingBR = NO;
-	
-	// Initialize other status variables.
-	systemJustWokeUp = NO;
-	self.xrgCheckURL = nil;
-	
-	// Get the User Defaults object
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
-	
-	// Set variables from the user defaults
-	[self setupSettingsFromDictionary:[defs dictionaryRepresentation]];
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
+	if (self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag]) {
+		// Initialize the settings class
+		self.appSettings = [[XRGSettings alloc] init];
+		
+		// Initialize the module manager class
+		self.moduleManager = [[XRGModuleManager alloc] initWithWindow:self];
+		
+		// Initialize the font manager
+		self.fontManager = [NSFontManager sharedFontManager];
+		
+		// Initialize resizing variables
+		isResizingTL = isResizingTC = isResizingTR = NO;
+		isResizingML = isResizingMR = NO;
+		isResizingBL = isResizingBC = isResizingBR = NO;
+		
+		// Initialize other status variables.
+		systemJustWokeUp = NO;
+		self.xrgCheckURL = nil;
+		
+		// Get the User Defaults object
+		NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
+		
+		// Set variables from the user defaults
+		[self setupSettingsFromDictionary:[defs dictionaryRepresentation]];
 
-	// register for sleep/wake notifications
-	CFRunLoopSourceRef rls;
-	IONotificationPortRef thePortRef;
-	io_object_t notifier;
+		// register for sleep/wake notifications
+		CFRunLoopSourceRef rls;
+		IONotificationPortRef thePortRef;
+		io_object_t notifier;
 
-	powerConnection = IORegisterForSystemPower(NULL, &thePortRef, sleepNotification, &notifier );
+		powerConnection = IORegisterForSystemPower(NULL, &thePortRef, sleepNotification, &notifier );
 
-	if (powerConnection == 0) NSLog(@"Failed to register for sleep/wake events.");
+		if (powerConnection == 0) NSLog(@"Failed to register for sleep/wake events.");
 
-	rls = IONotificationPortGetRunLoopSource(thePortRef);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
-	
-	if ([self.appSettings checkForUpdates]) {
-		[self checkServerForUpdates];
+		rls = IONotificationPortGetRunLoopSource(thePortRef);
+		CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
+		
+		if ([self.appSettings checkForUpdates]) {
+			[self checkServerForUpdates];
+		}
 	}
 	
-    return self.parentWindow;
+	return self;
 }
 
 + (NSMutableDictionary *) getDefaultPrefs {
@@ -276,24 +277,18 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                                    [defs[XRG_windowWidth] floatValue], 
                                    [defs[XRG_windowHeight] floatValue]);
     
-    //pass in NSBorderlessWindowMask for the styleMask
-    self.parentWindow = [super initWithContentRect:windowRect
-										 styleMask:NSBorderlessWindowMask
-										   backing:NSBackingStoreBuffered
-											 defer:NO];
-                                         
     //Set the background color to clear
-    [self.parentWindow setBackgroundColor:[NSColor clearColor]];
+    [self setBackgroundColor:[NSColor clearColor]];
 
     //set the transparency close to one.
-    [self.parentWindow setAlphaValue:0.99];
+    [self setAlphaValue:0.99];
 
     //turn off opaqueness
-    [self.parentWindow setOpaque:NO];
+    [self setOpaque:NO];
 
-    [self.parentWindow useOptimizedDrawing:YES];
+    [self useOptimizedDrawing:YES];
 
-    [self.parentWindow setHasShadow:self.appSettings.dropShadow];
+    [self setHasShadow:self.appSettings.dropShadow];
     
     // Set these after we have initialized the parentWindow
     [self setMinSize:[self.moduleManager getMinSize]];
