@@ -183,11 +183,30 @@
     // draw the text
     [gc setShouldAntialias:[appSettings antialiasText]];
 
-    NSMutableString *s = [NSMutableString stringWithCapacity:50];
-    NSMutableString *t = [NSMutableString stringWithCapacity:50];
-			
-	bool firstLine = YES;
+	NSMutableDictionary *sAttributes = [NSMutableDictionary dictionaryWithDictionary:[appSettings alignLeftAttributes]];
+	NSMutableDictionary *tAttributes = [NSMutableDictionary dictionaryWithDictionary:[appSettings alignRightAttributes]];
+    NSMutableAttributedString *s = [[NSMutableAttributedString alloc] initWithString:@"" attributes:sAttributes];
+	NSMutableAttributedString *t = [[NSMutableAttributedString alloc] initWithString:@"" attributes:tAttributes];
+	
+	NSAttributedString *newline = [[NSAttributedString alloc] initWithString:@"\n" attributes:[appSettings alignLeftAttributes]];
+	
+	BOOL firstLine = YES;
     for (i = 0; i < [locations count]; i++) {
+		NSColor *lineColor = [appSettings textColor];
+		if (i == [appSettings tempFG1Location] - 1) {
+			lineColor = [[appSettings graphFG1Color] colorWithAlphaComponent:[appSettings textTransparency]];
+		}
+		else if (i == [appSettings tempFG2Location] - 1) {
+			lineColor = [[appSettings graphFG2Color] colorWithAlphaComponent:[appSettings textTransparency]];
+		}
+		else if (i == [appSettings tempFG3Location] - 1) {
+			lineColor = [[appSettings graphFG3Color] colorWithAlphaComponent:[appSettings textTransparency]];
+		}
+		if (lineColor) {
+			sAttributes[NSForegroundColorAttributeName] = lineColor;
+			tAttributes[NSForegroundColorAttributeName] = lineColor;
+		}
+		
         NSString *label = [TemperatureMiner labelForKey:locations[i]];
 		if (label == nil) {
 			continue;
@@ -213,11 +232,11 @@
 			firstLine = NO;
 		}
 		else {
-            [s appendString:@"\n"];
-            [t appendString:@"\n"];
+			[s appendAttributedString:newline];
+			[t appendAttributedString:newline];
         }
         
-		[s appendString:label];
+		[s appendAttributedString:[[NSAttributedString alloc] initWithString:label attributes:sAttributes]];
         
         // Now add the temperature
         if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
@@ -226,32 +245,23 @@
         }
 		
 		if ([units isEqualToString:@" rpm"] | [units isEqualToString:@"%"]) {
-			[t appendFormat:@"%3.0f%@", locationTemperature, units];
+			[t appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%3.0f%@", locationTemperature, units] attributes:tAttributes]];
 		}
 		else {
-			[t appendFormat:@"%3.1f%@", locationTemperature, units];
+			[t appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%3.1f%@", locationTemperature, units] attributes:tAttributes]];
 		}
     }
     
-    [t drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+    [t drawInRect:textRect];
     
 	NSRect leftRect = NSMakeRect(textRect.origin.x, 
 								 textRect.origin.y, 
-								 textRect.size.width - [t sizeWithAttributes:[appSettings alignRightAttributes]].width, 
+								 textRect.size.width - [t size].width,
 								 textRect.size.height);
-    [s drawInRect:leftRect withAttributes:[appSettings alignLeftAttributes]];
+    [s drawInRect:leftRect];
         
     [gc setShouldAntialias:YES];
 }
-
-//- (int) getWidthForLabel:(NSString *)label {
-//	if ([locationSizeCache objectForKey:label] == nil) {
-//		NSMutableAttributedString *tmpAttrString = [[[NSMutableAttributedString alloc] initWithString:label attributes:[appSettings alignLeftAttributes]] autorelease];
-//		[locationSizeCache setObject:[NSNumber numberWithInt:[tmpAttrString size].width + 12] forKey:label];
-//	}
-//	
-//	return [[locationSizeCache objectForKey:label] intValue];
-//}
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       
     return YES;
