@@ -67,7 +67,7 @@
     
     isVertical = YES;
     inInner = inOuter = inHeader = NO;
-    clickedMinimized = NO;
+    self.clickedMinimized = NO;
     lastWidth = [self frame].size.width;
     
     [self registerForDraggedTypes:@[NSFilenamesPboardType]];
@@ -229,16 +229,16 @@
 		NSRect headerRect = NSMakeRect(frame.origin.x + borderWidth, frame.origin.y + frame.size.height - borderWidth - [appSettings textRectHeight], frame.size.width, [appSettings textRectHeight]);
         if (NSPointInRect(viewPointClicked, headerRect)) {
             if ([parentWindow minimized]) {
-                clickedMinimized = NO;
+                self.clickedMinimized = NO;
                 [self expandWindow];
             }
             else {
-                if (clickedMinimized == NO) {
-                    clickedMinimized = YES;
+                if (self.clickedMinimized == NO) {
+                    self.clickedMinimized = YES;
                     [self minimizeWindow];
                 }
                 else {
-                    clickedMinimized = NO;
+                    self.clickedMinimized = NO;
                     
                     // If the window was brought to the front when expanding, we need to put it back.
                     [parentWindow setLevel:originalWindowLevel];
@@ -615,14 +615,14 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent {
 	//    NSLog(@"mouseEntered start\n");
-	if (clickedMinimized && [appSettings autoExpandGraph]) {
+	if (self.clickedMinimized && [appSettings autoExpandGraph]) {
 		[self expandWindow];
 	}
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
 	//    NSLog(@"mouseEntered start\n");
-	if (clickedMinimized && [appSettings autoExpandGraph]) {
+	if (self.clickedMinimized && [appSettings autoExpandGraph]) {
 		[self minimizeWindow];
 	}
 }

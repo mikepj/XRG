@@ -76,6 +76,7 @@
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:XRG_windowIsMinimized]) {
 		// minimize the window.
 		[self.xrgGraphWindow.backgroundView minimizeWindow];
+		[self.xrgGraphWindow.backgroundView setClickedMinimized:YES];
 	}
 }
 

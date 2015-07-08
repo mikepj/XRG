@@ -40,7 +40,6 @@
     bool                inOuter;
     bool                inHeader;
     bool                isVertical;
-    bool                clickedMinimized;
     bool                uiIsHidden;
     NSRect              unminimizedRect;
 	
@@ -51,6 +50,8 @@
 
 @property NSString *hostname;
 @property NSArray *resizeRects;
+
+@property BOOL clickedMinimized;
 
 - (void)getHostname;
 - (void)offsetDrawingOrigin:(NSSize)offset;
