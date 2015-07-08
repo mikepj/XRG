@@ -234,6 +234,8 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 		d[@"Mount Point"] = @(buf[i].f_mntonname);
 		d[@"Total Files"] = [NSNumber numberWithLongLong:buf[i].f_files - buf[i].f_ffree];
 		
+		if ([d[@"FS Type"] isEqualToString:@"devfs"]) continue;
+		if ([d[@"FS Type"] isEqualToString:@"autofs"]) continue;
 		[volumeInfo addObject:d];
 	}
 	
