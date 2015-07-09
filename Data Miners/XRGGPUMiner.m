@@ -25,7 +25,6 @@
 //
 
 #import "XRGGPUMiner.h"
-#import "XRGDataSet.h"
 #import <IOKit/graphics/IOGraphicsLib.h>
 
 @implementation XRGGPUMiner
@@ -119,16 +118,12 @@
 	self.numberOfGPUs = newNumGPUs;
 }
 
-
 - (void)getLatestGraphicsInfo {
 	// Create an iterator
 	io_iterator_t iterator;
 	
-	// Not all of these will be populated from the GPU data.  We'll hope for 2 out of 3 so the third can be calculated.
-	NSMutableArray *usedVRAMArray = [NSMutableArray array];
-	NSMutableArray *freeVRAMArray = [NSMutableArray array];
-	NSMutableArray *totalVRAMArray = [NSMutableArray array];
-	NSMutableArray *cpuWaitArray = [NSMutableArray array];
+	NSMutableArray *accelerators = [NSMutableArray array];
+	NSMutableArray *pciDevices = [NSMutableArray array];
 	
 	if (IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(kIOAcceleratorClassName), &iterator) == kIOReturnSuccess) {
 		// Iterator for devices found
@@ -143,20 +138,7 @@
 				continue;
 			}
 			
-			CFMutableDictionaryRef perf_properties = (CFMutableDictionaryRef) CFDictionaryGetValue(serviceDictionary, CFSTR("PerformanceStatistics"));
-			if (perf_properties) {
-				NSDictionary *perf = (__bridge NSDictionary *)(perf_properties);
-				id freeVram = perf[@"vramFreeBytes"];
-				id usedVram = perf[@"vramUsedBytes"];
-				id cpuWait = perf[@"hardwareWaitTime"];
-				
-				if ([freeVram isKindOfClass:[NSNumber class]]) [freeVRAMArray addObject:freeVram];
-				else [freeVRAMArray addObject:@(-1)];
-				if ([usedVram isKindOfClass:[NSNumber class]]) [usedVRAMArray addObject:usedVram];
-				else [usedVRAMArray addObject:@(-1)];
-				if ([cpuWait isKindOfClass:[NSNumber class]]) [cpuWaitArray addObject:cpuWait];
-				else [cpuWaitArray addObject:@(0)];
-			}
+			[accelerators addObject:[(__bridge NSDictionary *)serviceDictionary copy]];
 			
 			CFRelease(serviceDictionary);
 			IOObjectRelease(regEntry);
@@ -178,21 +160,7 @@
 			const void *model = CFDictionaryGetValue(serviceDictionary, @"model");
 			if (model != nil) {
 				if (CFGetTypeID(model) == CFDataGetTypeID()) {
-					NSDictionary *service = (__bridge NSDictionary *)serviceDictionary;
-					
-					id vramTotal = service[@"VRAM,totalMB"];
-					if ([vramTotal isKindOfClass:[NSNumber class]]) {
-						[totalVRAMArray addObject:@([vramTotal longLongValue] * 1024 * 1024)];
-					}
-					else {
-						id memsize = service[@"ATY,memsize"];
-						if ([memsize isKindOfClass:[NSNumber class]]) {
-							[totalVRAMArray addObject:memsize];
-						}
-						else {
-							[totalVRAMArray addObject:@(-1)];
-						}
-					}
+					[pciDevices addObject:[(__bridge NSDictionary *)serviceDictionary copy]];
 				}
 			}
 			
@@ -203,37 +171,163 @@
 		IOObjectRelease(iterator);
 	}
 	
-	NSInteger numValues = MIN(usedVRAMArray.count, freeVRAMArray.count);
-	numValues = MIN(numValues, totalVRAMArray.count);
-	[self setNumberOfGPUs:numValues];
+	NSInteger numValues = MIN(pciDevices.count, accelerators.count);
 
-	
+	NSMutableArray *graphicsCards = [NSMutableArray array];		// An array of XRGGraphicsCard objects.
+	NSMutableIndexSet *pciIndicesUsed = [[NSMutableIndexSet alloc] init];
+	NSMutableIndexSet *accelIndicesUsed = [[NSMutableIndexSet alloc] init];
 	for (NSInteger i = 0; i < numValues; i++) {
-		long long total = [totalVRAMArray[i] longLongValue];
-		long long used = [usedVRAMArray[i] longLongValue];
-		long long free = [freeVRAMArray[i] longLongValue];
-		long long cpuWait = [cpuWaitArray[i] longLongValue];
-		
-		BOOL okay = NO;
-		if ((total == -1) && (used != -1) && (free != -1)) {
-			total = used + free;
-			okay = YES;
+		// Most of the time, pciDevices[i] will match accelerators[i].  But sometimes this isn't the case.
+		// Try to detect if this is happening and compensate for it.
+		NSDictionary *pciD = pciDevices[i];
+		NSDictionary *accelD = accelerators[i];
+		if ([XRGGraphicsCard matchingPCIDevice:pciD accelerator:accelD]) {
+			// Matched.  Let's go with it.
+			XRGGraphicsCard *card = [[XRGGraphicsCard alloc] initWithPCIDevice:pciD accelerator:accelD];
+			if (card) [graphicsCards addObject:card];
+			[pciIndicesUsed addIndex:i];
+			[accelIndicesUsed addIndex:i];
 		}
-		else if ((total != -1) && (used == -1) && (free != -1)) {
-			if (free == 0) {
-				used = 0;		// Our one exception, free is never really 0.
-				free = total - used;
+		else {
+			// Mismatch was detected.  Try finding a different accelerator dictionary that does match the current pci dictionary.
+			for (NSInteger j = 0; j < accelerators.count; j++) {
+				if ([accelIndicesUsed containsIndex:j]) continue;
+				
+				if ([XRGGraphicsCard matchingPCIDevice:pciD accelerator:accelerators[j]]) {
+					// Found a match.
+					XRGGraphicsCard *card = [[XRGGraphicsCard alloc] initWithPCIDevice:pciD accelerator:accelerators[j]];
+					if (card) [graphicsCards addObject:card];
+					[pciIndicesUsed addIndex:i];
+					[accelIndicesUsed addIndex:j];
+					break;
+				}
+			}
+			
+			// It's possible to fall out of this loop without finding a matching accelerator for the pci device.
+		}
+	}
+	
+	// Now that we've parsed all the data, set the next values for our data sets.
+	[self setNumberOfGPUs:graphicsCards.count];
+	for (NSInteger i = 0; i < graphicsCards.count; i++) {
+		[self.totalVRAMDataSets[i] setNextValue:[graphicsCards[i] totalVRAM]];
+		[self.freeVRAMDataSets[i] setNextValue:[graphicsCards[i] freeVRAM]];
+		[self.cpuWaitDataSets[i] setNextValue:[graphicsCards[i] cpuWait]];
+	}
+}
+
+@end
+
+@implementation XRGGraphicsCard
+
++ (BOOL)matchingPCIDevice:(NSDictionary *)pciDictionary accelerator:(NSDictionary *)acceleratorDictionary {
+	id pciVendor = pciDictionary[@"vendor-id"];
+	UInt32 pciVendorInt = 0xFFFF;
+	if ([pciVendor isKindOfClass:[NSData class]]) {
+		NSData *pciVendorData = pciVendor;
+		if (pciVendorData.length >= 4) {
+			UInt32 *vendorInt = (UInt32 *)pciVendorData.bytes;
+			pciVendorInt = *vendorInt;
+		}
+	}
+	id pciDevice = pciDictionary[@"device-id"];
+	UInt32 pciDeviceInt = 0xFFFF;
+	if ([pciDevice isKindOfClass:[NSData class]]) {
+		NSData *pciDeviceData = pciDevice;
+		if (pciDeviceData.length >= 4) {
+			UInt32 *deviceInt = (UInt32 *)pciDeviceData.bytes;
+			pciDeviceInt = *deviceInt;
+		}
+	}
+	
+	if (pciVendorInt != 0xFFFF) {
+		id pciMatch = [acceleratorDictionary[@"IOPCIMatch"] uppercaseString];
+
+		if (pciDeviceInt != 0xFFFF) {
+			// We have a vendor and a device.  Check both.
+			UInt32 pciComboInt = (pciDeviceInt << 16) | pciVendorInt;
+			NSString *checkString = [[NSString stringWithFormat:@"%x", pciComboInt] uppercaseString];
+			if ([pciMatch containsString:checkString]) {
+				return YES;
+			}
+		}
+		else {
+			// Only have a vendor, check what we can.
+			NSString *checkString = [[NSString stringWithFormat:@"%x", pciVendorInt] uppercaseString];
+			NSString *checkStringWithSpace = [checkString stringByAppendingString:@" "];
+			if ([pciMatch containsString:checkStringWithSpace] || [pciMatch hasSuffix:checkString]) {
+				return YES;
+			}
+		}
+	}
+	
+	return NO;
+}
+
+- (instancetype)initWithPCIDevice:(NSDictionary *)pciDictionary accelerator:(NSDictionary *)acceleratorDictionary {
+	if (self = [super init]) {
+		// Vendor.
+		id pciVendor = pciDictionary[@"vendor-id"];
+		if ([pciVendor isKindOfClass:[NSData class]]) {
+			NSData *pciVendorData = pciVendor;
+			if (pciVendorData.length >= 4) {
+				UInt32 *vendorInt = (UInt32 *)pciVendorData.bytes;
+				self.vendor = *vendorInt;
+			}
+		}
+
+		// The VRAM and other stats gathered.
+		// Not all VRAM stats will be populated from the GPU data.
+		// We'll hope for 2 out of 3 so the third can be calculated.
+
+		id perf_properties = acceleratorDictionary[@"PerformanceStatistics"];
+		if ([perf_properties isKindOfClass:[NSDictionary class]]) {
+			NSDictionary *perf = (NSDictionary *)perf_properties;
+			
+			id freeVram = perf[@"vramFreeBytes"];
+			id usedVram = perf[@"vramUsedBytes"];
+			id cpuWait = perf[@"hardwareWaitTime"];
+			
+			self.freeVRAM = [freeVram isKindOfClass:[NSNumber class]] ? [freeVram longLongValue] : -1;
+			self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
+			self.cpuWait = [cpuWait isKindOfClass:[NSNumber class]] ? [cpuWait longLongValue] : 0;
+		}
+		
+		id vramTotal = pciDictionary[@"VRAM,totalMB"];
+		if ([vramTotal isKindOfClass:[NSNumber class]]) {
+			self.totalVRAM = [vramTotal longLongValue] * 1024ll * 1024ll;
+		}
+		else {
+			id memsize = pciDictionary[@"ATY,memsize"];
+			if ([memsize isKindOfClass:[NSNumber class]]) {
+				self.totalVRAM = [memsize longLongValue];
 			}
 			else {
-				used = total - free;
+				self.totalVRAM = -1;
+			}
+		}
+		
+		// Do a check for our VRAM values.
+		BOOL okay = NO;
+		if ((self.totalVRAM == -1) && (self.usedVRAM != -1) && (self.freeVRAM != -1)) {
+			self.totalVRAM = self.usedVRAM + self.freeVRAM;
+			okay = YES;
+		}
+		else if ((self.totalVRAM != -1) && (self.usedVRAM == -1) && (self.freeVRAM != -1)) {
+			if (self.freeVRAM == 0) {
+				self.usedVRAM = 0;		// Our one exception, free being 0 is more often an error instead of really being the case.
+				self.freeVRAM = self.totalVRAM - self.usedVRAM;
+			}
+			else {
+				self.usedVRAM = self.totalVRAM - self.freeVRAM;
 			}
 			okay = YES;
 		}
-		else if ((total != -1) && (used != -1) && (free == -1)) {
-			free = total - used;
+		else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM == -1)) {
+			self.freeVRAM = self.totalVRAM - self.usedVRAM;
 			okay = YES;
 		}
-		else if ((total != -1) && (used != -1) && (free != -1)) {
+		else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM != -1)) {
 			okay = YES;
 		}
 		else {
@@ -241,13 +335,14 @@
 			okay = NO;
 		}
 		
-		if (okay) {
-			[self.totalVRAMDataSets[i] setNextValue:total];
-			[self.freeVRAMDataSets[i] setNextValue:free];
+		if (!okay) {
+			self.totalVRAM = 0;
+			self.freeVRAM = 0;
+			self.usedVRAM = 0;
 		}
-		
-		[self.cpuWaitDataSets[i] setNextValue:cpuWait];
 	}
+
+	return self;
 }
 
 @end
