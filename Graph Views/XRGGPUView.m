@@ -157,14 +157,14 @@
 		if (textRect.size.width < 90) {
 			[[NSString stringWithFormat:@"GPU %d", (int)i] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
 			if (t > 0) {
-				[[NSString stringWithFormat:@"%dM\n%@", (int)((t - f) / 1024. / 1024.), waitText] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+				[[NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
 			}
 		}
 		else {
 			[[NSString stringWithFormat:@"GPU %d", (int)i] drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
 
 			if (t > 0) {
-				[[NSString stringWithFormat:@"%dM\n%@", (int)((t - f) / 1024. / 1024.), waitText] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+				[[NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
 				[[NSString stringWithFormat:@"%d%%", (int)((t - f) / t * 100.)] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
 			}
 		}
