@@ -47,6 +47,8 @@ typedef NS_ENUM(UInt32, XRGPCIVendor) {
 @property (readonly) NSArray *freeVRAMDataSets;
 /// Values are XRGDataSet objects representing the CPU wait time for the GPU (units: nanoseconds).
 @property (readonly) NSArray *cpuWaitDataSets;
+/// Values are NSString objects representing vendor names.
+@property (readonly) NSArray *vendorNames;
 
 - (void)getLatestGraphicsInfo;
 - (void)setDataSize:(NSInteger)newNumSamples;
@@ -59,11 +61,11 @@ typedef NS_ENUM(UInt32, XRGPCIVendor) {
 // The PCI vendor id for this card.
 @property XRGPCIVendor vendor;
 
-/// The total memory of the GPU.
+/// The total memory of the GPU in bytes.
 @property long long totalVRAM;
-/// The used memory of the GPU.
+/// The used memory of the GPU in bytes.
 @property long long usedVRAM;
-/// The free memory of the GPU.
+/// The free memory of the GPU in bytes.
 @property long long freeVRAM;
 /// The time in nanosecods the CPU waits for the GPU.
 @property long long cpuWait;
@@ -73,5 +75,8 @@ typedef NS_ENUM(UInt32, XRGPCIVendor) {
 
 /// Initializes the properties using the given PCI dictionary and accelerator.  It is assumed that the client has checked for a match with matchingPCIDevice:accelerator: previously.
 - (instancetype)initWithPCIDevice:(NSDictionary *)pciDictionary accelerator:(NSDictionary *)acceleratorDictionary;
+
+/// Returns a string representing the vendor of the GPU.
+- (NSString *)vendorString;
 
 @end

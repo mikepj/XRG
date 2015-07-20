@@ -208,12 +208,18 @@
 	}
 	
 	// Now that we've parsed all the data, set the next values for our data sets.
+	NSMutableArray *updatedVendors = [NSMutableArray array];
 	[self setNumberOfGPUs:graphicsCards.count];
 	for (NSInteger i = 0; i < graphicsCards.count; i++) {
 		[self.totalVRAMDataSets[i] setNextValue:[graphicsCards[i] totalVRAM]];
 		[self.freeVRAMDataSets[i] setNextValue:[graphicsCards[i] freeVRAM]];
 		[self.cpuWaitDataSets[i] setNextValue:[graphicsCards[i] cpuWait]];
+		
+		NSString *vendorName = [graphicsCards[i] vendorString];
+		if (!vendorName) vendorName = @"";
+		[updatedVendors addObject:vendorName];
 	}
+	_vendorNames = updatedVendors;
 }
 
 @end
@@ -242,12 +248,13 @@
 	
 	if (pciVendorInt != 0xFFFF) {
 		id pciMatch = [acceleratorDictionary[@"IOPCIMatch"] uppercaseString];
+		if (!pciMatch) pciMatch = [acceleratorDictionary[@"IOPCIPrimaryMatch"] uppercaseString];
 
 		if (pciDeviceInt != 0xFFFF) {
 			// We have a vendor and a device.  Check both.
 			UInt32 pciComboInt = (pciDeviceInt << 16) | pciVendorInt;
 			NSString *checkString = [[NSString stringWithFormat:@"%x", pciComboInt] uppercaseString];
-			if ([pciMatch containsString:checkString]) {
+			if ([pciMatch rangeOfString:checkString].location != NSNotFound) {
 				return YES;
 			}
 		}
@@ -255,7 +262,7 @@
 			// Only have a vendor, check what we can.
 			NSString *checkString = [[NSString stringWithFormat:@"%x", pciVendorInt] uppercaseString];
 			NSString *checkStringWithSpace = [checkString stringByAppendingString:@" "];
-			if ([pciMatch containsString:checkStringWithSpace] || [pciMatch hasSuffix:checkString]) {
+			if (([pciMatch rangeOfString:checkStringWithSpace].location != NSNotFound) || [pciMatch hasSuffix:checkString]) {
 				return YES;
 			}
 		}
@@ -292,47 +299,46 @@
 			self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
 			self.cpuWait = [cpuWait isKindOfClass:[NSNumber class]] ? [cpuWait longLongValue] : 0;
 		}
-		
-		id vramTotal = pciDictionary[@"VRAM,totalMB"];
+
+		id vramTotal = acceleratorDictionary[@"VRAM,totalMB"];
 		if ([vramTotal isKindOfClass:[NSNumber class]]) {
 			self.totalVRAM = [vramTotal longLongValue] * 1024ll * 1024ll;
 		}
 		else {
-			id memsize = pciDictionary[@"ATY,memsize"];
-			if ([memsize isKindOfClass:[NSNumber class]]) {
-				self.totalVRAM = [memsize longLongValue];
+			vramTotal = pciDictionary[@"VRAM,totalMB"];
+			if ([vramTotal isKindOfClass:[NSNumber class]]) {
+				self.totalVRAM = [vramTotal longLongValue] * 1024ll * 1024ll;
 			}
 			else {
-				self.totalVRAM = -1;
+				vramTotal = pciDictionary[@"ATY,memsize"];
+				if ([vramTotal isKindOfClass:[NSNumber class]]) {
+					self.totalVRAM = [vramTotal longLongValue];
+				}
+				else {
+					self.totalVRAM = -1;
+				}
 			}
 		}
 		
 		// Do a check for our VRAM values.
-		BOOL okay = NO;
-		if ((self.totalVRAM == -1) && (self.usedVRAM != -1) && (self.freeVRAM != -1)) {
-			self.totalVRAM = self.usedVRAM + self.freeVRAM;
-			okay = YES;
-		}
-		else if ((self.totalVRAM != -1) && (self.usedVRAM == -1) && (self.freeVRAM != -1)) {
-			if (self.freeVRAM == 0) {
-				self.usedVRAM = 0;		// Our one exception, free being 0 is more often an error instead of really being the case.
-				self.freeVRAM = self.totalVRAM - self.usedVRAM;
+		BOOL okay = [self valuesOkay];
+		
+		if (!okay) {
+			// If we get here, then we can't get VRAM in a reliable way.  However, there is always the GART method.
+			// This doesn't work on all cards (especially those with more than 2GB of VRAM), but the cards this won't work well on will probably be caught above.
+			if ([perf_properties isKindOfClass:[NSDictionary class]]) {
+				NSDictionary *perf = (NSDictionary *)perf_properties;
+				
+				id freeVram = perf[@"gartFreeBytes"];
+				id usedVram = perf[@"gartUsedBytes"];
+				id totalVram = perf[@"gartSizeBytes"];
+				
+				self.freeVRAM = [freeVram isKindOfClass:[NSNumber class]] ? [freeVram longLongValue] : -1;
+				self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
+				self.totalVRAM = [totalVram isKindOfClass:[NSNumber class]] ? [totalVram longLongValue] : -1;
 			}
-			else {
-				self.usedVRAM = self.totalVRAM - self.freeVRAM;
-			}
-			okay = YES;
-		}
-		else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM == -1)) {
-			self.freeVRAM = self.totalVRAM - self.usedVRAM;
-			okay = YES;
-		}
-		else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM != -1)) {
-			okay = YES;
-		}
-		else {
-			// Couldn't get data for this GPU.
-			okay = NO;
+			
+			okay = [self valuesOkay];
 		}
 		
 		if (!okay) {
@@ -343,6 +349,52 @@
 	}
 
 	return self;
+}
+
+- (BOOL)valuesOkay {
+	BOOL okay = NO;
+	if ((self.totalVRAM == -1) && (self.usedVRAM != -1) && (self.freeVRAM != -1)) {
+		self.totalVRAM = self.usedVRAM + self.freeVRAM;
+		okay = YES;
+	}
+	else if ((self.totalVRAM != -1) && (self.usedVRAM == -1) && (self.freeVRAM != -1)) {
+		if (self.freeVRAM == 0) {
+			self.usedVRAM = 0;		// Our one exception, free being 0 is more often missing data instead of really being the case.
+			self.freeVRAM = self.totalVRAM - self.usedVRAM;
+			okay = NO;
+		}
+		else {
+			self.usedVRAM = self.totalVRAM - self.freeVRAM;
+			okay = YES;
+		}
+	}
+	else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM == -1)) {
+		self.freeVRAM = self.totalVRAM - self.usedVRAM;
+		okay = YES;
+	}
+	else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM != -1)) {
+		okay = YES;
+	}
+	else {
+		// Couldn't get data for this GPU.
+		okay = NO;
+	}
+	return okay;
+}
+
+- (NSString *)vendorString {
+	if (self.vendor == XRGPCIVendorAMD) {
+		return @"AMD";
+	}
+	else if (self.vendor == XRGPCIVendorNVidia) {
+		return @"nVidia";
+	}
+	else if (self.vendor == XRGPCIVendorIntel) {
+		return @"Intel";
+	}
+	else {
+		return nil;
+	}
 }
 
 @end
