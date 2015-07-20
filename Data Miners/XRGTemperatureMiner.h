@@ -40,7 +40,6 @@
     host_basic_info_data_t		hostInfo;
     int                         numCPUs;
 
-    float                       *immediateCPUTemperatureC;
     int                         temperatureCounter;			// count and only grab the temperature every 5 seconds.
 	
 	bool						displayFans;
@@ -59,9 +58,6 @@
 - (int)numberOfCPUs;
 
 - (void)setCurrentTemperatures;								// Tries 3 different methods of gathering temperature statistics.
-- (void)tryHostProcessorTemperature;
-- (void)tryIOHWSensorTemperature;
-- (void)tryCPUThermoTemperature;
 - (void)trySMCTemperature;
 - (void)setDisplayFans:(bool)yesNo;
 
