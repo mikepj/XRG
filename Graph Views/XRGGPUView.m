@@ -154,14 +154,15 @@
 			waitText = [NSString stringWithFormat:@"%d s", (int)(w / 1000000000)];
 		}
 		
+		NSString *vendorString = graphicsMiner.vendorNames[i];
 		if (textRect.size.width < 90) {
-			[[NSString stringWithFormat:@"GPU %d", (int)i] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+			[[NSString stringWithFormat:@"GPU %d\n%@", (int)i, vendorString] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
 			if (t > 0) {
 				[[NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
 			}
 		}
 		else {
-			[[NSString stringWithFormat:@"GPU %d", (int)i] drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
+			[[NSString stringWithFormat:@"GPU %d\n%@", (int)i, vendorString] drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
 
 			if (t > 0) {
 				[[NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
