@@ -36,7 +36,7 @@ typedef int XRGURLCacheMode;
 @interface XRGURL : NSObject
 @property NSURLConnection *urlConnection;
 @property (setter=setURL:) NSURL *url;
-@property (setter=setURLString:) NSString *urlString;
+@property (nonatomic,setter=setURLString:) NSString *urlString;
 @property (getter=getData) NSMutableData *urlData;
 
 @property BOOL isLoading;

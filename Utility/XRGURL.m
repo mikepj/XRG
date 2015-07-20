@@ -30,7 +30,7 @@ NSString		*userAgent = nil;
 
 @implementation XRGURL
 - (instancetype) init {
-	if ([super init]) {
+	if (self = [super init]) {
 		_urlConnection = nil;
 		_url = nil;
 		_urlString = nil;
@@ -45,7 +45,7 @@ NSString		*userAgent = nil;
 }
 
 - (instancetype) initWithURLString:(NSString *)urlS {
-	if ([self init]) {
+	if (self = [self init]) {
 		[self setURLString:urlS];
 	}
 	
