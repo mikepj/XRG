@@ -207,6 +207,21 @@
 		}
 	}
 	
+	// If we couldn't match the graphics cards using the method above, just match all remaining cards in the order they were detected.
+	for (NSInteger i = 0; i < pciDevices.count; i++) {
+		if ([pciIndicesUsed containsIndex:i]) continue;
+		
+		for (NSInteger j = 0; j < accelerators.count; j++) {
+			if ([accelIndicesUsed containsIndex:j]) continue;
+			
+			// Match these devices.
+			XRGGraphicsCard *card = [[XRGGraphicsCard alloc] initWithPCIDevice:pciDevices[i] accelerator:accelerators[j]];
+			if (card) [graphicsCards addObject:card];
+			[pciIndicesUsed addIndex:i];
+			[accelIndicesUsed addIndex:j];
+		}
+	}
+	
 	// Now that we've parsed all the data, set the next values for our data sets.
 	NSMutableArray *updatedVendors = [NSMutableArray array];
 	[self setNumberOfGPUs:graphicsCards.count];
