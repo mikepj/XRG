@@ -122,6 +122,10 @@
 		if (![aValue isKindOfClass:[NSNumber class]]) continue;		// Fix TE..
         
 		float temperature = [aValue floatValue];
+		// Throw out temperatures that are too high to be reasonable.
+		if (temperature > 150) {
+			continue;
+		}
         NSString *humanReadableName = [smcSensors humanReadableNameForKey:key];
 
 		[self setCurrentValue:temperature
