@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">14D136</string>
+		<string key="IBDocument.SystemVersion">15A244d</string>
 		<string key="IBDocument.InterfaceBuilderVersion">7706</string>
-		<string key="IBDocument.AppKitVersion">1347.57</string>
-		<string key="IBDocument.HIToolboxVersion">758.70</string>
+		<string key="IBDocument.AppKitVersion">1391.12</string>
+		<string key="IBDocument.HIToolboxVersion">798.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">7706</string>
@@ -67,14 +67,15 @@
 					<string key="NSFrameSize">{459, 402}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {2560, 1417}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1366, 745}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomView" id="329400562">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSButton" id="77298310">
@@ -82,7 +83,6 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{393, 56}, {247, 18}}</string>
 						<reference key="NSSuperview" ref="329400562"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="677209687">
 							<int key="NSCellFlags">67108864</int>
@@ -119,7 +119,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 80}, {154, 14}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="572378843"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="286499736">
@@ -148,14 +147,13 @@
 											</object>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSSlider" id="409289254">
 										<reference key="NSNextResponder" ref="716615103"/>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{213, 55}, {116, 17}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="823026153"/>
 										<int key="NSTag">10</int>
 										<bool key="NSEnabled">YES</bool>
@@ -188,7 +186,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{210, 73}, {122, 22}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="921859904"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSPopUpButtonCell" key="NSCell" id="503820415">
@@ -255,7 +252,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 58}, {129, 14}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="409289254"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="1026864455">
@@ -268,14 +264,13 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSButton" id="823026153">
 										<reference key="NSNextResponder" ref="716615103"/>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{18, 31}, {253, 18}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="93982568"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="220555397">
@@ -299,7 +294,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{18, 11}, {252, 18}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="67004879"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="1061194430">
@@ -323,7 +317,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 102}, {129, 14}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="416310572"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="1037855330">
@@ -336,14 +329,13 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSTextField" id="416310572">
 										<reference key="NSNextResponder" ref="716615103"/>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{213, 100}, {116, 19}}</string>
 										<reference key="NSSuperview" ref="716615103"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="64179754"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="833630304">
@@ -370,18 +362,16 @@
 											</object>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 								</array>
 								<string key="NSFrame">{{2, 2}, {349, 133}}</string>
 								<reference key="NSSuperview" ref="950624028"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="540089178"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{18, 156}, {353, 150}}</string>
 						<reference key="NSSuperview" ref="329400562"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="716615103"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
@@ -416,7 +406,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{20, 145}, {309, 15}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="202061842"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSSliderCell" key="NSCell" id="583323845">
@@ -443,7 +432,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 167}, {191, 14}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="945841127"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="720211380">
@@ -456,14 +444,13 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSTextField" id="202061842">
 										<reference key="NSNextResponder" ref="774828987"/>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 122}, {129, 14}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="798312667"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="659985327">
@@ -476,14 +463,13 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSPopUpButton" id="798312667">
 										<reference key="NSNextResponder" ref="774828987"/>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{202, 118}, {130, 22}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="174332685"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSPopUpButtonCell" key="NSCell" id="531461405">
@@ -546,7 +532,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 11}, {99, 18}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="77298310"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="770027177">
@@ -570,7 +555,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 95}, {182, 14}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="174860695"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="407295914">
@@ -583,14 +567,13 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSButton" id="939786733">
 										<reference key="NSNextResponder" ref="774828987"/>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 71}, {326, 18}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="604468487"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="303439904">
@@ -614,7 +597,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{202, 91}, {130, 22}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="939786733"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSPopUpButtonCell" key="NSCell" id="678680110">
@@ -692,7 +674,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 51}, {347, 18}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="764028639"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="640079264">
@@ -716,7 +697,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 31}, {293, 18}}</string>
 										<reference key="NSSuperview" ref="774828987"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="839315264"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="663718627">
@@ -738,13 +718,11 @@
 								</array>
 								<string key="NSFrame">{{2, 2}, {349, 201}}</string>
 								<reference key="NSSuperview" ref="1066420631"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="512696877"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{373, 88}, {353, 218}}</string>
 						<reference key="NSSuperview" ref="329400562"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="774828987"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
@@ -774,7 +752,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 91}, {101, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="811004551"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="428154631">
@@ -798,7 +775,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 51}, {101, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="676772083"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="842875651">
@@ -822,7 +798,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{192, 91}, {101, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="890030032"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="980946778">
@@ -846,7 +821,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{192, 71}, {101, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="927642941"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="886494259">
@@ -870,7 +844,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{192, 51}, {101, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="89139673"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="1005725255">
@@ -894,7 +867,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{192, 31}, {101, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1066420631"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="1050230253">
@@ -918,7 +890,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 31}, {101, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="356375387"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="302485095">
@@ -942,7 +913,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 11}, {127, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="153573298"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="9271543">
@@ -966,7 +936,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{17, 71}, {127, 18}}</string>
 										<reference key="NSSuperview" ref="748021065"/>
-										<reference key="NSWindow"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="580339710">
 											<int key="NSCellFlags">67108864</int>
@@ -987,13 +956,11 @@
 								</array>
 								<string key="NSFrame">{{2, 2}, {349, 119}}</string>
 								<reference key="NSSuperview" ref="67004879"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="582790515"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{18, 16}, {353, 136}}</string>
 						<reference key="NSSuperview" ref="329400562"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="748021065"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
@@ -1012,8 +979,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{743, 326}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="950624028"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
@@ -1084,7 +1049,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSColorWell" id="1033797040">
 										<reference key="NSNextResponder" ref="977580070"/>
@@ -1121,7 +1086,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSSlider" id="105898089">
 										<reference key="NSNextResponder" ref="977580070"/>
@@ -1293,7 +1258,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSSlider" id="811688181">
 										<reference key="NSNextResponder" ref="977580070"/>
@@ -1338,7 +1303,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSColorWell" id="380595644">
 										<reference key="NSNextResponder" ref="977580070"/>
@@ -1375,7 +1340,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSColorWell" id="939900850">
 										<reference key="NSNextResponder" ref="977580070"/>
@@ -1412,7 +1377,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 								</array>
 								<string key="NSFrame">{{2, 2}, {358, 208}}</string>
@@ -2197,7 +2162,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSTextField" id="47982985">
 										<reference key="NSNextResponder" ref="865976593"/>
@@ -2215,7 +2180,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSTextField" id="947901780">
 										<reference key="NSNextResponder" ref="865976593"/>
@@ -2234,7 +2199,7 @@
 											<reference key="NSTextColor" ref="652714038"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSMatrix" id="153957050">
 										<reference key="NSNextResponder" ref="865976593"/>
@@ -2417,7 +2382,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="697940365">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSPopUpButton" id="702380945">
@@ -2425,6 +2390,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{131, 16}, {128, 22}}</string>
 						<reference key="NSSuperview" ref="697940365"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="11672380">
 							<int key="NSCellFlags">-1539309504</int>
@@ -2497,6 +2464,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{20, 21}, {109, 14}}</string>
 						<reference key="NSSuperview" ref="697940365"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="702380945"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="613075907">
 							<int key="NSCellFlags">67108864</int>
@@ -2508,13 +2477,15 @@
 							<reference key="NSTextColor" ref="892505699"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSMatrix" id="264387563">
 						<reference key="NSNextResponder" ref="697940365"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{22, 43}, {293, 58}}</string>
 						<reference key="NSSuperview" ref="697940365"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="634467967"/>
 						<bool key="NSEnabled">YES</bool>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						<int key="NSNumRows">3</int>
@@ -2589,6 +2560,9 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{335, 121}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="264387563"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
 				</object>
@@ -2622,7 +2596,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSPopUpButton" id="1043088045">
 										<reference key="NSNextResponder" ref="642167720"/>
@@ -2711,7 +2685,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSPopUpButton" id="1007211242">
 										<reference key="NSNextResponder" ref="642167720"/>
@@ -2871,7 +2845,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 								</array>
 								<string key="NSFrame">{{2, 2}, {257, 95}}</string>
@@ -2993,7 +2967,7 @@
 											<reference key="NSTextColor" ref="652714038"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSTextField" id="889727554">
 										<reference key="NSNextResponder" ref="180116808"/>
@@ -3011,7 +2985,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSTextField" id="600188007">
 										<reference key="NSNextResponder" ref="180116808"/>
@@ -3029,7 +3003,7 @@
 											<reference key="NSTextColor" ref="892505699"/>
 										</object>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+										<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 									</object>
 									<object class="NSButton" id="445417341">
 										<reference key="NSNextResponder" ref="180116808"/>
@@ -3102,7 +3076,7 @@
 							<reference key="NSTextColor" ref="892505699"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSTextField" id="790317299">
 						<reference key="NSNextResponder" ref="80371295"/>
@@ -3121,7 +3095,7 @@
 							<reference key="NSTextColor" ref="652714038"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSTextField" id="136990628">
 						<reference key="NSNextResponder" ref="80371295"/>
@@ -3139,7 +3113,7 @@
 							<reference key="NSTextColor" ref="892505699"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSPopUpButton" id="644595050">
 						<reference key="NSNextResponder" ref="80371295"/>
@@ -3341,7 +3315,7 @@
 							<reference key="NSTextColor" ref="892505699"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSTextField" id="827686231">
 						<reference key="NSNextResponder" ref="243968643"/>
@@ -3359,7 +3333,7 @@
 							<reference key="NSTextColor" ref="892505699"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSTextField" id="423319761">
 						<reference key="NSNextResponder" ref="243968643"/>
@@ -3377,7 +3351,7 @@
 							<reference key="NSTextColor" ref="892505699"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSTextField" id="317515831">
 						<reference key="NSNextResponder" ref="243968643"/>
@@ -3395,7 +3369,7 @@
 							<reference key="NSTextColor" ref="892505699"/>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<int key="NSTextFieldAlignmentRectInsetsVersion">1</int>
+						<int key="NSTextFieldAlignmentRectInsetsVersion">2</int>
 					</object>
 					<object class="NSPopUpButton" id="362823830">
 						<reference key="NSNextResponder" ref="243968643"/>
@@ -6992,7 +6966,7 @@
 					<object class="IBToolTipAttribute" key="NS.object.0">
 						<string key="name">ToolTip</string>
 						<reference key="object" ref="264387563"/>
-						<string key="toolTip">Change how the network traffic is displayed on the graph.</string>
+						<string key="toolTip">Change how the disk accesses are displayed on the graph.</string>
 					</object>
 				</object>
 				<string key="809.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7201,7 +7175,7 @@
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="prefController">XRGPrefController</string>
-						<string key="xrgGraphWindow">id</string>
+						<string key="xrgGraphWindow">XRGGraphWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="prefController">
@@ -7210,7 +7184,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="xrgGraphWindow">
 							<string key="name">xrgGraphWindow</string>
-							<string key="candidateClassName">id</string>
+							<string key="candidateClassName">XRGGraphWindow</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7234,6 +7208,561 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">../Controllers/XRGAppDelegate.m</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">XRGFramelessWindow</string>
+					<string key="superclassName">NSWindow</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Controllers/XRGFramelessWindow.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">XRGGraphWindow</string>
+					<string key="superclassName">XRGFramelessWindow</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="setAntiAliasing:">id</string>
+						<string key="setAntialiasText:">id</string>
+						<string key="setAutoExpandGraph:">id</string>
+						<string key="setBorderWidthAction:">id</string>
+						<string key="setCPUShowAverageUsage:">id</string>
+						<string key="setCPUShowUptime:">id</string>
+						<string key="setCPUTemperatureUnits:">id</string>
+						<string key="setCheckForUpdates:">id</string>
+						<string key="setDiskGraphMode:">id</string>
+						<string key="setDistanceUnits:">id</string>
+						<string key="setDropShadow:">id</string>
+						<string key="setFastCPUUsageCheckbox:">id</string>
+						<string key="setForegroundWhenExpanding:">id</string>
+						<string key="setGraphOrientation:">id</string>
+						<string key="setGraphRefreshActionPart2:">id</string>
+						<string key="setICAO:">id</string>
+						<string key="setMemoryCheckbox:">id</string>
+						<string key="setMinimizeUpDown:">id</string>
+						<string key="setNetGraphMode:">id</string>
+						<string key="setNetworkInterface:">id</string>
+						<string key="setObjectsToColor:">id</string>
+						<string key="setObjectsToTransparency:">id</string>
+						<string key="setPressureUnits:">id</string>
+						<string key="setSecondaryWeatherGraph:">id</string>
+						<string key="setSeparateCPUColor:">id</string>
+						<string key="setShowBatteryGraph:">id</string>
+						<string key="setShowCPUGraph:">id</string>
+						<string key="setShowCPUTemperature:">id</string>
+						<string key="setShowDJIA:">id</string>
+						<string key="setShowDiskGraph:">id</string>
+						<string key="setShowGPUGraph:">id</string>
+						<string key="setShowLoadAverage:">id</string>
+						<string key="setShowMemoryGraph:">id</string>
+						<string key="setShowNetGraph:">id</string>
+						<string key="setShowStockGraph:">id</string>
+						<string key="setShowSummary:">id</string>
+						<string key="setShowTemperatureGraph:">id</string>
+						<string key="setShowTotalBandwidthSinceBoot:">id</string>
+						<string key="setShowTotalBandwidthSinceLoad:">id</string>
+						<string key="setShowWeatherGraph:">id</string>
+						<string key="setStickyWindow:">id</string>
+						<string key="setStockGraphTimeFrame:">id</string>
+						<string key="setStockShowChange:">id</string>
+						<string key="setStockSymbols:">id</string>
+						<string key="setTempFG1Location:">id</string>
+						<string key="setTempFG2Location:">id</string>
+						<string key="setTempFG3Location:">id</string>
+						<string key="setTempUnits:">id</string>
+						<string key="setTemperatureUnits:">id</string>
+						<string key="setWindowLevel:">id</string>
+						<string key="setWindowTitle:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="setAntiAliasing:">
+							<string key="name">setAntiAliasing:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setAntialiasText:">
+							<string key="name">setAntialiasText:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setAutoExpandGraph:">
+							<string key="name">setAutoExpandGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setBorderWidthAction:">
+							<string key="name">setBorderWidthAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCPUShowAverageUsage:">
+							<string key="name">setCPUShowAverageUsage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCPUShowUptime:">
+							<string key="name">setCPUShowUptime:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCPUTemperatureUnits:">
+							<string key="name">setCPUTemperatureUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCheckForUpdates:">
+							<string key="name">setCheckForUpdates:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setDiskGraphMode:">
+							<string key="name">setDiskGraphMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setDistanceUnits:">
+							<string key="name">setDistanceUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setDropShadow:">
+							<string key="name">setDropShadow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setFastCPUUsageCheckbox:">
+							<string key="name">setFastCPUUsageCheckbox:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setForegroundWhenExpanding:">
+							<string key="name">setForegroundWhenExpanding:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setGraphOrientation:">
+							<string key="name">setGraphOrientation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setGraphRefreshActionPart2:">
+							<string key="name">setGraphRefreshActionPart2:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setICAO:">
+							<string key="name">setICAO:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setMemoryCheckbox:">
+							<string key="name">setMemoryCheckbox:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setMinimizeUpDown:">
+							<string key="name">setMinimizeUpDown:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setNetGraphMode:">
+							<string key="name">setNetGraphMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setNetworkInterface:">
+							<string key="name">setNetworkInterface:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setObjectsToColor:">
+							<string key="name">setObjectsToColor:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setObjectsToTransparency:">
+							<string key="name">setObjectsToTransparency:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setPressureUnits:">
+							<string key="name">setPressureUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setSecondaryWeatherGraph:">
+							<string key="name">setSecondaryWeatherGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setSeparateCPUColor:">
+							<string key="name">setSeparateCPUColor:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowBatteryGraph:">
+							<string key="name">setShowBatteryGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowCPUGraph:">
+							<string key="name">setShowCPUGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowCPUTemperature:">
+							<string key="name">setShowCPUTemperature:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowDJIA:">
+							<string key="name">setShowDJIA:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowDiskGraph:">
+							<string key="name">setShowDiskGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowGPUGraph:">
+							<string key="name">setShowGPUGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowLoadAverage:">
+							<string key="name">setShowLoadAverage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowMemoryGraph:">
+							<string key="name">setShowMemoryGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowNetGraph:">
+							<string key="name">setShowNetGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowStockGraph:">
+							<string key="name">setShowStockGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowSummary:">
+							<string key="name">setShowSummary:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowTemperatureGraph:">
+							<string key="name">setShowTemperatureGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowTotalBandwidthSinceBoot:">
+							<string key="name">setShowTotalBandwidthSinceBoot:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowTotalBandwidthSinceLoad:">
+							<string key="name">setShowTotalBandwidthSinceLoad:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowWeatherGraph:">
+							<string key="name">setShowWeatherGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStickyWindow:">
+							<string key="name">setStickyWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStockGraphTimeFrame:">
+							<string key="name">setStockGraphTimeFrame:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStockShowChange:">
+							<string key="name">setStockShowChange:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStockSymbols:">
+							<string key="name">setStockSymbols:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempFG1Location:">
+							<string key="name">setTempFG1Location:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempFG2Location:">
+							<string key="name">setTempFG2Location:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempFG3Location:">
+							<string key="name">setTempFG3Location:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempUnits:">
+							<string key="name">setTempUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTemperatureUnits:">
+							<string key="name">setTemperatureUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setWindowLevel:">
+							<string key="name">setWindowLevel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setWindowTitle:">
+							<string key="name">setWindowTitle:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="backgroundView">id</string>
+						<string key="controller">XRGAppDelegate</string>
+						<string key="preferenceWindow">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="backgroundView">
+							<string key="name">backgroundView</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="controller">
+							<string key="name">controller</string>
+							<string key="candidateClassName">XRGAppDelegate</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="preferenceWindow">
+							<string key="name">preferenceWindow</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Controllers/XRGGraphWindow.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">XRGGraphWindow</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="setAntiAliasing:">id</string>
+						<string key="setAntialiasText:">id</string>
+						<string key="setAutoExpandGraph:">id</string>
+						<string key="setBorderWidthAction:">id</string>
+						<string key="setCPUShowAverageUsage:">id</string>
+						<string key="setCPUShowUptime:">id</string>
+						<string key="setCPUTemperatureUnits:">id</string>
+						<string key="setCheckForUpdates:">id</string>
+						<string key="setDiskGraphMode:">id</string>
+						<string key="setDistanceUnits:">id</string>
+						<string key="setDropShadow:">id</string>
+						<string key="setFastCPUUsageCheckbox:">id</string>
+						<string key="setForegroundWhenExpanding:">id</string>
+						<string key="setGraphOrientation:">id</string>
+						<string key="setGraphRefreshActionPart2:">id</string>
+						<string key="setICAO:">id</string>
+						<string key="setMemoryCheckbox:">id</string>
+						<string key="setMinimizeUpDown:">id</string>
+						<string key="setNetGraphMode:">id</string>
+						<string key="setNetworkInterface:">id</string>
+						<string key="setObjectsToColor:">id</string>
+						<string key="setPressureUnits:">id</string>
+						<string key="setSecondaryWeatherGraph:">id</string>
+						<string key="setSeparateCPUColor:">id</string>
+						<string key="setShowBatteryGraph:">id</string>
+						<string key="setShowCPUGraph:">id</string>
+						<string key="setShowCPUTemperature:">id</string>
+						<string key="setShowDJIA:">id</string>
+						<string key="setShowDiskGraph:">id</string>
+						<string key="setShowGPUGraph:">id</string>
+						<string key="setShowLoadAverage:">id</string>
+						<string key="setShowMemoryGraph:">id</string>
+						<string key="setShowNetGraph:">id</string>
+						<string key="setShowStockGraph:">id</string>
+						<string key="setShowSummary:">id</string>
+						<string key="setShowTemperatureGraph:">id</string>
+						<string key="setShowTotalBandwidthSinceBoot:">id</string>
+						<string key="setShowTotalBandwidthSinceLoad:">id</string>
+						<string key="setShowWeatherGraph:">id</string>
+						<string key="setStickyWindow:">id</string>
+						<string key="setStockGraphTimeFrame:">id</string>
+						<string key="setStockShowChange:">id</string>
+						<string key="setStockSymbols:">id</string>
+						<string key="setTempFG1Location:">id</string>
+						<string key="setTempFG2Location:">id</string>
+						<string key="setTempFG3Location:">id</string>
+						<string key="setTempUnits:">id</string>
+						<string key="setTemperatureUnits:">id</string>
+						<string key="setWindowLevel:">id</string>
+						<string key="setWindowTitle:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="setAntiAliasing:">
+							<string key="name">setAntiAliasing:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setAntialiasText:">
+							<string key="name">setAntialiasText:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setAutoExpandGraph:">
+							<string key="name">setAutoExpandGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setBorderWidthAction:">
+							<string key="name">setBorderWidthAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCPUShowAverageUsage:">
+							<string key="name">setCPUShowAverageUsage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCPUShowUptime:">
+							<string key="name">setCPUShowUptime:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCPUTemperatureUnits:">
+							<string key="name">setCPUTemperatureUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCheckForUpdates:">
+							<string key="name">setCheckForUpdates:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setDiskGraphMode:">
+							<string key="name">setDiskGraphMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setDistanceUnits:">
+							<string key="name">setDistanceUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setDropShadow:">
+							<string key="name">setDropShadow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setFastCPUUsageCheckbox:">
+							<string key="name">setFastCPUUsageCheckbox:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setForegroundWhenExpanding:">
+							<string key="name">setForegroundWhenExpanding:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setGraphOrientation:">
+							<string key="name">setGraphOrientation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setGraphRefreshActionPart2:">
+							<string key="name">setGraphRefreshActionPart2:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setICAO:">
+							<string key="name">setICAO:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setMemoryCheckbox:">
+							<string key="name">setMemoryCheckbox:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setMinimizeUpDown:">
+							<string key="name">setMinimizeUpDown:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setNetGraphMode:">
+							<string key="name">setNetGraphMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setNetworkInterface:">
+							<string key="name">setNetworkInterface:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setObjectsToColor:">
+							<string key="name">setObjectsToColor:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setPressureUnits:">
+							<string key="name">setPressureUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setSecondaryWeatherGraph:">
+							<string key="name">setSecondaryWeatherGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setSeparateCPUColor:">
+							<string key="name">setSeparateCPUColor:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowBatteryGraph:">
+							<string key="name">setShowBatteryGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowCPUGraph:">
+							<string key="name">setShowCPUGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowCPUTemperature:">
+							<string key="name">setShowCPUTemperature:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowDJIA:">
+							<string key="name">setShowDJIA:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowDiskGraph:">
+							<string key="name">setShowDiskGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowGPUGraph:">
+							<string key="name">setShowGPUGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowLoadAverage:">
+							<string key="name">setShowLoadAverage:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowMemoryGraph:">
+							<string key="name">setShowMemoryGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowNetGraph:">
+							<string key="name">setShowNetGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowStockGraph:">
+							<string key="name">setShowStockGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowSummary:">
+							<string key="name">setShowSummary:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowTemperatureGraph:">
+							<string key="name">setShowTemperatureGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowTotalBandwidthSinceBoot:">
+							<string key="name">setShowTotalBandwidthSinceBoot:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowTotalBandwidthSinceLoad:">
+							<string key="name">setShowTotalBandwidthSinceLoad:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setShowWeatherGraph:">
+							<string key="name">setShowWeatherGraph:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStickyWindow:">
+							<string key="name">setStickyWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStockGraphTimeFrame:">
+							<string key="name">setStockGraphTimeFrame:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStockShowChange:">
+							<string key="name">setStockShowChange:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setStockSymbols:">
+							<string key="name">setStockSymbols:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempFG1Location:">
+							<string key="name">setTempFG1Location:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempFG2Location:">
+							<string key="name">setTempFG2Location:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempFG3Location:">
+							<string key="name">setTempFG3Location:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTempUnits:">
+							<string key="name">setTempUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setTemperatureUnits:">
+							<string key="name">setTemperatureUnits:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setWindowLevel:">
+							<string key="name">setWindowLevel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setWindowTitle:">
+							<string key="name">setWindowTitle:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Controllers/XRGGraphWindow.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
