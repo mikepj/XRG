@@ -75,6 +75,11 @@
     [parentWindow setBackgroundView: self];
 }
 
+- (void)setFrame:(NSRect)frame {
+	[super setFrame:frame];
+	[parentWindow.moduleManager windowChangedToSize:self.frame.size];
+}
+
 - (void)offsetDrawingOrigin:(NSSize)offset {
     [self translateOriginToPoint: NSMakePoint(offset.width, offset.height)];
 }
@@ -312,7 +317,7 @@
     }
     
     // Resize the window.
-    [parentWindow setWindowRect:windowFrame animate:YES];
+	[parentWindow setFrame:windowFrame display:YES animate:YES];
     
     // Put the window level back where it was.
     if ([appSettings foregroundWhenExpanding]) {
@@ -369,7 +374,7 @@
         [parentWindow setLevel:NSFloatingWindowLevel];
 
     // Finally, resize the window.
-    [parentWindow setWindowRect:windowFrame animate:YES];
+	[parentWindow setFrame:windowFrame display:YES animate:YES];
 	
 	// Reset the cursor rects.
 	[self resetCursorRects];

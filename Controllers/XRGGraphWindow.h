@@ -25,7 +25,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "XRGFramelessWindow.h"
 #import "XRGCPUView.h"
 #import "XRGNetView.h"
 #import "XRGDiskView.h"
@@ -39,7 +38,11 @@
 #import "XRGSettings.h"
 #import "XRGModuleManager.h"
 
-@interface XRGGraphWindow : XRGFramelessWindow
+@interface XRGGraphWindow : NSWindow
+
+@property int borderWidth;
+//@property NSSize minSize;
+@property BOOL minimized;
 
 // Timers
 @property NSTimer *min30Timer;

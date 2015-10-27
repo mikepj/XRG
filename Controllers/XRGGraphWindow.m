@@ -56,11 +56,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 		// Initialize the font manager
 		self.fontManager = [NSFontManager sharedFontManager];
 		
-		// Initialize resizing variables
-		isResizingTL = isResizingTC = isResizingTR = NO;
-		isResizingML = isResizingMR = NO;
-		isResizingBL = isResizingBC = isResizingBR = NO;
-		
 		// Initialize other status variables.
 		systemJustWokeUp = NO;
 		self.xrgCheckURL = nil;
@@ -270,13 +265,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.appSettings setStockGraphTimeFrame:    [defs[XRG_stockGraphTimeFrame] intValue]];
     [self.appSettings setStockShowChange:        [defs[XRG_stockShowChange] boolValue]];
     [self.appSettings setShowDJIA:               [defs[XRG_showDJIA] boolValue]];
-        
-    // Set up our window.
-    NSRect windowRect = NSMakeRect([defs[XRG_windowOriginX] floatValue], 
-                                   [defs[XRG_windowOriginY] floatValue],
-                                   [defs[XRG_windowWidth] floatValue], 
-                                   [defs[XRG_windowHeight] floatValue]);
-    
+            
     //Set the background color to clear
     [self setBackgroundColor:[NSColor clearColor]];
 
@@ -292,7 +281,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     
     // Set these after we have initialized the parentWindow
     [self setMinSize:[self.moduleManager getMinSize]];
-    [self.moduleManager windowChangedToSize:[self setWindowRect:windowRect].size];
+    [self.moduleManager windowChangedToSize:self.frame.size];
     [self setWindowLevelHelper: [defs[XRG_windowLevel] intValue]];    
         
     [self.moduleManager setGraphOrientationVertical: [defs[XRG_graphOrientationVertical] boolValue]];
@@ -542,54 +531,63 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 - (IBAction)setShowCPUGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"CPU" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowGPUGraph:(id)sender {
 	[self.backgroundView expandWindow];
 	[self.moduleManager setModule:@"GPU" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
 	[self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowMemoryGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Memory" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowBatteryGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Battery" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowTemperatureGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Temperature" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowNetGraph:(id)sender {    
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Network" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowDiskGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Disk" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowWeatherGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Weather" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowStockGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Stock" isDisplayed:([sender state] == NSOnState)];
+	[self setMinSize:[self.moduleManager getMinSize]];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -615,9 +613,9 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	[self.moduleManager setGraphOrientationVertical:([sender indexOfSelectedItem] == 0)];	// 0 = vertical, 1 = horizontal
     
     if (graphCurrentlyVertical != [self.moduleManager graphOrientationVertical]) {        
-        NSRect tmpRect = NSMakeRect(self.parentWindow.frame.origin.x, self.parentWindow.frame.origin.y, self.parentWindow.frame.size.height, self.parentWindow.frame.size.width);
+        NSRect tmpRect = NSMakeRect(self.frame.origin.x, self.frame.origin.y + self.frame.size.height - self.frame.size.width, self.frame.size.height, self.frame.size.width);
         [self setMinSize:[self.moduleManager getMinSize]];
-        [self setWindowRect:tmpRect];
+		[self setFrame:tmpRect display:YES animate:YES];
 	}
     
     // minimize view again if it was originally.
@@ -710,7 +708,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
         case 26: [self.appSettings setBorderColor:     [sender color]]; break;
         case 27: [self.appSettings setTextColor:       [sender color]]; break;
     }
-    [self redrawWindow];
+	[[self contentView] setNeedsDisplay:YES];
 }
 
 - (void)setObjectsToTransparency:(id) sender {
@@ -723,7 +721,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
         case 26: [self.appSettings setBorderTransparency:     [sender floatValue]]; break;
         case 27: [self.appSettings setTextTransparency:       [sender floatValue]]; break;
     }
-    [self redrawWindow];   
+	[[self contentView] setNeedsDisplay:YES];
 }
 
 - (IBAction)setFastCPUUsageCheckbox:(id)sender {
@@ -932,21 +930,13 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     return 1.0;
 }
 
-- (void)setWindowSize:(NSSize)newSize {
-    NSRect tmpRect = NSMakeRect([self frame].origin.x,
-                                [self frame].origin.y,
-                                newSize.width,
-                                newSize.height);
-    [self setMinSize:[self.moduleManager getMinSize]];
-    [self.moduleManager windowChangedToSize:[self setWindowRect:tmpRect].size];
-}
-
 - (void)checkWindowSize {
     NSSize smallSizeLimit = [self.moduleManager getMinSize];
     NSSize newSize = [self frame].size;
     if (newSize.width < smallSizeLimit.width || newSize.height < smallSizeLimit.height) {
         [self setMinSize:[self.moduleManager getMinSize]];
-        [self.moduleManager windowChangedToSize:[self setWindowRect:[self frame]].size];
+		[self setFrame:self.frame display:YES animate:YES];
+        [self.moduleManager windowChangedToSize:self.frame.size];
     }
 }
 
@@ -979,12 +969,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	BOOL wasMinimized = [defs boolForKey:XRG_windowIsMinimized];
 	[self.backgroundView expandWindow];
 	[defs setBool:wasMinimized forKey:XRG_windowIsMinimized];
-
-    // Save the window size and location.
-    [defs setFloat: [self frame].size.width  forKey:XRG_windowWidth];
-    [defs setFloat: [self frame].size.height forKey:XRG_windowHeight];
-    [defs setFloat: [self frame].origin.x    forKey:XRG_windowOriginX];
-    [defs setFloat: [self frame].origin.y    forKey:XRG_windowOriginY];
     [defs synchronize];
 }
 
@@ -998,6 +982,9 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [super mouseDown:theEvent];
 }
 
+- (BOOL)isMovableByWindowBackground {
+	return YES;
+}
 
 ///// End of Event Handlers /////
 

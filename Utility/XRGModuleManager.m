@@ -479,13 +479,13 @@
     
     if (myWindow != nil) {
         NSSize newMin = [self getMinSize];
-        if ([myWindow frame].size.width > newMin.width) 
-            newMin.width = [myWindow frame].size.width;
-        if ([myWindow frame].size.height > newMin.height) 
-            newMin.height = [myWindow frame].size.height;
-        [myWindow setWindowSize: newMin];
+		NSRect newFrame = [myWindow frame];
+        if ([myWindow frame].size.width < newMin.width) 
+            newFrame.size.width = newMin.width;
+        if ([myWindow frame].size.height < newMin.height) 
+			newFrame.size.height = newMin.height;
+		[myWindow setFrame:newFrame display:YES animate:YES];
         [myWindow setMinSize:[self getMinSize]];
-        //[self redisplayModules];
     }
 }
 
