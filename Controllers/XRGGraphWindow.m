@@ -532,6 +532,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"CPU" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -539,6 +540,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 	[self.backgroundView expandWindow];
 	[self.moduleManager setModule:@"GPU" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
 	[self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -546,6 +548,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Memory" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -553,6 +556,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Battery" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -560,6 +564,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Temperature" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -567,13 +572,15 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Network" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
-    [self.moduleManager windowChangedToSize:[self frame].size];
+	[self checkWindowSize];
+   [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setShowDiskGraph:(id)sender {
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Disk" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -581,6 +588,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Weather" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -588,6 +596,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.backgroundView expandWindow];
     [self.moduleManager setModule:@"Stock" isDisplayed:([sender state] == NSOnState)];
 	[self setMinSize:[self.moduleManager getMinSize]];
+	[self checkWindowSize];
     [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
@@ -932,10 +941,12 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (void)checkWindowSize {
     NSSize smallSizeLimit = [self.moduleManager getMinSize];
-    NSSize newSize = [self frame].size;
-    if (newSize.width < smallSizeLimit.width || newSize.height < smallSizeLimit.height) {
+	NSRect newFrame = self.frame;
+    if (newFrame.size.width < smallSizeLimit.width || newFrame.size.height < smallSizeLimit.height) {
         [self setMinSize:[self.moduleManager getMinSize]];
-		[self setFrame:self.frame display:YES animate:YES];
+		newFrame.size.width = MAX(newFrame.size.width, smallSizeLimit.width);
+		newFrame.size.height = MAX(newFrame.size.height, smallSizeLimit.height);
+		[self setFrame:newFrame display:YES animate:YES];
         [self.moduleManager windowChangedToSize:self.frame.size];
     }
 }
