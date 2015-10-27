@@ -310,8 +310,9 @@
         }
         else {
             // don't show the last one if there isn't enough space for the down arrow.
-            if (tmpRect.origin.y - (maxToShow * heightOfEachStock) < textRectHeight)
+			if ((tmpRect.origin.y - (maxToShow * heightOfEachStock) < textRectHeight) && (maxToShow > 0)) {
                 maxToShow--;
+			}
         }
             
         NSInteger currentIndex = stockToShow;
