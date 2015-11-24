@@ -302,19 +302,6 @@
 		// Not all VRAM stats will be populated from the GPU data.
 		// We'll hope for 2 out of 3 so the third can be calculated.
 
-		id perf_properties = acceleratorDictionary[@"PerformanceStatistics"];
-		if ([perf_properties isKindOfClass:[NSDictionary class]]) {
-			NSDictionary *perf = (NSDictionary *)perf_properties;
-			
-			id freeVram = perf[@"vramFreeBytes"];
-			id usedVram = perf[@"vramUsedBytes"];
-			id cpuWait = perf[@"hardwareWaitTime"];
-			
-			self.freeVRAM = [freeVram isKindOfClass:[NSNumber class]] ? [freeVram longLongValue] : -1;
-			self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
-			self.cpuWait = [cpuWait isKindOfClass:[NSNumber class]] ? [cpuWait longLongValue] : 0;
-		}
-
 		id vramTotal = acceleratorDictionary[@"VRAM,totalMB"];
 		if ([vramTotal isKindOfClass:[NSNumber class]]) {
 			self.totalVRAM = [vramTotal longLongValue] * 1024ll * 1024ll;
@@ -335,6 +322,25 @@
 			}
 		}
 		
+		id perf_properties = acceleratorDictionary[@"PerformanceStatistics"];
+		if ([perf_properties isKindOfClass:[NSDictionary class]]) {
+			NSDictionary *perf = (NSDictionary *)perf_properties;
+			
+			id freeVram = perf[@"vramFreeBytes"];
+			id usedVram = perf[@"vramUsedBytes"];
+			id cpuWait = perf[@"hardwareWaitTime"];
+			
+			self.freeVRAM = [freeVram isKindOfClass:[NSNumber class]] ? [freeVram longLongValue] : -1;
+			self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
+			self.cpuWait = [cpuWait isKindOfClass:[NSNumber class]] ? [cpuWait longLongValue] : 0;
+			
+			if (((self.usedVRAM <= 0) || (self.usedVRAM > self.totalVRAM)) && ((self.freeVRAM <= 0) || (self.freeVRAM > self.totalVRAM))) {
+				usedVram = perf[@"inUseVidMemoryBytes"];
+				self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
+				self.freeVRAM = -1;
+			}
+		}
+
 		// Do a check for our VRAM values.
 		BOOL okay = [self valuesOkay];
 		
@@ -394,6 +400,14 @@
 		// Couldn't get data for this GPU.
 		okay = NO;
 	}
+	
+	if (self.usedVRAM > self.totalVRAM) {
+		okay = NO;
+	}
+	if (self.usedVRAM < 0) {
+		okay = NO;
+	}
+	
 	return okay;
 }
 
