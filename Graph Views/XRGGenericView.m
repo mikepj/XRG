@@ -139,6 +139,58 @@
 	[self drawRangedGraphWithData:values size:numVals currentIndex:numVals - 1 upperBound:max lowerBound:min inRect:rect flipped:flipped filled:filled color:color];
 }
 
+- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel printValueBytes:(UInt64)printValue printValueIsRate:(BOOL)isRate {
+    NSString *rightLabel = nil;
+    
+    if (printValue >= 1125899906842624)
+        rightLabel = [NSString stringWithFormat:@"%3.2fP%@", ((double)printValue / 1125899906842624.), isRate ? @"/s" : @""];
+    if (printValue >= 1099511627776)
+        rightLabel = [NSString stringWithFormat:@"%3.2fT%@", ((double)printValue / 1099511627776.), isRate ? @"/s" : @""];
+    else if (printValue >= 1073741824)
+        rightLabel = [NSString stringWithFormat:@"%3.2fG%@", ((double)printValue / 1073741824.), isRate ? @"/s" : @""];
+    else if (printValue >= 1048576)
+        rightLabel = [NSString stringWithFormat:@"%3.2fM%@", ((double)printValue / 1048576.), isRate ? @"/s" : @""];
+    else if (printValue >= 1024)
+        rightLabel = [NSString stringWithFormat:@"%4.1fK%@", ((double)printValue / 1024.), isRate ? @"/s" : @""];
+    else
+        rightLabel = [NSString stringWithFormat:@"%ldB%@", (long)printValue, isRate ? @"/s" : @""];
+
+    [self drawMiniGraphWithValues:values upperBound:max lowerBound:min leftLabel:leftLabel rightLabel:rightLabel];
+}
+
+- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel rightLabel:(NSString *)rightLabel {
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
+    NSRect barRect = bounds;
+    barRect.size.height /= values.count;
+    barRect.origin.y = barRect.origin.y + bounds.size.height - barRect.size.height;
+
+    [gc setShouldAntialias:[appSettings antiAliasing]];
+
+    [[appSettings graphFG1Color] set];
+    for (NSInteger i = 0; i < values.count; i++) {
+        if ((i == 1) && (values.count == 2)) {
+            [[appSettings graphFG2Color] set];
+        }
+        
+        double value = [values[i] doubleValue];
+        CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((value - min) / (max - min)) * barRect.size.width), floor(barRect.size.height - 1)));
+        barRect.origin.y -= barRect.size.height;
+    }
+
+    // draw the text
+    [gc setShouldAntialias:[appSettings antialiasText]];
+
+    [leftLabel drawInRect:bounds withAttributes:[appSettings alignLeftAttributes]];
+    [rightLabel drawInRect:bounds withAttributes:[appSettings alignRightAttributes]];
+    
+    [gc setShouldAntialias:YES];
+}
+
 - (void) fillRect:(NSRect)rect withColor:(NSColor *)color {
     NSPoint *pointsA;
     NSPoint *pointsB;

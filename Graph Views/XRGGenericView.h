@@ -28,6 +28,8 @@
 #import <AppKit/AppKit.h>
 #define NOVALUE -1000
 
+#define XRG_MINI_HEIGHT ([appSettings textRectHeight])
+
 #import "XRGModule.h"
 #import "XRGSettings.h"
 #import "XRGModuleManager.h"
@@ -48,6 +50,10 @@
 - (void) drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
 
 - (void) drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
+
+- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel printValueBytes:(UInt64)printValue printValueIsRate:(BOOL)isRate;
+
+- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel rightLabel:(NSString *)rightLabel;
 
 - (void) fillRect:(NSRect)rect withColor:(NSColor *)color;
 
