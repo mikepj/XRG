@@ -128,10 +128,15 @@
 {
     NSRect inRect = NSMakeRect(0, 0, graphSize.width, graphSize.height);
 
-	if ([CPUMiner numberOfCPUs] > 2) 
+	if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+		[self drawMiniGraph:inRect];
+	}
+	else if ([CPUMiner numberOfCPUs] > 2) {
 		[self drawLotsOfCoresGraph:inRect];
-	else
+	}
+	else {
 		[self drawGraph:inRect];
+	}
     
     // Draw the graph in the application dock icon
     // Re-drawing uses about 2% of the CPU, and the drawing gets messed up if the graph window is higher res
@@ -549,6 +554,30 @@
     }
         
     [gc setShouldAntialias:YES];
+}
+
+- (void)drawMiniGraph:(NSRect)inRect {
+	if ([self isHidden]) {
+		return;
+	}
+
+    NSInteger numCPUs = [CPUMiner numberOfCPUs];
+    if (numCPUs == 0) return;
+
+    NSInteger *fastValues = [CPUMiner fastValues];
+    NSMutableArray *sortedValues = [NSMutableArray array];
+    for (NSInteger i = 0; i < numCPUs; i++) {
+        [sortedValues addObject:@(fastValues[i])];
+    }
+    [sortedValues sortUsingSelector:@selector(compare:)];
+    sortedValues = [NSMutableArray arrayWithArray:[[sortedValues reverseObjectEnumerator] allObjects]];
+
+    NSArray *cpuData = [CPUMiner combinedData];
+    if ([cpuData count] < 3) return;
+    NSString *rightLabel = [NSString stringWithFormat:@"%3.f%%", MAX(0, ([(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])) * [CPUMiner numberOfCPUs]];
+
+    
+    [self drawMiniGraphWithValues:sortedValues upperBound:100 lowerBound:0 leftLabel:@"CPU" rightLabel:rightLabel];
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       
