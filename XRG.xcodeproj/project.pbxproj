@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27186E2C1D88EA7A003DF559 /* XRGCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 27186E2B1D88EA7A003DF559 /* XRGCommon.m */; };
 		271FA60F15AC79A100E16233 /* Online Help in Resources */ = {isa = PBXBuildFile; fileRef = 271FA60E15AC79A100E16233 /* Online Help */; };
 		273ECE6A15740DE700E65D82 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECE6915740DE700E65D82 /* Cocoa.framework */; };
 		273ECEFA15740EAF00E65D82 /* XRGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 273ECE8D15740EAF00E65D82 /* XRGAppDelegate.m */; };
@@ -49,6 +50,7 @@
 		273ECF551574106600E65D82 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF511574106600E65D82 /* Preferences.nib */; };
 		273ECF64157413D200E65D82 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF63157413D200E65D82 /* icon.icns */; };
 		273ECF661574145100E65D82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECF651574145100E65D82 /* IOKit.framework */; };
+		275842181D8E3F4800D0281F /* XRGNetMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 275842171D8E3F4800D0281F /* XRGNetMiner.m */; };
 		278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606201B445FED00CC6249 /* XRGGPUMiner.m */; };
 		278606241B44741B00CC6249 /* XRGGPUView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606231B44741B00CC6249 /* XRGGPUView.m */; };
 		937851AA157CA243001D2A15 /* SMCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851A8157CA243001D2A15 /* SMCInterface.m */; };
@@ -56,6 +58,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27186E2A1D88EA7A003DF559 /* XRGCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGCommon.h; sourceTree = "<group>"; };
+		27186E2B1D88EA7A003DF559 /* XRGCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGCommon.m; sourceTree = "<group>"; };
 		271FA60E15AC79A100E16233 /* Online Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Online Help"; sourceTree = "<group>"; };
 		273ECE6515740DE700E65D82 /* XRG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XRG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		273ECE6915740DE700E65D82 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -131,6 +135,8 @@
 		273ECF63157413D200E65D82 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		273ECF651574145100E65D82 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		273ECF6D157803EF00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
+		275842161D8E3F4800D0281F /* XRGNetMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGNetMiner.h; sourceTree = "<group>"; };
+		275842171D8E3F4800D0281F /* XRGNetMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGNetMiner.m; sourceTree = "<group>"; };
 		2775AC211B42F4A700D867AC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		2786061F1B445FED00CC6249 /* XRGGPUMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGGPUMiner.h; sourceTree = "<group>"; };
 		278606201B445FED00CC6249 /* XRGGPUMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGPUMiner.m; sourceTree = "<group>"; };
@@ -234,6 +240,8 @@
 				273ECE9E15740EAF00E65D82 /* XRGTemperatureMiner.m */,
 				2786061F1B445FED00CC6249 /* XRGGPUMiner.h */,
 				278606201B445FED00CC6249 /* XRGGPUMiner.m */,
+				275842161D8E3F4800D0281F /* XRGNetMiner.h */,
+				275842171D8E3F4800D0281F /* XRGNetMiner.m */,
 			);
 			path = "Data Miners";
 			sourceTree = SOURCE_ROOT;
@@ -318,6 +326,8 @@
 				273ECEF715740EAF00E65D82 /* XRGStock.m */,
 				273ECEF815740EAF00E65D82 /* XRGURL.h */,
 				273ECEF915740EAF00E65D82 /* XRGURL.m */,
+				27186E2A1D88EA7A003DF559 /* XRGCommon.h */,
+				27186E2B1D88EA7A003DF559 /* XRGCommon.m */,
 			);
 			path = Utility;
 			sourceTree = SOURCE_ROOT;
@@ -423,6 +433,7 @@
 				273ECF0115740EAF00E65D82 /* XRGProcessMiner.m in Sources */,
 				273ECF0215740EAF00E65D82 /* XRGTemperatureMiner.m in Sources */,
 				273ECF0315740EAF00E65D82 /* XRGBackgroundView.m in Sources */,
+				27186E2C1D88EA7A003DF559 /* XRGCommon.m in Sources */,
 				273ECF0415740EAF00E65D82 /* XRGBatteryView.m in Sources */,
 				273ECF0515740EAF00E65D82 /* XRGCPUView.m in Sources */,
 				273ECF0615740EAF00E65D82 /* XRGDiskView.m in Sources */,
@@ -434,6 +445,7 @@
 				278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */,
 				273ECF0B15740EAF00E65D82 /* XRGTemperatureView.m in Sources */,
 				273ECF0C15740EAF00E65D82 /* XRGWeatherView.m in Sources */,
+				275842181D8E3F4800D0281F /* XRGNetMiner.m in Sources */,
 				273ECF0D15740EAF00E65D82 /* main.m in Sources */,
 				273ECF3715740EAF00E65D82 /* NSStringUtil.m in Sources */,
 				273ECF3815740EAF00E65D82 /* XRGDataSet.m in Sources */,
