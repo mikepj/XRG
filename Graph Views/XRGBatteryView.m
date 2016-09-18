@@ -435,6 +435,12 @@
     [[appSettings graphFG1Color] set];
     if (charge) {
         percentRect.size.width = rect.size.width * (float)((float)currentPercent / 100.);
+		
+		if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+			percentRect.origin.y -= self.bounds.size.height - percentRect.size.height;
+			percentRect.size.height = self.bounds.size.height;
+		}
+		
         NSRectFill(percentRect);
     }
     
@@ -449,60 +455,61 @@
         NSRectFill(chargingRect);
     }
     
-    // draw the volts bar
-    percentRect.origin.y -= textRectHeight;
-    if (voltage) {
-        percentRect.size.width = (maxVolts == 0) ? 0 : rect.size.width * (float)((float)voltageAverage / (float)maxVolts);
-        NSRectFill(percentRect);
-    }
-    
-    // draw the amps bar
-    [[appSettings graphFG3Color] set];
-    percentRect.origin.y -= textRectHeight;
-	percentRect.origin.x = rect.size.width / 2.;
-    if (amperage) {
-		if (amperageAverage > 0) {
-			percentRect.size.width = (maxAmps == 0) ? 0 : (rect.size.width / 2.) * (float)((float)amperageAverage / (float)maxAmps);
+	if (self.bounds.size.height >= XRG_MINI_HEIGHT * 2) {
+		// draw the volts bar
+		percentRect.origin.y -= percentRect.size.height;
+		if (voltage) {
+			percentRect.size.width = (maxVolts == 0) ? 0 : rect.size.width * (float)((float)voltageAverage / (float)maxVolts);
 			NSRectFill(percentRect);
 		}
-		else {
-			percentRect.size.width = (minAmps == 0) ? 0 : (rect.size.width / 2.) * (float)((float)amperageAverage / (float)minAmps);
-			percentRect.origin.x -= percentRect.size.width;
-			NSRectFill(percentRect);
+		
+		// draw the amps bar
+		[[appSettings graphFG3Color] set];
+		percentRect.origin.y -= percentRect.size.height;
+		percentRect.origin.x = rect.size.width / 2.;
+		if (amperage) {
+			if (amperageAverage > 0) {
+				percentRect.size.width = (maxAmps == 0) ? 0 : (rect.size.width / 2.) * (float)((float)amperageAverage / (float)maxAmps);
+				NSRectFill(percentRect);
+			}
+			else {
+				percentRect.size.width = (minAmps == 0) ? 0 : (rect.size.width / 2.) * (float)((float)amperageAverage / (float)minAmps);
+				percentRect.origin.x -= percentRect.size.width;
+				NSRectFill(percentRect);
+			}
 		}
-    }
-	percentRect.origin.x = 0;
-    
-    // draw the borders
-    [[appSettings borderColor] set];
-    percentRect.size.width = graphSize.width;
-    percentRect.size.height = 2;
-    percentRect.origin.y--;
-    int topOfCapacityGraph = percentRect.origin.y;
-    NSRectFill(percentRect);
-    percentRect.origin.y += textRectHeight;
-    NSRectFill(percentRect);
-    percentRect.origin.y += textRectHeight;
-    NSRectFill(percentRect);
-	
-	// Fill the split bar for the amp graph
-	NSRectFill(NSMakeRect((rect.size.width / 2.) - 1., topOfCapacityGraph, 2., textRectHeight + 2.));
-    
-    // Draw the battery capacity graph, only if there is space for it on the graph.
-    percentRect.size.width = graphSize.width;
-    percentRect.origin.y = 0;
-    percentRect.size.height = topOfCapacityGraph;
-    
-    if (capacity && percentRect.size.height > 0) {
-        CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));
-        for (NSInteger i = 0; i < numSamples; ++i) {
-            data[i] = (capacitySum == 0) ? 0 : ((CGFloat)values[i] / (CGFloat)capacitySum) * 100;
-            if (data[i] > 100) data[i] = 100;
-        }
-    
-        [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:100.0f inRect:percentRect flipped:NO color:[appSettings graphFG1Color]];
-    }
-
+		percentRect.origin.x = 0;
+		
+		// draw the borders
+		[[appSettings borderColor] set];
+		percentRect.size.width = graphSize.width;
+		percentRect.size.height = 2;
+		percentRect.origin.y--;
+		int topOfCapacityGraph = percentRect.origin.y;
+		NSRectFill(percentRect);
+		percentRect.origin.y += textRectHeight;
+		NSRectFill(percentRect);
+		percentRect.origin.y += textRectHeight;
+		NSRectFill(percentRect);
+		
+		// Fill the split bar for the amp graph
+		NSRectFill(NSMakeRect((rect.size.width / 2.) - 1., topOfCapacityGraph, 2., textRectHeight + 2.));
+		
+		// Draw the battery capacity graph, only if there is space for it on the graph.
+		percentRect.size.width = graphSize.width;
+		percentRect.origin.y = 0;
+		percentRect.size.height = topOfCapacityGraph;
+		
+		if (capacity && percentRect.size.height > 0) {
+			CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));
+			for (NSInteger i = 0; i < numSamples; ++i) {
+				data[i] = (capacitySum == 0) ? 0 : ((CGFloat)values[i] / (CGFloat)capacitySum) * 100;
+				if (data[i] > 100) data[i] = 100;
+			}
+		
+			[self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:100.0f inRect:percentRect flipped:NO color:[appSettings graphFG1Color]];
+		}
+	}
     [gc setShouldAntialias:YES];
 
 
@@ -555,102 +562,104 @@
                 [rightS appendFormat:@"Est."];
         }
         
-        // Draw the voltage
-        if (textRect.origin.y - textRectHeight > 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (VOLTAGE_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nVoltage:"];
-                [rightS appendFormat:@"\n%2.3fV", (float)voltageAverage / 1000.];
-                [centerS appendString:@"\n "];
-            }
-            else if (VOLTAGE_NORMAL <= textRect.size.width) {
-                [leftS appendString:@"\nVolts:"];
-                [rightS appendFormat:@"\n%2.3f", (float)voltageAverage / 1000.];
-                [centerS appendString:@"\n "];
-            }
-            else {
-                [leftS appendString:@"\n "];
-                [rightS appendString:@"\n "];
-                [centerS appendFormat:@"\n%2.3fV", (float)voltageAverage / 1000.];
-                drawCenter = YES;
-            }
-        }
-    
-        // Draw the amperage
-        if (textRect.origin.y - textRectHeight > 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (AMPERAGE_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nCurrent:"];
-                [rightS appendFormat:@"\n%1.3fA", (float)amperageAverage / 1000.];
-                [centerS appendString:@"\n "];
-            }
-            else if (AMPERAGE_NORMAL <= textRect.size.width) {
-                [leftS appendString:@"\nCur:"];
-                [rightS appendFormat:@"\n%1.3f", (float)amperageAverage / 1000.];
-                [centerS appendString:@"\n "];
-            }
-            else {
-                [leftS appendString:@"\n "];
-                [rightS appendString:@"\n "];
-                [centerS appendFormat:@"\n%1.3fA", (float)amperageAverage / 1000.];
-                drawCenter = YES;
-            }
-        }
+		if (self.bounds.size.height >= XRG_MINI_HEIGHT * 2) {
+			// Draw the voltage
+			if (textRect.origin.y - textRectHeight > 0) {
+				textRect.origin.y -= textRectHeight;
+				textRect.size.height += textRectHeight;
+				
+				if (VOLTAGE_WIDE <= textRect.size.width) {
+					[leftS appendString:@"\nVoltage:"];
+					[rightS appendFormat:@"\n%2.3fV", (float)voltageAverage / 1000.];
+					[centerS appendString:@"\n "];
+				}
+				else if (VOLTAGE_NORMAL <= textRect.size.width) {
+					[leftS appendString:@"\nVolts:"];
+					[rightS appendFormat:@"\n%2.3f", (float)voltageAverage / 1000.];
+					[centerS appendString:@"\n "];
+				}
+				else {
+					[leftS appendString:@"\n "];
+					[rightS appendString:@"\n "];
+					[centerS appendFormat:@"\n%2.3fV", (float)voltageAverage / 1000.];
+					drawCenter = YES;
+				}
+			}
+		
+			// Draw the amperage
+			if (textRect.origin.y - textRectHeight > 0) {
+				textRect.origin.y -= textRectHeight;
+				textRect.size.height += textRectHeight;
+				
+				if (AMPERAGE_WIDE <= textRect.size.width) {
+					[leftS appendString:@"\nCurrent:"];
+					[rightS appendFormat:@"\n%1.3fA", (float)amperageAverage / 1000.];
+					[centerS appendString:@"\n "];
+				}
+				else if (AMPERAGE_NORMAL <= textRect.size.width) {
+					[leftS appendString:@"\nCur:"];
+					[rightS appendFormat:@"\n%1.3f", (float)amperageAverage / 1000.];
+					[centerS appendString:@"\n "];
+				}
+				else {
+					[leftS appendString:@"\n "];
+					[rightS appendString:@"\n "];
+					[centerS appendFormat:@"\n%1.3fA", (float)amperageAverage / 1000.];
+					drawCenter = YES;
+				}
+			}
 
-        // Draw the current charge
-        if (textRect.origin.y - textRectHeight > 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            NSString *chargeString = [NSString stringWithFormat:@"\n%ldmAh", (long)chargeSum];
-            
-            if (CURRENT_WIDE + MAH_STRING <= textRect.size.width) {
-                [leftS appendString:@"\nRemaining Capacity:"];
-                [rightS appendString:chargeString];
-                [centerS appendString:@"\n "];
-            }
-            else if (CURRENT_NORMAL + MAH_STRING <= textRect.size.width) {
-                [leftS appendString:@"\nRem:"];
-                [rightS appendString:chargeString];
-                [centerS appendString:@"\n "];
-            }
-            else {
-                [leftS appendString:@"\n "];
-                [rightS appendString:@"\n "];
-                [centerS appendString:chargeString];
-                drawCenter = YES;
-            }
-        }
-        
-        // Draw the capacity
-        if (textRect.origin.y - textRectHeight > 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            NSString *capacityString = [NSString stringWithFormat:@"\n%ldmAh", (long)capacitySum];
-            
-            if (CAPACITY_WIDE + MAH_STRING <= textRect.size.width) {
-                [leftS appendString:@"\nMaximum Capacity:"];
-                [rightS appendString:capacityString];
-                [centerS appendString:@"\n "];
-            }
-            else if (CAPACITY_NORMAL + MAH_STRING <= textRect.size.width) {
-                [leftS appendString:@"\nMax:"];
-                [rightS appendString:capacityString];
-                [centerS appendString:@"\n "];
-            }
-            else {
-                [leftS appendString:@"\n "];
-                [rightS appendString:@"\n "];
-                [centerS appendString:capacityString];
-                drawCenter = YES;
-            }
-        }
-        
+			// Draw the current charge
+			if (textRect.origin.y - textRectHeight > 0) {
+				textRect.origin.y -= textRectHeight;
+				textRect.size.height += textRectHeight;
+				
+				NSString *chargeString = [NSString stringWithFormat:@"\n%ldmAh", (long)chargeSum];
+				
+				if (CURRENT_WIDE + MAH_STRING <= textRect.size.width) {
+					[leftS appendString:@"\nRemaining Capacity:"];
+					[rightS appendString:chargeString];
+					[centerS appendString:@"\n "];
+				}
+				else if (CURRENT_NORMAL + MAH_STRING <= textRect.size.width) {
+					[leftS appendString:@"\nRem:"];
+					[rightS appendString:chargeString];
+					[centerS appendString:@"\n "];
+				}
+				else {
+					[leftS appendString:@"\n "];
+					[rightS appendString:@"\n "];
+					[centerS appendString:chargeString];
+					drawCenter = YES;
+				}
+			}
+			
+			// Draw the capacity
+			if (textRect.origin.y - textRectHeight > 0) {
+				textRect.origin.y -= textRectHeight;
+				textRect.size.height += textRectHeight;
+				
+				NSString *capacityString = [NSString stringWithFormat:@"\n%ldmAh", (long)capacitySum];
+				
+				if (CAPACITY_WIDE + MAH_STRING <= textRect.size.width) {
+					[leftS appendString:@"\nMaximum Capacity:"];
+					[rightS appendString:capacityString];
+					[centerS appendString:@"\n "];
+				}
+				else if (CAPACITY_NORMAL + MAH_STRING <= textRect.size.width) {
+					[leftS appendString:@"\nMax:"];
+					[rightS appendString:capacityString];
+					[centerS appendString:@"\n "];
+				}
+				else {
+					[leftS appendString:@"\n "];
+					[rightS appendString:@"\n "];
+					[centerS appendString:capacityString];
+					drawCenter = YES;
+				}
+			}
+		}
+		
         [leftS drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
         [rightS drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
         
