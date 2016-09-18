@@ -1,6 +1,6 @@
 /* 
  * XRG (X Resource Graph):  A system resource grapher for Mac OS X.
- * Copyright (C) 2002-2012 Gaucho Software, LLC.
+ * Copyright (C) 2002-2016 Gaucho Software, LLC.
  * You can view the complete license in the LICENSE file in the root
  * of the source tree.
  *
@@ -600,7 +600,7 @@
     if (s[0] == '\0') return NSNotFound;
         
     for (i = 0; i < [inArray count]; i++) {
-        int retval = matchRegex(s, (char *)[inArray[i] lossyCString]);
+        int retval = matchRegex(s, (char *)[inArray[i] cStringUsingEncoding:NSASCIIStringEncoding]);
         if (retval > 0)
             return i;
     }
