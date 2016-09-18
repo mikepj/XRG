@@ -46,7 +46,13 @@
     int						writeBytes;
     int						totalDiskIO;
 	long long				diskIOSinceLaunch;
-    
+	
+	int						fastReadBytes;
+	int						fastWriteBytes;
+	int						fastMax;
+	io_stats				fast_i;
+	io_stats				fast_o;
+
     mach_port_t         	masterPort;
     io_iterator_t       	drivelist;  /* needs release */
 	NSMutableArray			*volumeInfo;

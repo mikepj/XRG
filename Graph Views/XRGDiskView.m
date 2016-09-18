@@ -26,6 +26,7 @@
 
 #import "XRGDiskView.h"
 #import "XRGGraphWindow.h"
+#import "XRGCommon.h"
 #import <CoreFoundation/CoreFoundation.h>
 #include <sys/time.h>
 #include <sys/param.h>
@@ -39,6 +40,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 - (void)awakeFromNib {    
     currentIndex = 0;
     maxVal       = 0;
+	fastMax      = 1024 * 1024;
               
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setDiskView:self];
@@ -63,7 +65,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
                                      
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Disk" andReference:self];
-	m.doesFastUpdate = NO;
+	m.doesFastUpdate = YES;
 	m.doesGraphUpdate = YES;
 	m.doesMin5Update = YES;
 	m.doesMin30Update = NO;
@@ -146,11 +148,32 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 
 - (void)updateMinSize {
     float width, height;
-    height = [appSettings textRectHeight] * 2;
+    height = [appSettings textRectHeight];
     width = [@"D1023K W" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6;
     
     [m setMinWidth: width];
     [m setMinHeight: height];
+}
+
+- (void)fastUpdate:(NSTimer *)aTimer {
+	if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+		getDISKcounters(drivelist, &fast_i, &fast_o);    
+		
+		fast_i.bytes_delta = fast_i.bytes - fast_i.bytes_prev;
+		fast_o.bytes_delta = fast_o.bytes - fast_o.bytes_prev;
+		
+        fastReadBytes = [XRGCommon dampedValueUsingPreviousValue:fastReadBytes currentValue:fast_i.bytes_delta / [appSettings graphRefresh]];
+        fastWriteBytes = [XRGCommon dampedValueUsingPreviousValue:fastWriteBytes currentValue:fast_o.bytes_delta / [appSettings graphRefresh]];
+		
+		fast_i.bytes_prev = fast_i.bytes; 
+		fast_o.bytes_prev = fast_o.bytes;
+		
+		if (fastReadBytes + fastWriteBytes > 0) {
+            fastMax = [XRGCommon dampedMaxUsingPreviousMax:fastMax currentMax:fastReadBytes + fastWriteBytes baseMax:1024 * 1024];
+		}
+	
+		[self setNeedsDisplay: YES];       
+	}
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer{
@@ -251,6 +274,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         NSLog(@"In Disk DrawRect."); 
     #endif
 
+	if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+		[self drawMiniGraph:self.bounds];
+		return;
+	}
+	
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 
     int i, max;
@@ -356,6 +384,25 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     
 
     [gc setShouldAntialias:YES];
+}
+
+- (void)drawMiniGraph:(NSRect)inRect {
+    NSString *leftLabel = nil;
+    if ([@"Disk1023.9K W" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6 > [self frame].size.width) {
+        leftLabel = @"D";
+    }
+    else {
+        leftLabel = @"Disk";
+    }
+    
+    NSInteger max = MAX(fastMax, 1024 * 1024);
+    
+    if ([appSettings diskGraphMode] == 2) {     // Write on top of read.
+        [self drawMiniGraphWithValues:@[@(fastWriteBytes), @(fastReadBytes)] upperBound:max lowerBound:0 leftLabel:leftLabel printValueBytes:readBytes + writeBytes printValueIsRate:YES];
+    }
+    else {                                      // Read on top of write.
+        [self drawMiniGraphWithValues:@[@(fastReadBytes), @(fastWriteBytes)] upperBound:max lowerBound:0 leftLabel:leftLabel printValueBytes:readBytes + writeBytes printValueIsRate:YES];
+    }
 }
 
 - (int)convertHeight:(int) yComponent {
