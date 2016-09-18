@@ -159,12 +159,10 @@
 }
 
 - (void)updateMinSize {
-    float width, height;
-    height = [appSettings textRectHeight] * 3;
-    width = [@"WWWW: $999.99" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6;
+    CGFloat width = [@"WWWW: $999.99" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6;
     
     [m setMinWidth: width];
-    [m setMinHeight: height];
+    [m setMinHeight: XRG_MINI_HEIGHT];
 }
 
 - (void)ticker {

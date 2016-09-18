@@ -74,11 +74,10 @@
 }
 
 - (void)updateMinSize {
-	float height = [appSettings textRectHeight] * 2;
 	float width = [@"GPU 9: 9999M" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6;
 	
 	[m setMinWidth: width];
-	[m setMinHeight: height];
+    [m setMinHeight: XRG_MINI_HEIGHT];
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {

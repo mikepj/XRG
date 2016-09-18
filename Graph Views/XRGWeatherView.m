@@ -110,12 +110,10 @@
 - (void)updateMinSize {
     NSMutableDictionary *textAttributes = [appSettings alignRightAttributes];
 
-    float width, height;
-    height = [appSettings textRectHeight] * 2;
-    width = [@"H/L:199/99" sizeWithAttributes:textAttributes].width + 6;
+    CGFloat width = [@"H/L:199/99" sizeWithAttributes:textAttributes].width + 6;
     
     [m setMinWidth: width];
-    [m setMinHeight: height];
+    [m setMinHeight: XRG_MINI_HEIGHT];
     
     // Update the text width cache.
     STATION_WIDE       = [@"Station: WWWW" sizeWithAttributes:textAttributes].width;	
