@@ -78,13 +78,9 @@
     [memoryMiner setDataSize:newNumSamples];
 }
 
-- (void)updateMinSize {
-    float width, height;
-    height = [appSettings textRectHeight] * 2;
-    width = [@"W: 9999M" sizeWithAttributes:[appSettings alignRightAttributes]].width + 19 + 6;
-    
-    [m setMinWidth: width];
-    [m setMinHeight: height];
+- (void)updateMinSize {    
+    [m setMinWidth: [@"W: 9999M" sizeWithAttributes:[appSettings alignRightAttributes]].width + 19 + 6];
+    [m setMinHeight: [appSettings textRectHeight]];
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {
@@ -96,6 +92,11 @@
 - (void)drawRect:(NSRect)rect {
     if ([self isHidden]) return;
 
+	if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+		[self drawMiniGraph:self.bounds];
+		return;
+	}
+	
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 
     #ifdef XRG_DEBUG
@@ -248,6 +249,53 @@
     
 
     [gc setShouldAntialias:YES];
+}
+
+- (void)drawMiniGraph:(NSRect)inRect {
+	NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
+	
+	[[appSettings graphBGColor] set];    
+	NSRectFill([self bounds]);
+	
+	CGFloat totalScale = MAX([memoryMiner wiredBytes] + [memoryMiner activeBytes] + [memoryMiner inactiveBytes] + [memoryMiner freeBytes], (CGFloat)[memoryMiner totalSwap] / 1024.);
+	
+	NSRect bottomBarRect = NSMakeRect(inRect.origin.x, inRect.origin.y, inRect.size.width, roundf(inRect.size.height * 0.4) - 1);
+	NSRect topBarRect = NSMakeRect(inRect.origin.x, bottomBarRect.origin.y + bottomBarRect.size.height + 1, inRect.size.width, inRect.origin.y + inRect.size.height - (bottomBarRect.origin.y + bottomBarRect.size.height + 1));
+	
+	NSRect wiredRect = topBarRect;
+	wiredRect.size.width = (totalScale == 0) ? 0 : (CGFloat)[memoryMiner wiredBytes] / totalScale * topBarRect.size.width;
+	[[appSettings graphFG1Color] set];
+	NSRectFill(wiredRect);
+	
+	NSRect activeRect = topBarRect;
+	activeRect.origin.x = wiredRect.origin.x + wiredRect.size.width;
+	activeRect.size.width = (totalScale == 0) ? 0 : (CGFloat)[memoryMiner activeBytes] / totalScale * topBarRect.size.width;
+	[[appSettings graphFG2Color] set];
+	NSRectFill(activeRect);
+	
+	NSRect inactiveRect = topBarRect;
+	inactiveRect.origin.x = activeRect.origin.x + activeRect.size.width;
+	inactiveRect.size.width = (totalScale == 0) ? 0 : (CGFloat)[memoryMiner inactiveBytes] / totalScale * topBarRect.size.width;
+	[[appSettings graphFG3Color] set];
+	NSRectFill(inactiveRect);
+	
+	// Draw the swap info.
+	bottomBarRect.size.width *= (totalScale == 0) ? 0 : ((CGFloat)[memoryMiner usedSwap] / 1024.) / totalScale;
+	[[appSettings graphFG1Color] set];
+	NSRectFill(bottomBarRect);
+	
+	// draw the text
+	[gc setShouldAntialias:[appSettings antialiasText]];
+	
+	NSString *leftString = @"Mem";
+	
+	NSString *rightString = [NSString stringWithFormat:@"%dM Vu", (int)((double)[memoryMiner usedSwap] / 1024. / 1024.)];
+	
+	NSRect textRect = NSInsetRect(inRect, 3, 0);
+	[leftString drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+	[rightString drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+	
+	[gc setShouldAntialias:YES];
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
