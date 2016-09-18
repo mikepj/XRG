@@ -185,8 +185,11 @@
     // draw the text
     [gc setShouldAntialias:[appSettings antialiasText]];
 
-    [leftLabel drawInRect:bounds withAttributes:[appSettings alignLeftAttributes]];
-    [rightLabel drawInRect:bounds withAttributes:[appSettings alignRightAttributes]];
+    NSRect textRect = bounds;
+    textRect.origin.x += 3;
+    textRect.size.width -= 6;
+    [leftLabel drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+    [rightLabel drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
     
     [gc setShouldAntialias:YES];
 }
