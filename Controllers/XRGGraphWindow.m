@@ -488,7 +488,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 														  repeats:YES];
     }
     if (!self.fastTimer) {
-		self.fastTimer = [NSTimer scheduledTimerWithTimeInterval:0.2
+		self.fastTimer = [NSTimer scheduledTimerWithTimeInterval:0.125
 														  target:self
 														selector:@selector(fastUpdate:)
 														userInfo:nil
@@ -829,7 +829,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
         [self.appSettings setNetworkInterface:@"All"];
     }
     else {
-        NSArray *interfaces = [self.netView networkInterfaces];
+        NSArray *interfaces = [self.netView.miner networkInterfaces];
         if (selectedRow - 1 < [interfaces count])
             [self.appSettings setNetworkInterface:interfaces[(selectedRow - 1)]];
         else

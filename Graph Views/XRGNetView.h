@@ -27,46 +27,25 @@
 #import <Cocoa/Cocoa.h>
 #import "definitions.h"
 #import "XRGGenericView.h"
+#import "XRGNetMiner.h"
 
 @interface XRGNetView : XRGGenericView {   
 @private
     NSSize                  graphSize;
-    int                     numSamples;
+    NSInteger               numSamples;
     XRGModule               *m;
     
-    io_stats                i_net, o_net;
-    network_interface_stats *interfaceStats;
-    int                     pppInterfaceNum;
-    int                     numInterfaces;
-    int                     sendBytes;
-    int                     recvBytes;
-    UInt64                  totalBytesSinceBoot;
-    UInt64                  totalBytesSinceLoad;
-    int                     mib[6];
-    char                    *buf;
-    size_t                  alloc;
-
-
-    int                     *rxValues;
-    int                     *txValues;
-    int                     *values;
-    int                     currentIndex;
-    int                     maxVal;
-    
-    bool                    firstTimeStats;
-    NSMutableArray          *networkInterfaces;
+    NSInteger				fastRXValue;
+    NSInteger				fastTXValue;
 }
+
+@property XRGNetMiner *miner;
+@property XRGNetMiner *fastMiner;
+
 - (void)setGraphSize:(NSSize)newSize;
 - (void)setWidth:(int)newWidth;
 - (void)updateMinSize;
-- (int)convertHeight:(int) yComponent;
-- (void)setCurrentBandwidth;
-- (void)getInterfacesBandwidth;
-- (void)setInterfaceBandwidth:(char *)interface_name inBytes:(UInt64)in_bytes outBytes:(UInt64)out_bytes;
+- (NSInteger)convertHeight:(NSInteger) yComponent;
 - (void)graphUpdate:(NSTimer *)aTimer;
-- (int)getSendBytes;
-- (int)getRecvBytes;
-- (int)getMaxValue;
-- (void)setNetworkInterfaces:(char **)interfaces;
-- (NSArray *)networkInterfaces;
+
 @end
