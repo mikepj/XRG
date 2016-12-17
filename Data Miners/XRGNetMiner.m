@@ -145,7 +145,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
 }
 
 - (CGFloat)currentTX {
-    return [self.txValues currentIndex];
+    return [self.txValues currentValue];
 }
 
 - (CGFloat)currentRX {
