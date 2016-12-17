@@ -106,7 +106,7 @@
 	for (NSInteger i = 0; i < totalValues.count; i++) {
 		NSRect graphRect = NSMakeRect(0, (totalValues.count - i - 1) * floor(graphHeight), numSamples, floor(graphHeight) - 1);
 		[[appSettings graphBGColor] set];
-		NSRectFill(graphRect);
+		NSRectFill(self.bounds);
 
 		// Draw the graph.
 		[gc setShouldAntialias:[appSettings antiAliasing]];
