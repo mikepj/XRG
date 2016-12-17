@@ -594,7 +594,7 @@
         }
     }
     	
-	[[[NSApp delegate] prefController] setUpColorPanel];
+	[[(XRGAppDelegate *)[NSApp delegate] prefController] setUpColorPanel];
 
     return YES;
 }
