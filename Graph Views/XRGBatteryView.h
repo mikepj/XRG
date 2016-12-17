@@ -52,10 +52,7 @@
     CGFloat                 CHARGED_WIDE;
     CGFloat                 ESTIMATING_WIDE;
     CGFloat                 ESTIMATING_NORMAL;
-    CGFloat                 VOLTAGE_WIDE;
-    CGFloat                 VOLTAGE_NORMAL;
-    CGFloat                 AMPERAGE_WIDE;
-    CGFloat                 AMPERAGE_NORMAL;
+    CGFloat                 POWER_WIDE;
     CGFloat                 CURRENT_WIDE;
     CGFloat                 CURRENT_NORMAL;
     CGFloat                 CAPACITY_WIDE;
@@ -63,10 +60,6 @@
     CGFloat                 NBIF_WIDE;
     CGFloat                 NBIF_NORMAL;
     CGFloat                 MAH_STRING;
-    
-    NSInteger               *values;
-    NSInteger               currentIndex;
-    NSInteger               maxVal;
     
     NSInteger               *current;
     NSInteger               *capacity;
@@ -96,6 +89,9 @@
     CGFloat                 currentPixelTime;
     CGFloat                 currentStatsTime;
 }
+
+@property XRGDataSet        *chargeWatts;
+@property XRGDataSet        *dischargeWatts;
 
 - (void)setGraphSize:(NSSize)newSize;
 - (void)setWidth:(int)newWidth;
