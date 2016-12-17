@@ -168,6 +168,7 @@
     NSRect barRect = bounds;
     barRect.size.height /= values.count;
     barRect.origin.y = barRect.origin.y + bounds.size.height - barRect.size.height;
+    CGFloat spacing = barRect.size.height > 2 ? 1 : 0;
 
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
@@ -178,7 +179,7 @@
         }
         
         double value = [values[i] doubleValue];
-        CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((value - min) / (max - min)) * barRect.size.width), floor(barRect.size.height - 1)));
+        CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((value - min) / (max - min)) * barRect.size.width), floor(barRect.size.height - spacing)));
         barRect.origin.y -= barRect.size.height;
     }
 
