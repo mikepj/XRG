@@ -78,14 +78,14 @@
 
     [CPUMiner setDataSize:newNumSamples];
 
-    numSamples  = newNumSamples;
+    numSamples = newNumSamples;
 }
 
 - (void)updateMinSize {
-    float width, height;
+    CGFloat width, height;
     height = [appSettings textRectHeight];
         
-    int offset = [appSettings fastCPUUsage] ? 7 : 0;
+    NSInteger offset = [appSettings fastCPUUsage] ? 7 : 0;
     
     UPTIME_WIDE = [@"Uptime: 99d 23:59" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
     UPTIME_NORMAL = [@"U: 99d 23:59" sizeWithAttributes:[appSettings alignRightAttributes]].width + offset + 6;
@@ -172,7 +172,6 @@
 	
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 	
-    int i;
     [gc setShouldAntialias:[appSettings antiAliasing]];
 	
     [[appSettings graphBGColor] set];
@@ -190,11 +189,11 @@
         [[appSettings graphFG2Color] set];
         NSInteger tmp = 0;
         NSInteger *fastValues = [CPUMiner fastValues];
-        for (i = 0; i < numCPUs; i++) {
+        for (NSInteger i = 0; i < numCPUs; i++) {
             tmp += fastValues[i];
         }
         
-        NSRectFill(NSMakeRect(inRect.size.width - 7 + 2, 0, 5, ((float)tmp / (float)numCPUs) / 100. * graphSize.height));
+        NSRectFill(NSMakeRect(inRect.size.width - 7 + 2, 0, 5, ((CGFloat)tmp / (CGFloat)numCPUs) / 100. * graphSize.height));
 	}
 	
     // this is the rect that we will draw the graphs in
@@ -211,7 +210,7 @@
 	// Draw the bottom graph.
 	NSInteger *fastValues = [CPUMiner fastValues];
 	NSMutableArray *sortedValues = [NSMutableArray arrayWithCapacity:numCPUs];
-	for (i = 0; i < numCPUs; i++) {
+	for (NSInteger i = 0; i < numCPUs; i++) {
 		[sortedValues addObject:@(fastValues[i])];
 	}
 	[sortedValues sortUsingSelector:@selector(compare:)];
@@ -220,7 +219,7 @@
 	cpuRect.size.width /= numCPUs;
 	
 	[[appSettings graphFG1Color] set];
-	for (i = 0; i < numCPUs; i++) {
+	for (NSInteger i = 0; i < numCPUs; i++) {
 		NSRectFill(NSMakeRect(cpuRect.origin.x, cpuRect.origin.y, (int)(cpuRect.size.width - 1), [sortedValues[i] floatValue] / 100. * cpuRect.size.height));
 		cpuRect.origin.x += cpuRect.size.width;
 	}
@@ -280,15 +279,15 @@
             [leftText appendString:@"\nAvg:"];
         }
         
-        float usageSum = 0;
-        for (int i = 0; i < numCPUs; i++) {
+        CGFloat usageSum = 0;
+        for (NSInteger i = 0; i < numCPUs; i++) {
             NSArray *cpuData = [CPUMiner dataForCPU:i];
             usageSum += [cpuData[0] average];
             usageSum += [cpuData[1] average];
             usageSum += [cpuData[2] average];
         }
         
-        [rightText appendFormat:@"\n%3.1f%%", usageSum / (float)(numCPUs)];
+        [rightText appendFormat:@"\n%3.1f%%", usageSum / (CGFloat)numCPUs];
     }
     
     // draw the load average text
@@ -368,14 +367,13 @@
     // Need to get our process list.
 	[processMiner graphUpdate:nil];
 	NSArray *sortedProcesses = [processMiner processesSortedByCPUUsage];
-	int i;
-	for (i = 0; i < 10; i++) {
+	for (NSInteger i = 0; i < 10; i++) {
 		NSDictionary *process = sortedProcesses[i];
-		float cpu = [process[XRGProcessPercentCPU] floatValue];
-		int pid = [process[XRGProcessID] intValue];
+		CGFloat cpu = [process[XRGProcessPercentCPU] floatValue];
+		NSInteger pid = [process[XRGProcessID] intValue];
 		NSString *command = process[XRGProcessCommand];
 		
-		tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%1.1f%% - %@ (id %d)", cpu, command, pid] action:@selector(emptyEvent:) keyEquivalent:@""];
+		tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%1.1f%% - %@ (id %ld)", cpu, command, (long)pid] action:@selector(emptyEvent:) keyEquivalent:@""];
 		[myMenu addItem:tMI];
 	}
 	
