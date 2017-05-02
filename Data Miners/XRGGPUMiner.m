@@ -390,8 +390,14 @@
 		}
 	}
 	else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM == -1)) {
-		self.freeVRAM = self.totalVRAM - self.usedVRAM;
-		okay = YES;
+        if (self.usedVRAM == 0) {
+            self.freeVRAM = self.totalVRAM;		// Our one exception, used being 0 is more often missing data instead of really being the case.
+            okay = NO;
+        }
+        else {
+            self.freeVRAM = self.totalVRAM - self.usedVRAM;
+            okay = YES;
+        }
 	}
 	else if ((self.totalVRAM != -1) && (self.usedVRAM != -1) && (self.freeVRAM != -1)) {
 		okay = YES;
