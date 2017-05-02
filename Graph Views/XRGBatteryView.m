@@ -387,9 +387,9 @@
     [[appSettings graphBGColor] set];
     NSRectFill(self.bounds);
     
-    NSDictionary *wrapAttributes = [[appSettings alignLeftAttributes] copy];
+    NSMutableDictionary *wrapAttributes = [[appSettings alignLeftAttributes] mutableCopy];
+    wrapAttributes[NSParagraphStyleAttributeName] = [wrapAttributes[NSParagraphStyleAttributeName] mutableCopy];
     [wrapAttributes[NSParagraphStyleAttributeName] setLineBreakMode:NSLineBreakByWordWrapping];
-
     
     // First check if there is battery data to graph.
     if (powerStatus == NO_BATTERY || powerStatus == UNKNOWN) {
