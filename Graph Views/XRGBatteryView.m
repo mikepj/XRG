@@ -382,29 +382,18 @@
                                     graphSize.height - textRectHeight * 2,
                                     graphSize.width, 
                                     textRectHeight * 2);
-    NSRect textRect = NSMakeRect(0, 
-                                 graphSize.height - textRectHeight, 
-                                 graphSize.width, 
-                                 textRectHeight);
     
     // Clear the background
     [[appSettings graphBGColor] set];
     NSRectFill(self.bounds);
-        
+    
+    NSDictionary *wrapAttributes = [[appSettings alignLeftAttributes] copy];
+    [wrapAttributes[NSParagraphStyleAttributeName] setLineBreakMode:NSLineBreakByWordWrapping];
+
+    
     // First check if there is battery data to graph.
     if (powerStatus == NO_BATTERY || powerStatus == UNKNOWN) {
-        if (NBF_WIDE <= graphSize.width) {
-            [@"No Battery Found" drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        }
-        else if (NBF_NORMAL <= graphSize.width) {
-            textRect.origin.y -= textRectHeight;
-            [@"No Battery\nFound" drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        }
-        else {
-            textRect.origin.y -= textRectHeight * 2;
-            [@"No\nBattery\nFound" drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        }
-        
+        [@"No Battery Found" drawInRect:self.bounds withAttributes:wrapAttributes];
         return;
     }
 
@@ -419,8 +408,8 @@
     if (charge) {
         percentRect.size.width = rect.size.width * ((float)currentPercent / 100.);
 		
-		if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
-			percentRect.origin.y -= self.bounds.origin.y;
+		if ([self shouldDrawMiniGraph]) {
+			percentRect.origin.y = self.bounds.origin.y;
 			percentRect.size.height = self.bounds.size.height;
 		}
 		
@@ -440,7 +429,7 @@
     percentRect.size.height = textRectHeight;
     percentRect.origin.y -= percentRect.size.height;
     
-	if (self.bounds.size.height >= XRG_MINI_HEIGHT * 2) {
+	if (![self shouldDrawMiniGraph]) {
         // Draw the watts bar
         percentRect.origin.x = rect.size.width / 2.;
         percentRect.size.width = (rect.size.width / 2.) * (fabs(currentWatts) / maxWatts);
@@ -476,19 +465,12 @@
     [gc setShouldAntialias:YES];
 
     // Draw the text.
-    [gc setShouldAntialias:[appSettings antialiasText]];
-
-    textRect.origin.x   += 3;
-    textRect.size.width -= 6;
-
+    NSRect textRect = [self paddedTextRect];
     if (current && charge && capacity) {
         NSMutableString *leftS = [[NSMutableString alloc] init];
         NSMutableString *rightS = [[NSMutableString alloc] init];
         NSMutableString *centerS = [[NSMutableString alloc] init];
-        [leftS setString:@""];
-        [rightS setString:@""];
-        [centerS setString:@""];
-        bool drawCenter = NO;
+        BOOL drawCenter = NO;
 
         // Draw the battery percentage
         if (minutesRemaining > 0) {
@@ -525,55 +507,29 @@
         }
         
         // Draw the current charge.
-        if (textRect.origin.y - textRectHeight > 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            [leftS appendFormat:@"\n%ldmAh", (long)chargeSum];
-            [rightS appendFormat:@"\n%ldmAh", (long)capacitySum];
-            [centerS appendString:@"\n"];
-        }
+        [leftS appendFormat:@"\n%ldmAh", (long)chargeSum];
+        [rightS appendFormat:@"\n%ldmAh", (long)capacitySum];
+        [centerS appendString:@"\n"];
         
-		if (self.bounds.size.height >= XRG_MINI_HEIGHT * 2) {
+		if (![self shouldDrawMiniGraph]) {
             // Draw the wattage.
-            if (textRect.origin.y - textRectHeight > 0) {
-                textRect.origin.y -= textRectHeight;
-                textRect.size.height += textRectHeight;
-                
-                if (POWER_WIDE <= textRect.size.width) {
-                    [leftS appendString:@"\nPower:"];
-                    [rightS appendFormat:@"\n%2.1fW", currentWatts];
-                    [centerS appendString:@"\n "];
-                }
-                else {
-                    [leftS appendString:@"\n "];
-                    [rightS appendString:@"\n "];
-                    [centerS appendFormat:@"\n%2.1fW", currentWatts];
-                    drawCenter = YES;
-                }
+            if (POWER_WIDE <= textRect.size.width) {
+                [leftS appendString:@"\nPower:"];
+                [rightS appendFormat:@"\n%2.1fW", currentWatts];
+                [centerS appendString:@"\n "];
+            }
+            else {
+                [leftS appendString:@"\n "];
+                [rightS appendString:@"\n "];
+                [centerS appendFormat:@"\n%2.1fW", currentWatts];
+                drawCenter = YES;
             }
 		}
 		
-        [leftS drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        [rightS drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
-        
-        if (drawCenter) {
-            [centerS drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
-        }
-
+        [self drawLeftText:leftS centerText:drawCenter ? centerS : nil rightText:rightS inRect:textRect];
     }
     else {
-        if (NBIF_WIDE <= textRect.size.width) {
-            [@"No Battery Info Found" drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        }
-        else if (NBIF_NORMAL <= textRect.size.width) {
-            textRect.origin.y -= textRectHeight;
-            [@"No Battery\nInfo Found" drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        }
-        else {
-            textRect.origin.y -= textRectHeight * 3;
-            [@"No\nBattery\nInfo\nFound" drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        }
+        [@"No Battery Info Found" drawInRect:NSInsetRect(self.bounds, 3, 0) withAttributes:wrapAttributes];
     }
     
     [gc setShouldAntialias:YES];

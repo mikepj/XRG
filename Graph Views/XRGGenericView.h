@@ -57,6 +57,11 @@
 
 - (void) fillRect:(NSRect)rect withColor:(NSColor *)color;
 
+- (void)drawLeftText:(NSString *)leftText centerText:(NSString *)centerText rightText:(NSString *)rightText inRect:(CGRect)rect;
+
+- (BOOL)shouldDrawMiniGraph;
+- (NSRect)paddedTextRect;
+
 // The following methods are to be implemented in subclasses.
 - (void) setGraphSize:(NSSize)newSize;
 - (void) updateMinSize;

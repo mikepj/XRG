@@ -69,8 +69,8 @@
     fastCPUDisplayRect = NSMakeRect(graphSize.width - 7, 0, 7, graphSize.height);
 }
 
-- (void)setWidth:(int)newWidth {
-    int newNumSamples = newWidth;
+- (void)setWidth:(NSInteger)newWidth {
+    NSInteger newNumSamples = newWidth;
     if ([appSettings fastCPUUsage]) 
         newNumSamples -= 7;
 
@@ -128,14 +128,11 @@
 {
     NSRect inRect = NSMakeRect(0, 0, graphSize.width, graphSize.height);
 
-	if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+	if ([self shouldDrawMiniGraph]) {
 		[self drawMiniGraph:inRect];
 	}
-	else if ([CPUMiner numberOfCPUs] > 2) {
-		[self drawLotsOfCoresGraph:inRect];
-	}
 	else {
-		[self drawGraph:inRect];
+        [self drawGraph:inRect];
 	}
     
     // Draw the graph in the application dock icon
@@ -168,7 +165,7 @@
     */
 }
 
-- (void)drawLotsOfCoresGraph:(NSRect)inRect {
+- (void)drawGraph:(NSRect)inRect {
     if ([self isHidden]) {
         return;
     }
@@ -176,10 +173,6 @@
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
 	
     int i;
-    float textRectHeight = [appSettings textRectHeight];
-	
-    NSRect textRect = NSMakeRect(3, inRect.size.height - textRectHeight, inRect.size.width - 6, textRectHeight);
-	
     [gc setShouldAntialias:[appSettings antiAliasing]];
 	
     [[appSettings graphBGColor] set];
@@ -258,302 +251,72 @@
 	}
 	
     // draw the text
-    [gc setShouldAntialias:YES];
-    [gc setShouldAntialias:[appSettings antialiasText]];
-	
-    if ([appSettings fastCPUUsage]) {
-        textRect.size.width -= 7;
-    }
-	
-    NSMutableString *leftText = [[NSMutableString alloc] init];
-    NSMutableString *rightText = [[NSMutableString alloc] init];
-    NSMutableString *centerText = [[NSMutableString alloc] init];
-	
-    textRect.origin.y = inRect.size.height - textRectHeight;
-	
-	// Draw the first line with the label and current CPU usage
-	[leftText setString:@"CPU"];
-	[rightText appendFormat:@"%3.f%%", MAX(0, ([(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])) * [CPUMiner numberOfCPUs]];
-	
-	// draw the average usage text
-	if ([appSettings cpuShowAverageUsage]) {
-		if (textRect.origin.y - textRectHeight >= 0) {
-			textRect.origin.y -= textRectHeight;
-			textRect.size.height += textRectHeight;
-			
-			if (graphRect.size.width >= AVG_WIDE) {
-				[leftText appendString:@"\nAverage:"];
-			}
-			else {
-				[leftText appendString:@"\nAvg:"];
-			}
-			
-			float usageSum = 0;
-			for (i = 0; i < numCPUs; i++) {
-				NSArray *cpuData = [CPUMiner dataForCPU:i];
-				usageSum += [cpuData[0] average];
-				usageSum += [cpuData[1] average];
-				usageSum += [cpuData[2] average];
-			}
-			
-			[rightText appendFormat:@"\n%3.1f%%", usageSum / (float)(numCPUs)];
-		}
-	}
-		
-    // draw the load average text
-    if ([appSettings showLoadAverage]) {
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            [leftText appendString: @"\nLoad:"];
-            if ([CPUMiner currentLoadAverage] == -1) {
-                [rightText appendString:@"\nn/a"];
-            }
-            else {
-                [rightText appendFormat:@"\n%4.2f", [CPUMiner currentLoadAverage]];
-            }
-        }
-    }
-	
-    if ([appSettings cpuShowUptime]) {
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (graphRect.size.width >= UPTIME_WIDE) {
-                [leftText appendString:@"\nUptime:"];
-            }
-            else {
-                [leftText appendString:@"\nU:"];
-            }
-            
-            if ([CPUMiner uptimeMinutes] < 10) 
-                [rightText appendFormat:@"\n%ldd %ld:0%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
-            else
-                [rightText appendFormat:@"\n%ldd %ld:%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
-        }
-    }
-    
-    [leftText drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-	[rightText drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
-    
-    if (numCPUs == 2) {
-        [centerText drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
-    }
-    
-    
-    [gc setShouldAntialias:YES];
+    [self drawText];
 }
 
-- (void)drawGraph:(NSRect)inRect {
-    if ([self isHidden]) {
-        return;
-    }
-
-    NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
-
-    int i;
-    float textRectHeight = [appSettings textRectHeight];
-
-    NSRect textRect = NSMakeRect(3, inRect.size.height - textRectHeight, inRect.size.width - 6, textRectHeight);
-
-    [gc setShouldAntialias:[appSettings antiAliasing]];
-
-    [[appSettings graphBGColor] set];
-    NSRectFill(inRect);
-    
+- (void)drawText {
     NSInteger numCPUs = [CPUMiner numberOfCPUs];
-	if (numCPUs == 0) return;
+    NSArray *cpuData = [CPUMiner combinedData];
+    if ([cpuData count] < 3) return;
     
-    if ([appSettings fastCPUUsage]) {
-        // draw the divider line
-        [[appSettings borderColor] set];
-        NSRectFill(NSMakeRect(inRect.size.width - 7, 0, 2, inRect.size.height));
-
-        // draw the fast cpu info
-        [[appSettings graphFG2Color] set];
-        NSInteger tmp = 0;
-        NSInteger *fastValues = [CPUMiner fastValues];
-        for (i = 0; i < numCPUs; i++) {
-            tmp += fastValues[i];
-        }
-        
-        NSRectFill(NSMakeRect(inRect.size.width - 7 + 2, 0, 5, ((float)tmp / (float)numCPUs) / 100. * graphSize.height));
-	}
-
-#ifdef XRG_DEBUG
-	NSLog(@"In CPU DrawRect."); 
-#endif
-    
-    // this is the rect that we will draw the graphs in
-    if ([appSettings fastCPUUsage]) inRect.size.width -= 7;
-    NSRect graphRect = NSMakeRect(0.0f, 0.0f, inRect.size.width, inRect.size.height);
-
-    NSColor *colors[3];
-    colors[0] = [appSettings graphFG1Color];
-    colors[1] = [appSettings graphFG2Color];
-    colors[2] = [appSettings graphFG3Color];
-
-    graphRect.size.height /= (float)numCPUs;
-
-    int cpu;
-
-    BOOL colorful = [appSettings separateCPUColor];
-    
-    for (cpu = 0; cpu < numCPUs; ++cpu)
-    {
-        NSArray *cpuData = [CPUMiner dataForCPU:cpu];
-        
-        // Create a tmpDataSet of the same size as the other ones so we can do some manipulations.
-        XRGDataSet *tmpDataSet = [[XRGDataSet alloc] initWithContentsOfOtherDataSet:cpuData[0]];
-        [tmpDataSet addOtherDataSetValues:cpuData[1]];
-        [tmpDataSet addOtherDataSetValues:cpuData[2]];
-        
-        if (colorful)
-        {
-            [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[2]];
-    
-            [tmpDataSet subtractOtherDataSetValues:cpuData[2]];    
-            [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[1]];
-    
-            [self drawGraphWithDataFromDataSet:cpuData[0] maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
-        }
-        else {    
-            [self drawGraphWithDataFromDataSet:tmpDataSet maxValue:100.0 inRect:graphRect flipped:NO filled:YES color:colors[0]];
-        }
-        
-     
-        graphRect.origin.y += graphRect.size.height;
-    }
-    [gc setShouldAntialias:YES];
-    
-    // draw the text
-    [gc setShouldAntialias:[appSettings antialiasText]];
-
+    NSRect textRect = [self paddedTextRect];
     if ([appSettings fastCPUUsage]) {
         textRect.size.width -= 7;
     }
-
+    
     NSMutableString *leftText = [NSMutableString string];
     NSMutableString *rightText = [NSMutableString string];
-    NSMutableString *centerText = [NSMutableString string];
-
-    textRect.origin.y = inRect.size.height - textRectHeight;
-
-    if (numCPUs == 1) {
-        // Draw the first line with the label and current CPU usage
-        [leftText setString:@"CPU"];
-        NSArray *cpuData = [CPUMiner dataForCPU:0];
-        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])];
-
-        // draw the average usage text
-        if ([appSettings cpuShowAverageUsage]) {
-            if (textRect.origin.y - textRectHeight >= 0) {
-                textRect.origin.y -= textRectHeight;
-                textRect.size.height += textRectHeight;
-                
-                if (graphRect.size.width >= AVG_WIDE) {
-                    [leftText appendString:@"\nAverage:"];
-                }
-                else {
-                    [leftText appendString:@"\nAvg:"];
-                }
-                
-                float usageSum = 0;
-                NSArray *cpuData = [CPUMiner dataForCPU:0];
-                usageSum += [cpuData[0] average];
-                usageSum += [cpuData[1] average];
-                usageSum += [cpuData[2] average];
-        
-                [rightText appendFormat:@"\n%3.1f%%", usageSum];
-            }
+    
+    // Draw the first line with the label and current CPU usage
+    [leftText setString:@"CPU"];
+    [rightText appendFormat:@"%3.f%%", MAX(0, ([(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])) * [CPUMiner numberOfCPUs]];
+    
+    // draw the average usage text
+    if ([appSettings cpuShowAverageUsage]) {
+        if (textRect.size.width >= AVG_WIDE) {
+            [leftText appendString:@"\nAverage:"];
         }
-    }
-    else if (numCPUs == 2) {
-        // Draw the first line with the label and current CPU usage
-        [centerText setString:@"CPU"];
-        NSArray *cpuData = [CPUMiner dataForCPU:0];
-        [leftText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])];
-        
-        cpuData = [CPUMiner dataForCPU:1];
-        [rightText appendFormat:@"%3.f%%", MAX(0, [(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])];
-
-        // draw the average usage text
-        if ([appSettings cpuShowAverageUsage]) {
-            if (textRect.origin.y - textRectHeight >= 0) {
-                textRect.origin.y -= textRectHeight;
-                textRect.size.height += textRectHeight;
-                
-                if (graphRect.size.width >= AVG_WIDE) {
-                    [centerText appendString:@"\nAverage"];
-                }
-                else {
-                    [centerText appendString:@"\nAvg"];
-                }
-                
-                float usageSum = 0;
-                NSArray *cpuData = [CPUMiner dataForCPU:0];
-                usageSum += [cpuData[0] average];
-                usageSum += [cpuData[1] average];
-                usageSum += [cpuData[2] average];
-        
-                [leftText appendFormat:@"\n%3.1f%%", usageSum];
-                
-                usageSum = 0;
-                cpuData = [CPUMiner dataForCPU:1];
-                usageSum += [cpuData[0] average];
-                usageSum += [cpuData[1] average];
-                usageSum += [cpuData[2] average];
-        
-                [rightText appendFormat:@"\n%3.1f%%", usageSum];
-            }
+        else {
+            [leftText appendString:@"\nAvg:"];
         }
+        
+        float usageSum = 0;
+        for (int i = 0; i < numCPUs; i++) {
+            NSArray *cpuData = [CPUMiner dataForCPU:i];
+            usageSum += [cpuData[0] average];
+            usageSum += [cpuData[1] average];
+            usageSum += [cpuData[2] average];
+        }
+        
+        [rightText appendFormat:@"\n%3.1f%%", usageSum / (float)(numCPUs)];
     }
-
+    
     // draw the load average text
     if ([appSettings showLoadAverage]) {
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            [leftText appendString: @"\nLoad:"];
-            if ([CPUMiner currentLoadAverage] == -1) {
-                [rightText appendString:@"\nn/a"];
-            }
-            else {
-                [rightText appendFormat:@"\n%4.2f", [CPUMiner currentLoadAverage]];
-            }
+        [leftText appendString: @"\nLoad:"];
+        if ([CPUMiner currentLoadAverage] == -1) {
+            [rightText appendString:@"\nn/a"];
+        }
+        else {
+            [rightText appendFormat:@"\n%4.2f", [CPUMiner currentLoadAverage]];
         }
     }
-            
+    
     if ([appSettings cpuShowUptime]) {
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (graphRect.size.width >= UPTIME_WIDE) {
-                [leftText appendString:@"\nUptime:"];
-            }
-            else {
-                [leftText appendString:@"\nU:"];
-            }
-            
-            if ([CPUMiner uptimeMinutes] < 10) 
-                [rightText appendFormat:@"\n%ldd %ld:0%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
-            else
-                [rightText appendFormat:@"\n%ldd %ld:%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
+        if (textRect.size.width >= UPTIME_WIDE) {
+            [leftText appendString:@"\nUptime:"];
         }
-    }
-    
-    [leftText drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-    [rightText drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
-    
-    if (numCPUs == 2) {
-        [centerText drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
-    }
+        else {
+            [leftText appendString:@"\nU:"];
+        }
         
-    [gc setShouldAntialias:YES];
+        if ([CPUMiner uptimeMinutes] < 10)
+            [rightText appendFormat:@"\n%ldd %ld:0%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
+        else
+            [rightText appendFormat:@"\n%ldd %ld:%ld", (long)[CPUMiner uptimeDays], (long)[CPUMiner uptimeHours], (long)[CPUMiner uptimeMinutes]];
+    }
+    
+    [self drawLeftText:leftText centerText:nil rightText:rightText inRect:textRect];
 }
 
 - (void)drawMiniGraph:(NSRect)inRect {
@@ -575,7 +338,6 @@
     NSArray *cpuData = [CPUMiner combinedData];
     if ([cpuData count] < 3) return;
     NSString *rightLabel = [NSString stringWithFormat:@"%3.f%%", MAX(0, ([(XRGDataSet *)cpuData[0] currentValue] + [(XRGDataSet *)cpuData[1] currentValue] + [(XRGDataSet *)cpuData[2] currentValue])) * [CPUMiner numberOfCPUs]];
-
     
     [self drawMiniGraphWithValues:sortedValues upperBound:100 lowerBound:0 leftLabel:@"CPU" rightLabel:rightLabel];
 }

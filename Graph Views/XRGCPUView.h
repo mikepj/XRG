@@ -38,20 +38,19 @@
     XRGCPUMiner                 *CPUMiner;
 	XRGProcessMiner				*processMiner;
 
-    float                       UPTIME_WIDE;
-    float                       UPTIME_NORMAL;
-    float                       AVG_WIDE;
-    float                       AVG_NORMAL;
+    CGFloat                     UPTIME_WIDE;
+    CGFloat                     UPTIME_NORMAL;
+    CGFloat                     AVG_WIDE;
+    CGFloat                     AVG_NORMAL;
      
-    int                         numSamples;
+    NSInteger                   numSamples;
 }
 
 - (void)setGraphSize:(NSSize)newSize;
-- (void)setWidth:(int)newWidth;
+- (void)setWidth:(NSInteger)newWidth;
 - (void)updateMinSize;
 
 - (void)graphUpdate:(NSTimer *)aTimer;
 - (void)fastUpdate:(NSTimer *)aTimer;
-- (void)drawGraph:(NSRect) inRect;
-- (void)drawLotsOfCoresGraph:(NSRect)inRect;
+- (void)drawGraph:(NSRect)inRect;
 @end

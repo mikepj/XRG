@@ -185,12 +185,7 @@
 
     // draw the text
     [gc setShouldAntialias:[appSettings antialiasText]];
-
-    NSRect textRect = bounds;
-    textRect.origin.x += 3;
-    textRect.size.width -= 6;
-    [leftLabel drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
-    [rightLabel drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+    [self drawLeftText:leftLabel centerText:nil rightText:rightLabel inRect:[self paddedTextRect]];
     
     [gc setShouldAntialias:YES];
 }
@@ -215,6 +210,63 @@
     [[NSColor blackColor] set];
     [bp appendBezierPathWithPoints:pointsB count:2];
     [bp fill];
+}
+
+- (void) drawLeftText:(NSString *)leftText centerText:(NSString *)centerText rightText:(NSString *)rightText inRect:(NSRect)rect {
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    [gc setShouldAntialias:[appSettings antialiasText]];
+
+    CGFloat textRectHeight = [appSettings textRectHeight];
+    
+    NSArray<NSString *> *leftLines = [leftText componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSArray<NSString *> *centerLines = [centerText componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSArray<NSString *> *rightLines = [rightText componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    
+    if ([self shouldDrawMiniGraph]) {
+        // Draw one line centered vertically.
+        NSString *left = [leftLines firstObject];
+        NSString *center = [centerLines firstObject];
+        NSString *right = [rightLines firstObject];
+        
+        CGRect adjustedRect = rect;
+        adjustedRect.origin.y -= 0.5 * (rect.size.height - textRectHeight);
+        
+        [left drawInRect:adjustedRect withAttributes:[appSettings alignLeftAttributes]];
+        [center drawInRect:adjustedRect withAttributes:[appSettings alignCenterAttributes]];
+        [right drawInRect:adjustedRect withAttributes:[appSettings alignRightAttributes]];
+    }
+    else {
+        // Draw as many lines as we can, aligned to the top.
+        NSInteger maxDisplayLines = floor(rect.size.height / textRectHeight);
+        
+        if (leftLines.count > 0) {
+            NSArray<NSString *> *showLines = [leftLines subarrayWithRange:NSMakeRange(0, MIN(leftLines.count, maxDisplayLines))];
+            NSString *joined = [showLines componentsJoinedByString:@"\n"];
+            [joined drawInRect:rect withAttributes:[appSettings alignLeftAttributes]];
+        }
+        
+        if (centerLines.count > 0) {
+            NSArray<NSString *> *showLines = [centerLines subarrayWithRange:NSMakeRange(0, MIN(centerLines.count, maxDisplayLines))];
+            NSString *joined = [showLines componentsJoinedByString:@"\n"];
+            [joined drawInRect:rect withAttributes:[appSettings alignCenterAttributes]];
+        }
+
+        if (rightLines.count > 0) {
+            NSArray<NSString *> *showLines = [rightLines subarrayWithRange:NSMakeRange(0, MIN(rightLines.count, maxDisplayLines))];
+            NSString *joined = [showLines componentsJoinedByString:@"\n"];
+            [joined drawInRect:rect withAttributes:[appSettings alignRightAttributes]];
+        }
+    }
+    
+    [gc setShouldAntialias:[appSettings antiAliasing]];
+}
+
+- (BOOL)shouldDrawMiniGraph {
+    return self.bounds.size.height < XRG_MINI_HEIGHT * 2;
+}
+
+- (NSRect)paddedTextRect {
+    return NSInsetRect(self.bounds, 3, 0);
 }
 
 // The following methods are to be implemented in subclasses.
