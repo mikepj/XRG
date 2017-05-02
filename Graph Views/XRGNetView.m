@@ -104,7 +104,7 @@
         NSLog(@"In Network DrawRect."); 
     #endif
 
-    if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+    if ([self shouldDrawMiniGraph]) {
         [self drawMiniGraph:self.bounds];
         return;
     }

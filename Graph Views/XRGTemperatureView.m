@@ -112,7 +112,7 @@
     int i;
     float textRectHeight = [appSettings textRectHeight];
 
-    NSRect textRect = NSMakeRect(3, inRect.size.height, inRect.size.width - 6, 0);
+    NSRect textRect = [self paddedTextRect];
 
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
@@ -177,8 +177,6 @@
 		[self drawRangedGraphWithDataFromDataSet:dataSet3 upperBound:maxValue lowerBound:minValue inRect:inRect flipped:NO filled:NO color:[appSettings graphFG3Color]];
     }
 
-    [gc setShouldAntialias:YES];
-            
             
     // draw the text
     [gc setShouldAntialias:[appSettings antialiasText]];
@@ -190,7 +188,7 @@
 	
 	NSAttributedString *newline = [[NSAttributedString alloc] initWithString:@"\n" attributes:[appSettings alignLeftAttributes]];
 	
-	BOOL firstLine = YES;
+    NSInteger lineNumber = 0;
     for (i = 0; i < [locations count]; i++) {
 		NSColor *lineColor = [appSettings textColor];
 		if (i == [appSettings tempFG1Location] - 1) {
@@ -220,18 +218,12 @@
 		
 		if (locationTemperature < 0.001) continue;
 
-        if (textRect.origin.y - textRectHeight > 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-        }
-        else {
+        if ((lineNumber + 1) * textRectHeight > self.bounds.size.height) {
             break;
         }
+        lineNumber++;
         
-        if (firstLine) {
-			firstLine = NO;
-		}
-		else {
+        if (lineNumber > 1) {
 			[s appendAttributedString:newline];
 			[t appendAttributedString:newline];
         }
@@ -250,6 +242,11 @@
 		else {
 			[t appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%3.1f%@", locationTemperature, units] attributes:tAttributes]];
 		}
+    }
+    
+    if (lineNumber == 1) {
+        textRect.origin.y = 0.5 * (self.bounds.size.height - textRectHeight);
+        textRect.size.height = textRectHeight;
     }
     
     [t drawInRect:textRect];

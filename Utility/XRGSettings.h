@@ -48,7 +48,7 @@
     
 // Text attributes
 @property (nonatomic) NSFont		*graphFont;
-@property NSInteger					textRectHeight;
+@property CGFloat					textRectHeight;
 @property NSMutableParagraphStyle	*alignRight;
 @property NSMutableParagraphStyle	*alignLeft;
 @property NSMutableParagraphStyle	*alignCenter;

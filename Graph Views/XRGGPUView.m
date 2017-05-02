@@ -126,10 +126,7 @@
 		[self drawGraphWithDataFromDataSet:cpuWaitValues[i] maxValue:MAX([cpuWaitValues[i] max], 100) inRect:graphRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
 		
 		// Draw the text
-		[gc setShouldAntialias:[appSettings antialiasText]];
-		NSRect textRect = graphRect;
-		textRect.origin.x += 3;
-		textRect.size.width -= 6;
+        NSRect textRect = NSInsetRect(graphRect, 3, 0);
 		CGFloat t = [(XRGDataSet *)totalValues[i] currentValue];
 		CGFloat f = [(XRGDataSet *)freeValues[i] currentValue];
 		
@@ -153,21 +150,29 @@
 			waitText = [NSString stringWithFormat:@"%d s", (int)(w / 1000000000)];
 		}
 		
+        NSString *leftText = nil;
+        NSString *rightText = nil;
+        NSString *centerText = nil;
+        
+        NSString *gpuTitle = totalValues.count < 2 ? @"GPU" : [NSString stringWithFormat:@"GPU %d", (int)i + 1];
+        
 		NSString *vendorString = graphicsMiner.vendorNames[i];
 		if (textRect.size.width < 90) {
-			[[NSString stringWithFormat:@"GPU %d\n%@", (int)i, vendorString] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+            leftText = [NSString stringWithFormat:@"%@\n%@", gpuTitle, vendorString];
 			if (t > 0) {
-				[[NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+                rightText = [NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText];
 			}
 		}
 		else {
-			[[NSString stringWithFormat:@"GPU %d\n%@", (int)i, vendorString] drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
+            centerText = [NSString stringWithFormat:@"%@\n%@", gpuTitle, vendorString];
 
 			if (t > 0) {
-				[[NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText] drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
-				[[NSString stringWithFormat:@"%d%%", (int)((t - f) / t * 100.)] drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+                leftText = [NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText];
+                rightText = [NSString stringWithFormat:@"%d%%", (int)((t - f) / t * 100.)];
 			}
 		}
+        
+        [self drawLeftText:leftText centerText:centerText rightText:rightText inRect:textRect];
 	}
 
 	[gc setShouldAntialias:YES];

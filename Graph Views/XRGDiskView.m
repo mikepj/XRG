@@ -274,7 +274,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         NSLog(@"In Disk DrawRect."); 
     #endif
 
-	if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+	if ([self shouldDrawMiniGraph]) {
 		[self drawMiniGraph:self.bounds];
 		return;
 	}
