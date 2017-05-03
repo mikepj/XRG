@@ -269,4 +269,38 @@
     return retvals;
 }
 
+- (NSString *)priceString {
+    NSArray *a = [self getCurrentPriceAndChange];
+    if (a != nil) {
+        if ([a[0] intValue] == 0) {
+            return @"n/a";
+        }
+        else {
+            return [NSString stringWithFormat:@"$%2.2f", [a[0] floatValue]];
+        }
+    }
+    else {  // there isn't good pricing info for this stock
+        return @"n/a";
+    }
+}
+
+- (NSString *)changeString {
+    NSArray *a = [self getCurrentPriceAndChange];
+    if (a != nil) {
+        CGFloat change = [a[1] floatValue];
+        if (change == 0) {
+            return @"unch";
+        }
+        else if (change > 0) {
+            return [NSString stringWithFormat:@"%C%2.2f", (unsigned short)0x25B2, change];
+        }
+        else { // change < 0
+            return [NSString stringWithFormat:@"%C%2.2f", (unsigned short)0x25BC, change * -1];
+        }
+    }
+    else {  // there isn't good pricing info for this stock
+        return @"n/a";
+    }
+}
+
 @end

@@ -64,6 +64,9 @@
 - (NSArray *)get12MonthValues:(int)max;
 - (NSArray *)getCurrentPriceAndChange;
 
+- (NSString *)priceString;
+- (NSString *)changeString;
+
 - (BOOL)errorOccurred;
 
 @end
