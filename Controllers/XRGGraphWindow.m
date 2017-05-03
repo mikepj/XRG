@@ -608,8 +608,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 - (IBAction)setBorderWidthAction:(id)sender {
     [self.backgroundView expandWindow];
     [self setBorderWidth: [sender intValue]];
-    [self.moduleManager windowChangedToSize:self.parentWindow.frame.size];
     [self setMinSize:[self.moduleManager getMinSize]];
+    [self.moduleManager windowChangedToSize:[self frame].size];
 }
 
 - (IBAction)setGraphOrientation:(id)sender {
