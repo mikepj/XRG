@@ -149,8 +149,9 @@
     hasGoodDisplayData   = NO;
 
     stationName = [icao uppercaseString];
-    NSString *URLString1 = @"http://adds.aviationweather.gov/metars/index.php?submit=1&chk_metars=on&hoursStr=24&station_ids=";
-    //NSString *URLString1 = @"http://www.rap.ucar.edu/weather/surface/index.php?hoursStr=24&metarIds=";
+    NSString *URLString1 = @"https://www.aviationweather.gov/metar/data?format=raw&hours=24&taf=off&layout=off&date=0&ids=";
+//    NSString *URLString1 = @"https://adds.aviationweather.gov/metars/index.php?submit=1&chk_metars=on&hoursStr=24&station_ids=";
+//  NSString *URLString1 = @"http://www.rap.ucar.edu/weather/surface/index.php?hoursStr=24&metarIds=";
     NSString *URLString2 = @"http://www.rap.ucar.edu/weather/surface/index.php?hoursStr=24&metarIds=";
         
     // Set the new URL strings
@@ -734,11 +735,8 @@ NSInteger matchRegex(char *pattern, char *inString) {
 
         
     // now draw the text
-    [gc setShouldAntialias:[appSettings antialiasText]];
-
-    NSInteger textRectHeight = [appSettings textRectHeight];
     char *tmpChar;
-    NSRect textRect = NSMakeRect(3, graphSize.height - textRectHeight, graphSize.width - 6, textRectHeight);
+    NSRect textRect = [self paddedTextRect];
     if (hasGoodDisplayData) {  // valid data
         NSMutableString *leftS = [[NSMutableString alloc] init];
         NSMutableString *rightS = [[NSMutableString alloc] init];
@@ -753,205 +751,176 @@ NSInteger matchRegex(char *pattern, char *inString) {
             [leftS appendString:[appSettings ICAO]];
         }
         
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (TEMPERATURE_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nCurrent Temperature:"];
-            }
-            else if (TEMPERATURE_NORMAL <= textRect.size.width) {
-                [leftS appendString:@"\nTemperature:"];
-            }
-            else if (TEMPERATURE_SMALL <= textRect.size.width) {
-                [leftS appendString:@"\nTemp:"];
+        // Temperature
+        if (TEMPERATURE_WIDE <= textRect.size.width) {
+            [leftS appendString:@"\nCurrent Temperature:"];
+        }
+        else if (TEMPERATURE_NORMAL <= textRect.size.width) {
+            [leftS appendString:@"\nTemperature:"];
+        }
+        else if (TEMPERATURE_SMALL <= textRect.size.width) {
+            [leftS appendString:@"\nTemp:"];
+        }
+        else {
+            [leftS appendString:@"\nT:"];
+        }
+        
+        if (temperatureF < -272)
+            [rightS appendString:@"\nn/a"];
+        else { 
+            if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F) 
+                [rightS appendFormat:@"\n%ld%CF", (long)temperatureF, (unsigned short)0x00B0];
+            else
+                [rightS appendFormat:@"\n%2.1f%CC", temperatureC, (unsigned short)0x00B0];
+        }
+
+        // High / Log
+        if (HL_WIDE <= textRect.size.width) {
+            [leftS appendString:@"\nHigh/Low:"];
+            if (high < -272 || low < -272) {
+                [rightS appendString:@"\nn/a"];
             }
             else {
-                [leftS appendString:@"\nT:"];
-            }
-            
-            if (temperatureF < -272)
-                [rightS appendString:@"\nn/a"];
-            else { 
-                if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F) 
-                    [rightS appendFormat:@"\n%ld%CF", (long)temperatureF, (unsigned short)0x00B0];
+                if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_C)
+                    [rightS appendFormat:@"\n%2.0f%C/%2.0f%C", high, (unsigned short)0x00B0, low, (unsigned short)0x00B0];
                 else
-                    [rightS appendFormat:@"\n%2.1f%CC", temperatureC, (unsigned short)0x00B0];
+                    [rightS appendFormat:@"\n%ld%C/%ld%C", (long)(high * 1.8) + 32, (unsigned short)0x00B0, (long)(low * 1.8) + 32, (unsigned short)0x00B0];
+            }
+        }
+        else {
+            [leftS appendString:@"\nH/L:"];
+            if (high < -272 || low < -272) {
+                [rightS appendString:@"\nn/a"];
+            }
+            else {
+                if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_C)
+                    [rightS appendFormat:@"\n%2.0f/%2.0f", high, low];
+                else
+                    [rightS appendFormat:@"\n%ld/%ld", (long)(high * 1.8 + 32.), (long)(low * 1.8 + 32.)];
             }
         }
 
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (HL_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nHigh/Low:"];
-                if (high < -272 || low < -272) {
-                    [rightS appendString:@"\nn/a"];
-                }
-                else {
-                    if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_C)
-                        [rightS appendFormat:@"\n%2.0f%C/%2.0f%C", high, (unsigned short)0x00B0, low, (unsigned short)0x00B0];
-                    else
-                        [rightS appendFormat:@"\n%ld%C/%ld%C", (long)(high * 1.8) + 32, (unsigned short)0x00B0, (long)(low * 1.8) + 32, (unsigned short)0x00B0];
-                }
-            }
-            else {
-                [leftS appendString:@"\nH/L:"];
-                if (high < -272 || low < -272) {
-                    [rightS appendString:@"\nn/a"];
-                }
-                else {
-                    if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_C)
-                        [rightS appendFormat:@"\n%2.0f/%2.0f", high, low];
-                    else
-                        [rightS appendFormat:@"\n%ld/%ld", (long)(high * 1.8 + 32.), (long)(low * 1.8 + 32.)];
-                }
-            }
+        // Wind
+        tmpChar = [self getWindDirection];
+        if (windSpeed == 0) {
+            [leftS appendString:@"\nWind:"];
+            [rightS appendString:@"\ncalm"];
         }
-        
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            tmpChar = [self getWindDirection];
-            if (windSpeed == 0) {
+        else {
+            if (WIND_WIDE <= textRect.size.width) {
+                if (gustSpeed) {
+                    [leftS appendFormat:@"\nWind: %s %ld", tmpChar, (long)windSpeed];
+                    [rightS appendFormat:@"\nGusts: %ld", (long)gustSpeed];
+                }
+                else {
+                    [leftS appendFormat:@"\nWind:"];
+                    [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
+                }
+            }
+            else if (WIND_NORMAL <= textRect.size.width) {
+                if (gustSpeed) {
+                    [leftS appendFormat:@"\nWind: %s %ld", tmpChar, (long)windSpeed];
+                    [rightS appendFormat:@"\nG: %ld", (long)gustSpeed];
+                }
+                else {
+                    [leftS appendFormat:@"\nWind:"];
+                    [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
+                }
+            }
+            else if (WIND_SMALL <= textRect.size.width) {
                 [leftS appendString:@"\nWind:"];
-                [rightS appendString:@"\ncalm"];
+                [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
             }
             else {
-                if (WIND_WIDE <= textRect.size.width) {
-                    if (gustSpeed) {
-                        [leftS appendFormat:@"\nWind: %s %ld", tmpChar, (long)windSpeed];
-                        [rightS appendFormat:@"\nGusts: %ld", (long)gustSpeed];
-                    }
-                    else {
-                        [leftS appendFormat:@"\nWind:"];
-                        [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
-                    }
-                }
-                else if (WIND_NORMAL <= textRect.size.width) {
-                    if (gustSpeed) {
-                        [leftS appendFormat:@"\nWind: %s %ld", tmpChar, (long)windSpeed];
-                        [rightS appendFormat:@"\nG: %ld", (long)gustSpeed];
-                    }
-                    else {
-                        [leftS appendFormat:@"\nWind:"];
-                        [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
-                    }
-                }
-                else if (WIND_SMALL <= textRect.size.width) {
-                    [leftS appendString:@"\nWind:"];
-                    [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
-                }
-                else {
-                    [leftS appendString:@"\nW:"];
-                    [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
-                }
-            
+                [leftS appendString:@"\nW:"];
+                [rightS appendFormat:@"\n%s %ld", tmpChar, (long)windSpeed];
             }
+        
         }
 
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (HUMIDITY_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nRelative Humidity:"];
-            }
-            else if (HUMIDITY_NORMAL <= textRect.size.width) {
-                [leftS appendString:@"\nRel Humidity:"];
-            }
-            else {
-                [leftS appendString:@"\nRH:"];
-            }
-            if (relativeHumidity == -1)
-                [rightS appendString:@"\nn/a"];
-            else 
-                [rightS appendFormat:@"\n%ld%%", (long)relativeHumidity];
+        // RH
+        if (HUMIDITY_WIDE <= textRect.size.width) {
+            [leftS appendString:@"\nRelative Humidity:"];
+        }
+        else if (HUMIDITY_NORMAL <= textRect.size.width) {
+            [leftS appendString:@"\nRel Humidity:"];
+        }
+        else {
+            [leftS appendString:@"\nRH:"];
+        }
+        if (relativeHumidity == -1)
+            [rightS appendString:@"\nn/a"];
+        else 
+            [rightS appendFormat:@"\n%ld%%", (long)relativeHumidity];
+        
+        // Visibility
+        if (VISIBILITY_WIDE <= textRect.size.width) {
+            [leftS appendString:@"\nVisibility:"];
+        }
+        else {
+            [leftS appendString:@"\nV:"];
         }
         
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (VISIBILITY_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nVisibility:"];
-            }
-            else {
-                [leftS appendString:@"\nV:"];
-            }
-            
-            if ([appSettings distanceUnits] == XRGWEATHER_DISTANCE_MI) {
-                if (visibilityInMiles == -1)
-                    [rightS appendString:@"\nn/a"];
-                else {
-                    if (visibilityInMiles >= 1)
-                        [rightS appendFormat:@"\n%2.f mi", visibilityInMiles];
-                    else
-                        [rightS appendFormat:@"\n%.2f mi", visibilityInMiles];
-                }
-            }
-            else {
-                if (visibilityInKilometers == -1) 
-                    [rightS appendString:@"\nn/a"];
-                else {
-                    [rightS appendFormat:@"\n%2.1f km", visibilityInKilometers];
-                }
-            }
-        }
-        
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (DEWPOINT_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nDewpoint:"];
-            }
-            else {
-                [leftS appendString:@"\nD:"];
-            }
-            
-            if (dewpointF < -272)
+        if ([appSettings distanceUnits] == XRGWEATHER_DISTANCE_MI) {
+            if (visibilityInMiles == -1)
                 [rightS appendString:@"\nn/a"];
             else {
-                if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F)
-                    [rightS appendFormat:@"\n%ld%CF", (long)dewpointF, (unsigned short)0x00B0];
+                if (visibilityInMiles >= 1)
+                    [rightS appendFormat:@"\n%2.f mi", visibilityInMiles];
                 else
-                    [rightS appendFormat:@"\n%2.1f%CC", dewpointC, (unsigned short)0x00B0];
+                    [rightS appendFormat:@"\n%.2f mi", visibilityInMiles];
             }
         }
-                                    
-        if (textRect.origin.y - textRectHeight >= 0) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            
-            if (PRESSURE_WIDE <= textRect.size.width) {
-                [leftS appendString:@"\nBarometric Pressure:"];
-            }
-            else if (PRESSURE_NORMAL <= textRect.size.width) {
-                [leftS appendString:@"\nPressure:"];
-            }
+        else {
+            if (visibilityInKilometers == -1) 
+                [rightS appendString:@"\nn/a"];
             else {
-                [leftS appendString:@"\nP:"];
-            }
-            
-            if ([appSettings pressureUnits] == XRGWEATHER_PRESSURE_IN) {
-                if (pressureIn == 0.) 
-                    [rightS appendString:@"\nn/a"];
-                else
-                    [rightS appendFormat:@"\n%2.2fin", pressureIn];
-            }
-            else {
-                if (pressureHPA == 0.) 
-                    [rightS appendString:@"\nn/a"];
-                else
-                    [rightS appendFormat:@"\n%ldhPa", (long)pressureHPA];
+                [rightS appendFormat:@"\n%2.1f km", visibilityInKilometers];
             }
         }
         
-        [leftS drawAtPoint:textRect.origin withAttributes:[appSettings alignLeftAttributes]];
-        [rightS drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+        // Dewpoint
+        if (DEWPOINT_WIDE <= textRect.size.width) {
+            [leftS appendString:@"\nDewpoint:"];
+        }
+        else {
+            [leftS appendString:@"\nD:"];
+        }
+        
+        if (dewpointF < -272)
+            [rightS appendString:@"\nn/a"];
+        else {
+            if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F)
+                [rightS appendFormat:@"\n%ld%CF", (long)dewpointF, (unsigned short)0x00B0];
+            else
+                [rightS appendFormat:@"\n%2.1f%CC", dewpointC, (unsigned short)0x00B0];
+        }
+        
+        // Pressure
+        if (PRESSURE_WIDE <= textRect.size.width) {
+            [leftS appendString:@"\nBarometric Pressure:"];
+        }
+        else if (PRESSURE_NORMAL <= textRect.size.width) {
+            [leftS appendString:@"\nPressure:"];
+        }
+        else {
+            [leftS appendString:@"\nP:"];
+        }
+        
+        if ([appSettings pressureUnits] == XRGWEATHER_PRESSURE_IN) {
+            if (pressureIn == 0.) 
+                [rightS appendString:@"\nn/a"];
+            else
+                [rightS appendFormat:@"\n%2.2fin", pressureIn];
+        }
+        else {
+            if (pressureHPA == 0.) 
+                [rightS appendString:@"\nn/a"];
+            else
+                [rightS appendFormat:@"\n%ldhPa", (long)pressureHPA];
+        }
+        
+        [self drawLeftText:leftS centerText:nil rightText:rightS inRect:[self paddedTextRect]];
 	}
     else {             // invalid data
         if (gettingData) [@"Fetching Data" drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
