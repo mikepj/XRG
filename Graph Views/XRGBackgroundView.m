@@ -129,12 +129,12 @@
     tmpRect.size.width -= borderWidth * 2;
     tmpRect.size.height = [appSettings textRectHeight];
 
-	[[appSettings borderColor] set];
-	NSRectFill([self bounds]);
+    [[appSettings borderColor] set];
+    [[NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:borderWidth yRadius:borderWidth] fill];
 
     [[appSettings backgroundColor] set];
-    NSRectFill(tmpRect);    
-        
+    [[NSBezierPath bezierPathWithRoundedRect:tmpRect xRadius:borderWidth yRadius:borderWidth] fill];
+    
     NSRect titleRect;
     if (isVertical) {    
         titleRect = NSMakeRect(borderWidth, 
@@ -148,6 +148,7 @@
                                [self bounds].size.width - 2 * borderWidth,
                                [appSettings textRectHeight]);
     }
+    NSRectFill(titleRect);
     
     [gc setShouldAntialias:[appSettings antialiasText]];
 
