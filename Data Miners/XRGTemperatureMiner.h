@@ -35,6 +35,17 @@
 
 @class SMCSensors;
 
+@interface XRGFan: NSObject
+
+@property NSString *name;
+@property NSInteger actualSpeed;
+@property NSInteger targetSpeed;
+@property NSInteger minimumSpeed;
+@property NSInteger maximumSpeed;
+
+@end
+
+
 @interface XRGTemperatureMiner : NSObject {
     host_name_port_t			host;
     host_basic_info_data_t		hostInfo;
@@ -72,4 +83,7 @@
 															// released yet).
 - (NSString *)labelForKey:(NSString *)locationKey;			// return a string label for this location.
 
+- (NSArray<XRGFan *> *)fanValues;
+
 @end
+

@@ -106,8 +106,94 @@
     #ifdef XRG_DEBUG
         NSLog(@"In Temperature DrawRect."); 
     #endif
+    
+    if ([self shouldDrawMiniGraph]) {
+        [self drawMiniGraph];
+    }
+    else {
+        [self drawGraph];
+    }
+}
 
-    NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
+- (void)drawMiniGraph {
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    
+    [gc setShouldAntialias:[appSettings antiAliasing]];
+    
+    [[appSettings graphBGColor] set];
+    NSRectFill(self.bounds);
+
+    // Get our sensor locations.
+    NSArray *locations = [TemperatureMiner locationKeysInOrder];
+    if ([locations count] == 0) {
+        [@"Temperature n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+        return;
+    }
+    
+    // Get our main sensor index.
+    NSInteger primaryIndex = [appSettings tempFG1Location] - 1;
+    if (primaryIndex < 0 || primaryIndex >= [locations count]) {
+        primaryIndex = 0;
+    }
+    
+    // Get the label for this sensor.
+    NSString *primaryLabel = [TemperatureMiner labelForKey:locations[primaryIndex]];
+    if (!primaryLabel) {
+        [@"Temperature n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+        return;
+    }
+
+    // Get the temperature value.
+    float primaryValue = [TemperatureMiner currentValueForKey:locations[primaryIndex]];
+    
+    // Get the units.
+    NSString *units = [TemperatureMiner unitsForLocation:locations[primaryIndex]];
+    if (units == nil) {
+        units = @"";
+    }
+
+    // Now create the value string
+    NSString *valueString = nil;
+    if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
+        units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
+        primaryValue = primaryValue * 1.8 + 32.;
+    }
+    
+    if ([units isEqualToString:@" rpm"] | [units isEqualToString:@"%"]) {
+        valueString = [NSString stringWithFormat:@"%3.0f%@", primaryValue, units];
+    }
+    else {
+        valueString = [NSString stringWithFormat:@"%3.1f%@", primaryValue, units];
+    }
+    
+    // Create an array with the selected temperature value and fan values to plot.
+    NSMutableArray *plotValues = [NSMutableArray array];
+    XRGDataSet *dataSet = [TemperatureMiner dataSetForKey:locations[primaryIndex]];
+    if (dataSet && dataSet.max > 0) {
+        // Scale the primary value.
+        primaryValue = primaryValue / dataSet.max * 100;
+    }
+    [plotValues addObject:@(primaryValue)];
+    
+    // Add the fans
+    NSArray *fans = [TemperatureMiner fanValues];
+    for (XRGFan *fan in fans) {
+        if ([fan.name isEqualToString:primaryLabel]) continue;  // Already showing this one.
+        
+        if (fan.maximumSpeed > 0) {
+            [plotValues addObject:@((CGFloat)fan.actualSpeed / (CGFloat)fan.maximumSpeed * 100)];
+        }
+    }
+    
+    // Draw the mini graph.
+    [self drawMiniGraphWithValues:plotValues upperBound:100 lowerBound:0 leftLabel:primaryLabel rightLabel:valueString];
+    
+    // Draw the text.
+    [self drawLeftText:primaryLabel centerText:nil rightText:valueString inRect:[self paddedTextRect]];
+}
+
+- (void)drawGraph {
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
 
     int i;
     float textRectHeight = [appSettings textRectHeight];
@@ -117,7 +203,7 @@
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
     [[appSettings graphBGColor] set];
-    NSRectFill(inRect);
+    NSRectFill(self.bounds);
         
     NSArray *locations = [TemperatureMiner locationKeysInOrder];
     
@@ -166,15 +252,15 @@
 	minValue -= 0.1 * range;
 	
     if (dataSet1) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet1 upperBound:maxValue lowerBound:minValue inRect:inRect flipped:NO filled:NO color:[appSettings graphFG1Color]];
+		[self drawRangedGraphWithDataFromDataSet:dataSet1 upperBound:maxValue lowerBound:minValue inRect:self.bounds flipped:NO filled:NO color:[appSettings graphFG1Color]];
     }
     
     if (dataSet2) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet2 upperBound:maxValue lowerBound:minValue inRect:inRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
+		[self drawRangedGraphWithDataFromDataSet:dataSet2 upperBound:maxValue lowerBound:minValue inRect:self.bounds flipped:NO filled:NO color:[appSettings graphFG2Color]];
     }
     
     if (dataSet3) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet3 upperBound:maxValue lowerBound:minValue inRect:inRect flipped:NO filled:NO color:[appSettings graphFG3Color]];
+		[self drawRangedGraphWithDataFromDataSet:dataSet3 upperBound:maxValue lowerBound:minValue inRect:self.bounds flipped:NO filled:NO color:[appSettings graphFG3Color]];
     }
 
             
@@ -216,7 +302,7 @@
 			units = @"";
 		}
 		
-		if (locationTemperature < 0.001) continue;
+		if (locationTemperature < 0.001 && ![units isEqualToString:@" rpm"]) continue;
 
         if ((lineNumber + 1) * textRectHeight > self.bounds.size.height) {
             break;

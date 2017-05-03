@@ -436,4 +436,37 @@
     numSamples = newNumSamples;
 }
 
+- (NSArray<XRGFan *> *)fanValues {
+    NSMutableArray *retFans = [NSMutableArray array];
+    
+    NSDictionary *fansD = [smcSensors fanValues];
+    for (NSString *key in [fansD allKeys]) {
+        XRGFan *f = [[XRGFan alloc] init];
+        f.name = key;
+        
+        id fanD = fansD[key];
+        for (NSString *fanDKey in [fanD allKeys]) {
+            if ([fanDKey hasSuffix:@"Ac"]) {
+                f.actualSpeed = [fanD[fanDKey] integerValue];
+            }
+            else if ([fanDKey hasSuffix:@"Tg"]) {
+                f.targetSpeed = [fanD[fanDKey] integerValue];
+            }
+            else if ([fanDKey hasSuffix:@"Mn"]) {
+                f.minimumSpeed = [fanD[fanDKey] integerValue];
+            }
+            else if ([fanDKey hasSuffix:@"Mx"]) {
+                f.maximumSpeed = [fanD[fanDKey] integerValue];
+            }
+        }
+        
+        [retFans addObject:f];
+    }
+
+    return retFans;
+}
+
+@end
+
+@implementation XRGFan
 @end
