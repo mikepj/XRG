@@ -118,13 +118,10 @@
 }
 
 - (void)setWidth:(int)newWidth {
-    NSInteger i;
-    NSInteger newNumSamples = newWidth;
+    [self.chargeWatts resize:newWidth];
+    [self.dischargeWatts resize:newWidth];
     
-    [self.chargeWatts resize:newNumSamples];
-    [self.dischargeWatts resize:newNumSamples];
-    
-    numSamples  = newNumSamples;
+    numSamples  = newWidth;
 }
 
 - (void)updateMinSize {
