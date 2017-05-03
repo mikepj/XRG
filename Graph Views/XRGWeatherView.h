@@ -44,7 +44,7 @@
 #define XRGWEATHER_PRESSURE_IN    0
 #define XRGWEATHER_PRESSURE_HPA   1
 
-int matchRegex(char *pattern, char *inString);
+NSInteger matchRegex(char *pattern, char *inString);
 
 @interface XRGWeatherView : XRGGenericView {
 @private
@@ -52,54 +52,54 @@ int matchRegex(char *pattern, char *inString);
     XRGModule           *m;
 
     // Caching variables
-    float               STATION_WIDE;
-    float               TEMPERATURE_WIDE;
-    float               TEMPERATURE_NORMAL;
-    float               TEMPERATURE_SMALL;
-    float               HL_WIDE;
-    float               WIND_WIDE;
-    float               WIND_NORMAL;
-    float               WIND_SMALL;
-    float               HUMIDITY_WIDE;
-    float               HUMIDITY_NORMAL;
-    float               VISIBILITY_WIDE;
-    float               DEWPOINT_WIDE;
-    float               PRESSURE_WIDE;
-    float               PRESSURE_NORMAL;
+    CGFloat             STATION_WIDE;
+    CGFloat             TEMPERATURE_WIDE;
+    CGFloat             TEMPERATURE_NORMAL;
+    CGFloat             TEMPERATURE_SMALL;
+    CGFloat             HL_WIDE;
+    CGFloat             WIND_WIDE;
+    CGFloat             WIND_NORMAL;
+    CGFloat             WIND_SMALL;
+    CGFloat             HUMIDITY_WIDE;
+    CGFloat             HUMIDITY_NORMAL;
+    CGFloat             VISIBILITY_WIDE;
+    CGFloat             DEWPOINT_WIDE;
+    CGFloat             PRESSURE_WIDE;
+    CGFloat             PRESSURE_NORMAL;
 
     XRGURL				*wurl1;
     XRGURL				*wurl2;
-    bool				triedWURL1;
-    bool				triedWURL2;
+    BOOL				triedWURL1;
+    BOOL				triedWURL2;
     
     NSString			*stationName;
     NSMutableArray		*metarArray;
-    bool				gettingData;
-    bool				processing;
-    bool				haveGoodURL;
-    bool				haveGoodMETARArray;
-    bool				haveGoodDisplayData;
+    BOOL				gettingData;
+    BOOL				processing;
+    BOOL				hasGoodURL;
+    BOOL				hasGoodMETARArray;
+    BOOL				hasGoodDisplayData;
     
-    int					time;
-    int					windDirection;
-    int					windSpeed;
-    int					gustSpeed;
-    float				visibilityInMiles;
-    float				visibilityInKilometers;
-    int					temperatureF;
-    float				temperatureC;
-    int					dewpointF;
-    float				dewpointC;
-    float				pressureIn;
-    int					pressureHPA;
-    float				high;
-    float				low;
-    int					relativeHumidity;
-    float				*lastDayTemps;
-    float				*lastDaySecondary;
+    NSInteger			time;
+    NSInteger			windDirection;
+    NSInteger			windSpeed;
+    NSInteger			gustSpeed;
+    CGFloat				visibilityInMiles;
+    CGFloat				visibilityInKilometers;
+    NSInteger			temperatureF;
+    CGFloat				temperatureC;
+    NSInteger			dewpointF;
+    CGFloat				dewpointC;
+    CGFloat				pressureIn;
+    NSInteger			pressureHPA;
+    CGFloat				high;
+    CGFloat				low;
+    NSInteger			relativeHumidity;
+    CGFloat				*lastDayTemps;
+    CGFloat				*lastDaySecondary;
     
-    float				secondaryGraphLowerBound;
-    float				secondaryGraphUpperBound;
+    CGFloat				secondaryGraphLowerBound;
+    CGFloat				secondaryGraphUpperBound;
     
     NSString			*shortTemp;
     NSString			*longTemp;
@@ -116,11 +116,11 @@ int matchRegex(char *pattern, char *inString);
     NSString			*shortPressure;
     NSString			*longPressure;
     
-    int					interval;
+    NSInteger			interval;
 }
 - (void)setGraphSize:(NSSize)newSize;
 - (void)updateMinSize;
-- (int)convertHeight:(int) yComponent;
+- (CGFloat)convertHeight:(CGFloat)yComponent;
 - (void)ticker;
 - (void)graphUpdate:(NSTimer *)aTimer;
 - (void)min30Update:(NSTimer *)aTimer;
@@ -131,35 +131,21 @@ int matchRegex(char *pattern, char *inString);
 - (NSInteger)findString:(char *)s inArray:(NSArray *)inArray;
 - (NSArray *)getSecondaryGraphList;
 - (void)setUpSecondaryGraph;
-- (void)setUpTertiaryGraph;
 - (void)cancelLoading;
 - (bool)hasInvalidData;
 
-- (bool)hasGoodDisplayData;
-- (bool)gettingData;
-- (int)getTemperatureF;
-- (float)getTemperatureC;
 - (char *)getWindDirection;
-- (int)getWindSpeed;
-- (int)getGustSpeed;
-- (int)getVisibility;
-- (int)getDewpointF;
-- (float)getDewpointC;
-- (float)getPressureIn;
-- (float)getHigh;
-- (float)getLow;
-- (int)getRelativeHumidity;
 
-- (int)getTimeFromMETARFields:(NSArray *)fields;
-- (int)getWindDirectionFromMETARFields:(NSArray *)fields;
-- (int)getWindSpeedFromMETARFields:(NSArray *)fields;
-- (int)getGustSpeedFromMETARFields:(NSArray *)fields;
-- (float)getVisibilityInMilesFromMETARFields:(NSArray *)fields;
-- (float)getVisibilityInKilometersFromMETARFields:(NSArray *)fields;
-- (float)getTemperatureFromMETARFields:(NSArray *)fields;
-- (float)getDewpointFromMETARFields:(NSArray *)fields;
-- (float)getPressureInFromMETARFields:(NSArray *)fields;
-- (int)getPressureHPAFromMETARFields:(NSArray *)fields;
-- (int)getRelativeHumidityFromTemperature: (float)t andDewpoint: (float)d;
+- (NSInteger)getTimeFromMETARFields:(NSArray *)fields;
+- (NSInteger)getWindDirectionFromMETARFields:(NSArray *)fields;
+- (NSInteger)getWindSpeedFromMETARFields:(NSArray *)fields;
+- (NSInteger)getGustSpeedFromMETARFields:(NSArray *)fields;
+- (CGFloat)getVisibilityInMilesFromMETARFields:(NSArray *)fields;
+- (CGFloat)getVisibilityInKilometersFromMETARFields:(NSArray *)fields;
+- (CGFloat)getTemperatureFromMETARFields:(NSArray *)fields;
+- (CGFloat)getDewpointFromMETARFields:(NSArray *)fields;
+- (CGFloat)getPressureInFromMETARFields:(NSArray *)fields;
+- (NSInteger)getPressureHPAFromMETARFields:(NSArray *)fields;
+- (NSInteger)getRelativeHumidityFromTemperature: (CGFloat)t andDewpoint: (CGFloat)d;
 
 @end
