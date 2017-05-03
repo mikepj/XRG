@@ -240,15 +240,15 @@
                 [self drawMiniGraphWithValues:@[@([showStock currentPrice])] upperBound:high lowerBound:low leftLabel:[showStock symbol] rightLabel:[showStock priceString]];
             }
             else {
-                [@"Stocks n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+                [self drawLeftText:@"Stocks n/a" centerText:nil rightText:nil inRect:[self paddedTextRect]];
             }
         }
         else {
-            [@"Stocks n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+            [self drawLeftText:@"Stocks n/a" centerText:nil rightText:nil inRect:[self paddedTextRect]];
         }
     }
     else {  // there are no stock objects
-        [@"No Stocks" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+        [self drawLeftText:@"No Stocks" centerText:nil rightText:nil inRect:[self paddedTextRect]];
     }
 }
 

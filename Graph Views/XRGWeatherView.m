@@ -678,8 +678,12 @@ NSInteger matchRegex(char *pattern, char *inString) {
         [self drawMiniGraphWithValues:@[@(temperatureC)] upperBound:high lowerBound:low leftLabel:stationName rightLabel:rightS];
     }
     else {                      // invalid data
-        if (gettingData) [@"Fetching Data" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
-        else [@"Invalid Data" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+        if (gettingData) {
+            [self drawLeftText:@"Fetching Data" centerText:nil rightText:nil inRect:[self paddedTextRect]];
+        }
+        else {
+            [self drawLeftText:@"Invalid Data" centerText:nil rightText:nil inRect:[self paddedTextRect]];
+        }
     }
 }
 
