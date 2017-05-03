@@ -193,8 +193,67 @@
     #ifdef XRG_DEBUG
         NSLog(@"In Stock DrawRect."); 
     #endif
+    
+    if ([self shouldDrawMiniGraph]) {
+        [self drawMiniGraph];
+    }
+    else {
+        [self drawGraph];
+    }
+}
 
-    NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
+- (void)drawMiniGraph {
+    // first draw the background
+    [[appSettings graphBGColor] set];
+    NSRectFill([self bounds]);
+    
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    [gc setShouldAntialias:[appSettings antiAliasing]];
+    
+    if ([stockObjects count]) {
+        XRGStock *showStock = stockObjects[stockToShow];
+        
+        if (self.gettingData) {  // we are getting data, display a status and return
+            [@"Fetching Data" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+        }
+        else if ([showStock haveGoodDisplayData]) {
+            // draw the graph
+            NSArray *a = nil;
+            if ([appSettings stockGraphTimeFrame] == 0)
+                a = [showStock get1MonthValues:366];
+            else if ([appSettings stockGraphTimeFrame] == 1)
+                a = [showStock get3MonthValues:366];
+            else if ([appSettings stockGraphTimeFrame] == 2)
+                a = [showStock get6MonthValues:366];
+            else if ([appSettings stockGraphTimeFrame] == 3)
+                a = [showStock get12MonthValues:366];
+            
+            if ([a count] > 0) {
+                // find the high, low and range of the graph
+                CGFloat high, low;
+                low = high = [a[0] floatValue];
+                for (NSInteger i = 1; i < [a count]; i++) {
+                    low = MIN(low, [a[i] floatValue]);
+                    high = MAX(high, [a[i] floatValue]);
+                }
+                
+                [self drawMiniGraphWithValues:@[@([showStock currentPrice])] upperBound:high lowerBound:low leftLabel:[showStock symbol] rightLabel:[showStock priceString]];
+            }
+            else {
+                [@"Stocks n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+            }
+        }
+        else {
+            [@"Stocks n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+        }
+    }
+    else {  // there are no stock objects
+        [@"No Stocks" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
+    }
+}
+
+- (void)drawGraph {
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
 
     NSInteger textRectHeight = [appSettings textRectHeight];
     NSRect tmpRect = NSMakeRect(2, 
@@ -325,15 +384,8 @@
             
             NSArray *a = [stockObjects[currentIndex] getCurrentPriceAndChange];
             if (a != nil) {
-                if ([a[0] intValue] == 0) {
-                    [s setString:@"n/a"];
-                }
-                else {
-                    [s setString:@""];
-                    [s appendFormat:@"$%2.2f", [a[0] floatValue]];
-                }
-
-                [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+                NSString *priceString = [stockObjects[currentIndex] priceString];
+                [priceString drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
                 tmpRect.origin.y -= textRectHeight;
                 
                 if ([a[0] intValue] == 0) {
@@ -346,20 +398,9 @@
                 }
                 
                 if ([appSettings stockShowChange]) {
-                    float change = [a[1] floatValue];
-                    if (change == 0) {
-                        [s setString:@"unch"];
-                    }
-                    else if (change > 0) {
-                        [s setString:@""];
-                        [s appendFormat:@"%C%2.2f", (unsigned short)0x25B2, change];
-                    }
-                    else { // change < 0
-                        [s setString:@""];
-                        [s appendFormat:@"%C%2.2f", (unsigned short)0x25BC, change * -1];
-                    }
+                    NSString *changeString = [stockObjects[currentIndex] changeString];
 
-                    [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+                    [changeString drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
                     tmpRect.origin.y -= textRectHeight;
                 }
             }
@@ -369,6 +410,7 @@
                 [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
                 tmpRect.origin.y -= textRectHeight;
             }
+            
             if (currentIndex == stockToShow && [stockObjects count] != 1) {
                 [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
                 [appSettings alignLeftAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
@@ -379,21 +421,6 @@
                 currentIndex = 0;
             else 
                 currentIndex++;
-        }
-        
-        if (maxToShow < [stockObjects count]) {
-            // need to draw the down arrow.
-            if (stockToShow >= maxToShow) {
-                [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings graphFG3Color];
-            }
-            [s setString:@""];
-            [s appendFormat:@"%C", (unsigned short)0x25BC];
-
-            [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
-            tmpRect.origin.y -= textRectHeight;
-            if (stockToShow >= maxToShow) {
-                [appSettings alignRightAttributes][NSForegroundColorAttributeName] = [appSettings textColor];
-            }
         }
         
         // now draw the time frame that we are using at the bottom
