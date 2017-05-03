@@ -90,6 +90,10 @@
 	
 	NSGraphicsContext *gc = [NSGraphicsContext currentContext];
 	
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
 #ifdef XRG_DEBUG
 	NSLog(@"In Graphics DrawRect.");
 #endif
@@ -105,8 +109,6 @@
 	CGFloat graphHeight = graphSize.height / totalValues.count;
 	for (NSInteger i = 0; i < totalValues.count; i++) {
 		NSRect graphRect = NSMakeRect(0, (totalValues.count - i - 1) * floor(graphHeight), numSamples, floor(graphHeight) - 1);
-		[[appSettings graphBGColor] set];
-		NSRectFill(self.bounds);
 
 		// Draw the graph.
 		[gc setShouldAntialias:[appSettings antiAliasing]];

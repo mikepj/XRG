@@ -107,6 +107,12 @@
         NSLog(@"In Temperature DrawRect."); 
     #endif
     
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
     if ([self shouldDrawMiniGraph]) {
         [self drawMiniGraph];
     }
@@ -116,13 +122,6 @@
 }
 
 - (void)drawMiniGraph {
-    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
-    
-    [gc setShouldAntialias:[appSettings antiAliasing]];
-    
-    [[appSettings graphBGColor] set];
-    NSRectFill(self.bounds);
-
     // Get our sensor locations.
     NSArray *locations = [TemperatureMiner locationKeysInOrder];
     if ([locations count] == 0) {
@@ -202,9 +201,6 @@
 
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
-    [[appSettings graphBGColor] set];
-    NSRectFill(self.bounds);
-        
     NSArray *locations = [TemperatureMiner locationKeysInOrder];
     
     if ([locations count] == 0) {

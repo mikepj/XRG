@@ -128,6 +128,12 @@
 {
     NSRect inRect = NSMakeRect(0, 0, graphSize.width, graphSize.height);
 
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
 	if ([self shouldDrawMiniGraph]) {
 		[self drawMiniGraph:inRect];
 	}
@@ -174,9 +180,6 @@
 	
     [gc setShouldAntialias:[appSettings antiAliasing]];
 	
-    [[appSettings graphBGColor] set];
-    NSRectFill(inRect);
-    
     NSInteger numCPUs = [CPUMiner numberOfCPUs];
 	if (numCPUs == 0) return;
     

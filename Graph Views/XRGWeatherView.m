@@ -653,9 +653,12 @@ NSInteger matchRegex(char *pattern, char *inString) {
         NSLog(@"In Weather DrawRect."); 
     #endif
 
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+
     // first draw the background
     [[appSettings graphBGColor] set];
-    NSRectFill([self bounds]);
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
     
     if ([self shouldDrawMiniGraph]) {
         [self drawMiniGraph];

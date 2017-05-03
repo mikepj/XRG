@@ -161,10 +161,7 @@
 - (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel rightLabel:(NSString *)rightLabel {
     NSGraphicsContext *gc = [NSGraphicsContext currentContext];
     
-    [[appSettings graphBGColor] set];
-    NSRect bounds = [self bounds];
-    CGContextFillRect(gc.CGContext, bounds);
-
+    NSRect bounds = self.bounds;
     NSRect barRect = bounds;
     barRect.size.height /= values.count;
     barRect.origin.y = barRect.origin.y + bounds.size.height - barRect.size.height;

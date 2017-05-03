@@ -194,6 +194,13 @@
         NSLog(@"In Stock DrawRect."); 
     #endif
     
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    
+    // first draw the background
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
     if ([self shouldDrawMiniGraph]) {
         [self drawMiniGraph];
     }
@@ -203,13 +210,14 @@
 }
 
 - (void)drawMiniGraph {
-    // first draw the background
-    [[appSettings graphBGColor] set];
-    NSRectFill([self bounds]);
-    
     NSGraphicsContext *gc = [NSGraphicsContext currentContext];
     [gc setShouldAntialias:[appSettings antiAliasing]];
     
+    // first draw the background
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
     if ([stockObjects count]) {
         XRGStock *showStock = stockObjects[stockToShow];
         
@@ -263,10 +271,6 @@
     NSMutableString *s = [NSMutableString stringWithString:@""];
     int i;
     float r;
-
-    // first draw the background
-    [[appSettings graphBGColor] set];    
-    NSRectFill([self bounds]);
 
     [gc setShouldAntialias:[appSettings antiAliasing]];
 

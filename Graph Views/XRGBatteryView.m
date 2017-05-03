@@ -382,7 +382,8 @@
     
     // Clear the background
     [[appSettings graphBGColor] set];
-    NSRectFill(self.bounds);
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
     
     NSMutableDictionary *wrapAttributes = [[appSettings alignLeftAttributes] mutableCopy];
     wrapAttributes[NSParagraphStyleAttributeName] = [wrapAttributes[NSParagraphStyleAttributeName] mutableCopy];

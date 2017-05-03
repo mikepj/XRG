@@ -104,21 +104,22 @@
         NSLog(@"In Network DrawRect."); 
     #endif
 
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
     if ([self shouldDrawMiniGraph]) {
         [self drawMiniGraph:self.bounds];
         return;
     }
 
-    NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
-
     NSInteger max, tx, rx;
     NSInteger textRectHeight = [appSettings textRectHeight];
     max = MAX([self.miner maxBandwidth], [appSettings netMinGraphScale]);
 
-    [[appSettings graphBGColor] set];    
-    NSRectFill([self bounds]);
-    
-    NSRect tmpRect = NSMakeRect(0, 0, graphSize.width, textRectHeight * 2);    
+    NSRect tmpRect = NSMakeRect(0, 0, graphSize.width, textRectHeight * 2);
     tmpRect.origin.x   += 3;
     tmpRect.size.width -= 6;
     tmpRect.size.height = textRectHeight;

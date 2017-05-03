@@ -274,19 +274,20 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         NSLog(@"In Disk DrawRect."); 
     #endif
 
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+    
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+
 	if ([self shouldDrawMiniGraph]) {
 		[self drawMiniGraph:self.bounds];
 		return;
 	}
 	
-    NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
-
     int i, max;
     NSInteger textRectHeight = [appSettings textRectHeight];
-    
-    [[appSettings graphBGColor] set];    
-    NSRectFill([self bounds]);
-    
+        
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
     CGFloat *data = (CGFloat *)alloca(numSamples * sizeof(CGFloat));

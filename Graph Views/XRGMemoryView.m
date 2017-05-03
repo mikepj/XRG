@@ -92,21 +92,22 @@
 - (void)drawRect:(NSRect)rect {
     if ([self isHidden]) return;
 
-	if ([self shouldDrawMiniGraph]) {
-		[self drawMiniGraph:self.bounds];
-		return;
-	}
-	
-    NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
 
     #ifdef XRG_DEBUG
         NSLog(@"In Memory DrawRect."); 
     #endif
     textRectHeight = [appSettings textRectHeight];
     
-    [[appSettings graphBGColor] set];    
-    NSRectFill([self bounds]);
-            
+    [[appSettings graphBGColor] set];
+    NSRect bounds = [self bounds];
+    CGContextFillRect(gc.CGContext, bounds);
+    
+    if ([self shouldDrawMiniGraph]) {
+        [self drawMiniGraph:self.bounds];
+        return;
+    }
+    
     [gc setShouldAntialias:[appSettings antiAliasing]];
     
     if ([appSettings showMemoryPagingGraph]) {
@@ -214,10 +215,7 @@
 
 - (void)drawMiniGraph:(NSRect)inRect {
 	NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
-	
-	[[appSettings graphBGColor] set];    
-	NSRectFill([self bounds]);
-	
+		
 	CGFloat totalScale = MAX([memoryMiner wiredBytes] + [memoryMiner activeBytes] + [memoryMiner inactiveBytes] + [memoryMiner freeBytes], (CGFloat)[memoryMiner totalSwap] / 1024.);
 	
 	NSRect bottomBarRect = NSMakeRect(inRect.origin.x, inRect.origin.y, inRect.size.width, roundf(inRect.size.height * 0.4) - 1);
