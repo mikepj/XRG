@@ -62,7 +62,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 	
 	volumeInfo = [NSMutableArray arrayWithCapacity:10];
 	[self updateVolumeInfo];
-                                     
+    
+    // Run through the stats collectors once so we don't have an initial spike.
+    getDISKcounters(drivelist, &fast_i, &fast_o);
+    getDISKcounters(drivelist, &i_dsk, &o_dsk);
+    
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Disk" andReference:self];
 	m.doesFastUpdate = YES;
@@ -138,9 +142,9 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         currentIndex = newNumSamples - 1;
     }
     else {
-        values = calloc(newNumSamples, sizeof(int));
-        readValues = calloc(newNumSamples, sizeof(int));
-        writeValues = calloc(newNumSamples, sizeof(int));
+        values = calloc(newNumSamples, sizeof(UInt64));
+        readValues = calloc(newNumSamples, sizeof(UInt64));
+        writeValues = calloc(newNumSamples, sizeof(UInt64));
         currentIndex = 0;
     }
     numSamples = newNumSamples;
@@ -301,7 +305,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     
     [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:rect flipped:([appSettings diskGraphMode] == 1) color: [appSettings graphFG2Color]];
     
-    for (i = 0; i < numSamples; ++i) data[i] = (float)writeValues[i];
+    for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)writeValues[i];
 
     [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:rect flipped:([appSettings diskGraphMode] == 2) color: [appSettings graphFG1Color]];
 
