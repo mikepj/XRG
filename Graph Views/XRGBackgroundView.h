@@ -51,6 +51,9 @@
 @property NSString *hostname;
 @property NSArray *resizeRects;
 
+@property NSBezierPath *outerPath;
+@property NSBezierPath *innerPath;
+
 @property BOOL clickedMinimized;
 
 - (void)getHostname;

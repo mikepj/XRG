@@ -77,6 +77,8 @@
 
 - (void)setFrame:(NSRect)frame {
 	[super setFrame:frame];
+
+    [self updatePaths];
 	[parentWindow.moduleManager windowChangedToSize:self.frame.size];
 }
 
@@ -85,9 +87,22 @@
 }
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize {
+    [self updatePaths];
 }
 
-- (void)drawRect:(NSRect)rect{    
+- (void)updatePaths {
+    int borderWidth = [parentWindow borderWidth];
+    NSRect tmpRect = [self bounds];
+    tmpRect.origin.x += borderWidth;
+    tmpRect.origin.y = tmpRect.size.height - borderWidth - [appSettings textRectHeight];
+    tmpRect.size.width -= borderWidth * 2;
+    tmpRect.size.height = [appSettings textRectHeight];
+    
+    self.outerPath = [NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:borderWidth yRadius:borderWidth];
+    self.innerPath = [NSBezierPath bezierPathWithRoundedRect:tmpRect xRadius:borderWidth yRadius:borderWidth];
+}
+
+- (void)drawRect:(NSRect)rect{
     // rotate the coordinate system if necessary
     if (![moduleManager graphOrientationVertical] && isVertical) {
         // first update our size:
@@ -99,6 +114,8 @@
         [self translateOriginToPoint: NSMakePoint(0, 0 - [self frame].size.width)];
         isVertical = NO;
         lastWidth = [self frame].size.width;
+        
+        [self updatePaths];
     }
     if ([moduleManager graphOrientationVertical] && !isVertical) {
         // first update our size:
@@ -110,6 +127,8 @@
         [self setBoundsRotation: 0];
         [self setAutoresizesSubviews:YES];
         isVertical = YES;
+        
+        [self updatePaths];
     }
     
     if (!isVertical) {
@@ -130,10 +149,10 @@
     tmpRect.size.height = [appSettings textRectHeight];
 
     [[appSettings borderColor] set];
-    [[NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:borderWidth yRadius:borderWidth] fill];
+    [self.outerPath fill];
 
     [[appSettings backgroundColor] set];
-    [[NSBezierPath bezierPathWithRoundedRect:tmpRect xRadius:borderWidth yRadius:borderWidth] fill];
+    [self.innerPath fill];
     
     NSRect titleRect;
     if (isVertical) {    
