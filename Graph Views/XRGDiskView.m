@@ -160,7 +160,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 }
 
 - (void)fastUpdate:(NSTimer *)aTimer {
-	if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+	if ([self shouldDrawMiniGraph]) {
 		getDISKcounters(drivelist, &fast_i, &fast_o);    
 		
 		fast_i.bytes_delta = fast_i.bytes - fast_i.bytes_prev;
@@ -335,7 +335,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         else if (max >= 1024)
             [s appendFormat:@"\n%4.1fK/s",((float)max / 1024.)];
         else
-            [s appendFormat:@"\n%dB/s",max];
+            [s appendFormat:@"\n%lldB/s",max];
     }
     if (tmpRect.origin.y - textRectHeight > 0) {
         tmpRect.origin.y -= textRectHeight;

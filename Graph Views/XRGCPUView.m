@@ -117,11 +117,9 @@
 }
 
 - (void)fastUpdate:(NSTimer *)aTimer {
-	if ([CPUMiner numberOfCPUs] > 2 || [appSettings fastCPUUsage]) {
-        [CPUMiner fastUpdate:aTimer];
-
-		[self setNeedsDisplay:YES];
-	}
+    [CPUMiner fastUpdate:aTimer];
+    
+    [self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)dummy
@@ -253,12 +251,11 @@
 	}
 	
     // draw the text
-    [self drawText];
+    [self drawText:cpuData];
 }
 
-- (void)drawText {
+- (void)drawText:(NSArray *)cpuData {
     NSInteger numCPUs = [CPUMiner numberOfCPUs];
-    NSArray *cpuData = [CPUMiner combinedData];
     if ([cpuData count] < 3) return;
     
     NSRect textRect = [self paddedTextRect];

@@ -63,7 +63,7 @@
 }
 
 - (void)fastUpdate:(NSTimer *)aTimer {
-    if (self.bounds.size.height < XRG_MINI_HEIGHT * 2) {
+    if ([self shouldDrawMiniGraph]) {
         self.fastMiner.monitorNetworkInterface = [appSettings networkInterface];
         [self.fastMiner getLatestNetInfo];
         
