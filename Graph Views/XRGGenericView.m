@@ -176,7 +176,7 @@
         }
         
         double value = [values[i] doubleValue];
-        CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((value - min) / (max - min)) * barRect.size.width), floor(barRect.size.height - spacing)));
+        CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((value - min) / (max - min)) * barRect.size.width), (i == 0) ? barRect.size.height : floor(barRect.size.height - spacing)));
         barRect.origin.y -= barRect.size.height;
     }
 
