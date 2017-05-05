@@ -437,6 +437,10 @@
 }
 
 - (NSArray<XRGFan *> *)fanValues {
+    if (self.fanCache && ([self.fanCacheCreated timeIntervalSinceNow] > -1)) {
+        return self.fanCache;
+    }
+    
     NSMutableArray *retFans = [NSMutableArray array];
     
     NSDictionary *fansD = [smcSensors fanValues];
@@ -463,6 +467,9 @@
         [retFans addObject:f];
     }
 
+    self.fanCache = retFans;
+    self.fanCacheCreated = [NSDate date];
+    
     return retFans;
 }
 

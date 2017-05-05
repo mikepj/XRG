@@ -65,6 +65,9 @@
     SMCSensors					*smcSensors;
 }
 
+@property NSArray *fanCache;
+@property NSDate *fanCacheCreated;
+
 - (void)setDataSize:(int)newNumSamples;
 - (int)numberOfCPUs;
 
