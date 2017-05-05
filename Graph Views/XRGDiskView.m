@@ -101,11 +101,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     maxVal = 0;
     
     if (values) {
-        int *newVals, *newReadVals, *newWriteVals;
+        UInt64 *newVals, *newReadVals, *newWriteVals;
         int newValIndex = newNumSamples - 1;
-        newVals = calloc(newNumSamples, sizeof(int));
-        newReadVals = calloc(newNumSamples, sizeof(int));
-        newWriteVals = calloc(newNumSamples, sizeof(int));
+        newVals = calloc(newNumSamples, sizeof(UInt64));
+        newReadVals = calloc(newNumSamples, sizeof(UInt64));
+        newWriteVals = calloc(newNumSamples, sizeof(UInt64));
         
         for (i = currentIndex; i >= 0; i--) {
             if (newValIndex < 0) break;
@@ -285,7 +285,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 		return;
 	}
 	
-    int i, max;
+    UInt64 i, max;
     NSInteger textRectHeight = [appSettings textRectHeight];
         
     [gc setShouldAntialias:[appSettings antiAliasing]];
@@ -337,21 +337,21 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         tmpRect.origin.y -= textRectHeight;
         tmpRect.size.height += textRectHeight;
 		if (diskIOSinceLaunch >= 109951162777600.) 
-            [s appendFormat:@"\n%.0fT", ((float)diskIOSinceLaunch / 1099511627776.)];
+            [s appendFormat:@"\n%.0fT", ((double)diskIOSinceLaunch / 1099511627776.)];
 		else if (diskIOSinceLaunch >= 1099511627776.) 
-            [s appendFormat:@"\n%.1fT", ((float)diskIOSinceLaunch / 1099511627776.)];
+            [s appendFormat:@"\n%.1fT", ((double)diskIOSinceLaunch / 1099511627776.)];
 		else if (diskIOSinceLaunch >= 107374182400.) 
-            [s appendFormat:@"\n%.0fG", ((float)diskIOSinceLaunch / 1073741824)];
+            [s appendFormat:@"\n%.0fG", ((double)diskIOSinceLaunch / 1073741824)];
 		else if (diskIOSinceLaunch >= 1073741824) 
-            [s appendFormat:@"\n%.1fG", ((float)diskIOSinceLaunch / 1073741824)];
+            [s appendFormat:@"\n%.1fG", ((double)diskIOSinceLaunch / 1073741824)];
         else if (diskIOSinceLaunch >= 104857600)
-            [s appendFormat:@"\n%.0fM", ((float)diskIOSinceLaunch / 1048576.)];
+            [s appendFormat:@"\n%.0fM", ((double)diskIOSinceLaunch / 1048576.)];
         else if (diskIOSinceLaunch >= 1048576)
-            [s appendFormat:@"\n%.1fM", ((float)diskIOSinceLaunch / 1048576.)];
+            [s appendFormat:@"\n%.1fM", ((double)diskIOSinceLaunch / 1048576.)];
         else if (diskIOSinceLaunch >= 1024)
-            [s appendFormat:@"\n%.0fK", ((float)diskIOSinceLaunch / 1024.)];
+            [s appendFormat:@"\n%.0fK", ((double)diskIOSinceLaunch / 1024.)];
         else
-            [s appendFormat:@"%dB", (int)diskIOSinceLaunch];
+            [s appendFormat:@"%lldB", diskIOSinceLaunch];
     }
     [s drawInRect:tmpRect withAttributes:[appSettings alignLeftAttributes]];
     
@@ -460,7 +460,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 	else if (readBytes >= 1024)
 		return [NSString stringWithFormat:@"%4.1fK R",((float)readBytes / 1024.)];
 	else
-		return [NSString stringWithFormat:@"%dB R", readBytes];
+		return [NSString stringWithFormat:@"%lldB R", readBytes];
 }
 
 - (NSString *)writeBytesString {
@@ -473,7 +473,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 	else if (writeBytes >= 1024)
 		return [NSString stringWithFormat:@"%4.1fK W", ((float)writeBytes / 1024.)];
 	else
-		return [NSString stringWithFormat:@"%dB W", writeBytes];
+		return [NSString stringWithFormat:@"%lldB W", writeBytes];
 }
 
 @end
@@ -485,41 +485,40 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk)
     UInt64         	totalWriteBytes = 0;
     
     while ((drive = IOIteratorNext(drivelist))) {
-        CFNumberRef 	number      = 0;  /* don't release */
-        CFDictionaryRef properties  = 0;  /* needs release */
-        CFDictionaryRef statistics  = 0;  /* don't release */
-        UInt64 		value       = 0;
-
-        /* Obtain the properties for this drive object */
-
-        IORegistryEntryCreateCFProperties(drive, (CFMutableDictionaryRef *) &properties, kCFAllocatorDefault, kNilOptions);
+        CFNumberRef number            = 0;  /* don't release */
+        CFTypeRef statisticsRaw       = 0;  /* needs release */
+        UInt64 value                  = 0;
 
         /* Obtain the statistics from the drive properties */
-        statistics = (CFDictionaryRef) CFDictionaryGetValue(properties, CFSTR(kIOBlockStorageDriverStatisticsKey));
-
-        if (statistics) {
-            /* Obtain the number of bytes read from the drive statistics */
-            number = (CFNumberRef) CFDictionaryGetValue(statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey));
-            if (number) {
-                CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                totalReadBytes += value;
-            }
+        statisticsRaw = IORegistryEntryCreateCFProperty(drive, CFSTR(kIOBlockStorageDriverStatisticsKey), kCFAllocatorDefault, kNilOptions);
+        if (CFGetTypeID(statisticsRaw) == CFDictionaryGetTypeID()) {
+            CFDictionaryRef statistics = (CFDictionaryRef)statisticsRaw;
             
-            /* Obtain the number of bytes written from the drive statistics */
-            number = (CFNumberRef) CFDictionaryGetValue (statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey));
-            if (number) {
-                CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                totalWriteBytes += value;
+            if (statistics) {
+                /* Obtain the number of bytes read from the drive statistics */
+                number = (CFNumberRef) CFDictionaryGetValue(statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey));
+                if (number) {
+                    CFNumberGetValue(number, kCFNumberSInt64Type, &value);
+                    totalReadBytes += value;
+                }
+                
+                /* Obtain the number of bytes written from the drive statistics */
+                number = (CFNumberRef) CFDictionaryGetValue (statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey));
+                if (number) {
+                    CFNumberGetValue(number, kCFNumberSInt64Type, &value);
+                    totalWriteBytes += value;
+                }
             }
         }
+        
         /* Release resources */
         
-        CFRelease(properties); properties = 0;
+        CFRelease(statisticsRaw); statisticsRaw = 0;
         IOObjectRelease(drive); drive = 0;
 
     }
     IOIteratorReset(drivelist);
-	  
+    
     i_dsk->bytes = totalReadBytes;
     o_dsk->bytes = totalWriteBytes;
 }

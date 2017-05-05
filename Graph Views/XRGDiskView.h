@@ -36,20 +36,20 @@
     int						numSamples;
     XRGModule				*m;
     
-    int						*values;
-    int						*readValues;
-    int						*writeValues;
-    int						currentIndex;
-    int						maxVal;
+    UInt64					*values;
+    UInt64					*readValues;
+    UInt64					*writeValues;
+    int                     currentIndex;
+    UInt64					maxVal;
     
-    int						readBytes;
-    int						writeBytes;
-    int						totalDiskIO;
-	long long				diskIOSinceLaunch;
+    UInt64					readBytes;
+    UInt64					writeBytes;
+    UInt64					totalDiskIO;
+	UInt64                  diskIOSinceLaunch;
 	
-	int						fastReadBytes;
-	int						fastWriteBytes;
-	int						fastMax;
+	UInt64					fastReadBytes;
+	UInt64					fastWriteBytes;
+	UInt64					fastMax;
 	io_stats				fast_i;
 	io_stats				fast_o;
 
