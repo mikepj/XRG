@@ -98,6 +98,40 @@
 	NSLog(@"In Graphics DrawRect.");
 #endif
 	
+    if ([self shouldDrawMiniGraph]) {
+        [self drawMiniGraph];
+    }
+    else {
+        [self drawGraph];
+    }
+}
+
+- (void)drawMiniGraph {
+    NSArray<XRGDataSet *> *totalValues = [graphicsMiner totalVRAMDataSets];
+    NSArray<XRGDataSet *> *freeValues = [graphicsMiner freeVRAMDataSets];
+    if ((totalValues.count != freeValues.count) || (totalValues.count == 0)) {
+        [self drawLeftText:@"GPU" centerText:nil rightText:@"n/a" inRect:[self paddedTextRect]];
+        return;
+    }
+
+    NSMutableArray<NSNumber *> *cardMemoryPercentUsed = [NSMutableArray array];
+    CGFloat memoryUsedMB = 0;
+    for (NSInteger i = 0; i < totalValues.count; i++) {
+        CGFloat t = [totalValues[i] currentValue];
+        CGFloat f = [freeValues[i] currentValue];
+        
+        memoryUsedMB += (t - f) / 1024. / 1024.;
+        
+        CGFloat percentUsed = (t - f) / t * 100.;
+        [cardMemoryPercentUsed addObject:@(percentUsed)];
+    }
+    
+    [self drawMiniGraphWithValues:cardMemoryPercentUsed upperBound:100 lowerBound:0 leftLabel:@"GPU" rightLabel:[NSString stringWithFormat:@"%dM", (int)round(memoryUsedMB)]];
+}
+
+- (void)drawGraph {
+    NSGraphicsContext *gc = [NSGraphicsContext currentContext];
+
 	NSArray *cpuWaitValues = [graphicsMiner cpuWaitDataSets];
 	NSArray *totalValues = [graphicsMiner totalVRAMDataSets];
 	NSArray *freeValues = [graphicsMiner freeVRAMDataSets];
