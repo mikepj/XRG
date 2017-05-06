@@ -1013,10 +1013,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                 self.dragStart = [self convertRectToScreen:theEventLocationInWindowRect].origin;
                 self.originAtDragStart = [self frame].origin;
             }
-            else {
-                [super sendEvent:theEvent];
-            }
-            return;
+            break;
         }
 
         case NSEventTypeLeftMouseDragged:
@@ -1032,29 +1029,28 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
                 
                 [self setFrameOrigin:newOrigin];
             }
-            else {
-                [super sendEvent:theEvent];
-            }
-            return;
+            break;
         }
+            
         case NSEventTypeLeftMouseUp:
         {
             if (self.draggingWindow) {
                 self.draggingWindow = NO;
             }
-            else {
-                [super sendEvent:theEvent];
-            }
-            return;
+            break;
         }
             
         default:
             break;
     }
+    
+    [super sendEvent:theEvent];
 }
 
 // sticky window code
 - (NSPoint)snap:(NSPoint)p {
+    if (![self.appSettings stickyWindow]) return p;
+    
     NSScreen *screen = [self screen];
     if (!screen) return p;
     
