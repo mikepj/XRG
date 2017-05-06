@@ -74,6 +74,10 @@
 @property XRGTemperatureMiner *temperatureMiner;
 @property (nonatomic) IBOutlet id backgroundView;
 
+@property BOOL draggingWindow;
+@property NSPoint originAtDragStart;
+@property NSPoint dragStart;
+
 // Initialization
 + (void)initialize;
 + (NSMutableDictionary*)getDefaultPrefs;

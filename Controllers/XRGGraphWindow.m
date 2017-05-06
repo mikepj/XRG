@@ -70,6 +70,8 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 		CFRunLoopSourceRef rls;
 		IONotificationPortRef thePortRef;
 		io_object_t notifier;
+        
+        [self setMovable:NO];
 
 		powerConnection = IORegisterForSystemPower(NULL, &thePortRef, sleepNotification, &notifier );
 
@@ -995,6 +997,113 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (BOOL)isMovableByWindowBackground {
 	return YES;
+}
+
+- (void)sendEvent:(NSEvent *)theEvent {
+    NSEventType type = [theEvent type];
+    NSRect theEventLocationInWindowRect = NSZeroRect;
+    theEventLocationInWindowRect.origin = [theEvent locationInWindow];
+    
+    switch (type) {
+        case NSEventTypeLeftMouseDown:
+        {
+            // Check if the locationInWindow is around the window border.
+            if (NSPointInRect([theEvent locationInWindow], NSInsetRect(self.contentView.bounds, self.borderWidth, self.borderWidth))) {
+                self.draggingWindow = YES;
+                self.dragStart = [self convertRectToScreen:theEventLocationInWindowRect].origin;
+                self.originAtDragStart = [self frame].origin;
+            }
+            else {
+                [super sendEvent:theEvent];
+            }
+            return;
+        }
+
+        case NSEventTypeLeftMouseDragged:
+        {
+            if (self.draggingWindow) {
+                NSPoint dragLoc = [self convertRectToScreen:theEventLocationInWindowRect].origin;
+                NSPoint newOrigin = self.originAtDragStart;
+                newOrigin.x += dragLoc.x - self.dragStart.x;
+                newOrigin.y += dragLoc.y - self.dragStart.y;
+                
+                // Snap.
+                newOrigin = [self snap:newOrigin];
+                
+                [self setFrameOrigin:newOrigin];
+            }
+            else {
+                [super sendEvent:theEvent];
+            }
+            return;
+        }
+        case NSEventTypeLeftMouseUp:
+        {
+            if (self.draggingWindow) {
+                self.draggingWindow = NO;
+            }
+            else {
+                [super sendEvent:theEvent];
+            }
+            return;
+        }
+            
+        default:
+            break;
+    }
+}
+
+// sticky window code
+- (NSPoint)snap:(NSPoint)p {
+    NSScreen *screen = [self screen];
+    if (!screen) return p;
+    
+    CGFloat snapThreshold = 10;
+    
+    NSRect screenFrame = screen.frame;
+    NSRect newRect = NSMakeRect(p.x, p.y, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
+    
+    BOOL snappedToTopOrBottom = NO;
+    BOOL snappedToLeftOrRight = NO;
+    
+    // top
+    if (screenFrame.origin.y + screenFrame.size.height - newRect.origin.y - newRect.size.height <= snapThreshold) {
+        newRect.origin.y = screenFrame.origin.y + (screenFrame.size.height - newRect.size.height);
+        snappedToTopOrBottom = YES;
+    }
+    
+    // left
+    if (newRect.origin.x - screenFrame.origin.x <= snapThreshold) {
+        newRect.origin.x = screenFrame.origin.x;
+        snappedToLeftOrRight = YES;
+    }
+    
+    // bottom
+    if (newRect.origin.y - screenFrame.origin.y <= snapThreshold) {
+        newRect.origin.y = screenFrame.origin.y;
+        snappedToTopOrBottom = YES;
+    }
+    
+    // right
+    if (screenFrame.origin.x + screenFrame.size.width - newRect.origin.x - newRect.size.width <= snapThreshold) {
+        newRect.origin.x = screenFrame.origin.x + (screenFrame.size.width - newRect.size.width);
+        snappedToLeftOrRight = YES;
+    }
+
+    // Middle top/bottom
+    if (snappedToTopOrBottom) {
+        if (fabs(NSMidX(newRect) - NSMidX(screenFrame)) <= snapThreshold) {
+            newRect.origin.x = NSMidX(screenFrame) - 0.5 * newRect.size.width;
+        }
+    }
+    
+    if (snappedToLeftOrRight) {
+        if (fabs(NSMidY(newRect) - NSMidY(screenFrame)) <= snapThreshold) {
+            newRect.origin.y = NSMidY(screenFrame) - 0.5 * newRect.size.height;
+        }
+    }
+    
+    return newRect.origin;
 }
 
 ///// End of Event Handlers /////
