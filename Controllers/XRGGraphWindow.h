@@ -165,7 +165,6 @@
 - (void)setWindowLevelHelper:(NSInteger)index;
 - (NSColor *)colorForTag:(NSInteger)aTag;
 - (float)transparencyForTag:(NSInteger)aTag;
-- (void)setWindowSize:(NSSize)newSize;
 - (void)checkWindowSize;
 
 - (void)cleanupBeforeExiting;

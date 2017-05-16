@@ -45,7 +45,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [defaults registerDefaults:[self getDefaultPrefs]];
 }
 
-- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
 	if (self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag]) {
 		// Initialize the settings class
 		self.appSettings = [[XRGSettings alloc] init];
@@ -314,7 +314,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 - (void)checkServerForUpdates {
     self.xrgCheckURL = [[XRGURL alloc] init];
-    [self.xrgCheckURL setURLString:@"http://download.gauchosoft.com/xrg/latest_version.txt"];
+    [self.xrgCheckURL setURLString:@"https://download.gauchosoft.com/xrg/latest_version.txt"];
     [self.xrgCheckURL loadURLInBackground];
 }
 
@@ -333,7 +333,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 		if ([self isVersion:s laterThanVersion:myVersion]) {
 			NSString *mesg = [NSString stringWithFormat:@"XRG %@ is now available.  You are currently running XRG %@.  If you would like visit the XRG website to upgrade, click More Info.", s, myVersion];
 			
-            NSInteger buttonClicked = NSRunInformationalAlertPanel(@"Alert", mesg, @"More Info", @"Disable Checking", @"Not Yet");
+            NSInteger buttonClicked = NSRunInformationalAlertPanel(@"Alert", @"%@", @"More Info", @"Disable Checking", @"Not Yet", mesg);
             
             switch(buttonClicked) {
                 case -1:		// Not Yet
