@@ -144,6 +144,7 @@
 
     // Get the temperature value.
     float primaryValue = [TemperatureMiner currentValueForKey:locations[primaryIndex]];
+    float adaptedValue = primaryValue;
     
     // Get the units.
     NSString *units = [TemperatureMiner unitsForLocation:locations[primaryIndex]];
@@ -155,14 +156,14 @@
     NSString *valueString = nil;
     if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
         units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
-        primaryValue = primaryValue * 1.8 + 32.;
+        adaptedValue = primaryValue * 1.8 + 32.;
     }
     
     if ([units isEqualToString:@" rpm"] | [units isEqualToString:@"%"]) {
-        valueString = [NSString stringWithFormat:@"%3.0f%@", primaryValue, units];
+        valueString = [NSString stringWithFormat:@"%3.0f%@", adaptedValue, units];
     }
     else {
-        valueString = [NSString stringWithFormat:@"%3.1f%@", primaryValue, units];
+        valueString = [NSString stringWithFormat:@"%3.1f%@", adaptedValue, units];
     }
     
     // Create an array with the selected temperature value and fan values to plot.
@@ -170,9 +171,9 @@
     XRGDataSet *dataSet = [TemperatureMiner dataSetForKey:locations[primaryIndex]];
     if (dataSet && dataSet.max > 0) {
         // Scale the primary value.
-        primaryValue = primaryValue / dataSet.max * 100;
+        float plotValue = (primaryValue - MIN(dataSet.min, 20)) / MAX(dataSet.max, 90) * 100;           // Use 90°C as max, or dataset.max, and 20°C as min
+        [plotValues addObject:@(plotValue)];
     }
-    [plotValues addObject:@(primaryValue)];
     
     // Add the fans
     NSArray *fans = [TemperatureMiner fanValues];
