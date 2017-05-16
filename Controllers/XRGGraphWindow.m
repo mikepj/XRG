@@ -1050,14 +1050,22 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 // sticky window code
 - (NSPoint)snap:(NSPoint)p {
     if (![self.appSettings stickyWindow]) return p;
+
+    NSRect newRect = NSMakeRect(p.x, p.y, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
+    NSPoint rectCenter = NSMakePoint(NSMidX(newRect), NSMidY(newRect));
     
     NSScreen *screen = [self screen];
+    for (NSScreen *s in [NSScreen screens]) {
+        // Figure out which screen the new center would be on.
+        if (NSPointInRect(rectCenter, [s frame])) {
+            screen = s;
+        }
+    }
     if (!screen) return p;
     
-    CGFloat snapThreshold = 10;
+    CGFloat snapThreshold = 20;
     
     NSRect screenFrame = screen.frame;
-    NSRect newRect = NSMakeRect(p.x, p.y, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
     
     BOOL snappedToTopOrBottom = NO;
     BOOL snappedToLeftOrRight = NO;
