@@ -74,7 +74,10 @@
 }
 
 - (CGFloat) currentValue {
-    return self.values[self.currentIndex];
+    if (_values == NULL) return 0;
+    if (_currentIndex >= _numValues) return 0;
+    
+    return _values[_currentIndex];
 }
 
 // return an ordered list of values into the destinationArray given, assumed to be alloced already.
