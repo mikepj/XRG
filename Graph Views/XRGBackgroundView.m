@@ -396,9 +396,6 @@
     // Finally, resize the window.
 	[parentWindow setFrame:windowFrame display:YES animate:YES];
 	
-	// Reset the cursor rects.
-	[self resetCursorRects];
-	
 	// Show the modules again.
     NSArray *a = [moduleManager displayList];
     for (i = 0; i < [a count]; i++) {
@@ -617,25 +614,6 @@
 	[[(XRGAppDelegate *)[NSApp delegate] prefController] setUpColorPanel];
 
     return YES;
-}
-
-- (void) resetCursorRects {
-	NSRect bounds = [self bounds];
-	int border = [parentWindow borderWidth];
-	BOOL vertical = [moduleManager graphOrientationVertical];
-	
-	[self addCursorRect:NSMakeRect(bounds.origin.x, bounds.origin.y, border, bounds.size.height) 
-				 cursor:vertical ? [NSCursor resizeLeftRightCursor] : [NSCursor resizeUpDownCursor]];
-	[self addCursorRect:NSMakeRect(bounds.origin.x + bounds.size.width - border, bounds.origin.y, border, bounds.size.height)
-				 cursor:vertical ? [NSCursor resizeLeftRightCursor] : [NSCursor resizeUpDownCursor]];
-	
-	[self addCursorRect:NSMakeRect(bounds.origin.x, bounds.origin.y, bounds.size.width, border)
-				 cursor:vertical ? [NSCursor resizeUpDownCursor] : [NSCursor resizeLeftRightCursor]];
-	[self addCursorRect:NSMakeRect(bounds.origin.x, bounds.origin.y + bounds.size.height - border, bounds.size.width, border)
-				 cursor:vertical ? [NSCursor resizeUpDownCursor] : [NSCursor resizeLeftRightCursor]];
-	
-	if (trackingRect) [self removeTrackingRect:trackingRect];
-	trackingRect = [self addTrackingRect:bounds owner:self userData:nil assumeInside:NO];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
