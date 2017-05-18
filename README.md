@@ -1,6 +1,6 @@
 XRG
 ===
 
-System monitor for OS X.
+A system monitor for macOS.
 
-http://gauchosoft.com/xrg/
+http://www.gauchosoft.com/xrg/
