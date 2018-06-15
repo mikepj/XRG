@@ -59,7 +59,7 @@
 	tmpSize.width = newSize.width;
 	tmpSize.height = newSize.height;
 	if (tmpSize.width < 23) tmpSize.width = 23;
-	if (tmpSize.width > 2000) tmpSize.width = 2000;
+	if (tmpSize.width > 20000) tmpSize.width = 20000;
 	[self setWidth:tmpSize.width];
 	graphSize = tmpSize;
 }

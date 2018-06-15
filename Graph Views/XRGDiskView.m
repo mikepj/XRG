@@ -94,7 +94,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     tmpSize.width = newSize.width;
     tmpSize.height = newSize.height;
     if (tmpSize.width < 1) tmpSize.width = 1;
-    if (tmpSize.width > 2000) tmpSize.width = 2000;
+    if (tmpSize.width > 20000) tmpSize.width = 20000;
     [self setWidth:tmpSize.width];
     graphSize = tmpSize;
 }
