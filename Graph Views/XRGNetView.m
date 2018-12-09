@@ -130,14 +130,14 @@
 
     /* received data */
     if (netGraphMode == 0) {
-        [self drawGraphWithDataFromDataSet:self.miner.totalValues maxValue:[self.miner maxBandwidth] inRect:rect flipped:(netGraphMode == 2) filled:YES color:[appSettings graphFG2Color]];
+        [self drawGraphWithDataFromDataSet:self.miner.totalValues maxValue:max inRect:rect flipped:(netGraphMode == 2) filled:YES color:[appSettings graphFG2Color]];
     }
     else {
-        [self drawGraphWithDataFromDataSet:self.miner.rxValues maxValue:[self.miner maxBandwidth] inRect:rect flipped:(netGraphMode == 2) filled:YES color:[appSettings graphFG2Color]];
+        [self drawGraphWithDataFromDataSet:self.miner.rxValues maxValue:max inRect:rect flipped:(netGraphMode == 2) filled:YES color:[appSettings graphFG2Color]];
     }
 
     /* sent data */
-    [self drawGraphWithDataFromDataSet:self.miner.txValues maxValue:[self.miner maxBandwidth] inRect:rect flipped:(netGraphMode == 1) filled:YES color:[appSettings graphFG1Color]];
+    [self drawGraphWithDataFromDataSet:self.miner.txValues maxValue:max inRect:rect flipped:(netGraphMode == 1) filled:YES color:[appSettings graphFG1Color]];
 
     [gc setShouldAntialias:YES];
 
