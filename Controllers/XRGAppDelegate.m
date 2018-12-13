@@ -86,6 +86,8 @@
 }
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
+    if ([filename length] == 0) return NO;
+    
 	NSData *themeData = [NSData dataWithContentsOfFile:filename];
 	
 	if ([themeData length] == 0) {
