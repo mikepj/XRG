@@ -165,6 +165,10 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 		
 		fast_i.bytes_delta = fast_i.bytes - fast_i.bytes_prev;
 		fast_o.bytes_delta = fast_o.bytes - fast_o.bytes_prev;
+        
+        // Check for overflow.
+        if (fast_i.bytes_delta > pow(2, 63)) fast_i.bytes_delta = 0;
+        if (fast_o.bytes_delta > pow(2, 63)) fast_o.bytes_delta = 0;
 		
         fastReadBytes = [XRGCommon dampedValueUsingPreviousValue:fastReadBytes currentValue:fast_i.bytes_delta / [appSettings graphRefresh]];
         fastWriteBytes = [XRGCommon dampedValueUsingPreviousValue:fastWriteBytes currentValue:fast_o.bytes_delta / [appSettings graphRefresh]];
@@ -191,6 +195,10 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     i_dsk.bytes_delta = i_dsk.bytes - i_dsk.bytes_prev;
     o_dsk.bytes_delta = o_dsk.bytes - o_dsk.bytes_prev;
     
+    // Check for overflow.
+    if (i_dsk.bytes_delta > pow(2, 63)) i_dsk.bytes_delta = 0;
+    if (o_dsk.bytes_delta > pow(2, 63)) o_dsk.bytes_delta = 0;
+
     writeBytes = o_dsk.bytes_delta / [appSettings graphRefresh];
     readBytes = i_dsk.bytes_delta / [appSettings graphRefresh];
 
