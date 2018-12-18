@@ -154,9 +154,17 @@
 			}];
 			if (speedKeyIndex != NSNotFound) {
 				id fanSpeedKey = fanDictKeys[speedKeyIndex];
-				[self setCurrentValue:[fanDict[fanSpeedKey] floatValue]
-							 andUnits:@" rpm"
-						  forLocation:fanLocation];
+                if ([fanDict[fanSpeedKey] isKindOfClass:[NSData class]]) {
+                    float *speed = (float *)[fanDict[fanSpeedKey] bytes];
+                    [self setCurrentValue:*speed
+                                 andUnits:@" rpm"
+                              forLocation:fanLocation];
+                }
+                else {
+                    [self setCurrentValue:[fanDict[fanSpeedKey] floatValue]
+                                 andUnits:@" rpm"
+                              forLocation:fanLocation];
+                }
 			}
         }
     }
