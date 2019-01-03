@@ -154,9 +154,17 @@
 			}];
 			if (speedKeyIndex != NSNotFound) {
 				id fanSpeedKey = fanDictKeys[speedKeyIndex];
-				[self setCurrentValue:[fanDict[fanSpeedKey] floatValue]
-							 andUnits:@" rpm"
-						  forLocation:fanLocation];
+                if ([fanDict[fanSpeedKey] isKindOfClass:[NSData class]]) {
+                    float *speed = (float *)[fanDict[fanSpeedKey] bytes];
+                    [self setCurrentValue:*speed
+                                 andUnits:@" rpm"
+                              forLocation:fanLocation];
+                }
+                else {
+                    [self setCurrentValue:[fanDict[fanSpeedKey] floatValue]
+                                 andUnits:@" rpm"
+                              forLocation:fanLocation];
+                }
 			}
         }
     }
@@ -450,17 +458,21 @@
         
         id fanD = fansD[key];
         for (NSString *fanDKey in [fanD allKeys]) {
-            if ([fanDKey hasSuffix:@"Ac"]) {
-                f.actualSpeed = [fanD[fanDKey] integerValue];
-            }
-            else if ([fanDKey hasSuffix:@"Tg"]) {
-                f.targetSpeed = [fanD[fanDKey] integerValue];
-            }
-            else if ([fanDKey hasSuffix:@"Mn"]) {
-                f.minimumSpeed = [fanD[fanDKey] integerValue];
-            }
-            else if ([fanDKey hasSuffix:@"Mx"]) {
-                f.maximumSpeed = [fanD[fanDKey] integerValue];
+            id fanValue = fanD[fanDKey];
+            
+            if ([fanValue isKindOfClass:[NSNumber class]]) {
+                if ([fanDKey hasSuffix:@"Ac"]) {
+                    f.actualSpeed = [fanValue integerValue];
+                }
+                else if ([fanDKey hasSuffix:@"Tg"]) {
+                    f.targetSpeed = [fanValue integerValue];
+                }
+                else if ([fanDKey hasSuffix:@"Mn"]) {
+                    f.minimumSpeed = [fanValue integerValue];
+                }
+                else if ([fanDKey hasSuffix:@"Mx"]) {
+                    f.maximumSpeed = [fanValue integerValue];
+                }
             }
         }
         
