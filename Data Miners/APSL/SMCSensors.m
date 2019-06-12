@@ -57,13 +57,18 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 		// see <http://www.parhelia.ch/blog/statics/k3_keys.html>
 		self.sKnownDescriptions = @{
 									@"TA?P": @"Ambient",
+                                    @"TA?V": @"Ambient",
+                                    @"Ta?P": @"Ambient",
 									@"TB?T": @"Bottom Sensor",
+                                    @"TC?C": @"CPU Core",
 									@"TC?D": @"CPU Die",
 									@"TC?H": @"CPU Heatsink",
 									@"TC?P": @"CPU Proximity",
+                                    @"TCGC": @"iGPU",
 									@"TG?D": @"GPU Die",
 									@"TG?H": @"GPU Heatsink",
 									@"TG?P": @"GPU Proximity",
+                                    @"TH?F": @"SSD",
 									@"TH?P": @"HD Proximity",
 									@"Th?H": @"Heatsink",
 									@"TI?P": @"Thunderbolt",
@@ -82,6 +87,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 									@"Tp?P": @"Power Supply",
 									@"Ts?P": @"Palm Rest",
 									@"TS?C": @"Expansion Slot",
+                                    @"TTTD": @"T2 Die",
 									@"TW?P": @"Airport",
 									// sensors:
 									@"ALV0": @"Ambient Light Left",
@@ -193,6 +199,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
     NSMutableDictionary *fanDescriptions = [NSMutableDictionary dictionary];
     NSMutableSet *unknownTempKeys = [NSMutableSet set];
     NSMutableSet *knownTempKeys = [NSMutableSet set];
+    NSMutableSet *unknownOtherKeys = [NSMutableSet set];
     
 	NSInteger smcKeyCount = [smc_ keyCount];
     NSMutableSet *availableKeys = [NSMutableSet setWithCapacity:smcKeyCount];
@@ -264,6 +271,8 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
                 [fanDescriptions setValue:fanValues forKey:fanKey];
             }
             [fanValues addObject:currentKey];
+        } else {
+            [unknownOtherKeys addObject:currentKey];
         }
 	}	
     
