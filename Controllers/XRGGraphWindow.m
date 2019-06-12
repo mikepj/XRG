@@ -153,6 +153,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     appDefs[XRG_foregroundWhenExpanding] = @"NO";
     appDefs[XRG_showSummary] = @"YES";
     appDefs[XRG_minimizeUpDown] = @"";
+    appDefs[XRG_isDockIconHidden] = @"NO";
     
     appDefs[XRG_fastCPUUsage] = @"NO";
     appDefs[XRG_separateCPUColor] = @"YES";
@@ -210,6 +211,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.appSettings setForegroundWhenExpanding: [defs[XRG_foregroundWhenExpanding] boolValue]];
     [self.appSettings setShowSummary:             [defs[XRG_showSummary] boolValue]];
     [self.appSettings setMinimizeUpDown:          [defs[XRG_minimizeUpDown] intValue]];
+    [self.appSettings setIsDockIconHidden:        [defs[XRG_isDockIconHidden] boolValue]];
 
     [self.appSettings setBackgroundColor:        [NSUnarchiver unarchiveObjectWithData: defs[XRG_backgroundColor]]];
     [self.appSettings setGraphBGColor:           [NSUnarchiver unarchiveObjectWithData: defs[XRG_graphBGColor]]];

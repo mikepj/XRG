@@ -102,6 +102,7 @@
 @property NSInteger		tempFG1Location;
 @property NSInteger		tempFG2Location;
 @property NSInteger		tempFG3Location;
+@property BOOL          isDockIconHidden;
 
 - (void) readXTFDictionary:(NSDictionary *)xtfD;
 

@@ -107,6 +107,7 @@
 		self.showTotalBandwidthSinceLoad = YES;
 		self.networkInterface            = @"All";
 		self.windowTitle                 = @"";
+        self.isDockIconHidden            = NO;
 	}
 	
 	return self;

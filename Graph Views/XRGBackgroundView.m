@@ -43,26 +43,9 @@
 	[self getHostname];
 	
     // Find out whether or not the App's UI is being displayed.
-    NSString *plistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/Contents/Info.plist"];
-    NSString *error;        
-    NSPropertyListFormat format;
-
-    NSData *infoPlist = [NSData dataWithContentsOfFile:plistPath];
-    
-    if ([infoPlist length] != 0) {
-        NSMutableDictionary *d = [NSPropertyListSerialization propertyListFromData:infoPlist
-                                                                  mutabilityOption:NSPropertyListImmutable
-                                                                            format:&format
-                                                                  errorDescription:&error];
-        
-        if (d) {
-            if (!d[@"NSUIElement"] || [d[@"NSUIElement"] isEqualToString:@"NO"]) {
-                uiIsHidden = NO;
-            }
-            else {
-                uiIsHidden = YES;
-            }
-        }
+    uiIsHidden = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_isDockIconHidden];
+    if (!uiIsHidden) {
+        [self showUI:nil];
     }
     
     isVertical = YES;
@@ -425,7 +408,7 @@
     [myMenu addItem:[NSMenuItem separatorItem]];
 
     if (uiIsHidden) {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show XRG Dock Icon (After Restart)" action:@selector(showUI:) keyEquivalent:@""];
+        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show XRG Dock Icon" action:@selector(showUI:) keyEquivalent:@""];
         [myMenu addItem:tMI];
     }
     else {
@@ -454,97 +437,18 @@
 }
 
 - (void)hideUI:(NSEvent *)theEvent {
-    NSString *plistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/Contents/Info.plist"];
-    NSString *error;        
-    NSPropertyListFormat format;
-
-    NSData *infoPlist = [NSData dataWithContentsOfFile:plistPath];
+    uiIsHidden = YES;
     
-    if ([infoPlist length] == 0) {
-        NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
-        return;
-    }
-
-    NSMutableDictionary *d = [NSPropertyListSerialization propertyListFromData:infoPlist
-                                                              mutabilityOption:NSPropertyListImmutable
-                                                                        format:&format
-                                                              errorDescription:&error];
-                                                       
-    if (!d) {
-        NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
-        NSLog(@"%@", error);
-        return;
-    }
-    else {
-        d[@"NSUIElement"] = @"YES";
-        
-        NSData *newPlist = [NSPropertyListSerialization dataFromPropertyList:d
-                                                                      format:NSPropertyListXMLFormat_v1_0
-                                                            errorDescription:&error];
-                                                        
-        if (newPlist) {
-            if (![newPlist writeToFile:plistPath atomically:YES]) {
-                NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
-            }
-        }
-        else {
-			NSLog(@"%@", error);
-            return;
-        }
-    }
-    
-    // Finally, touch our .app directory to update the cache.
-    [NSTask launchedTaskWithLaunchPath:@"/usr/bin/touch" arguments:@[[[NSBundle mainBundle] bundlePath]]];    
+    [[NSUserDefaults standardUserDefaults] setBool:uiIsHidden forKey:XRG_isDockIconHidden];
     
     NSRunInformationalAlertPanel(@"Hiding the XRG Dock Icon", @"Please re-launch XRG for changes to take effect.", @"OK", nil, nil);
-    uiIsHidden = YES;
 }
 
 - (void)showUI:(NSEvent *)theEvent {
-    NSString *plistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/Contents/Info.plist"];
-    NSString *error;        
-    NSPropertyListFormat format;
-
-    NSData *infoPlist = [NSData dataWithContentsOfFile:plistPath];
-    
-    if ([infoPlist length] == 0) {
-        NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
-        return;
-    }
-
-    NSMutableDictionary *d = [NSPropertyListSerialization propertyListFromData:infoPlist
-                                                              mutabilityOption:NSPropertyListImmutable
-                                                                        format:&format
-                                                              errorDescription:&error];
-                                                       
-    if (!d) {
-        NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
-        NSLog(@"%@", error);
-        return;
-    }
-    else {
-        d[@"NSUIElement"] = @"NO";
-        
-        NSData *newPlist = [NSPropertyListSerialization dataFromPropertyList:d
-                                                                      format:NSPropertyListXMLFormat_v1_0
-                                                            errorDescription:&error];
-                                                        
-        if (newPlist) {
-            if (![newPlist writeToFile:plistPath atomically:YES]) {
-                NSRunInformationalAlertPanel(@"Error", @"Failed to modify the application settings.", @"OK", nil, nil);
-            }
-        }
-        else {
-			NSLog(@"%@", error);
-            return;
-        }
-    }
-    
-    // Finally, touch our .app directory to update the cache.
-    [NSTask launchedTaskWithLaunchPath:@"/usr/bin/touch" arguments:@[[[NSBundle mainBundle] bundlePath]]];    
-
-    NSRunInformationalAlertPanel(@"Showing the XRG Dock Icon", @"Please re-launch XRG for changes to take effect.", @"OK", nil, nil);
+    [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
     uiIsHidden = NO;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:uiIsHidden forKey:XRG_isDockIconHidden];
 }
 
 - (void)quit:(NSEvent *)theEvent {

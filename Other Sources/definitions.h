@@ -64,6 +64,7 @@ typedef struct network_interface_stats {
 #define XRG_showSummary                 @"showSummary"
 #define XRG_minimizeUpDown              @"minimizeUpDown"
 #define XRG_windowIsMinimized			@"windowIsMinimized"
+#define XRG_isDockIconHidden            @"isDockIconHidden"
 
 #define XRG_backgroundColor				@"backgroundColor"
 #define XRG_graphBGColor				@"graphBGColor"
