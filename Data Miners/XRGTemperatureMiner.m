@@ -332,15 +332,21 @@
 			}
 		}
 		
-		[locationKeysInOrder addObjectsFromArray:[tmpCPUCore sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpCPUA sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpCPUB sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpCPU sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpGPU sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpU3 sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpBattery sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpDrive sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-		[locationKeysInOrder addObjectsFromArray:[tmpOthers sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
+        NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self"
+                                                                         ascending:YES
+                                                                        comparator:^(id obj1, id obj2) {
+                                                                            return [obj1 compare:obj2 options:NSNumericSearch];
+                                                                        }];
+        
+		[locationKeysInOrder addObjectsFromArray:[tmpCPUCore sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpCPUA sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpCPUB sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpCPU sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpGPU sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpU3 sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpBattery sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpDrive sortedArrayUsingDescriptors:@[descriptor]]];
+		[locationKeysInOrder addObjectsFromArray:[tmpOthers sortedArrayUsingDescriptors:@[descriptor]]];
 	}
 	
 	free(alreadyUsed);
