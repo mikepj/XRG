@@ -228,6 +228,11 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 			keyIndex = [self c4String:keyChar matchesPattern:[key UTF8String]];
 			if (keyIndex != kNoMatch) {
 				smcLocationName = self.sKnownDescriptions[key];
+                if (keyIndex != kDirectMatch && keyIndex > 1) {
+                    NSString *prevKey = [key stringByReplacingOccurrencesOfString:@"?" withString:[NSString stringWithFormat:@"%X", keyIndex-1]];
+                    if (!descriptions[prevKey])
+                        smcLocationName = nil;
+                }
 				break;
 			}
 		}
