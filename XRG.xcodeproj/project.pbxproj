@@ -372,7 +372,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = XRG;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Gaucho Software";
 				TargetAttributes = {
 					273ECE6415740DE700E65D82 = {
@@ -387,10 +387,11 @@
 			};
 			buildConfigurationList = 273ECE5F15740DE700E65D82 /* Build configuration list for PBXProject "XRG" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 273ECE5A15740DE700E65D82;
 			productRefGroup = 273ECE6615740DE700E65D82 /* Products */;
@@ -473,6 +474,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -520,6 +522,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
