@@ -413,7 +413,7 @@
 - (void)openActivityMonitor:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:@[@"/Applications/Utilities/Activity Monitor.app"]
+      arguments:@[@"-a", @"Activity Monitor.app"]
     ];
 }
 

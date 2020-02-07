@@ -438,7 +438,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 - (void)openDiskUtility:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:@[@"/Applications/Utilities/Disk Utility.app"]
+      arguments:@[@"-a", @"Disk Utility.app"]
     ];
 }
 

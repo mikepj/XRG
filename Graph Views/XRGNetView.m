@@ -371,7 +371,7 @@
 - (void)openNetworkUtility:(NSEvent *)theEvent {
     [NSTask 
       launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:@[@"/Applications/Utilities/Network Utility.app"]
+      arguments:@[@"-a", @"Network Utility.app"]
     ];
 }
 
