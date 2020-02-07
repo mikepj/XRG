@@ -29,11 +29,11 @@
 
 @interface XRGStock : NSObject
 
-@property NSString *label;
-@property (nonatomic) NSString *symbol;
+@property (nullable,readonly) NSString *label;
+@property (nullable,nonatomic) NSString *symbol;
 
-@property XRGURL *surl;
-@property XRGURL *immediateURL;
+@property (nullable) NSURL *sURL;
+@property (nullable) NSURL *immediateURL;
 
 @property CGFloat currentPrice;
 @property CGFloat lastChange;
@@ -47,25 +47,19 @@
 @property BOOL haveGoodStockArray;
 @property BOOL haveGoodDisplayData;
 
-@property NSMutableArray *closingPrices;
-@property NSMutableArray *volumes;
+@property (nullable) NSArray<NSNumber *> *closingPrices;
 
-- (NSString *)symbol;
-- (NSString *)label;
-- (void)setURL;
 - (void)resetData;
 - (void)loadData;
-- (void)checkForData;
-- (void)parseWebData:(NSString *)webData;
 
-- (NSArray *)get1MonthValues:(int)max;
-- (NSArray *)get3MonthValues:(int)max;
-- (NSArray *)get6MonthValues:(int)max;
-- (NSArray *)get12MonthValues:(int)max;
-- (NSArray *)getCurrentPriceAndChange;
+- (nullable NSArray<NSNumber *> *)get1MonthValues;
+- (nullable NSArray<NSNumber *> *)get3MonthValues;
+- (nullable NSArray<NSNumber *> *)get6MonthValues;
+- (nullable NSArray<NSNumber *> *)get12MonthValues;
+- (nullable NSArray<NSNumber *> *)getCurrentPriceAndChange;
 
-- (NSString *)priceString;
-- (NSString *)changeString;
+- (nonnull NSString *)priceString;
+- (nonnull NSString *)changeString;
 
 - (BOOL)errorOccurred;
 

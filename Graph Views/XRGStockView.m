@@ -49,8 +49,6 @@
     
     djia = [[XRGStock alloc] init];
     [djia setSymbol:@"%5EDJI"];
-    [djia setURL];
-
    
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Stock" andReference:self];
@@ -110,7 +108,6 @@
         [self reloadStockData];
 }
 
-// *** Memory leak when allocating in the for loop.  Should be correct.
 - (void)resetStockObjects {
     int i;
     
@@ -118,7 +115,6 @@
     for (i = 0; i < [stockSymbols count]; i++) {
         XRGStock *tmpStock = [[XRGStock alloc] init];
         [tmpStock setSymbol:stockSymbols[i]];
-        [tmpStock setURL];
         [stockObjects addObject:tmpStock];
     }
     
@@ -136,20 +132,14 @@
 }
 
 - (bool)dataIsReady {
-    int i;
-    XRGStock *tmpStock;
-    
     if (!self.gettingData) return YES;
     
-    for (i = 0; i < [stockObjects count]; i++) {
-        tmpStock = stockObjects[i];
-        [tmpStock checkForData];
+    for (XRGStock *tmpStock in stockObjects) {
         if ([tmpStock gettingData]) {
             return NO;
         }
     }
     
-    [djia checkForData];
     if ([djia gettingData]) {
         return NO;
     }
@@ -228,13 +218,13 @@
             // draw the graph
             NSArray *a = nil;
             if ([appSettings stockGraphTimeFrame] == 0)
-                a = [showStock get1MonthValues:366];
+                a = [showStock get1MonthValues];
             else if ([appSettings stockGraphTimeFrame] == 1)
-                a = [showStock get3MonthValues:366];
+                a = [showStock get3MonthValues];
             else if ([appSettings stockGraphTimeFrame] == 2)
-                a = [showStock get6MonthValues:366];
+                a = [showStock get6MonthValues];
             else if ([appSettings stockGraphTimeFrame] == 3)
-                a = [showStock get12MonthValues:366];
+                a = [showStock get12MonthValues];
             
             if ([a count] > 0) {
                 // find the high, low and range of the graph
@@ -287,13 +277,13 @@
             // draw the graph
             NSArray *a = nil;
             if ([appSettings stockGraphTimeFrame] == 0)
-                a = [stockObjects[stockToShow] get1MonthValues:self.graphSize.width];
+                a = [stockObjects[stockToShow] get1MonthValues];
             else if ([appSettings stockGraphTimeFrame] == 1)
-                a = [stockObjects[stockToShow] get3MonthValues:self.graphSize.width];
+                a = [stockObjects[stockToShow] get3MonthValues];
             else if ([appSettings stockGraphTimeFrame] == 2)
-                a = [stockObjects[stockToShow] get6MonthValues:self.graphSize.width];
+                a = [stockObjects[stockToShow] get6MonthValues];
             else if ([appSettings stockGraphTimeFrame] == 3)
-                a = [stockObjects[stockToShow] get12MonthValues:self.graphSize.width];
+                a = [stockObjects[stockToShow] get12MonthValues];
             
             if ([a count] > 0) {
                 // find the high, low and range of the graph
@@ -314,7 +304,7 @@
                 NSInteger count = [a count];
                 CGFloat *data = alloca(count * sizeof(CGFloat));
                 
-                for (i = 0; i < count; i++) data[i] = [a[(count - 1 - i)] floatValue];
+                for (i = 0; i < count; i++) data[i] = [a[i] floatValue];
                 
                 [self drawRangedGraphWithData:data size:[a count] currentIndex:(count - 1) upperBound:high lowerBound:low inRect:[self bounds] flipped:NO filled:YES color:[appSettings graphFG1Color]];
             }
@@ -325,23 +315,20 @@
             if ([djia haveGoodDisplayData]) {
                 NSArray *a = nil;
                 if ([appSettings stockGraphTimeFrame] == 0)
-                    a = [djia get1MonthValues: self.graphSize.width];
+                    a = [djia get1MonthValues];
                 else if ([appSettings stockGraphTimeFrame] == 1)
-                    a = [djia get3MonthValues: self.graphSize.width];
+                    a = [djia get3MonthValues];
                 else if ([appSettings stockGraphTimeFrame] == 2)
-                    a = [djia get6MonthValues: self.graphSize.width];
+                    a = [djia get6MonthValues];
                 else if ([appSettings stockGraphTimeFrame] == 3)
-                    a = [djia get12MonthValues: self.graphSize.width];
+                    a = [djia get12MonthValues];
                     
-                if (a != nil) {
-                    int i;
+                if ([a count] > 0) {
                     float high, low;
                     low = high = [a[0] floatValue];
-                    for (i = 1; i < [a count]; i++) {
-                        if ([a[i] floatValue] > high) 
-                            high = [a[i] floatValue];
-                        if ([a[i] floatValue] < low)
-                            low = [a[i] floatValue];
+                    for (NSNumber *closingPrice in a) {
+                        high = MAX(high, [closingPrice floatValue]);
+                        low = MIN(low, [closingPrice floatValue]);
                     }
                     
                     r = (high - low) * .1;
@@ -351,7 +338,7 @@
                     NSInteger count = [a count];
                     CGFloat *data = alloca(count * sizeof(CGFloat));
                     
-                    for (i = 0; i < count; i++) data[i] = [a[(count - 1 - i)] floatValue];
+                    for (i = 0; i < count; i++) data[i] = [a[i] floatValue];
                     
                     [self drawRangedGraphWithData:data size:[a count] currentIndex:(count - 1) upperBound:high lowerBound:low inRect:[self bounds] flipped:NO filled:NO color:[appSettings graphFG2Color]];
                 }
