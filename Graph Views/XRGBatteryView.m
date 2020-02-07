@@ -300,7 +300,7 @@
         [self.dischargeWatts setNextValue:dischargeWattsSum];
         
         // Calculate the time remaining.
-        if ((chargeWattsSum == 0) && (dischargeWattsSum == 0)) {
+        if ((fabs(chargeWattsSum) < 0.1) && (fabs(dischargeWattsSum) < 0.1)) {
             minutesRemaining = 0;
         }
         else {
