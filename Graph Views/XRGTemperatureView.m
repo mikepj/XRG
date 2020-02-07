@@ -392,10 +392,19 @@
         
     [myMenu addItem:[NSMenuItem separatorItem]];
 
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
+    [myMenu addItem:tMI];
+
+    [myMenu addItem:[NSMenuItem separatorItem]];
+
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Temperature Preferences..." action:@selector(openTemperaturePreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;
+}
+
+- (void)clearData:(NSEvent *)theEvent {
+    [TemperatureMiner reset];
 }
 
 - (void)emptyEvent:(NSEvent *)theEvent {

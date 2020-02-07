@@ -69,6 +69,7 @@
 @property NSDate *fanCacheCreated;
 
 - (void)setDataSize:(int)newNumSamples;
+- (void)reset;
 - (int)numberOfCPUs;
 
 - (void)setCurrentTemperatures;								// Tries 3 different methods of gathering temperature statistics.

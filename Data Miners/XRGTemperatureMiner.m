@@ -58,6 +58,13 @@
     return self;
 }
 
+- (void)reset {
+    int width = numSamples;
+    
+    [self setDataSize:0];
+    [self setDataSize:width];
+}
+
 - (int)numberOfCPUs {
     processor_cpu_load_info_t		newCPUInfo;
     kern_return_t					kr;
