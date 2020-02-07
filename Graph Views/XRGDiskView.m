@@ -451,9 +451,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 }
 
 - (void)clearData:(NSEvent *)theEvent {
-    int width = numSamples;
-    [self setWidth:1];
-    [self setWidth:width];
+    for (NSInteger i = 0; i < numSamples; i++) {
+        values[i] = 0;
+        readValues[i] = 0;
+        writeValues[i] = 0;
+    }
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       

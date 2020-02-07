@@ -42,6 +42,7 @@
 - (CGFloat) currentValue;
 - (void) valuesInOrder:(CGFloat *)destinationArray;
 
+- (void) reset;
 - (void) resize:(size_t)newNumValues;
 - (void) setNextValue:(CGFloat)nextVal;
 - (void) setAllValues:(CGFloat)value;

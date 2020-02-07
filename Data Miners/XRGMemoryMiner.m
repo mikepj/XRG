@@ -74,11 +74,9 @@
 }
 
 - (void)reset {
-    values1 = nil;
-    values2 = nil;
-    values3 = nil;
-    
-    [self setDataSize:numSamples];
+    [values1 reset];
+    [values2 reset];
+    [values3 reset];
 }
 
 - (void)getLatestMemoryInfo {

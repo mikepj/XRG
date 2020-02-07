@@ -99,6 +99,12 @@
     }
 }
 
+- (void) reset {
+    for (NSInteger i = 0; i < self.numValues; i++) {
+        _values[i] = 0;
+    }
+}
+
 - (void) resize:(size_t)newNumValues {
     if (newNumValues == 0) {
         self.min = 0;

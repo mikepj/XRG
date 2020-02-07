@@ -226,11 +226,17 @@
 }
 
 - (void)reset {
-    self.userValues = nil;
-    self.systemValues = nil;
-    self.niceValues = nil;
-    
-    [self setDataSize:numSamples];
+    for (XRGDataSet *set in self.userValues) {
+        [set reset];
+    }
+
+    for (XRGDataSet *set in self.systemValues) {
+        [set reset];
+    }
+
+    for (XRGDataSet *set in self.niceValues) {
+        [set reset];
+    }
 }
 
 - (void)setCurrentUptime {

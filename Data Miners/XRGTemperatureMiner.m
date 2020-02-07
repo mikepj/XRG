@@ -59,10 +59,9 @@
 }
 
 - (void)reset {
-    int width = numSamples;
-    
-    [self setDataSize:0];
-    [self setDataSize:width];
+    for (NSDictionary *sensorValue in [sensorData allValues]) {
+        [sensorValue[GSDataSetKey] reset];
+    }
 }
 
 - (int)numberOfCPUs {

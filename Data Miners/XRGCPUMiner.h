@@ -57,9 +57,9 @@
 @property CGFloat currentLoadAverage;
 
 @property NSInteger *fastValues;
-@property NSMutableArray *userValues;
-@property NSMutableArray *systemValues;
-@property NSMutableArray *niceValues;
+@property NSMutableArray<XRGDataSet *> *userValues;
+@property NSMutableArray<XRGDataSet *> *systemValues;
+@property NSMutableArray<XRGDataSet *> *niceValues;
 
 - (void)graphUpdate:(NSTimer *)aTimer;
 - (void)fastUpdate:(NSTimer *)aTimer;
