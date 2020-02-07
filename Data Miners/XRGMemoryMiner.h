@@ -49,6 +49,7 @@
 
 - (void)getLatestMemoryInfo;
 - (void)setDataSize:(int)newNumSamples;
+- (void)reset;
 
 // actually kilobytes, not bytes - limited to 4TB with 32bit
 - (NSUInteger)freeBytes;

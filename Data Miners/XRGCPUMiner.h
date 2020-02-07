@@ -66,6 +66,7 @@
 - (NSInteger)calculateCPUUsageForCPUs:(processor_cpu_load_info_t *)lastCPUInfo count:(NSInteger)count;
 - (NSInteger)getNumCPUs;
 - (CGFloat)getLoadAverage;
+- (void)reset;
 
 - (void)setCurrentUptime;
 - (void)setDataSize:(NSInteger)newNumSamples;

@@ -379,13 +379,18 @@
 	
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Activity Monitor..." action:@selector(openActivityMonitor:) keyEquivalent:@""];
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Activity Monitor..." action:@selector(openActivityMonitor:) keyEquivalent:@""];
+    [myMenu addItem:tMI];
+
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG CPU Preferences..." action:@selector(openCPUPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
+
+    [myMenu addItem:[NSMenuItem separatorItem]];
     
     return myMenu;
 }
@@ -415,6 +420,10 @@
       launchedTaskWithLaunchPath:@"/usr/bin/open"
       arguments:@[@"-a", @"Activity Monitor.app"]
     ];
+}
+
+- (void)clearData:(NSEvent *)theEvent {
+    [CPUMiner reset];
 }
 
 - (BOOL) acceptsFirstMouse {

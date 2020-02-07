@@ -60,6 +60,7 @@
 - (CGFloat)maxBandwidth;
 - (CGFloat)currentTX;
 - (CGFloat)currentRX;
+- (void)reset;
 
 - (NSArray *)networkInterfaces;
 

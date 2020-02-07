@@ -285,11 +285,20 @@
 	}
 
     [myMenu addItem:[NSMenuItem separatorItem]];
+
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
+    [myMenu addItem:tMI];
+
+    [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Memory Preferences..." action:@selector(openMemoryPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
      
     return myMenu;
+}
+
+- (void)clearData:(NSEvent *)theEvent {
+    [memoryMiner reset];
 }
 
 - (void)emptyEvent:(NSEvent *)theEvent {

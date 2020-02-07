@@ -152,6 +152,14 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
     return [self.rxValues currentValue];
 }
 
+- (void)reset {
+    _rxValues = nil;
+    _txValues = nil;
+    _totalValues = nil;
+    
+    [self setDataSize:self.numSamples];
+}
+
 - (void)setCurrentBandwidth {
     i_net.bytes = i_net.bytes_delta = 0;
     o_net.bytes = o_net.bytes_delta = 0;

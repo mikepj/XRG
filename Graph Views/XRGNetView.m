@@ -344,13 +344,16 @@
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
+    [myMenu addItem:tMI];
+
+    [myMenu addItem:[NSMenuItem separatorItem]];
+    
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Network System Preferences..." action:@selector(openNetworkSystemPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Network Utility..." action:@selector(openNetworkUtility:) keyEquivalent:@""];
     [myMenu addItem:tMI];
-    
-    [myMenu addItem:[NSMenuItem separatorItem]];
     
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Network Preferences..." action:@selector(openNetworkPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
@@ -377,6 +380,10 @@
 
 - (void)openNetworkPreferences:(NSEvent *)theEvent {
     [[parentWindow controller] showPrefsWithPanel:@"Network"];
+}
+
+- (void)clearData:(NSEvent *)theEvent {
+    [self.miner reset];
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       

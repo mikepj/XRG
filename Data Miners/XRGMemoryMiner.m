@@ -73,6 +73,14 @@
     numSamples  = newNumSamples;
 }
 
+- (void)reset {
+    values1 = nil;
+    values2 = nil;
+    values3 = nil;
+    
+    [self setDataSize:numSamples];
+}
+
 - (void)getLatestMemoryInfo {
     kern_return_t kr;
     vm_statistics_data_t stats;

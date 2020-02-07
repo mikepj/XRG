@@ -225,6 +225,14 @@
         return -1;
 }
 
+- (void)reset {
+    self.userValues = nil;
+    self.systemValues = nil;
+    self.niceValues = nil;
+    
+    [self setDataSize:numSamples];
+}
+
 - (void)setCurrentUptime {
     time_t         currentTime;
     time_t         uptimeInSeconds = 0;
