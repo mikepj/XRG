@@ -48,7 +48,6 @@
     [self setStockSymbolsFromString:[appSettings stockSymbols]];
     
     djia = [[XRGStock alloc] init];
-    [djia setSymbol:@"%5EDJI"];
    
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Stock" andReference:self];
@@ -109,24 +108,29 @@
 }
 
 - (void)resetStockObjects {
-    int i;
+    if (![[[parentWindow moduleManager] getModuleByReference:self] isDisplayed]) return;
     
     [stockObjects removeAllObjects];
-    for (i = 0; i < [stockSymbols count]; i++) {
+    for (NSString *symbol in stockSymbols) {
         XRGStock *tmpStock = [[XRGStock alloc] init];
-        [tmpStock setSymbol:stockSymbols[i]];
+        [tmpStock setSymbol:symbol];
         [stockObjects addObject:tmpStock];
     }
     
+    [djia resetData];
+    [djia setSymbol:@"%5EDJI"];
+
     self.gettingData = NO;
 }
 
 - (void)reloadStockData {
+    if (![[[parentWindow moduleManager] getModuleByReference:self] isDisplayed]) return;
+
 	[stockObjects makeObjectsPerformSelector:@selector(resetData)];
 	[stockObjects makeObjectsPerformSelector:@selector(loadData)];
     
     [djia resetData];
-    [djia loadData];
+    [djia setSymbol:@"%5EDJI"];
     
     self.gettingData = YES;
 }
@@ -170,6 +174,7 @@
 
 - (void)min30Update:(NSTimer *)aTimer {
     if (slowIncrementer == 0) {
+        [self resetStockObjects];
         [self reloadStockData];
 		
 		self.gettingData = YES;
