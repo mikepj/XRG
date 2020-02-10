@@ -132,8 +132,17 @@
 }
 
 - (void)parseWebData:(NSData *)data {
+    if (!data) return;
+
     NSError *error = nil;
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    id jsonObject = nil;
+    
+    @try {
+        jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    }
+    @catch (NSException *) {
+        return;
+    }
 
     if (error) return;
     if (![jsonObject isKindOfClass:[NSDictionary class]]) return;
@@ -177,9 +186,17 @@
 }
 
 - (void)parseImmediateData:(NSData *)data {
+    if (!data) return;
+    
     NSError *error = nil;
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    if (error) return;
+    id jsonObject = nil;
+    
+    @try {
+        jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    }
+    @catch (NSException *) {
+        return;
+    }
 
     if (error) return;
     if (![jsonObject isKindOfClass:[NSDictionary class]]) return;
