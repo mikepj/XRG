@@ -210,14 +210,17 @@
 - (void)regenerateLocationKeyOrder {
     NSArray        *locations        = [sensorData allKeys];
     NSInteger      numLocations      = [locations count];
-    bool           *alreadyUsed      = calloc(numLocations, sizeof(bool));
-    int i;
+    if (numLocations == 0) return;
+    
+    BOOL alreadyUsed[numLocations];
 
 	[locationKeysInOrder removeAllObjects];
 
-    for (i = 0; i < numLocations; i++) {
+    for (int i = 0; i < numLocations; i++) {
         if (locations[i] == nil) {
             alreadyUsed[i] = YES;
+        } else {
+            alreadyUsed[i] = NO;
         }
     }
     
@@ -239,7 +242,7 @@
 		NSMutableArray *tmpDrive   = [NSMutableArray arrayWithCapacity:3];
 		NSMutableArray *tmpOthers  = [NSMutableArray arrayWithCapacity:3];
 		
-		for (i = 0; i < numLocations; i++) {
+		for (int i = 0; i < numLocations; i++) {
 			if (alreadyUsed[i]) continue;
 			
 			NSString *location = locations[i];
@@ -331,8 +334,8 @@
 		}
 		
 		// Loop through and add any left overs
-		for (i = 0; i < numLocations; i++) {
-			if (!alreadyUsed[i] & [sensorData[locations[i]][GSUnitsKey] isEqualToString:types[typeIndex]]) {
+		for (int i = 0; i < numLocations; i++) {
+			if ((!alreadyUsed[i]) & [sensorData[locations[i]][GSUnitsKey] isEqualToString:types[typeIndex]]) {
 				[tmpOthers addObject:locations[i]];
 				alreadyUsed[i] = YES;
 			}
@@ -354,8 +357,6 @@
 		[locationKeysInOrder addObjectsFromArray:[tmpDrive sortedArrayUsingDescriptors:@[descriptor]]];
 		[locationKeysInOrder addObjectsFromArray:[tmpOthers sortedArrayUsingDescriptors:@[descriptor]]];
 	}
-	
-	free(alreadyUsed);
 }
 
 - (float)currentValueForKey:(NSString *)locationKey {
