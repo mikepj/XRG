@@ -53,6 +53,8 @@
 		locationKeysInOrder = [NSMutableArray array];
 		sensorData = [NSMutableDictionary dictionary];
 		smcSensors = [[SMCSensors alloc] init];
+        
+        self.showUnknownSensors = NO;
 	}
 
     return self;
@@ -117,8 +119,7 @@
 	id key;
 	int i;
 	// [smcReader reset];
-    BOOL showUnknownSensors = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
-	NSDictionary *values = [smcSensors temperatureValuesExtended:showUnknownSensors];
+	NSDictionary *values = [smcSensors temperatureValuesExtended:self.showUnknownSensors];
 	//NSLog(@"values: %@", values);
 	NSEnumerator *keyEnum = [values keyEnumerator];
 	
@@ -201,6 +202,10 @@
 
 - (NSArray *)locationKeysInOrder {
     return locationKeysInOrder;
+}
+
+- (NSArray<NSString *> *)allSensorKeys {
+    return [sensorData allKeys];
 }
 
 - (NSString *)unitsForLocation:(NSString *)location {

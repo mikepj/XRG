@@ -55,6 +55,14 @@
     else if ([panelName isEqualTo:@"Appearance"])  [self.prefController Colors:self];
 }
 
+- (void) openSensorWindow {
+    if (!self.sensorWindow) {
+        self.sensorWindow = [[XRGSensorWindow alloc] init];
+    }
+    
+    [self.sensorWindow showWindow:nil];
+}
+
 - (void) changeFont:(id)sender {
     NSFont *oldFont = [[self.xrgGraphWindow appSettings] graphFont];
     NSFont *newFont = [sender convertFont:oldFont];

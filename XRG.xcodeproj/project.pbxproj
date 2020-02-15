@@ -53,6 +53,8 @@
 		275842181D8E3F4800D0281F /* XRGNetMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 275842171D8E3F4800D0281F /* XRGNetMiner.m */; };
 		278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606201B445FED00CC6249 /* XRGGPUMiner.m */; };
 		278606241B44741B00CC6249 /* XRGGPUView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606231B44741B00CC6249 /* XRGGPUView.m */; };
+		278E90B923F21F6600874941 /* Sensors.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E90B823F21F6600874941 /* Sensors.xib */; };
+		278E90BC23F2208300874941 /* XRGSensorWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E90BB23F2208300874941 /* XRGSensorWindow.m */; };
 		937851AA157CA243001D2A15 /* SMCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851A8157CA243001D2A15 /* SMCInterface.m */; };
 		937851AD157CA5D0001D2A15 /* SMCSensors.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851AC157CA5D0001D2A15 /* SMCSensors.m */; };
 /* End PBXBuildFile section */
@@ -143,6 +145,9 @@
 		278606201B445FED00CC6249 /* XRGGPUMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGPUMiner.m; sourceTree = "<group>"; };
 		278606221B44741B00CC6249 /* XRGGPUView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGGPUView.h; sourceTree = "<group>"; };
 		278606231B44741B00CC6249 /* XRGGPUView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGPUView.m; sourceTree = "<group>"; };
+		278E90B823F21F6600874941 /* Sensors.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Sensors.xib; sourceTree = "<group>"; };
+		278E90BA23F2208300874941 /* XRGSensorWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGSensorWindow.h; sourceTree = "<group>"; };
+		278E90BB23F2208300874941 /* XRGSensorWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGSensorWindow.m; sourceTree = "<group>"; };
 		937851A7157CA243001D2A15 /* SMCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCInterface.h; sourceTree = "<group>"; };
 		937851A8157CA243001D2A15 /* SMCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCInterface.m; sourceTree = "<group>"; };
 		937851AB157CA5D0001D2A15 /* SMCSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCSensors.h; sourceTree = "<group>"; };
@@ -224,6 +229,8 @@
 				273ECE8F15740EAF00E65D82 /* XRGPrefController.m */,
 				273ECE9215740EAF00E65D82 /* XRGGraphWindow.h */,
 				273ECE9315740EAF00E65D82 /* XRGGraphWindow.m */,
+				278E90BA23F2208300874941 /* XRGSensorWindow.h */,
+				278E90BB23F2208300874941 /* XRGSensorWindow.m */,
 			);
 			path = Controllers;
 			sourceTree = SOURCE_ROOT;
@@ -306,6 +313,7 @@
 				273ECEDF15740EAF00E65D82 /* Preferences-Stocks.tiff */,
 				273ECEE015740EAF00E65D82 /* Preferences-Temperature.tiff */,
 				273ECEE115740EAF00E65D82 /* Preferences-Weather.tiff */,
+				278E90B823F21F6600874941 /* Sensors.xib */,
 				273ECEE415740EAF00E65D82 /* xtf.icns */,
 			);
 			path = Resources;
@@ -417,6 +425,7 @@
 				273ECF3015740EAF00E65D82 /* Preferences-Stocks.tiff in Resources */,
 				273ECF3115740EAF00E65D82 /* Preferences-Temperature.tiff in Resources */,
 				273ECF3215740EAF00E65D82 /* Preferences-Weather.tiff in Resources */,
+				278E90B923F21F6600874941 /* Sensors.xib in Resources */,
 				273ECF3515740EAF00E65D82 /* xtf.icns in Resources */,
 				273ECF531574106600E65D82 /* InfoPlist.strings in Resources */,
 				273ECF541574106600E65D82 /* MainMenu.nib in Resources */,
@@ -448,6 +457,7 @@
 				273ECF0715740EAF00E65D82 /* XRGGenericView.m in Sources */,
 				273ECF0815740EAF00E65D82 /* XRGMemoryView.m in Sources */,
 				273ECF0915740EAF00E65D82 /* XRGNetView.m in Sources */,
+				278E90BC23F2208300874941 /* XRGSensorWindow.m in Sources */,
 				278606241B44741B00CC6249 /* XRGGPUView.m in Sources */,
 				273ECF0A15740EAF00E65D82 /* XRGStockView.m in Sources */,
 				278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */,

@@ -40,6 +40,7 @@
 	locationSizeCache = [[NSMutableDictionary alloc] initWithCapacity:20];
     
     TemperatureMiner = [[XRGTemperatureMiner alloc] init];
+    TemperatureMiner.showUnknownSensors = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
     [parentWindow setTemperatureMiner:TemperatureMiner];
 	[TemperatureMiner setDisplayFans:YES];
 
@@ -400,6 +401,9 @@
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Temperature Preferences..." action:@selector(openTemperaturePreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show all sensors..." action:@selector(showSensorWindow:) keyEquivalent:@""];
+    [myMenu addItem:tMI];
+    
     return myMenu;
 }
 
@@ -412,6 +416,10 @@
 
 - (void)openTemperaturePreferences:(NSEvent *)theEvent {
     [[parentWindow controller] showPrefsWithPanel:@"Temperature"];
+}
+
+- (void)showSensorWindow:(NSEvent *)theEvent {
+    [(XRGAppDelegate *)[[NSApplication sharedApplication] delegate] openSensorWindow];
 }
 
 - (BOOL) acceptsFirstMouse {

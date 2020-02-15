@@ -65,6 +65,8 @@
     SMCSensors					*smcSensors;
 }
 
+@property BOOL showUnknownSensors;
+
 @property NSArray *fanCache;
 @property NSDate *fanCacheCreated;
 
@@ -78,6 +80,7 @@
 
 - (NSArray *)locationKeys;									// returns a listing of the location keys (as NSStrings), unordered
 - (NSArray *)locationKeysInOrder;							// same as locationKeys, but in a certain order.
+- (NSArray<NSString *> *)allSensorKeys;
 - (NSString *)unitsForLocation:(NSString *)location;
 - (void)regenerateLocationKeyOrder;
 - (float)currentValueForKey:(NSString *)locationKey;
