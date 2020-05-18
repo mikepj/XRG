@@ -385,6 +385,7 @@
         XRGGenericView *ref = [a[i] reference];
         if (ref != nil) {
             [ref setHidden:NO];
+            [ref setNeedsDisplay:YES];
         }
     }
     	
