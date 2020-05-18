@@ -206,30 +206,7 @@
     if ([appSettings windowLevel] == kCGDesktopWindowLevel) [NSApp preventWindowOrdering];
  	NSInteger originalWindowLevel = [parentWindow level];
 	viewPointClicked = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	
-	// Are we supposed to resize a module?
-//	shouldResizeModule = -1;
-//	int i;
-//	for (i = 0; i < [resizeRects count]; i++) {
-//		NSRect resizeRect = [[resizeRects objectAtIndex:i] rectValue];
-//		if (NSPointInRect(viewPointClicked, resizeRect)) {
-//			shouldResizeModule = i;
-//			
-//			while ((theEvent = [[self window] nextEventMatchingMask:NSLeftMouseUpMask | NSLeftMouseDraggedMask])) {
-//				if ([theEvent type] == NSLeftMouseUp) break;
-//
-//				NSPoint currentMousePosition = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-//				
-//				float delta = [moduleManager graphOrientationVertical] ? currentMousePosition.y - viewPointClicked.y : currentMousePosition.x - viewPointClicked.x;
-//				float actualMoveAmount = [moduleManager resizeModuleNumber:shouldResizeModule byDelta:delta];
-//				
-//				viewPointClicked = currentMousePosition;
-//				[[self window] invalidateCursorRectsForView:self];
-//			}			
-//			return;
-//		}
-//	}
-	
+
     // if it's a double click in the title bar, minimize the window
     if ([theEvent clickCount] == 2) { 
 		NSRect frame    = [self bounds];
@@ -257,15 +234,7 @@
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-//	NSPoint currentMousePosition = [[self window] convertBaseToScreen:[[self window] mouseLocationOutsideOfEventStream]];
-//	NSLog(@"should resize: %d", shouldResizeModule);
-//	if (shouldResizeModule != -1) {
-//		float delta = [moduleManager graphOrientationVertical] ? currentMousePosition.y - viewPointClicked.y : currentMousePosition.x - viewPointClicked.x;
-//		[moduleManager resizeModuleNumber:shouldResizeModule byDelta:delta];
-//	}
-//	else {
-		[parentWindow mouseDragged:theEvent];
-//	}
+    [parentWindow mouseDragged:theEvent];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
