@@ -429,6 +429,8 @@
 
 - (NSInteger)getTimeFromMETARFields:(NSArray *)fields {
     // the time should always be in index 1
+    if ([fields[1] length] < 6) return 0;
+
     return [[fields[1] substringWithRange: NSMakeRange(2, 4)] integerValue];
 }
 
@@ -443,6 +445,8 @@
             return -1;
         }
         else {
+            if ([fields[index] length] < 4) return -2;
+
             return [[fields[index] substringWithRange: NSMakeRange(0, 3)] integerValue];
         }
     }
@@ -455,10 +459,14 @@
     }
     else {
         if ([fields[index] hasPrefix: @"VRB"]) {
+            if ([fields[index] length] < 6) return -1;
+
             // the wind is variable
             return [[fields[index] substringWithRange: NSMakeRange(3, 3)] integerValue];
         }
         else {
+            if ([fields[index] length] < 5) return -1;
+
             return [[fields[index] substringWithRange: NSMakeRange(3, 2)] integerValue];
         }
     }
@@ -470,17 +478,13 @@
         return -1;
     }
     else {
-        if (![fields[index] hasPrefix: @"VRB"]) {
+        if (![fields[index] hasPrefix: @"VRB"] && ([fields[index] length] >= 6)) {
             if ((char) [fields[index] characterAtIndex: 5] == 'G') {
                 return [[fields[index] substringWithRange: NSMakeRange(6, 2)] integerValue];
             }
-            else {
-                return 0;
-            }
         }
-        else {
-            return 0;
-        }
+
+        return 0;
     }
 }
 
