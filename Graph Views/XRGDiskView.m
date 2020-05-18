@@ -39,7 +39,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 
 - (void)awakeFromNib {    
     currentIndex = 0;
-    maxVal       = 0;
+    maxVal       = 1;
 	fastMax      = 1024 * 1024;
               
     parentWindow = (XRGGraphWindow *)[self window];
@@ -456,6 +456,8 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         readValues[i] = 0;
         writeValues[i] = 0;
     }
+
+    maxVal = 1;
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       
