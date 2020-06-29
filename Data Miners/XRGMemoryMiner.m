@@ -44,7 +44,7 @@
 		int mib[2] = { CTL_HW, HW_PAGESIZE };
 		size_t sz = sizeof(pageSize);
 		if (-1 == sysctl(mib, 2, &pageSize, &sz, NULL, 0))
-			pageSize = PAGE_SIZE;
+			pageSize = vm_page_size;
 		
 		[self getLatestMemoryInfo];
 	}
