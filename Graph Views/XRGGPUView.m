@@ -26,6 +26,7 @@
 
 #import "XRGGPUView.h"
 #import "XRGGraphWindow.h"
+#import "XRGCommon.h"
 
 @implementation XRGGPUView
 
@@ -132,10 +133,11 @@
 - (void)drawGraph {
     NSGraphicsContext *gc = [NSGraphicsContext currentContext];
 
+    NSArray *utilizationValues = [graphicsMiner utilizationDataSets];
 	NSArray *cpuWaitValues = [graphicsMiner cpuWaitDataSets];
 	NSArray *totalValues = [graphicsMiner totalVRAMDataSets];
 	NSArray *freeValues = [graphicsMiner freeVRAMDataSets];
-	if ((totalValues.count != freeValues.count) || (totalValues.count == 0)) {
+	if ((totalValues.count != freeValues.count) || (totalValues.count != cpuWaitValues.count) || (totalValues.count != utilizationValues.count) || (totalValues.count == 0)) {
 		[@"GPU n/a" drawInRect:self.bounds withAttributes:[appSettings alignCenterAttributes]];
 		return;
 	}
@@ -158,33 +160,44 @@
 			NSRectFill(NSMakeRect(graphRect.origin.x, graphRect.origin.y, graphRect.size.width, 1.));
 		}
 		
-		// CPU Wait
-		[self drawGraphWithDataFromDataSet:cpuWaitValues[i] maxValue:MAX([cpuWaitValues[i] max], 100) inRect:graphRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
+		// Device Utilization or CPU Wait
+        BOOL drawUtilization = ([utilizationValues[i] max] > 0);
+        if (drawUtilization) {
+            [self drawGraphWithDataFromDataSet:utilizationValues[i] maxValue:100 inRect:graphRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
+        }
+        else {
+            [self drawGraphWithDataFromDataSet:cpuWaitValues[i] maxValue:MAX([cpuWaitValues[i] max], 100) inRect:graphRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
+        }
 		
 		// Draw the text
         NSRect textRect = NSInsetRect(graphRect, 3, 0);
 		CGFloat t = [(XRGDataSet *)totalValues[i] currentValue];
 		CGFloat f = [(XRGDataSet *)freeValues[i] currentValue];
 		
-		// CPU Wait Time Text
-		NSString *waitText = nil;
-		CGFloat w = [(XRGDataSet *)cpuWaitValues[i] currentValue];
-		if (w < 0) {
-			// Don't print anything.
-			waitText = @"";
-		}
-		else if (w < 1000.) {
-			waitText = [NSString stringWithFormat:@"%d ns", (int)w];
-		}
-		else if (w < 1000000.) {
-			waitText = [NSString stringWithFormat:@"%d µs", (int)(w / 1000)];
-		}
-		else if (w < 1000000000.) {
-			waitText = [NSString stringWithFormat:@"%d ms", (int)(w / 1000000)];
-		}
-		else {
-			waitText = [NSString stringWithFormat:@"%d s", (int)(w / 1000000000)];
-		}
+        NSString *usageText = nil;
+        if (drawUtilization) {
+            usageText = [NSString stringWithFormat:@"%d%%", (int)[(XRGDataSet *)utilizationValues[i] currentValue]];
+        }
+        else {
+            // CPU Wait Time Text
+            CGFloat w = [(XRGDataSet *)cpuWaitValues[i] currentValue];
+            if (w < 0) {
+                // Don't print anything.
+                usageText = @"";
+            }
+            else if (w < 1000.) {
+                usageText = [NSString stringWithFormat:@"%d ns", (int)w];
+            }
+            else if (w < 1000000.) {
+                usageText = [NSString stringWithFormat:@"%d µs", (int)(w / 1000)];
+            }
+            else if (w < 1000000000.) {
+                usageText = [NSString stringWithFormat:@"%d ms", (int)(w / 1000000)];
+            }
+            else {
+                usageText = [NSString stringWithFormat:@"%d s", (int)(w / 1000000000)];
+            }
+        }
 		
         NSString *leftText = nil;
         NSString *rightText = nil;
@@ -193,18 +206,18 @@
         NSString *gpuTitle = totalValues.count < 2 ? @"GPU" : [NSString stringWithFormat:@"GPU %d", (int)i + 1];
         
 		NSString *vendorString = graphicsMiner.vendorNames[i];
-		if (textRect.size.width < 90) {
+		if (textRect.size.width < 110) {
             leftText = [NSString stringWithFormat:@"%@\n%@", gpuTitle, vendorString];
+            
 			if (t > 0) {
-                rightText = [NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText];
+                rightText = [NSString stringWithFormat:@"%@\n%@", [XRGCommon formattedStringForBytes:t - f], usageText];
 			}
 		}
 		else {
-            centerText = [NSString stringWithFormat:@"%@\n%@", gpuTitle, vendorString];
+            leftText = [NSString stringWithFormat:@"%@\n%@", gpuTitle, vendorString];
 
 			if (t > 0) {
-                leftText = [NSString stringWithFormat:@"%dM\n%@", (int)(ceil((CGFloat)(t - f) / 1024. / 1024.)), waitText];
-                rightText = [NSString stringWithFormat:@"%d%%", (int)((t - f) / t * 100.)];
+                rightText = [NSString stringWithFormat:@"%@ / %@\n%@", [XRGCommon formattedStringForBytes:t - f], [XRGCommon formattedStringForBytes:t], usageText];
 			}
 		}
         

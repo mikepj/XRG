@@ -48,4 +48,6 @@
  */
 + (CGFloat)dampedValueUsingPreviousValue:(CGFloat)previousValue currentValue:(CGFloat)currentValue dampingCoefficient:(CGFloat)dampingCoefficient;
 
++ (NSString *)formattedStringForBytes:(double)bytes;
+
 @end

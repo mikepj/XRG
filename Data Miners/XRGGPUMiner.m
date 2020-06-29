@@ -58,6 +58,9 @@
 	for (XRGDataSet *values in self.cpuWaitDataSets) {
 		[values resize:newNumSamples];
 	}
+    for (XRGDataSet *values in self.utilizationDataSets) {
+        [values resize:newNumSamples];
+    }
 	
 	self.numSamples = newNumSamples;
 }
@@ -65,7 +68,8 @@
 - (void)setNumberOfGPUs:(NSInteger)newNumGPUs {
 	if ((self.totalVRAMDataSets.count == newNumGPUs) &&
 		(self.freeVRAMDataSets.count == newNumGPUs) &&
-		(self.cpuWaitDataSets.count == newNumGPUs))
+		(self.cpuWaitDataSets.count == newNumGPUs) &&
+        (self.utilizationDataSets.count == newNumGPUs))
 	{
 		return;
 	}
@@ -73,10 +77,12 @@
 	NSMutableArray *newTotal = [NSMutableArray array];
 	NSMutableArray *newFree = [NSMutableArray array];
 	NSMutableArray *newCPUWait = [NSMutableArray array];
+    NSMutableArray *newUtilization = [NSMutableArray array];
 	
 	if (self.totalVRAMDataSets.count) [newTotal addObjectsFromArray:self.totalVRAMDataSets];
 	if (self.freeVRAMDataSets.count) [newFree addObjectsFromArray:self.freeVRAMDataSets];
 	if (self.cpuWaitDataSets.count) [newCPUWait addObjectsFromArray:self.cpuWaitDataSets];
+    if (self.utilizationDataSets.count) [newUtilization addObjectsFromArray:self.utilizationDataSets];
 	
 	// Make sure we want at least 1 sample.
 	self.numSamples = MAX(1, self.numSamples);
@@ -98,6 +104,11 @@
 			[s resize:self.numSamples];
 			[newCPUWait addObject:s];
 		}
+        if (newUtilization.count <= i) {
+            XRGDataSet *s = [[XRGDataSet alloc] init];
+            [s resize:self.numSamples];
+            [newUtilization addObject:s];
+        }
 	}
 
 	// Remove extra XRGDataSets if needed.
@@ -110,10 +121,14 @@
 	if (newCPUWait.count > newNumGPUs) {
 		newCPUWait = [NSMutableArray arrayWithArray:[newCPUWait subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
 	}
+    if (newUtilization.count > newNumGPUs) {
+        newUtilization = [NSMutableArray arrayWithArray:[newUtilization subarrayWithRange:NSMakeRange(0, newNumGPUs)]];
+    }
 	
 	_totalVRAMDataSets = newTotal;
 	_freeVRAMDataSets = newFree;
 	_cpuWaitDataSets = newCPUWait;
+    _utilizationDataSets = newUtilization;
 	
 	self.numberOfGPUs = newNumGPUs;
 }
@@ -208,20 +223,32 @@
 	}
 	
 	// If we couldn't match the graphics cards using the method above, just match all remaining cards in the order they were detected.
-	for (NSInteger i = 0; i < pciDevices.count; i++) {
-		if ([pciIndicesUsed containsIndex:i]) continue;
-		
-		for (NSInteger j = 0; j < accelerators.count; j++) {
-			if ([accelIndicesUsed containsIndex:j]) continue;
-			
-			// Match these devices.
-			XRGGraphicsCard *card = [[XRGGraphicsCard alloc] initWithPCIDevice:pciDevices[i] accelerator:accelerators[j]];
-			if (card) [graphicsCards addObject:card];
-			[pciIndicesUsed addIndex:i];
-			[accelIndicesUsed addIndex:j];
-		}
-	}
-	
+    if (pciDevices.count > 0) {
+        for (NSInteger i = 0; i < pciDevices.count; i++) {
+            if ([pciIndicesUsed containsIndex:i]) continue;
+            
+            for (NSInteger j = 0; j < accelerators.count; j++) {
+                if ([accelIndicesUsed containsIndex:j]) continue;
+                
+                // Match these devices.
+                XRGGraphicsCard *card = [[XRGGraphicsCard alloc] initWithPCIDevice:pciDevices[i] accelerator:accelerators[j]];
+                if (card) [graphicsCards addObject:card];
+                [pciIndicesUsed addIndex:i];
+                [accelIndicesUsed addIndex:j];
+            }
+        }
+    }
+    else {
+        // On Apple silicon devices, there won't be a separate PCI device for the GPU because it's embedded on the SoC.
+        for (NSInteger i = 0; i < accelerators.count; i++) {
+            if ([accelIndicesUsed containsIndex:i]) continue;
+            
+            XRGGraphicsCard *card = [[XRGGraphicsCard alloc] initWithPCIDevice:nil accelerator:accelerators[i]];
+            if (card) [graphicsCards addObject:card];
+            [accelIndicesUsed addIndex:i];
+        }
+    }
+    
 	// Now that we've parsed all the data, set the next values for our data sets.
 	NSMutableArray *updatedVendors = [NSMutableArray array];
 	[self setNumberOfGPUs:graphicsCards.count];
@@ -229,6 +256,7 @@
 		[self.totalVRAMDataSets[i] setNextValue:[graphicsCards[i] totalVRAM]];
 		[self.freeVRAMDataSets[i] setNextValue:[graphicsCards[i] freeVRAM]];
 		[self.cpuWaitDataSets[i] setNextValue:[graphicsCards[i] cpuWait]];
+        [self.utilizationDataSets[i] setNextValue:[graphicsCards[i] deviceUtilization]];
 		
 		NSString *vendorName = [graphicsCards[i] vendorString];
 		if (!vendorName) vendorName = @"";
@@ -290,6 +318,7 @@
 	if (self = [super init]) {
 		// Vendor.
 		id pciVendor = pciDictionary[@"vendor-id"];
+        id accelVendor = acceleratorDictionary[@"vendor-id"];
 		if ([pciVendor isKindOfClass:[NSData class]]) {
 			NSData *pciVendorData = pciVendor;
 			if (pciVendorData.length >= 4) {
@@ -297,6 +326,13 @@
 				self.vendor = *vendorInt;
 			}
 		}
+        else if ([accelVendor isKindOfClass:[NSData class]]) {
+            NSData *accelVendorData = accelVendor;
+            if (accelVendorData.length >= 4) {
+                UInt32 *vendorInt = (UInt32 *)accelVendorData.bytes;
+                self.vendor = *vendorInt;
+            }
+        }
 
 		// The VRAM and other stats gathered.
 		// Not all VRAM stats will be populated from the GPU data.
@@ -329,16 +365,27 @@
 			id freeVram = perf[@"vramFreeBytes"];
 			id usedVram = perf[@"vramUsedBytes"];
 			id cpuWait = perf[@"hardwareWaitTime"];
+            id appleUtilization = perf[@"Device Utilization %"];
 			
 			self.freeVRAM = [freeVram isKindOfClass:[NSNumber class]] ? [freeVram longLongValue] : -1;
 			self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
 			self.cpuWait = [cpuWait isKindOfClass:[NSNumber class]] ? [cpuWait longLongValue] : 0;
+            self.deviceUtilization = [appleUtilization isKindOfClass:[NSNumber class]] ? [appleUtilization intValue] : 0;
 			
 			if (((self.usedVRAM <= 0) || (self.usedVRAM > self.totalVRAM)) && ((self.freeVRAM <= 0) || (self.freeVRAM > self.totalVRAM))) {
 				usedVram = perf[@"inUseVidMemoryBytes"];
 				self.usedVRAM = [usedVram isKindOfClass:[NSNumber class]] ? [usedVram longLongValue] : -1;
 				self.freeVRAM = -1;
 			}
+            
+            if (self.usedVRAM == -1) {
+                id appleUsedVram = perf[@"In use system memory"];
+                self.usedVRAM = [appleUsedVram isKindOfClass:[NSNumber class]] ? [appleUsedVram longLongValue] : -1;
+            }
+            if (self.totalVRAM == -1) {
+                id appleTotalVram = perf[@"Alloc system memory"];
+                self.totalVRAM = [appleTotalVram isKindOfClass:[NSNumber class]] ? [appleTotalVram longLongValue] : -1;
+            }
 		}
 
 		// Do a check for our VRAM values.
@@ -427,6 +474,9 @@
 	else if (self.vendor == XRGPCIVendorIntel) {
 		return @"Intel";
 	}
+    else if (self.vendor == XRGPCIVendorApple) {
+        return @"Apple";
+    }
 	else {
 		return nil;
 	}

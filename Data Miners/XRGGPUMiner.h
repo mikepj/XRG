@@ -30,7 +30,8 @@
 typedef NS_ENUM(UInt32, XRGPCIVendor) {
 	XRGPCIVendorIntel = 0x8086,
 	XRGPCIVendorAMD = 0x1002,
-	XRGPCIVendorNVidia = 0x10de
+	XRGPCIVendorNVidia = 0x10de,
+    XRGPCIVendorApple = 0x106b
 };
 
 @interface XRGGPUMiner : NSObject
@@ -47,6 +48,8 @@ typedef NS_ENUM(UInt32, XRGPCIVendor) {
 @property (readonly) NSArray *freeVRAMDataSets;
 /// Values are XRGDataSet objects representing the CPU wait time for the GPU (units: nanoseconds).
 @property (readonly) NSArray *cpuWaitDataSets;
+/// Values are XRGDataSet objects representing the device utilization for the GPU (units: %)
+@property (readonly) NSArray *utilizationDataSets;
 /// Values are NSString objects representing vendor names.
 @property (readonly) NSArray *vendorNames;
 
@@ -69,6 +72,8 @@ typedef NS_ENUM(UInt32, XRGPCIVendor) {
 @property long long freeVRAM;
 /// The time in nanosecods the CPU waits for the GPU.
 @property long long cpuWait;
+/// The device utilization in %.
+@property int deviceUtilization;
 
 /// Returns YES if the PCI device matches the accelerator.  To test for a match, we detect the PCI device ID (if present) and the PCI vendor ID from the pciDictionary and make sure that the combined value is present in the IOPCIMatch key of the accelerator dictionary.
 + (BOOL)matchingPCIDevice:(NSDictionary *)pciDictionary accelerator:(NSDictionary *)acceleratorDictionary;
