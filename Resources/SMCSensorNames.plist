@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ALV0</key>
+	<string>Ambient Light Left</string>
+	<key>ALV1</key>
+	<string>Ambient Light Right</string>
+	<key>F?Ac</key>
+	<string>Fan Speed</string>
+	<key>F?Mn</key>
+	<string>Fan Minimum Speed</string>
+	<key>F?Mt</key>
+	<string>Fan Maximum Target</string>
+	<key>F?Mx</key>
+	<string>Fan Maximum Speed</string>
+	<key>F?Sf</key>
+	<string>Fan Safe Speed</string>
+	<key>F?Tg</key>
+	<string>Fan Target Speed</string>
+	<key>FS! </key>
+	<string>Fan Forced Speed</string>
+	<key>MOCN</key>
+	<string>Motion</string>
+	<key>MO_X</key>
+	<string>Motion-X</string>
+	<key>MO_Y</key>
+	<string>Motion-Y</string>
+	<key>MO_Z</key>
+	<string>Motion-Z</string>
+	<key>MSLD</key>
+	<string>Clamshell</string>
+	<key>TA?P</key>
+	<string>Ambient</string>
+	<key>TA?V</key>
+	<string>Ambient</string>
+	<key>TB?T</key>
+	<string>Bottom Sensor</string>
+	<key>TC?C</key>
+	<string>CPU Core</string>
+	<key>TC?D</key>
+	<string>CPU Die</string>
+	<key>TC?H</key>
+	<string>CPU Heatsink</string>
+	<key>TC?P</key>
+	<string>CPU Proximity</string>
+	<key>TCGC</key>
+	<string>iGPU</string>
+	<key>TG?D</key>
+	<string>GPU Die</string>
+	<key>TG?H</key>
+	<string>GPU Heatsink</string>
+	<key>TG?P</key>
+	<string>GPU Proximity</string>
+	<key>TH?F</key>
+	<string>SSD</string>
+	<key>TH?P</key>
+	<string>HD Proximity</string>
+	<key>TI?P</key>
+	<string>Thunderbolt</string>
+	<key>TL?P</key>
+	<string>LCD Proximity</string>
+	<key>TM?P</key>
+	<string>Memory Proximity</string>
+	<key>TM?S</key>
+	<string>Memory</string>
+	<key>TMA?</key>
+	<string>DIMM A</string>
+	<key>TMB?</key>
+	<string>DIMM B</string>
+	<key>TN?D</key>
+	<string>Northbridge Die</string>
+	<key>TN?H</key>
+	<string>Northbridge Heatsink</string>
+	<key>TN?P</key>
+	<string>Northbridge Proximity</string>
+	<key>TO?P</key>
+	<string>Optical Drive</string>
+	<key>TS?C</key>
+	<string>Expansion Slot</string>
+	<key>TTTD</key>
+	<string>T2 Die</string>
+	<key>TW?P</key>
+	<string>Airport</string>
+	<key>Ta?P</key>
+	<string>Ambient</string>
+	<key>Th?H</key>
+	<string>Heatsink</string>
+	<key>Tm?P</key>
+	<string>Misc. local</string>
+	<key>Tp?C</key>
+	<string>Power Supply</string>
+	<key>Tp?P</key>
+	<string>Power Supply</string>
+	<key>Ts?P</key>
+	<string>Palm Rest</string>
+	<key>dBA?</key>
+	<string>Noise near Fan</string>
+	<key>dBAH</key>
+	<string>Noise near HD</string>
+	<key>dBAT</key>
+	<string>Total Noise</string>
+</dict>
+</plist>

@@ -68,62 +68,8 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 }
 
 - (void) setupDescriptions {
-    // see <http://www.parhelia.ch/blog/statics/k3_keys.html>
-    self.descriptionsForSMCKeys = @{
-                                @"TA?P": @"Ambient",
-                                @"TA?V": @"Ambient",
-                                @"Ta?P": @"Ambient",
-                                @"TB?T": @"Bottom Sensor",
-                                @"TC?C": @"CPU Core",
-                                @"TC?D": @"CPU Die",
-                                @"TC?H": @"CPU Heatsink",
-                                @"TC?P": @"CPU Proximity",
-                                @"TCGC": @"iGPU",
-                                @"TG?D": @"GPU Die",
-                                @"TG?H": @"GPU Heatsink",
-                                @"TG?P": @"GPU Proximity",
-                                @"TH?F": @"SSD",
-                                @"TH?P": @"HD Proximity",
-                                @"Th?H": @"Heatsink",
-                                @"TI?P": @"Thunderbolt",
-                                @"TL?P": @"LCD Proximity",
-                                @"TM?P": @"Memory Proximity",
-                                @"TM?S": @"Memory",
-                                @"Tm?P": @"Misc. local",
-                                @"TMA?": @"DIMM A",
-                                @"TMB?": @"DIMM B",
-                                @"TN?D": @"Northbridge Die",
-                                @"TN?H": @"Northbridge Heatsink",
-                                @"TN?P": @"Northbridge Proximity",
-                                @"TO?P": @"Optical Drive",
-                                @"TL?P": @"LCD",
-                                @"Tp?C": @"Power Supply",
-                                @"Tp?P": @"Power Supply",
-                                @"Ts?P": @"Palm Rest",
-                                @"TS?C": @"Expansion Slot",
-                                @"TTTD": @"T2 Die",
-                                @"TW?P": @"Airport",
-                                // sensors:
-                                @"ALV0": @"Ambient Light Left",
-                                @"ALV1": @"Ambient Light Right",
-                                @"MSLD": @"Clamshell",
-                                @"MO_X": @"Motion-X",
-                                @"MO_Y": @"Motion-Y",
-                                @"MO_Z": @"Motion-Z",
-                                @"MOCN": @"Motion",
-                                // Noise: (sourced from http://www.assembla.com/spaces/fakesmc/wiki/Known_SMC_Keys/history )
-                                @"dBA?": @"Noise near Fan",
-                                @"dBAH": @"Noise near HD",
-                                @"dBAT": @"Total Noise",
-                                // Fans:
-                                @"F?Ac": @"Fan Speed",
-                                @"F?Mn": @"Fan Minimum Speed",
-                                @"F?Mx": @"Fan Maximum Speed",
-                                @"F?Sf": @"Fan Safe Speed",
-                                @"F?Mt": @"Fan Maximum Target",
-                                @"F?Tg": @"Fan Target Speed",
-                                @"FS! ": @"Fan Forced Speed",
-                };
+    NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"SMCSensorNames" ofType:@"plist"];
+    self.descriptionsForSMCKeys = [NSDictionary dictionaryWithContentsOfFile:infoPath];
 }
 
 - (NSString *) humanReadableNameForKey:(NSString *)key {
