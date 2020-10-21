@@ -28,11 +28,8 @@
 #import <Cocoa/Cocoa.h>
 #import <IOKit/IOKitLib.h>
 
-@interface SMCInterface : NSObject {
-	io_connect_t conn_; 
-} 
-
-- (id) readValue:(uint32_t) aKey error:(NSError **) outError;
+@interface SMCInterface : NSObject
+- (id) readValue:(FourCharCode) aKey error:(NSError **) outError;
 - (NSInteger) keyCount;
-- (uint32_t) keyAtIndex:(NSInteger) anIndex;
+- (FourCharCode) keyAtIndex:(NSInteger) anIndex;
 @end
