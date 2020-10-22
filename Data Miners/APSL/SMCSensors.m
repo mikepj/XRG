@@ -200,7 +200,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
                 // Filter out non-consecutive sensors:
                 if (indexInKey > 1) {
                     NSString *prevKey = [currentKey stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%X", indexInKey] withString:[NSString stringWithFormat:@"%X", indexInKey-1]];
-                    if (!descriptions[prevKey]) {
+                    if (![smcKeys containsObject:prevKey]) {
                         smcKeyDescription = nil;
                     }
                 }
