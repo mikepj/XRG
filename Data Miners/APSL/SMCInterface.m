@@ -86,7 +86,7 @@ typedef struct SMCPLimitData
 /* Do not modify - defined by AppleSMC.kext */
 typedef struct SMCKeyInfoData 
 {
-    IOByteCount         dataSize;
+    uint32_t            dataSize;
     uint32_t            dataType;
     uint8_t             dataAttributes;
 
@@ -166,15 +166,37 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
     kSMCDataTypeFlag = 'flag',
     kSMCDataTypeFPE2  = 'fpe2',
     kSMCDataTypeSP78  = 'sp78',
+    kSMCDataTypeFloat  = 'flt ',
     // returned as NSData:
     kSMCDataTypeBuffer = 'ch8*',
     kSMCDataTypeHEX = 'hex_',
     kSMCDataTypeFP88 = 'fp88'
 };
 
+@interface SMCCachedKeyInfo : NSObject
+@property (nonatomic, assign) FourCharCode type;
+@property (nonatomic, assign) uint32_t size;
 
-@interface SMCInterface()
+- (instancetype) init:(SMCKeyInfoData *) info;
+@end
+
+@implementation SMCCachedKeyInfo
+- (instancetype) init:(SMCKeyInfoData *)keyInfo  {
+    if( self = [super init] ) {
+        self.size = CFSwapInt32LittleToHost( keyInfo->dataSize );
+        self.type = CFSwapInt32LittleToHost( keyInfo->dataType );
+    }
+    return self;
+}
+@end
+
+@interface SMCInterface() {
+    io_connect_t conn_;
+}
+
 @property (readonly) IOReturn openConnection;
+@property (strong) NSMutableDictionary *cachedInfos;
+
 - (void) closeConnection;
 - (id) uintValueFromSMC:(uint8_t *)data length:(size_t) size ;
 - (NSNumber *)floatNumberFromFPE2:(uint8_t *)data length:(size_t) size;
@@ -192,6 +214,7 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
         if( [self openConnection] != kIOReturnSuccess ) {
             return nil;
         }
+        self.cachedInfos = [NSMutableDictionary dictionary];
 	}
 	return self;
 }
@@ -201,13 +224,52 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
 	[self closeConnection];
 }
 
-- (id) readValue:(uint32_t) key error:(NSError **) outError {
+- (SMCCachedKeyInfo *) infoForKey:(FourCharCode) key result:(IOReturn *) outResult  {
+    NSAssert( sizeof( SMCParamStruct ) == 80, @"Expected SMCParamStruct of size 80" );
+
     SMCParamStruct  stuffMeIn;
     SMCParamStruct  stuffMeOut;
     IOReturn        ret;
-    UInt32          dataType; 
-    size_t          dataSize;
+    
+    if (key == 0) {
+        *outResult = kIOReturnCannotWire;
+        return nil;
+    }
+    
+    *outResult = kIOReturnSuccess;
+    SMCCachedKeyInfo      *info =  self.cachedInfos[ @(key) ];
+    if( info ) { // SMC round trips are expensive. Get rid of some with a cache.
+        return info;
+    }
+
+    // Determine key's data size
+    bzero(&stuffMeIn, sizeof(SMCParamStruct));
+    bzero(&stuffMeOut, sizeof(SMCParamStruct));
+    
+    UInt32 size =  sizeof(SMCParamStruct);
+    stuffMeIn.data8 = kSMCGetKeyInfo;
+    stuffMeIn.key = CFSwapInt32HostToLittle( key );
+    
+    ret = callSMCFunction(kSMCHandleYPCEvent, &stuffMeIn, &stuffMeOut);
+   
+    if (stuffMeOut.result == kSMCKeyNotFound) {
+        *outResult = kIOReturnNotFound;
+    } else if (stuffMeOut.result != kSMCSuccess) {
+        *outResult = kIOReturnInternalError;
+    } else {
+        info = [[SMCCachedKeyInfo alloc] init:&stuffMeOut.keyInfo];
+        self.cachedInfos[ @(key) ] = info;
+    }
+    return info;
+}
+
+
+- (id) readValue:(FourCharCode) key error:(NSError **) outError {
+    SMCParamStruct  stuffMeIn;
+    SMCParamStruct  stuffMeOut;
+    IOReturn        ret;
     id              result = nil;
+    SMCCachedKeyInfo *keyInfo = nil;
     
     if (key == 0) {
         ret = kIOReturnCannotWire;
@@ -217,28 +279,18 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
     if( outError )
         *outError = nil;
     
-    // Determine key's data size
-    bzero(&stuffMeIn, sizeof(SMCParamStruct));
-    bzero(&stuffMeOut, sizeof(SMCParamStruct));
-    stuffMeIn.data8 = kSMCGetKeyInfo;
-    stuffMeIn.key = key;
-    
-    ret = callSMCFunction(kSMCHandleYPCEvent, &stuffMeIn, &stuffMeOut);
-    dataType = stuffMeOut.keyInfo.dataType;
-    dataSize = stuffMeOut.keyInfo.dataSize;
-    
-    if (stuffMeOut.result == kSMCKeyNotFound) {
-        ret = kIOReturnNotFound;
-        goto exit;
-    } else if (stuffMeOut.result != kSMCSuccess) {
-        ret = kIOReturnInternalError;
+    keyInfo = [self infoForKey:key result:&ret];
+    if( keyInfo == nil || ret != kIOReturnSuccess ) {
         goto exit;
     }
     
     // Get Key Value
+    bzero(&stuffMeIn, sizeof(SMCParamStruct));
     stuffMeIn.data8 = kSMCReadKey;
-    stuffMeIn.key = key;
-    stuffMeIn.keyInfo.dataSize = (IOByteCount)dataSize;
+    stuffMeIn.key = CFSwapInt32HostToLittle( key );
+    stuffMeIn.keyInfo.dataSize = CFSwapInt32HostToLittle( keyInfo.size );
+    stuffMeIn.keyInfo.dataType = CFSwapInt32HostToLittle( keyInfo.type );
+    
     bzero(&stuffMeOut, sizeof(SMCParamStruct));
     ret = callSMCFunction(kSMCHandleYPCEvent, &stuffMeIn, &stuffMeOut);
     if (stuffMeOut.result == kSMCKeyNotFound) {
@@ -250,11 +302,11 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
     }
     
     
-    switch( dataType ) {
+    switch( keyInfo.type ) {
         case kSMCDataTypeUInt8:
         case kSMCDataTypeUInt16:
         case kSMCDataTypeUInt32:
-            result = [self uintValueFromSMC:stuffMeOut.bytes length:dataSize];
+            result = [self uintValueFromSMC:stuffMeOut.bytes length:keyInfo.size];
             break;
         case kSMCDataTypeSP78:
 			if (stuffMeOut.bytes[0] == 0x84)                                         result = @-124;	// Unstable Temperature
@@ -266,7 +318,10 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
 			else                                                                     result = [NSNumber numberWithFloat:(((stuffMeOut.bytes[0] * 256 + stuffMeOut.bytes[1]) >> 2)/64.)];
             break;
         case kSMCDataTypeFPE2:
-            result = [self floatNumberFromFPE2:stuffMeOut.bytes length:dataSize]; 
+            result = [self floatNumberFromFPE2:stuffMeOut.bytes length:keyInfo.size];
+            break;
+        case kSMCDataTypeFloat:
+            result = [self floatNumberFromFloat:stuffMeOut.bytes length:keyInfo.size];
             break;
         case kSMCDataTypeInt8:
             result = [NSNumber numberWithChar:stuffMeOut.bytes[0]]; 
@@ -278,12 +333,12 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
             break;
         }
         case kSMCDataTypeFlag:
-            if( dataSize == 1 ) {
+            if( keyInfo.size == 1 ) {
                 result = [NSNumber numberWithBool:(stuffMeOut.bytes[0] != 0)];
                 break;
             }
         default:
-            result = [NSData dataWithBytes:stuffMeOut.bytes length:dataSize];
+            result = [NSData dataWithBytes:stuffMeOut.bytes length:keyInfo.size];
             // result = [self intValueFromSMC:stuffMeOut.bytes length:stuffMeOut.keyInfo.dataSize];
             break;
     }
@@ -306,7 +361,7 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
 	}
 }
 
-- (uint32_t) keyAtIndex:(NSInteger)anIndex {
+- (FourCharCode) keyAtIndex:(NSInteger)anIndex {
     SMCParamStruct  stuffMeIn;
     SMCParamStruct  stuffMeOut;
     IOReturn        ret;
@@ -382,5 +437,20 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
     }
     
     return @(value);
+}
+
+- (NSNumber *)floatNumberFromFloat:(uint8_t *)data length:(size_t) size {
+    if( size == 4 ) {
+        union ConvertFloat {
+            float    asFloat;
+            UInt32   asInt;
+        };
+        union ConvertFloat convert;
+        
+        UInt32 *ip = (UInt32 *)data;
+        convert.asInt = CFSwapInt32LittleToHost( *ip );
+        return @( convert.asFloat );
+    }
+    return nil;
 }
 @end
