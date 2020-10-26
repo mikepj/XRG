@@ -90,6 +90,12 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
 + (NSMutableDictionary *) getDefaultPrefs {
     NSMutableDictionary *appDefs = [NSMutableDictionary dictionary];
+    BOOL useMetricUnits = NO;
+    if( @available( macOS 10.12, * )  ) {
+        NSLocale *locale = [NSLocale currentLocale];
+        useMetricUnits = locale.usesMetricSystem;
+    }
+    NSNumber *defaultUnitIndex = useMetricUnits ? @(1) : @(0);
     
     appDefs[XRG_backgroundTransparency] = @"0.9";
     appDefs[XRG_graphBGTransparency]    = @"0.9";
@@ -157,7 +163,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     appDefs[XRG_fastCPUUsage] = @"NO";
     appDefs[XRG_separateCPUColor] = @"YES";
     appDefs[XRG_showCPUTemperature] = @"NO";
-    appDefs[XRG_cpuTemperatureUnits] = @"0";
+    appDefs[XRG_cpuTemperatureUnits] = defaultUnitIndex;
     appDefs[XRG_showLoadAverage] = @"YES";
     appDefs[XRG_cpuShowAverageUsage] = @"YES";
     appDefs[XRG_cpuShowUptime] = @"YES";
@@ -170,7 +176,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     appDefs[XRG_memoryShowCache] = @"YES";
     appDefs[XRG_memoryShowPage] = @"YES";
     
-    appDefs[XRG_tempUnits] = @"0";
+    appDefs[XRG_tempUnits] = defaultUnitIndex;
     appDefs[XRG_tempFG1Location] = @"0";
     appDefs[XRG_tempFG2Location] = @"1";
     appDefs[XRG_tempFG3Location] = @"2";
@@ -185,9 +191,9 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 
     appDefs[XRG_ICAO] = @"KMOP";
     appDefs[XRG_secondaryWeatherGraph] = @"1";
-    appDefs[XRG_temperatureUnits] = @"0";
-    appDefs[XRG_distanceUnits] = @"0";
-    appDefs[XRG_pressureUnits] = @"0";
+    appDefs[XRG_temperatureUnits] = defaultUnitIndex;
+    appDefs[XRG_distanceUnits] = defaultUnitIndex;
+    appDefs[XRG_pressureUnits] = defaultUnitIndex;
     
     appDefs[XRG_stockSymbols] = @"AAPL";
     appDefs[XRG_stockGraphTimeFrame] = @"3";
