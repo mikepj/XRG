@@ -119,8 +119,8 @@
 	id key;
 	int i;
 
-	BOOL showUnknownSensors = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
-	showUnknownSensors |= smcSensors.unknownTemperatureKeys.count > 3 * smcSensors.knownTemperatureKeys.count; // show als unnanmed sensors if the majority has no name
+	BOOL showUnknownSensors = self.showUnknownSensors;
+	showUnknownSensors |= smcSensors.unknownTemperatureKeys.count > 3 * smcSensors.knownTemperatureKeys.count; // show all unnamed sensors if the majority has no name
 	NSDictionary *values = [smcSensors temperatureValuesExtended:showUnknownSensors];
 	//NSLog(@"values: %@", values);
 	NSEnumerator *keyEnum = [values keyEnumerator];
