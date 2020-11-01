@@ -61,6 +61,8 @@
 @property NSMutableArray<XRGDataSet *> *systemValues;
 @property NSMutableArray<XRGDataSet *> *niceValues;
 
++ (NSString *)systemModelIdentifier;
+
 - (void)graphUpdate:(NSTimer *)aTimer;
 - (void)fastUpdate:(NSTimer *)aTimer;
 - (NSInteger)calculateCPUUsageForCPUs:(processor_cpu_load_info_t *)lastCPUInfo count:(NSInteger)count;

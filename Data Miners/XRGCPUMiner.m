@@ -31,10 +31,19 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <sys/sysctl.h>
+#import <sys/utsname.h>
 #import <mach/mach_host.h>
 #import <mach/vm_map.h>
 
 @implementation XRGCPUMiner
+
++ (NSString *)systemModelIdentifier {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return @(systemInfo.machine);
+}
+
 - (instancetype)init {
     host = mach_host_self();
     
