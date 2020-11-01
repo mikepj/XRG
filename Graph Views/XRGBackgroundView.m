@@ -60,8 +60,6 @@
 
 - (void)setFrame:(NSRect)frame {
 	[super setFrame:frame];
-
-    [self updatePaths];
 	[parentWindow.moduleManager windowChangedToSize:self.frame.size];
 }
 
@@ -69,20 +67,21 @@
     [self translateOriginToPoint: NSMakePoint(offset.width, offset.height)];
 }
 
-- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize {
-    [self updatePaths];
+- (NSBezierPath *)outerPath {
+    int borderWidth = [parentWindow borderWidth];
+
+    return [NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:borderWidth yRadius:borderWidth];
 }
 
-- (void)updatePaths {
+- (NSBezierPath *)innerPath {
     int borderWidth = [parentWindow borderWidth];
     NSRect tmpRect = [self bounds];
     tmpRect.origin.x += borderWidth;
     tmpRect.origin.y = tmpRect.size.height - borderWidth - [appSettings textRectHeight];
     tmpRect.size.width -= borderWidth * 2;
     tmpRect.size.height = [appSettings textRectHeight];
-    
-    self.outerPath = [NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:borderWidth yRadius:borderWidth];
-    self.innerPath = [NSBezierPath bezierPathWithRoundedRect:tmpRect xRadius:borderWidth yRadius:borderWidth];
+
+    return [NSBezierPath bezierPathWithRoundedRect:tmpRect xRadius:borderWidth yRadius:borderWidth];
 }
 
 - (void)drawRect:(NSRect)rect{
@@ -97,8 +96,6 @@
         [self translateOriginToPoint: NSMakePoint(0, 0 - [self frame].size.width)];
         isVertical = NO;
         lastWidth = [self frame].size.width;
-        
-        [self updatePaths];
     }
     if ([moduleManager graphOrientationVertical] && !isVertical) {
         // first update our size:
@@ -110,8 +107,6 @@
         [self setBoundsRotation: 0];
         [self setAutoresizesSubviews:YES];
         isVertical = YES;
-        
-        [self updatePaths];
     }
     
     if (!isVertical) {
@@ -132,10 +127,10 @@
     tmpRect.size.height = [appSettings textRectHeight];
 
     [[appSettings borderColor] set];
-    [self.outerPath fill];
+    [[self outerPath] fill];
 
     [[appSettings backgroundColor] set];
-    [self.innerPath fill];
+    [[self innerPath] fill];
     
     NSRect titleRect;
     if (isVertical) {    
@@ -206,30 +201,7 @@
     if ([appSettings windowLevel] == kCGDesktopWindowLevel) [NSApp preventWindowOrdering];
  	NSInteger originalWindowLevel = [parentWindow level];
 	viewPointClicked = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	
-	// Are we supposed to resize a module?
-//	shouldResizeModule = -1;
-//	int i;
-//	for (i = 0; i < [resizeRects count]; i++) {
-//		NSRect resizeRect = [[resizeRects objectAtIndex:i] rectValue];
-//		if (NSPointInRect(viewPointClicked, resizeRect)) {
-//			shouldResizeModule = i;
-//			
-//			while ((theEvent = [[self window] nextEventMatchingMask:NSLeftMouseUpMask | NSLeftMouseDraggedMask])) {
-//				if ([theEvent type] == NSLeftMouseUp) break;
-//
-//				NSPoint currentMousePosition = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-//				
-//				float delta = [moduleManager graphOrientationVertical] ? currentMousePosition.y - viewPointClicked.y : currentMousePosition.x - viewPointClicked.x;
-//				float actualMoveAmount = [moduleManager resizeModuleNumber:shouldResizeModule byDelta:delta];
-//				
-//				viewPointClicked = currentMousePosition;
-//				[[self window] invalidateCursorRectsForView:self];
-//			}			
-//			return;
-//		}
-//	}
-	
+
     // if it's a double click in the title bar, minimize the window
     if ([theEvent clickCount] == 2) { 
 		NSRect frame    = [self bounds];
@@ -257,15 +229,7 @@
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-//	NSPoint currentMousePosition = [[self window] convertBaseToScreen:[[self window] mouseLocationOutsideOfEventStream]];
-//	NSLog(@"should resize: %d", shouldResizeModule);
-//	if (shouldResizeModule != -1) {
-//		float delta = [moduleManager graphOrientationVertical] ? currentMousePosition.y - viewPointClicked.y : currentMousePosition.x - viewPointClicked.x;
-//		[moduleManager resizeModuleNumber:shouldResizeModule byDelta:delta];
-//	}
-//	else {
-		[parentWindow mouseDragged:theEvent];
-//	}
+    [parentWindow mouseDragged:theEvent];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
@@ -385,6 +349,7 @@
         XRGGenericView *ref = [a[i] reference];
         if (ref != nil) {
             [ref setHidden:NO];
+            [ref setNeedsDisplay:YES];
         }
     }
     	
@@ -518,6 +483,21 @@
 	[[(XRGAppDelegate *)[NSApp delegate] prefController] setUpColorPanel];
 
     return YES;
+}
+
+- (void)updateTrackingAreas {
+    [super updateTrackingAreas];
+
+    if (self.trackingArea) {
+        [self removeTrackingArea:self.trackingArea];
+        self.trackingArea = nil;
+    }
+
+    self.trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds
+                                                     options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways)
+                                                       owner:self
+                                                    userInfo:nil];
+    [self addTrackingArea:self.trackingArea];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {

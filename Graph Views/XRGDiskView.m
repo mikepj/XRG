@@ -39,7 +39,7 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 
 - (void)awakeFromNib {    
     currentIndex = 0;
-    maxVal       = 0;
+    maxVal       = 1;
 	fastMax      = 1024 * 1024;
               
     parentWindow = (XRGGraphWindow *)[self window];
@@ -456,6 +456,8 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         readValues[i] = 0;
         writeValues[i] = 0;
     }
+
+    maxVal = 1;
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       
@@ -515,29 +517,32 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk)
 
         /* Obtain the statistics from the drive properties */
         statisticsRaw = IORegistryEntryCreateCFProperty(drive, CFSTR(kIOBlockStorageDriverStatisticsKey), kCFAllocatorDefault, kNilOptions);
-        if (CFGetTypeID(statisticsRaw) == CFDictionaryGetTypeID()) {
-            CFDictionaryRef statistics = (CFDictionaryRef)statisticsRaw;
-            
-            if (statistics) {
-                /* Obtain the number of bytes read from the drive statistics */
-                number = (CFNumberRef) CFDictionaryGetValue(statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey));
-                if (number) {
-                    CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                    totalReadBytes += value;
-                }
-                
-                /* Obtain the number of bytes written from the drive statistics */
-                number = (CFNumberRef) CFDictionaryGetValue (statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey));
-                if (number) {
-                    CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                    totalWriteBytes += value;
+        if (statisticsRaw) {
+            if (CFGetTypeID(statisticsRaw) == CFDictionaryGetTypeID()) {
+                CFDictionaryRef statistics = (CFDictionaryRef)statisticsRaw;
+
+                if (statistics) {
+                    /* Obtain the number of bytes read from the drive statistics */
+                    number = (CFNumberRef) CFDictionaryGetValue(statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey));
+                    if (number) {
+                        CFNumberGetValue(number, kCFNumberSInt64Type, &value);
+                        totalReadBytes += value;
+                    }
+
+                    /* Obtain the number of bytes written from the drive statistics */
+                    number = (CFNumberRef) CFDictionaryGetValue (statistics, CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey));
+                    if (number) {
+                        CFNumberGetValue(number, kCFNumberSInt64Type, &value);
+                        totalWriteBytes += value;
+                    }
                 }
             }
+
+            /* Release resources */
+
+            CFRelease(statisticsRaw); statisticsRaw = 0;
         }
-        
-        /* Release resources */
-        
-        CFRelease(statisticsRaw); statisticsRaw = 0;
+
         IOObjectRelease(drive); drive = 0;
 
     }

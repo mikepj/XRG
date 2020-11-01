@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>T*</key>
+	<string>Temperature</string>
+	<key>V*</key>
+	<string>Voltage</string>
+	<key>I* (upper-case i, not lower-case L)</key>
+	<string>Intensity (current)</string>
+	<key>P*</key>
+	<string>Power (watts)</string>
+	<key>ALV0</key>
+	<string>Ambient Light Left</string>
+	<key>ALV1</key>
+	<string>Ambient Light Right</string>
+	<key>dBA?</key>
+	<string>Noise near Fan</string>
+	<key>dBAH</key>
+	<string>Noise near HD</string>
+	<key>dBAT</key>
+	<string>Total Noise</string>
+	<key>F?Ac</key>
+	<string>Fan Speed</string>
+	<key>F?Mn</key>
+	<string>Fan Minimum Speed</string>
+	<key>F?Mt</key>
+	<string>Fan Maximum Target</string>
+	<key>F?Mx</key>
+	<string>Fan Maximum Speed</string>
+	<key>F?Sf</key>
+	<string>Fan Safe Speed</string>
+	<key>F?Tg</key>
+	<string>Fan Target Speed</string>
+	<key>FS! </key>
+	<string>Fan Forced Speed</string>
+	<key>MOCN</key>
+	<string>Motion</string>
+	<key>MO_X</key>
+	<string>Motion-X</string>
+	<key>MO_Y</key>
+	<string>Motion-Y</string>
+	<key>MO_Z</key>
+	<string>Motion-Z</string>
+	<key>MSLD</key>
+	<string>Clamshell</string>
+	<key>TA?V</key>
+    <string>Ambient</string>
+    <key>TH?F</key>
+	<string>SSD</string>
+	<key>TI?P</key>
+	<string>Thunderbolt</string>
+	<key>TMA?</key>
+	<string>DIMM A</string>
+	<key>TMB?</key>
+	<string>DIMM B</string>
+
+	<key>TCXC</key>
+	<string>PECI CPU</string>
+	<key>TCXc</key>
+	<string>PECI CPU</string>
+	<key>TC0P</key>
+	<string>CPU 1 Proximity</string>
+	<key>TC0H</key>
+	<string>CPU 1 Heatsink</string>
+	<key>TC0D</key>
+	<string>CPU 1 Package</string>
+	<key>TC0E</key>
+	<string>CPU 1</string>
+	<key>TC0F</key>
+	<string>CPU 1</string>
+	<key>TC1C</key>
+	<string>CPU Core 1</string>
+	<key>TC2C</key>
+	<string>CPU Core 2</string>
+	<key>TC3C</key>
+	<string>CPU Core 3</string>
+	<key>TC4C</key>
+	<string>CPU Core 4</string>
+	<key>TC5C</key>
+	<string>CPU Core 5</string>
+	<key>TC6C</key>
+	<string>CPU Core 6</string>
+	<key>TC7C</key>
+	<string>CPU Core 7</string>
+	<key>TC8C</key>
+	<string>CPU Core 8</string>
+	<key>TCAH</key>
+	<string>CPU 1 Heatsink Alt.</string>
+	<key>TCAD</key>
+	<string>CPU 1 Package Alt.</string>
+	<key>TC1P</key>
+	<string>CPU 2 Proximity</string>
+	<key>TC1H</key>
+	<string>CPU 2 Heatsink</string>
+	<key>TC1D</key>
+	<string>CPU 2 Package</string>
+	<key>TC1E</key>
+	<string>CPU 2</string>
+	<key>TC1F</key>
+	<string>CPU 2</string>
+	<key>TCBH</key>
+	<string>CPU 2 Heatsink Alt.</string>
+	<key>TCBD</key>
+	<string>CPU 2 Package Alt.</string>
+	<key>TCSC</key>
+	<string>PECI SA</string>
+	<key>TCSc</key>
+	<string>PECI SA</string>
+	<key>TCSA</key>
+	<string>PECI SA</string>
+	<key>TCGC</key>
+	<string>PECI GPU</string>
+	<key>TCGc</key>
+	<string>PECI GPU</string>
+	<key>TG0P</key>
+	<string>GPU Proximity</string>
+	<key>TG0D</key>
+	<string>GPU Die</string>
+	<key>TG1D</key>
+	<string>GPU Die</string>
+	<key>TG0H</key>
+	<string>GPU Heatsink</string>
+	<key>TG1H</key>
+	<string>GPU Heatsink</string>
+	<key>Ts0S</key>
+	<string>Memory Proximity</string>
+	<key>TM0P</key>
+	<string>Mem Bank A1</string>
+	<key>TM1P</key>
+	<string>Mem Bank A2</string>
+	<key>TM8P</key>
+	<string>Mem Bank B1</string>
+	<key>TM9P</key>
+	<string>Mem Bank B2</string>
+	<key>TM0S</key>
+	<string>Mem Module A1</string>
+	<key>TM1S</key>
+	<string>Mem Module A2</string>
+	<key>TM8S</key>
+	<string>Mem Module B1</string>
+	<key>TM9S</key>
+	<string>Mem Module B2</string>
+	<key>TN0D</key>
+	<string>Northbridge Die</string>
+	<key>TN0P</key>
+	<string>Northbridge Proximity 1</string>
+	<key>TN1P</key>
+	<string>Northbridge Proximity 2</string>
+	<key>TN0C</key>
+	<string>MCH Die</string>
+	<key>TN0H</key>
+	<string>MCH Heatsink</string>
+	<key>TP0D</key>
+	<string>PCH Die</string>
+	<key>TPCD</key>
+	<string>PCH Die</string>
+	<key>TP0P</key>
+	<string>PCH Proximity</string>
+	<key>TA0P</key>
+	<string>Airflow 1</string>
+	<key>TA1P</key>
+	<string>Airflow 2</string>
+	<key>Th0H</key>
+	<string>Heatpipe 1</string>
+	<key>Th1H</key>
+	<string>Heatpipe 2</string>
+	<key>Th2H</key>
+	<string>Heatpipe 3</string>
+	<key>Tm0P</key>
+	<string>Mainboard Proximity</string>
+	<key>Tp0P</key>
+	<string>Power Supply 1</string>
+	<key>Ts0P</key>
+	<string>Palm Rest</string>
+	<key>Tb0P</key>
+	<string>BLC Proximity</string>
+	<key>TL0P</key>
+	<string>LCD Proximity</string>
+	<key>TW0P</key>
+	<string>Airport Proximity</string>
+	<key>TH0P</key>
+	<string>HDD Bay 1</string>
+	<key>TH1P</key>
+	<string>HDD Bay 2</string>
+	<key>TH2P</key>
+	<string>HDD Bay 3</string>
+	<key>TH3P</key>
+	<string>HDD Bay 4</string>
+	<key>TO0P</key>
+	<string>Optical Drive</string>
+	<key>TB0T</key>
+	<string>Battery TS_MAX</string>
+	<key>TB1T</key>
+	<string>Battery 1</string>
+	<key>TB2T</key>
+	<string>Battery 2</string>
+	<key>TB3T</key>
+	<string>Battery</string>
+	<key>Tp0C</key>
+	<string>Power Supply 1 Alt.</string>
+	<key>Tp1P</key>
+	<string>Power Supply 2</string>
+	<key>Tp1C</key>
+	<string>Power Supply 2 Alt.</string>
+	<key>Tp2P</key>
+	<string>Power Supply 3</string>
+	<key>Tp3P</key>
+	<string>Power Supply 4</string>
+	<key>Tp4P</key>
+	<string>Power Supply 5</string>
+	<key>Tp5P</key>
+	<string>Power Supply 6</string>
+	<key>TS0C</key>
+	<string>Expansion Slots</string>
+	<key>TA0S</key>
+	<string>PCI Slot 1 Pos 1</string>
+	<key>TA1S</key>
+	<string>PCI Slot 1 Pos 2</string>
+	<key>TA2S</key>
+	<string>PCI Slot 2 Pos 1</string>
+	<key>TA3S</key>
+	<string>PCI Slot 2 Pos 2</string>
+	<key>VC0C</key>
+	<string>CPU Core 1</string>
+	<key>VC1C</key>
+	<string>CPU Core 2</string>
+	<key>VC2C</key>
+	<string>CPU Core 3</string>
+	<key>VC3C</key>
+	<string>CPU Core 4</string>
+	<key>VC4C</key>
+	<string>CPU Core 5</string>
+	<key>VC5C</key>
+	<string>CPU Core 6</string>
+	<key>VC6C</key>
+	<string>CPU Core 7</string>
+	<key>VC7C</key>
+	<string>CPU Core 8</string>
+	<key>VV1R</key>
+	<string>CPU VTT</string>
+	<key>VG0C</key>
+	<string>GPU Core</string>
+	<key>VM0R</key>
+	<string>Memory</string>
+	<key>VN1R</key>
+	<string>PCH</string>
+	<key>VN0C</key>
+	<string>MCH</string>
+	<key>VD0R</key>
+	<string>Mainboard S0 Rail</string>
+	<key>VD5R</key>
+	<string>Mainboard S5 Rail</string>
+	<key>VP0R</key>
+	<string>12V Rail</string>
+	<key>Vp0C</key>
+	<string>12V Vcc</string>
+	<key>VV2S</key>
+	<string>Main 3V</string>
+	<key>VR3R</key>
+	<string>Main 3.3V</string>
+	<key>VV1S</key>
+	<string>Main 5V</string>
+	<key>VH05</key>
+	<string>Main 5V</string>
+	<key>VV9S</key>
+	<string>Main 12V</string>
+	<key>VD2R</key>
+	<string>Main 12V</string>
+	<key>VV7S</key>
+	<string>Auxiliary 3V</string>
+	<key>VV3S</key>
+	<string>Standby 3V</string>
+	<key>VV8S</key>
+	<string>Standby 5V</string>
+	<key>VeES</key>
+	<string>PCIe 12V</string>
+	<key>VBAT</key>
+	<string>Battery</string>
+	<key>Vb0R</key>
+	<string>CMOS Battery</string>
+	<key>IC0C</key>
+	<string>CPU Core</string>
+	<key>IC1C</key>
+	<string>CPU VccIO</string>
+	<key>IC2C</key>
+	<string>CPU VccSA</string>
+	<key>IC0R</key>
+	<string>CPU Rail</string>
+	<key>IC5R</key>
+	<string>CPU DRAM</string>
+	<key>IC8R</key>
+	<string>CPU PLL</string>
+	<key>IC0G</key>
+	<string>CPU GFX</string>
+	<key>IC0M</key>
+	<string>CPU Memory</string>
+	<key>IG0C</key>
+	<string>GPU Rail</string>
+	<key>IM0C</key>
+	<string>Memory Controller</string>
+	<key>IM0R</key>
+	<string>Memory Rail</string>
+	<key>IN0C</key>
+	<string>MCH</string>
+	<key>ID0R</key>
+	<string>Mainboard S0 Rail</string>
+	<key>ID5R</key>
+	<string>Mainboard S5 Rail</string>
+	<key>IO0R</key>
+	<string>Misc. Rail</string>
+	<key>IB0R</key>
+	<string>Battery Rail</string>
+	<key>IPBR</key>
+	<string>Charger BMON</string>
+	<key>PC0C</key>
+	<string>CPU Core 1</string>
+	<key>PC1C</key>
+	<string>CPU Core 2</string>
+	<key>PC2C</key>
+	<string>CPU Core 3</string>
+	<key>PC3C</key>
+	<string>CPU Core 4</string>
+	<key>PC4C</key>
+	<string>CPU Core 5</string>
+	<key>PC5C</key>
+	<string>CPU Core 6</string>
+	<key>PC6C</key>
+	<string>CPU Core 7</string>
+	<key>PC7C</key>
+	<string>CPU Core 8</string>
+	<key>PCPC</key>
+	<string>CPU Cores</string>
+	<key>PCPG</key>
+	<string>CPU GFX</string>
+	<key>PCPD</key>
+	<string>CPU DRAM</string>
+	<key>PCTR</key>
+	<string>CPU Total</string>
+	<key>PCPL</key>
+	<string>CPU Total</string>
+	<key>PC1R</key>
+	<string>CPU Rail</string>
+	<key>PC5R</key>
+	<string>CPU S0 Rail</string>
+	<key>PGTR</key>
+	<string>GPU Total</string>
+	<key>PG0R</key>
+	<string>GPU Rail</string>
+	<key>PM0R</key>
+	<string>Memory Rail</string>
+	<key>PN0C</key>
+	<string>MCH</string>
+	<key>PN1R</key>
+	<string>PCH Rail</string>
+	<key>PC0R</key>
+	<string>Mainboard S0 Rail</string>
+	<key>PD0R</key>
+	<string>Mainboard S0 Rail</string>
+	<key>PD5R</key>
+	<string>Mainboard S5 Rail</string>
+	<key>PH02</key>
+	<string>Main 3.3V Rail</string>
+	<key>PH05</key>
+	<string>Main 5V Rail</string>
+	<key>Pp0R</key>
+	<string>12V Rail</string>
+	<key>PD2R</key>
+	<string>Main 12V Rail</string>
+	<key>PO0R</key>
+	<string>Misc. Rail</string>
+	<key>PBLC</key>
+	<string>Battery Rail</string>
+	<key>PB0R</key>
+	<string>Battery Rail</string>
+	<key>PDTR</key>
+	<string>DC In Total</string>
+	<key>PSTR</key>
+	<string>System Total</string>
+</dict>
+</plist>

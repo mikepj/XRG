@@ -41,7 +41,7 @@
     vm_statistics_data_t		currentDiffs;
     vm_statistics_data_t		lastStats;
 	
-	u_int32_t					pageSize;
+	unsigned long				pageSize;
 }
 
 @property u_int64_t usedSwap;

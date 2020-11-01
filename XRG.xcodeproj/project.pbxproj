@@ -55,6 +55,7 @@
 		278606241B44741B00CC6249 /* XRGGPUView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606231B44741B00CC6249 /* XRGGPUView.m */; };
 		278E90B923F21F6600874941 /* Sensors.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E90B823F21F6600874941 /* Sensors.xib */; };
 		278E90BC23F2208300874941 /* XRGSensorWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E90BB23F2208300874941 /* XRGSensorWindow.m */; };
+		93151A0D254094EF0095E424 /* SMCSensorNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93151A0C254094EF0095E424 /* SMCSensorNames.plist */; };
 		937851AA157CA243001D2A15 /* SMCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851A8157CA243001D2A15 /* SMCInterface.m */; };
 		937851AD157CA5D0001D2A15 /* SMCSensors.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851AC157CA5D0001D2A15 /* SMCSensors.m */; };
 /* End PBXBuildFile section */
@@ -148,6 +149,7 @@
 		278E90B823F21F6600874941 /* Sensors.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Sensors.xib; sourceTree = "<group>"; };
 		278E90BA23F2208300874941 /* XRGSensorWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGSensorWindow.h; sourceTree = "<group>"; };
 		278E90BB23F2208300874941 /* XRGSensorWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGSensorWindow.m; sourceTree = "<group>"; };
+		93151A0C254094EF0095E424 /* SMCSensorNames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SMCSensorNames.plist; sourceTree = "<group>"; };
 		937851A7157CA243001D2A15 /* SMCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCInterface.h; sourceTree = "<group>"; };
 		937851A8157CA243001D2A15 /* SMCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCInterface.m; sourceTree = "<group>"; };
 		937851AB157CA5D0001D2A15 /* SMCSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCSensors.h; sourceTree = "<group>"; };
@@ -217,7 +219,7 @@
 				273ECEBA15740EAF00E65D82 /* Resources */,
 				273ECEE515740EAF00E65D82 /* Utility */,
 			);
-			path = XRG;
+			name = XRG;
 			sourceTree = "<group>";
 		};
 		273ECE8B15740EAF00E65D82 /* Controllers */ = {
@@ -299,6 +301,7 @@
 		273ECEBA15740EAF00E65D82 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93151A0C254094EF0095E424 /* SMCSensorNames.plist */,
 				271FA60E15AC79A100E16233 /* Online Help */,
 				273ECF63157413D200E65D82 /* icon.icns */,
 				273ECF4F1574106600E65D82 /* InfoPlist.strings */,
@@ -432,6 +435,7 @@
 				273ECF551574106600E65D82 /* Preferences.nib in Resources */,
 				273ECF64157413D200E65D82 /* icon.icns in Resources */,
 				271FA60F15AC79A100E16233 /* Online Help in Resources */,
+				93151A0D254094EF0095E424 /* SMCSensorNames.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,7 +578,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2.8.1;
+				CURRENT_PROJECT_VERSION = 2.8.2;
 				DEVELOPMENT_TEAM = 28EXY66HMA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -582,7 +586,7 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "XRG-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				MARKETING_VERSION = 2.8.1;
+				MARKETING_VERSION = 2.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.piatekjimenez.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -595,7 +599,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2.8.1;
+				CURRENT_PROJECT_VERSION = 2.8.2;
 				DEVELOPMENT_TEAM = 28EXY66HMA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -603,7 +607,7 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "XRG-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				MARKETING_VERSION = 2.8.1;
+				MARKETING_VERSION = 2.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.piatekjimenez.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

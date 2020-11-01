@@ -32,6 +32,12 @@
 #import "SMCInterface.h"
 
 @interface SMCSensors()
+@property (nonatomic, strong)  SMCInterface *smc;
+@property (nonatomic, strong)  NSDictionary<NSString *, NSString *> *keyDescriptions; // string <-> string for names
+@property (nonatomic, strong)  NSDictionary<NSString *, NSMutableSet *> *fanDescriptions; // Fan name <=> NSSet with associated keys
+@property (nonatomic, strong)  NSSet<NSString *> *unknownTemperatureKeys; // property descs for temp properties with description
+@property (nonatomic, strong)  NSSet<NSString *> *knownTemperatureKeys; // property descs for temp properties with description
+
 - (int) c4String:(char *)string matchesPattern:(const char *)pattern;
 - (void) buildKeyCache;
 - (BOOL) readSMCValues:(NSSet *) smcKeys toDictionary:(NSMutableDictionary *) destDict;
@@ -52,83 +58,31 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 	
 	if( self )
 	{
-		smc_ = [[SMCInterface alloc] init];
+		self.smc = [[SMCInterface alloc] init];
 		
-		// see <http://www.parhelia.ch/blog/statics/k3_keys.html>
-		self.sKnownDescriptions = @{
-									@"TA?P": @"Ambient",
-                                    @"TA?V": @"Ambient",
-                                    @"Ta?P": @"Ambient",
-									@"TB?T": @"Bottom Sensor",
-                                    @"TC?C": @"CPU Core",
-									@"TC?D": @"CPU Die",
-									@"TC?H": @"CPU Heatsink",
-									@"TC?P": @"CPU Proximity",
-                                    @"TCGC": @"iGPU",
-									@"TG?D": @"GPU Die",
-									@"TG?H": @"GPU Heatsink",
-									@"TG?P": @"GPU Proximity",
-                                    @"TH?F": @"SSD",
-									@"TH?P": @"HD Proximity",
-									@"Th?H": @"Heatsink",
-									@"TI?P": @"Thunderbolt",
-									@"TL?P": @"LCD Proximity",
-									@"TM?P": @"Memory Proximity",
-									@"TM?S": @"Memory",
-									@"Tm?P": @"Misc. local",
-									@"TMA?": @"DIMM A",
-									@"TMB?": @"DIMM B",
-									@"TN?D": @"Northbridge Die",
-									@"TN?H": @"Northbridge Heatsink",
-									@"TN?P": @"Northbridge Proximity",
-									@"TO?P": @"Optical Drive",
-									@"TL?P": @"LCD",
-									@"Tp?C": @"Power Supply",
-									@"Tp?P": @"Power Supply",
-									@"Ts?P": @"Palm Rest",
-									@"TS?C": @"Expansion Slot",
-                                    @"TTTD": @"T2 Die",
-									@"TW?P": @"Airport",
-									// sensors:
-									@"ALV0": @"Ambient Light Left",
-									@"ALV1": @"Ambient Light Right",
-									@"MSLD": @"Clamshell",
-									@"MO_X": @"Motion-X",
-									@"MO_Y": @"Motion-Y",
-									@"MO_Z": @"Motion-Z",
-									@"MOCN": @"Motion",
-									// Noise: (sourced from http://www.assembla.com/spaces/fakesmc/wiki/Known_SMC_Keys/history )
-									@"dBA?": @"Noise near Fan",
-									@"dBAH": @"Noise near HD",
-									@"dBAT": @"Total Noise",
-									// Fans:
-									@"F?Ac": @"Fan Speed",
-									@"F?Mn": @"Fan Minimum Speed",
-									@"F?Mx": @"Fan Maximum Speed",
-									@"F?Sf": @"Fan Safe Speed",
-									@"F?Mt": @"Fan Maximum Target",
-									@"F?Tg": @"Fan Target Speed",
-									@"FS! ": @"Fan Forced Speed",
-									};
+        [self setupDescriptions];
 		
 		[self buildKeyCache];
 	}
 	return self;
 }
 
-
+- (void) setupDescriptions {
+    NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"SMCSensorNames" ofType:@"plist"];
+    self.descriptionsForSMCKeys = [NSDictionary dictionaryWithContentsOfFile:infoPath];
+}
 
 - (NSString *) humanReadableNameForKey:(NSString *)key {
-    NSString *result = [keyDescriptions_ valueForKey:key];
+    NSString *result = self.keyDescriptions[key];
     return result ? result : key;
 }
 
 - (NSDictionary *) temperatureValuesExtended:(BOOL) includeUnknownSensors
 {
 	NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
-    [self readSMCValues:knownTemperatureKeys_ toDictionary:resultDict];
+    [self readSMCValues:self.knownTemperatureKeys toDictionary:resultDict];
     if( includeUnknownSensors ) {
-        [self readSMCValues:unknownTemperatureKeys_ toDictionary:resultDict];
+        [self readSMCValues:self.unknownTemperatureKeys toDictionary:resultDict];
     }
     return resultDict;
 }
@@ -141,14 +95,14 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 	NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
 	// totalFans = [[smc_ readValue:'FNum' error:&error] intValue];
     
-    forcedBits = [[smc_ readValue:'FS! ' error:&error] intValue]; // Value is base 16!?!
+    forcedBits = [[self.smc readValue:'FS! ' error:&error] intValue]; // Value is base 16!?!
     
-    for( NSString *fanIndexString in [fanDescriptions_ allKeys] ) {
+    for( NSString *fanIndexString in [self.fanDescriptions allKeys] ) {
         int fanIndex = [fanIndexString intValue];
         NSMutableDictionary *fanDict = [NSMutableDictionary dictionary];
         [resultDict setValue:fanDict forKey:[NSString stringWithFormat:@"Fan #%d", fanIndex]];
         
-        NSSet *smcKeys = fanDescriptions_[fanIndexString];
+        NSSet *smcKeys = self.fanDescriptions[fanIndexString];
         [self readSMCValues:smcKeys toDictionary:fanDict];
         fanDict[@"Forced"] = [NSNumber numberWithBool:(forcedBits & (1 << fanIndex))];
     }
@@ -161,11 +115,11 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
     uint32_t      key;
   
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    totalKeys = [smc_ keyCount];
+    totalKeys = [self.smc keyCount];
     for (i = 0; i < totalKeys; i++)
     {
-        key = [smc_ keyAtIndex:i];
-        id value = [smc_ readValue:key error:nil];
+        key = [self.smc keyAtIndex:i];
+        id value = [self.smc readValue:key error:nil];
         if( value )
             [dict setValue:value forKey:[self dictKeyFromInt:key]]; 
     }    
@@ -179,44 +133,50 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 	NSMutableDictionary *values = [NSMutableDictionary dictionary];
     NSError *error;
     
-    [values setValue:[smc_ readValue:'ALV0' error:&error] forKey:@"ALV0"];
-	[values setValue:[smc_ readValue:'ALV1' error:&error] forKey:@"ALV1"];
-	[values setValue:[smc_ readValue:'MSLD' error:&error] forKey:@"MSLD"];
-    [values setValue:[smc_ readValue:'MO_X' error:&error] forKey:@"MO_X"];
-    [values setValue:[smc_ readValue:'MO_Y' error:&error] forKey:@"MO_Y"];
-    [values setValue:[smc_ readValue:'MO_Z' error:&error] forKey:@"MO_Z"];
-    [values setValue:[smc_ readValue:'MOCN' error:&error] forKey:@"MOCN"];
+    values[@"ALV0"] = [self.smc readValue:'ALV0' error:&error];
+    values[@"ALV1"] = [self.smc readValue:'ALV1' error:&error];
+    values[@"MSLD"] = [self.smc readValue:'MSLD' error:&error];
+    values[@"MO_X"] = [self.smc readValue:'MO_X' error:&error];
+    values[@"MO_Y"] = [self.smc readValue:'MO_Y' error:&error];
+    values[@"MO_Z"] = [self.smc readValue:'MO_Z' error:&error];
+    values[@"MOCN"] = [self.smc readValue:'MOCN' error:&error];
 	return values;
 }
 
 #pragma mark -
 #pragma mark internal
 
+- (NSSet<NSString *> *) readSMCKeys {
+    NSInteger smcKeyCount = [self.smc keyCount];
+    NSMutableSet *smcKeys = [NSMutableSet setWithCapacity:smcKeyCount];
+
+    // traverse the available keys, prepare them for sorting
+    for( NSInteger i = 0; i < smcKeyCount; i++) {
+        uint32_t key = [self.smc keyAtIndex:i];
+            
+        NSString *smcKeyString = [self dictKeyFromInt:key];
+        [smcKeys addObject:smcKeyString];
+    }
+    return smcKeys;
+}
+
 - (void) buildKeyCache {
-    int           i;
-		
-    NSMutableDictionary *descriptions = [NSMutableDictionary dictionary];
-    NSMutableDictionary *fanDescriptions = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSString *> *descriptions = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSMutableSet *> *fanDescriptions = [NSMutableDictionary dictionary];
+    
     NSMutableSet *unknownTempKeys = [NSMutableSet set];
     NSMutableSet *knownTempKeys = [NSMutableSet set];
     NSMutableSet *unknownOtherKeys = [NSMutableSet set];
     
-	NSInteger smcKeyCount = [smc_ keyCount];
-    NSMutableSet *availableKeys = [NSMutableSet setWithCapacity:smcKeyCount];
-
-	// traverse the available keys, prepare them for sorting
-	for(i = 0; i < smcKeyCount; i++) {
-        uint32_t key = [smc_ keyAtIndex:i];
-			
-		NSString *smcKeyString = [self dictKeyFromInt:key];
-		[availableKeys addObject:smcKeyString];
-	}	
+    NSSet<NSString *> *smcKeys = [self readSMCKeys];
+    
+    NSArray<NSString *> *keyDescriptionsWithWildcard = [self.descriptionsForSMCKeys.allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^( NSString *s, id dontCare ){ return [s containsString:@"?"]; }]];
     
     // now set up description lookup:
-    for( NSString *currentKey in availableKeys ) {
+    for( NSString *currentKey in smcKeys ) {
 		char keyChar[5] = "";
-        NSString *smcLocationName = nil;
-		int keyIndex;
+        NSString *smcKeyDescription = nil;
+		int indexInKey;
         BOOL isFanKey, isTemperatureKey;
         
 		[currentKey getCString:keyChar maxLength:5 encoding:NSASCIIStringEncoding];
@@ -224,56 +184,59 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
         isFanKey = keyChar[0] == 'F' && isdigit( keyChar[1] );
         isTemperatureKey = keyChar[0] == 'T';
 		
-		for (NSString *key in [self.sKnownDescriptions allKeys]) {
-			keyIndex = [self c4String:keyChar matchesPattern:[key UTF8String]];
-			if (keyIndex != kNoMatch) {
-				smcLocationName = self.sKnownDescriptions[key];
-                if (keyIndex != kDirectMatch && keyIndex > 1) {
-                    NSString *prevKey = [key stringByReplacingOccurrencesOfString:@"?" withString:[NSString stringWithFormat:@"%X", keyIndex-1]];
-                    if (!descriptions[prevKey])
-                        smcLocationName = nil;
-                }
-				break;
-			}
-		}
-		
-		if (smcLocationName) {
-			// Figure out if we should add a digit (only if there are more than one with this name).
-			BOOL appendIndexToDescription = NO;
-            if ( !isFanKey ) {
-                if (keyIndex == 0  )	{
-                    // if the key is of form XXX0, see if there is also XXX1
-                    if ([currentKey rangeOfString:@"0"].location != NSNotFound) { // should assert on that...
-                        NSMutableString *keyForNextItem = [NSMutableString stringWithString:currentKey];
-                        [keyForNextItem replaceOccurrencesOfString:@"0" withString:@"1" options:0 range:NSMakeRange(0, [keyForNextItem length])];
-                        if ([availableKeys containsObject:keyForNextItem]) {
-                            appendIndexToDescription = YES;
-                        }
-                    } 
-                    
-                } else if (keyIndex != kDirectMatch) {
-                    appendIndexToDescription = YES;
+        // Direct match?
+        smcKeyDescription = self.descriptionsForSMCKeys[currentKey];
+        if( smcKeyDescription == nil ) {
+            // No direct match, find a wildcard match
+            for (NSString *key in keyDescriptionsWithWildcard) {
+                indexInKey = [self c4String:keyChar matchesPattern:[key UTF8String]];
+                if (indexInKey != kNoMatch) {
+                    smcKeyDescription = self.descriptionsForSMCKeys[key];
+                    break;
                 }
             }
-			if (appendIndexToDescription) smcLocationName = [NSString stringWithFormat:@"%@ #%d", smcLocationName, keyIndex];
-		}
-        
-        if( smcLocationName ) {
-            [descriptions setValue:smcLocationName forKey:currentKey];
+            
+            if (smcKeyDescription) {
+                // Filter out non-consecutive sensors:
+                if (indexInKey > 1) {
+                    NSString *prevKey = [currentKey stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%X", indexInKey] withString:[NSString stringWithFormat:@"%X", indexInKey-1]];
+                    if (![smcKeys containsObject:prevKey]) {
+                        smcKeyDescription = nil;
+                    }
+                }
+                
+                // Figure out if we should add a digit (only if there are more than one with this name).
+                BOOL appendIndexToDescription = NO;
+                if ( !isFanKey ) {
+                    if (indexInKey == 0  )	{
+                        // if the key is of form XXX0, see if there is also XXX1
+                        NSString *sensorAtIndexOneKey = [currentKey stringByReplacingOccurrencesOfString:@"0" withString:@"1"];
+                        appendIndexToDescription = [smcKeys containsObject:sensorAtIndexOneKey];
+                        
+                    } else {
+                        appendIndexToDescription = YES;
+                    }
+                }
+                if (appendIndexToDescription) {
+                    smcKeyDescription = [smcKeyDescription stringByAppendingFormat:@" #%d", indexInKey];
+                }
+            }
         }
         
+        descriptions[currentKey] = smcKeyDescription;
+        
         if( isTemperatureKey ) {
-            if( smcLocationName ) {
+            if( smcKeyDescription ) {
                 [knownTempKeys addObject:currentKey];
             } else {
                 [unknownTempKeys addObject:currentKey];
             }
         } else if ( isFanKey ) {
             NSString *fanKey = [NSString stringWithFormat:@"%c", keyChar[1]];
-            NSMutableArray *fanValues = fanDescriptions[fanKey];
+            NSMutableSet *fanValues = fanDescriptions[fanKey];
             if( !fanValues ) {
-                fanValues = [NSMutableArray arrayWithCapacity:5];
-                [fanDescriptions setValue:fanValues forKey:fanKey];
+                fanValues = [NSMutableSet setWithCapacity:5];
+                fanDescriptions[fanKey] = fanValues;
             }
             [fanValues addObject:currentKey];
         } else {
@@ -281,10 +244,11 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
         }
 	}	
     
-    keyDescriptions_ = descriptions;
-    unknownTemperatureKeys_ = unknownTempKeys;
-    knownTemperatureKeys_ = knownTempKeys;
-    fanDescriptions_ = fanDescriptions;
+    self.keyDescriptions = descriptions;
+    self.unknownTemperatureKeys = unknownTempKeys;
+    self.knownTemperatureKeys = knownTempKeys;
+
+    self.fanDescriptions = fanDescriptions;
 }
 
 - (NSString *) dictKeyFromInt:(uint32_t) key {
@@ -348,7 +312,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
     BOOL success = YES;
     
     for( NSString *aKey in smcKeys  ) {
-        id value = [smc_ readValue:[self keyFromString:aKey] error:&error];
+        id value = [self.smc readValue:[self keyFromString:aKey] error:&error];
         if( !error ) {
             destDict[aKey] = value;
         } else {

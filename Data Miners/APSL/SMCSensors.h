@@ -31,17 +31,12 @@
 
 @class SMCInterface;
 
-@interface SMCSensors : NSObject {
-	SMCInterface *smc_;
-    
-    NSDictionary *keyDescriptions_; // string <-> string for names 
-    NSSet *unknownTemperatureKeys_;     // property descs for temp properties without description
-    NSSet *knownTemperatureKeys_;   // property descs for temp properties with description
-    NSDictionary *fanDescriptions_; // dict Fan name <=> NSArray property descs
-       
-} 
+@interface SMCSensors : NSObject 
 
-@property (strong) NSDictionary *sKnownDescriptions;
+@property (strong) NSDictionary *descriptionsForSMCKeys;
+
+@property (nonatomic, readonly, strong)  NSSet<NSString *> *unknownTemperatureKeys; // property descs for temp properties with description
+@property (nonatomic, readonly, strong)  NSSet<NSString *> *knownTemperatureKeys; // property descs for temp properties with description
 
 /// returns an plain dict of values with their 4cc IDs.
 /// contains only values where a known conversion from the SMC data type to NSNumber / NDSData is implemented in SMCInterface
@@ -53,7 +48,7 @@
 
 /// Temperature senor values
 /// withUnknownSensors: include sensors where humanReadableNameForKey will fail
-/// return an NSDictionary with key: SMCSensorName, value: NSNumber with tdegree emperature in Celsius
+/// return an NSDictionary with key: SMCSensorName, value: NSNumber with temperature in Celsius
 - (NSDictionary *)temperatureValuesExtended:(BOOL) withUnknownSensors;
 
 /// additional sensors (motion etc.).

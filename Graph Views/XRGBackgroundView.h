@@ -44,15 +44,12 @@
     NSRect              unminimizedRect;
 	
 	NSPoint				viewPointClicked;
-	
-	NSTrackingRectTag	trackingRect;
 }
 
 @property NSString *hostname;
 @property NSArray *resizeRects;
 
-@property NSBezierPath *outerPath;
-@property NSBezierPath *innerPath;
+@property NSTrackingArea *trackingArea;
 
 @property BOOL clickedMinimized;
 

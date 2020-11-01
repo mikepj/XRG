@@ -148,7 +148,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     appDefs[XRG_stickyWindow] = @"YES";
     appDefs[XRG_checkForUpdates] = @"YES";
     appDefs[XRG_dropShadow] = @"NO";
-    appDefs[XRG_windowLevel] = @"";
     appDefs[XRG_autoExpandGraph] = @"YES";
     appDefs[XRG_foregroundWhenExpanding] = @"NO";
     appDefs[XRG_showSummary] = @"YES";
@@ -911,7 +910,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
         [self setLevel:NSFloatingWindowLevel];
     }
     else {
-        [self setLevel:kCGDesktopWindowLevel];
+        [self setLevel:kCGBackstopMenuLevel];
     }
 }
 
