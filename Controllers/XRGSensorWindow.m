@@ -7,6 +7,7 @@
 //
 
 #import "XRGSensorWindow.h"
+#import "XRGCPUMiner.h"
 
 @interface XRGSensorWindow ()
 
@@ -56,5 +57,24 @@
     return cell;
 }
 
+- (IBAction)exportAction:(id)sender {
+    // Copy text to a clipboard.
+    NSMutableString *copyText = [[NSMutableString alloc] init];
+    
+    NSString *appVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+    if (!appVersion) appVersion = @"";
+    
+    [copyText appendFormat:@"XRG %@\n", appVersion];
+    [copyText appendFormat:@"Mac model: %@\n", [XRGCPUMiner systemModelIdentifier]];
+    [copyText appendFormat:@"Running macOS %@\n\n", [[NSProcessInfo processInfo] operatingSystemVersionString]];
+    [copyText appendString:@"Discovered Sensors:\n"];
+    
+    for (NSString *sensorKey in self.sensorKeys) {
+        [copyText appendFormat:@"\t%@:  %.1f\n", sensorKey, [self.miner currentValueForKey:sensorKey]];
+    }
+    
+    [[NSPasteboard generalPasteboard] clearContents];
+    [[NSPasteboard generalPasteboard] setString:copyText forType:NSStringPboardType];
+}
 
 @end
