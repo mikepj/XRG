@@ -31,17 +31,24 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <sys/sysctl.h>
-#import <sys/utsname.h>
 #import <mach/mach_host.h>
 #import <mach/vm_map.h>
 
 @implementation XRGCPUMiner
 
 + (NSString *)systemModelIdentifier {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    
-    return @(systemInfo.machine);
+    NSString *modelString = nil;
+
+    size_t len = 0;
+    sysctlbyname("hw.model", NULL, &len, NULL, 0);
+    if (len) {
+        char *model = malloc(len*sizeof(char));
+        sysctlbyname("hw.model", model, &len, NULL, 0);
+        modelString = @(model);
+        free(model);
+    }
+
+    return modelString;
 }
 
 - (instancetype)init {
