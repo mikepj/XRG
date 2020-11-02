@@ -28,13 +28,13 @@
 
 @interface XRGDataSet : NSObject
 
-@property (assign) CGFloat *values;
-@property (assign) size_t numValues;
-@property (assign) NSInteger currentIndex;
+@property (nonatomic, assign) CGFloat *values;
+@property (nonatomic, assign) size_t numValues;
+@property (nonatomic, assign) NSInteger currentIndex;
 
-@property (assign) CGFloat min;
-@property (assign) CGFloat max;
-@property (assign) CGFloat sum;
+@property (nonatomic, assign) CGFloat min;
+@property (nonatomic, assign) CGFloat max;
+@property (nonatomic, assign) CGFloat sum;
 
 - (id) initWithContentsOfOtherDataSet:(XRGDataSet *)otherDataSet;
 
