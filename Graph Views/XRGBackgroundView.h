@@ -55,7 +55,6 @@
 
 - (void)getHostname;
 - (void)offsetDrawingOrigin:(NSSize)offset;
-- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize;
 - (void)minimizeWindow;
 - (void)expandWindow;
 - (void)mouseDownAction:(NSEvent *)theEvent;
