@@ -304,10 +304,10 @@
 		273ECEBA15740EAF00E65D82 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				93151A0C254094EF0095E424 /* SMCSensorNames.plist */,
 				271FA60E15AC79A100E16233 /* Online Help */,
 				273ECF63157413D200E65D82 /* icon.icns */,
 				273ECF4F1574106600E65D82 /* InfoPlist.strings */,
+				93151A0C254094EF0095E424 /* SMCSensorNames.plist */,
 				273ECF501574106600E65D82 /* MainMenu.nib */,
 				273ECF511574106600E65D82 /* Preferences.nib */,
 				273ECED915740EAF00E65D82 /* Preferences-Appearance.tiff */,

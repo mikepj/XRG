@@ -45,8 +45,8 @@
 	<key>MSLD</key>
 	<string>Clamshell</string>
 	<key>TA?V</key>
-    <string>Ambient</string>
-    <key>TH?F</key>
+	<string>Ambient</string>
+	<key>TH?F</key>
 	<string>SSD</string>
 	<key>TI?P</key>
 	<string>Thunderbolt</string>
@@ -54,51 +54,26 @@
 	<string>DIMM A</string>
 	<key>TMB?</key>
 	<string>DIMM B</string>
-
 	<key>TCXC</key>
 	<string>PECI CPU</string>
 	<key>TCXc</key>
 	<string>PECI CPU</string>
-	<key>TC0P</key>
-	<string>CPU 1 Proximity</string>
-	<key>TC0H</key>
-	<string>CPU 1 Heatsink</string>
-	<key>TC0D</key>
-	<string>CPU 1 Package</string>
-	<key>TC0E</key>
-	<string>CPU 1</string>
-	<key>TC0F</key>
-	<string>CPU 1</string>
-	<key>TC1C</key>
-	<string>CPU Core 1</string>
-	<key>TC2C</key>
-	<string>CPU Core 2</string>
-	<key>TC3C</key>
-	<string>CPU Core 3</string>
-	<key>TC4C</key>
-	<string>CPU Core 4</string>
-	<key>TC5C</key>
-	<string>CPU Core 5</string>
-	<key>TC6C</key>
-	<string>CPU Core 6</string>
-	<key>TC7C</key>
-	<string>CPU Core 7</string>
-	<key>TC8C</key>
-	<string>CPU Core 8</string>
+	<key>TC?P</key>
+	<string>CPU Proximity</string>
+	<key>TC?H</key>
+	<string>CPU Heatsink</string>
+	<key>TC?D</key>
+	<string>CPU Package</string>
+	<key>TC?E</key>
+	<string>CPU</string>
+	<key>TC?F</key>
+	<string>CPU</string>
+	<key>TC?C</key>
+	<string>CPU Core</string>
 	<key>TCAH</key>
 	<string>CPU 1 Heatsink Alt.</string>
 	<key>TCAD</key>
 	<string>CPU 1 Package Alt.</string>
-	<key>TC1P</key>
-	<string>CPU 2 Proximity</string>
-	<key>TC1H</key>
-	<string>CPU 2 Heatsink</string>
-	<key>TC1D</key>
-	<string>CPU 2 Package</string>
-	<key>TC1E</key>
-	<string>CPU 2</string>
-	<key>TC1F</key>
-	<string>CPU 2</string>
 	<key>TCBH</key>
 	<string>CPU 2 Heatsink Alt.</string>
 	<key>TCBD</key>
@@ -115,13 +90,9 @@
 	<string>PECI GPU</string>
 	<key>TG0P</key>
 	<string>GPU Proximity</string>
-	<key>TG0D</key>
+	<key>TG?D</key>
 	<string>GPU Die</string>
-	<key>TG1D</key>
-	<string>GPU Die</string>
-	<key>TG0H</key>
-	<string>GPU Heatsink</string>
-	<key>TG1H</key>
+	<key>TG?H</key>
 	<string>GPU Heatsink</string>
 	<key>Ts0S</key>
 	<string>Memory Proximity</string>
@@ -129,24 +100,70 @@
 	<string>Mem Bank A1</string>
 	<key>TM1P</key>
 	<string>Mem Bank A2</string>
+	<key>TM2P</key>
+	<string>Mem Bank A3</string>
+	<key>TM3P</key>
+	<string>Mem Bank A4</string>
+	<key>TM4P</key>
+	<string>Mem Bank A5</string>
+	<key>TM5P</key>
+	<string>Mem Bank A6</string>
+	<key>TM6P</key>
+	<string>Mem Bank A7</string>
+	<key>TM7P</key>
+	<string>Mem Bank A8</string>
 	<key>TM8P</key>
 	<string>Mem Bank B1</string>
 	<key>TM9P</key>
 	<string>Mem Bank B2</string>
+	<key>TMAP</key>
+	<string>Mem Bank B3</string>
+	<key>TMBP</key>
+	<string>Mem Bank B4</string>
+	<key>TMCP</key>
+	<string>Mem Bank B5</string>
+	<key>TMDP</key>
+	<string>Mem Bank B6</string>
+	<key>TMEP</key>
+	<string>Mem Bank B7</string>
+	<key>TMFP</key>
+	<string>Mem Bank B8</string>
 	<key>TM0S</key>
 	<string>Mem Module A1</string>
 	<key>TM1S</key>
 	<string>Mem Module A2</string>
+	<key>TM2S</key>
+	<string>Mem Module A3</string>
+	<key>TM3S</key>
+	<string>Mem Module A4</string>
+	<key>TM4S</key>
+	<string>Mem Module A5</string>
+	<key>TM5S</key>
+	<string>Mem Module A6</string>
+	<key>TM6S</key>
+	<string>Mem Module A7</string>
+	<key>TM7S</key>
+	<string>Mem Module A8</string>
 	<key>TM8S</key>
 	<string>Mem Module B1</string>
 	<key>TM9S</key>
 	<string>Mem Module B2</string>
+	<key>TMAS</key>
+	<string>Mem Module B3</string>
+	<key>TMBS</key>
+	<string>Mem Module B4</string>
+	<key>TMCS</key>
+	<string>Mem Module B5</string>
+	<key>TMDS</key>
+	<string>Mem Module B6</string>
+	<key>TMES</key>
+	<string>Mem Module B7</string>
+	<key>TMFS</key>
+	<string>Mem Module B8</string>
 	<key>TN0D</key>
 	<string>Northbridge Die</string>
-	<key>TN0P</key>
-	<string>Northbridge Proximity 1</string>
-	<key>TN1P</key>
-	<string>Northbridge Proximity 2</string>
+	<key>TN?P</key>
+	<string>Northbridge Proximity</string>
 	<key>TN0C</key>
 	<string>MCH Die</string>
 	<key>TN0H</key>
@@ -157,16 +174,10 @@
 	<string>PCH Die</string>
 	<key>TP0P</key>
 	<string>PCH Proximity</string>
-	<key>TA0P</key>
-	<string>Airflow 1</string>
-	<key>TA1P</key>
-	<string>Airflow 2</string>
-	<key>Th0H</key>
-	<string>Heatpipe 1</string>
-	<key>Th1H</key>
-	<string>Heatpipe 2</string>
-	<key>Th2H</key>
-	<string>Heatpipe 3</string>
+	<key>TA?P</key>
+	<string>Airflow</string>
+	<key>Th?H</key>
+	<string>Heatpipe</string>
 	<key>Tm0P</key>
 	<string>Mainboard Proximity</string>
 	<key>Tp0P</key>
@@ -179,14 +190,8 @@
 	<string>LCD Proximity</string>
 	<key>TW0P</key>
 	<string>Airport Proximity</string>
-	<key>TH0P</key>
-	<string>HDD Bay 1</string>
-	<key>TH1P</key>
-	<string>HDD Bay 2</string>
-	<key>TH2P</key>
-	<string>HDD Bay 3</string>
-	<key>TH3P</key>
-	<string>HDD Bay 4</string>
+	<key>TH?P</key>
+	<string>HDD Bay</string>
 	<key>TO0P</key>
 	<string>Optical Drive</string>
 	<key>TB0T</key>
@@ -221,22 +226,8 @@
 	<string>PCI Slot 2 Pos 1</string>
 	<key>TA3S</key>
 	<string>PCI Slot 2 Pos 2</string>
-	<key>VC0C</key>
-	<string>CPU Core 1</string>
-	<key>VC1C</key>
-	<string>CPU Core 2</string>
-	<key>VC2C</key>
-	<string>CPU Core 3</string>
-	<key>VC3C</key>
-	<string>CPU Core 4</string>
-	<key>VC4C</key>
-	<string>CPU Core 5</string>
-	<key>VC5C</key>
-	<string>CPU Core 6</string>
-	<key>VC6C</key>
-	<string>CPU Core 7</string>
-	<key>VC7C</key>
-	<string>CPU Core 8</string>
+	<key>VC?C</key>
+	<string>CPU Core</string>
 	<key>VV1R</key>
 	<string>CPU VTT</string>
 	<key>VG0C</key>
@@ -313,22 +304,8 @@
 	<string>Battery Rail</string>
 	<key>IPBR</key>
 	<string>Charger BMON</string>
-	<key>PC0C</key>
-	<string>CPU Core 1</string>
-	<key>PC1C</key>
-	<string>CPU Core 2</string>
-	<key>PC2C</key>
-	<string>CPU Core 3</string>
-	<key>PC3C</key>
-	<string>CPU Core 4</string>
-	<key>PC4C</key>
-	<string>CPU Core 5</string>
-	<key>PC5C</key>
-	<string>CPU Core 6</string>
-	<key>PC6C</key>
-	<string>CPU Core 7</string>
-	<key>PC7C</key>
-	<string>CPU Core 8</string>
+	<key>PC?C</key>
+	<string>CPU Core</string>
 	<key>PCPC</key>
 	<string>CPU Cores</string>
 	<key>PCPG</key>
