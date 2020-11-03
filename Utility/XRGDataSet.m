@@ -30,9 +30,9 @@
 #define USE_ACCELERATE CGFLOAT_IS_DOUBLE
 #define UPDATE_EXTREMA() { \
     double min, max, sum; \
-    vDSP_minvD(self.values, 1, &min, self.numValues ); \
-    vDSP_maxvD(self.values, 1, &max, self.numValues ); \
-    vDSP_sveD( self.values, 1, &sum, self.numValues ); \
+    vDSP_minvD(self.values, 0, &min, self.numValues ); \
+    vDSP_maxvD(self.values, 0, &max, self.numValues ); \
+    vDSP_sveD( self.values, 0, &sum, self.numValues ); \
     self.min = min; \
     self.max = max; \
     self.sum = sum; }
@@ -210,7 +210,7 @@
         
     if (otherDataSet.values) {
 #if USE_ACCELERATE
-        vDSP_vaddD(self.values, 1, otherDataSet.values, 1, self.values, 1, self.numValues);
+        vDSP_vaddD(self.values, 0, otherDataSet.values, 0, self.values, 0, self.numValues);
         UPDATE_EXTREMA();
 #else
         self.max = self.values[0] + otherDataSet.values[0];
@@ -236,7 +236,7 @@
     
     if (otherDataSet.values) {
 #if USE_ACCELERATE
-        vDSP_vsubD(self.values, 1, otherDataSet.values, 1, self.values, 1, self.numValues);
+        vDSP_vsubD(otherDataSet.values, 0, self.values, 0, self.values, 0, self.numValues);
         UPDATE_EXTREMA();
 #else
         self.max = self.values[0] - otherDataSet.values[0];
@@ -258,7 +258,7 @@
 	if (dividend == 0) return;
 	
 #if USE_ACCELERATE
-    vDSP_vsdivD(self.values, 1, &dividend, self.values, 1, self.numValues);
+    vDSP_vsdivD(self.values, 0, &dividend, self.values, 0, self.numValues);
     self.max = self.max / dividend;
     self.min = self.min / dividend;
 #else
