@@ -25,6 +25,17 @@
 //  
 
 #import "XRGDataSet.h"
+#import <Accelerate/Accelerate.h>
+
+#define USE_ACCELERATE CGFLOAT_IS_DOUBLE
+#define UPDATE_EXTREMA() { \
+    double min, max, sum; \
+    vDSP_minvD(self.values, 1, &min, self.numValues ); \
+    vDSP_maxvD(self.values, 1, &max, self.numValues ); \
+    vDSP_sveD( self.values, 1, &sum, self.numValues ); \
+    self.min = min; \
+    self.max = max; \
+    self.sum = sum; }
 
 
 @implementation XRGDataSet
@@ -164,6 +175,9 @@
 	self.sum += self.values[self.currentIndex];
 
     if (oldValue == self.min || oldValue == self.max) {
+#if USE_ACCELERATE
+        UPDATE_EXTREMA();
+#else
         self.max = self.values[0];
 		self.min = self.values[0];
         
@@ -171,11 +185,11 @@
             if (self.values[i] < self.min) self.min = self.values[i];
             if (self.values[i] > self.max) self.max = self.values[i];
         }
+#endif
+    } else {
+        if (self.values[self.currentIndex] < self.min) self.min = self.values[self.currentIndex];
+        if (self.values[self.currentIndex] > self.max) self.max = self.values[self.currentIndex];
     }
-        
-    if (self.values[self.currentIndex] < self.min) self.min = self.values[self.currentIndex];
-    if (self.values[self.currentIndex] > self.max) self.max = self.values[self.currentIndex];
-    
 }
 
 - (void) setAllValues:(CGFloat)value {
@@ -195,6 +209,10 @@
     if (self.numValues != otherDataSet.numValues) return;
         
     if (otherDataSet.values) {
+#if USE_ACCELERATE
+        vDSP_vaddD(self.values, 1, otherDataSet.values, 1, self.values, 1, self.numValues);
+        UPDATE_EXTREMA();
+#else
         self.max = self.values[0] + otherDataSet.values[0];
 		self.min = self.values[0] + otherDataSet.values[0];
         self.sum = 0;
@@ -206,6 +224,7 @@
             if (self.min > self.values[i]) self.min = self.values[i];
             self.sum += self.values[i];
         }
+#endif
     }
 }
 
@@ -216,6 +235,10 @@
     if (self.numValues != otherDataSet.numValues) return;
     
     if (otherDataSet.values) {
+#if USE_ACCELERATE
+        vDSP_vsubD(self.values, 1, otherDataSet.values, 1, self.values, 1, self.numValues);
+        UPDATE_EXTREMA();
+#else
         self.max = self.values[0] - otherDataSet.values[0];
 		self.min = self.values[0] - otherDataSet.values[0];
         self.sum = 0;
@@ -227,21 +250,28 @@
             if (self.min > self.values[i]) self.min = self.values[i];
             self.sum += self.values[i];
         }
+#endif
     }
 }
 
 - (void) divideAllValuesBy:(CGFloat)dividend {
 	if (dividend == 0) return;
 	
-	self.max = self.values[0] / dividend;
-	self.min = self.values[0] / dividend;
-	
+#if USE_ACCELERATE
+    vDSP_vsdivD(self.values, 1, &dividend, self.values, 1, self.numValues);
+    self.max = self.max / dividend;
+    self.min = self.min / dividend;
+#else
+    self.max = self.values[0] / dividend;
+    self.min = self.values[0] / dividend;
+    
 	for (NSInteger i = 0; i < self.numValues; i++) {
 		self.values[i] /= dividend;
 		
 		if (self.max < self.values[i]) self.max = self.values[i];
 		if (self.min > self.values[i]) self.min = self.values[i];
 	}
+#endif
 }
 
 - (void) dealloc {
