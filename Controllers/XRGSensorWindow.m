@@ -20,8 +20,7 @@
         [NSBundle.mainBundle loadNibNamed:@"Sensors" owner:self topLevelObjects:nil];
         
         self.miner = [[XRGTemperatureMiner alloc] init];
-        self.miner.showUnknownSensors = YES;
-        [self.miner setCurrentTemperatures];
+        [self.miner updateCurrentTemperatures];
         self.sensorKeys = [[self.miner allSensorKeys] sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
             return [obj1 compare:obj2];
         }];
@@ -38,7 +37,7 @@
 }
 
 - (void)refresh {
-    [self.miner setCurrentTemperatures];
+    [self.miner updateCurrentTemperatures];
     [self.tableView reloadData];
 }
 

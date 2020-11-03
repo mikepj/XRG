@@ -262,8 +262,7 @@
     [defs setInteger: [tempFG1Location indexOfSelectedItem]                          forKey:XRG_tempFG1Location];
     [defs setInteger: [tempFG2Location indexOfSelectedItem]                          forKey:XRG_tempFG2Location];
     [defs setInteger: [tempFG3Location indexOfSelectedItem]                          forKey:XRG_tempFG3Location];
-    self.xrgGraphWindow.temperatureMiner.showUnknownSensors = [defs boolForKey:XRG_tempShowUnknownSensors];
-     
+
     [defs setObject: ([stockShowChange state] == NSOnState ? @"YES" : @"NO")         forKey:XRG_stockShowChange];    
     [defs setObject: ([showDJIA state] == NSOnState ? @"YES" : @"NO")                forKey:XRG_showDJIA];
     [defs setObject: ([stickyWindow state] == NSOnState ? @"YES" : @"NO")            forKey:XRG_stickyWindow];
@@ -600,9 +599,10 @@
     [tempFG1Location removeAllItems];
     [tempFG2Location removeAllItems];
     [tempFG3Location removeAllItems];
-    
-    if ([self.xrgGraphWindow temperatureMiner]) {
-        NSArray *locations = [self.xrgGraphWindow.temperatureMiner locationKeysInOrder];
+
+    XRGTemperatureMiner *temperatureMiner = [XRGTemperatureMiner shared];
+    if (temperatureMiner) {
+        NSArray *locations = [temperatureMiner locationKeysIncludingUnknown:[[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors]];
         NSInteger numLocations = [locations count];
 		
         if (numLocations > 0) {

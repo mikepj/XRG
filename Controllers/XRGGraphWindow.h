@@ -71,7 +71,6 @@
 @property XRGStockView *stockView;
 @property XRGBatteryView *batteryView;
 @property XRGTemperatureView *temperatureView;
-@property XRGTemperatureMiner *temperatureMiner;
 @property (nonatomic) IBOutlet id backgroundView;
 
 @property BOOL draggingWindow;

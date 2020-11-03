@@ -58,4 +58,6 @@
 /// will return key, if no description can be found
 - (NSString *) humanReadableNameForKey:(NSString *)key;
 
+- (BOOL)isKnownKey:(NSString *)key;
+
 @end

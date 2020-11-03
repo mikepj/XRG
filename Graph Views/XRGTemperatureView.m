@@ -39,11 +39,6 @@
 	
 	locationSizeCache = [[NSMutableDictionary alloc] initWithCapacity:20];
     
-    TemperatureMiner = [[XRGTemperatureMiner alloc] init];
-    TemperatureMiner.showUnknownSensors = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
-    [parentWindow setTemperatureMiner:TemperatureMiner];
-	[TemperatureMiner setDisplayFans:YES];
-
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];    
     m = [[XRGModule alloc] initWithName:@"Temperature" andReference:self];
 	m.doesFastUpdate = NO;
@@ -74,7 +69,7 @@
 
     if (newNumSamples < 0) return;
 
-    [TemperatureMiner setDataSize:newNumSamples];
+    [[XRGTemperatureMiner shared] setDataSize:newNumSamples];
 
     numSamples = newNumSamples;
 }
@@ -94,7 +89,7 @@
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {
-    [TemperatureMiner setCurrentTemperatures];
+    [[XRGTemperatureMiner shared] updateCurrentTemperatures];
     
     [self setNeedsDisplay: YES];
 }
@@ -124,7 +119,7 @@
 
 - (void)drawMiniGraph {
     // Get our sensor locations.
-    NSArray *locations = [TemperatureMiner locationKeysInOrder];
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
     if ([locations count] == 0) {
         [@"Temperature n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
         return;
@@ -137,18 +132,18 @@
     }
     
     // Get the label for this sensor.
-    NSString *primaryLabel = [TemperatureMiner labelForKey:locations[primaryIndex]];
+    NSString *primaryLabel = [[XRGTemperatureMiner shared] labelForKey:locations[primaryIndex]];
     if (!primaryLabel) {
         [@"Temperature n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
         return;
     }
 
     // Get the temperature value.
-    float primaryValue = [TemperatureMiner currentValueForKey:locations[primaryIndex]];
+    float primaryValue = [[XRGTemperatureMiner shared] currentValueForKey:locations[primaryIndex]];
     float adaptedValue = primaryValue;
     
     // Get the units.
-    NSString *units = [TemperatureMiner unitsForLocation:locations[primaryIndex]];
+    NSString *units = [[XRGTemperatureMiner shared] unitsForLocation:locations[primaryIndex]];
     if (units == nil) {
         units = @"";
     }
@@ -169,7 +164,7 @@
     
     // Create an array with the selected temperature value and fan values to plot.
     NSMutableArray *plotValues = [NSMutableArray array];
-    XRGDataSet *dataSet = [TemperatureMiner dataSetForKey:locations[primaryIndex]];
+    XRGDataSet *dataSet = [[XRGTemperatureMiner shared] dataSetForKey:locations[primaryIndex]];
     if (dataSet && dataSet.max > 0) {
         // Scale the primary value.
         float plotValue = (primaryValue - MIN(dataSet.min, 20)) / MAX(dataSet.max, 90) * 100;           // Use 90°C as max, or dataset.max, and 20°C as min
@@ -177,7 +172,7 @@
     }
     
     // Add the fans
-    NSArray *fans = [TemperatureMiner fanValues];
+    NSArray *fans = [[XRGTemperatureMiner shared] fanValues];
     for (XRGFan *fan in fans) {
         if ([fan.name isEqualToString:primaryLabel]) continue;  // Already showing this one.
         
@@ -203,7 +198,7 @@
 
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
-    NSArray *locations = [TemperatureMiner locationKeysInOrder];
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
     
     if ([locations count] == 0) {
         // This machine isn't supported.
@@ -226,19 +221,19 @@
 	float minValue = 9999999.f;
     
     if ([appSettings tempFG1Location] > 0 && [appSettings tempFG1Location] <= [locations count]) {
-        dataSet1 = [TemperatureMiner dataSetForKey:locations[[appSettings tempFG1Location] - 1]];
+        dataSet1 = [[XRGTemperatureMiner shared] dataSetForKey:locations[[appSettings tempFG1Location] - 1]];
         if ([dataSet1 max] > maxValue) maxValue = [dataSet1 max];
 		if ([dataSet1 min] < minValue) minValue = [dataSet1 min];
     }
 
     if ([appSettings tempFG2Location] > 0 && [appSettings tempFG2Location] <= [locations count]) {
-        dataSet2 = [TemperatureMiner dataSetForKey:locations[[appSettings tempFG2Location] - 1]];
+        dataSet2 = [[XRGTemperatureMiner shared] dataSetForKey:locations[[appSettings tempFG2Location] - 1]];
         if ([dataSet2 max] > maxValue) maxValue = [dataSet2 max];
 		if ([dataSet2 min] < minValue) minValue = [dataSet2 min];
     }
 
     if ([appSettings tempFG3Location] > 0 && [appSettings tempFG3Location] <= [locations count]) {
-        dataSet3 = [TemperatureMiner dataSetForKey:locations[[appSettings tempFG3Location] - 1]];
+        dataSet3 = [[XRGTemperatureMiner shared] dataSetForKey:locations[[appSettings tempFG3Location] - 1]];
         if ([dataSet3 max] > maxValue) maxValue = [dataSet3 max];
  		if ([dataSet3 min] < minValue) minValue = [dataSet3 min];
     }
@@ -289,13 +284,13 @@
 			tAttributes[NSForegroundColorAttributeName] = lineColor;
 		}
 		
-        NSString *label = [TemperatureMiner labelForKey:locations[i]];
+        NSString *label = [[XRGTemperatureMiner shared] labelForKey:locations[i]];
 		if (label == nil) {
 			continue;
 		}
 
-        float locationTemperature = [TemperatureMiner currentValueForKey:locations[i]];		
-        NSString *units = [TemperatureMiner unitsForLocation:locations[i]];
+        float locationTemperature = [[XRGTemperatureMiner shared] currentValueForKey:locations[i]];
+        NSString *units = [[XRGTemperatureMiner shared] unitsForLocation:locations[i]];
 		if (units == nil) {
 			units = @"";
 		}
@@ -344,6 +339,13 @@
     [gc setShouldAntialias:YES];
 }
 
+- (BOOL)showUnknownSensors {
+    BOOL showUnknown = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
+    showUnknown |= [XRGTemperatureMiner shared].smcSensors.unknownTemperatureKeys.count > 3 * [XRGTemperatureMiner shared].smcSensors.knownTemperatureKeys.count; // show all unnamed sensors if the majority has no name
+
+    return showUnknown;
+}
+
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       
     return YES;
 }
@@ -364,12 +366,12 @@
     NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Temperature View"];
     NSMenuItem *tMI;
 
-    NSArray *locations = [TemperatureMiner locationKeysInOrder];
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
     int i;    
     for (i = 0; i < [locations count]; i++) {
-        NSMutableString *s = [NSMutableString stringWithFormat:@"%@: ", [TemperatureMiner labelForKey:locations[i]]];
-        NSString *units = [TemperatureMiner unitsForLocation:locations[i]];
-		float locationTemperature = [TemperatureMiner currentValueForKey:locations[i]];
+        NSMutableString *s = [NSMutableString stringWithFormat:@"%@: ", [[XRGTemperatureMiner shared] labelForKey:locations[i]]];
+        NSString *units = [[XRGTemperatureMiner shared] unitsForLocation:locations[i]];
+		float locationTemperature = [[XRGTemperatureMiner shared] currentValueForKey:locations[i]];
         if (locationTemperature < 0.001) {
 			continue;
 		}
@@ -408,7 +410,7 @@
 }
 
 - (void)clearData:(NSEvent *)theEvent {
-    [TemperatureMiner reset];
+    [[XRGTemperatureMiner shared] reset];
 }
 
 - (void)emptyEvent:(NSEvent *)theEvent {

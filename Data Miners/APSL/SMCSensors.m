@@ -77,6 +77,10 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
     return result ? result : key;
 }
 
+- (BOOL)isKnownKey:(NSString *)key {
+    return self.keyDescriptions[key] != nil;
+}
+
 - (NSDictionary *) temperatureValuesExtended:(BOOL) includeUnknownSensors
 {
 	NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];

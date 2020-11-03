@@ -34,17 +34,17 @@
 	
     float                       temperatureWidth;
     float                       rpmWidth;
-    int							graphWidth;
+    NSInteger					graphWidth;
 	NSMutableDictionary			*locationSizeCache;
 	
     XRGModule                   *m;
-    XRGTemperatureMiner         *TemperatureMiner;
-     
-    int                         numSamples;
-	bool						showFanSpeed;
+
+    NSInteger                   numSamples;
+	BOOL						showFanSpeed;
 }
+
 - (void)setGraphSize:(NSSize)newSize;
-- (void)setWidth:(int)newWidth;
+- (void)setWidth:(NSInteger)newWidth;
 - (void)updateMinSize;
 //- (int) getWidthForLabel:(NSString *)label;
 
