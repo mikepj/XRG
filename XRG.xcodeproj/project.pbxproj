@@ -59,6 +59,7 @@
 		93151A0D254094EF0095E424 /* SMCSensorNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93151A0C254094EF0095E424 /* SMCSensorNames.plist */; };
 		937851AA157CA243001D2A15 /* SMCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851A8157CA243001D2A15 /* SMCInterface.m */; };
 		937851AD157CA5D0001D2A15 /* SMCSensors.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851AC157CA5D0001D2A15 /* SMCSensors.m */; };
+		93C915F32550346600220EC5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C915F22550346600220EC5 /* Accelerate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,6 +158,7 @@
 		937851A8157CA243001D2A15 /* SMCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCInterface.m; sourceTree = "<group>"; };
 		937851AB157CA5D0001D2A15 /* SMCSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCSensors.h; sourceTree = "<group>"; };
 		937851AC157CA5D0001D2A15 /* SMCSensors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCSensors.m; sourceTree = "<group>"; };
+		93C915F22550346600220EC5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93C915F32550346600220EC5 /* Accelerate.framework in Frameworks */,
 				273ECF661574145100E65D82 /* IOKit.framework in Frameworks */,
 				273ECE6A15740DE700E65D82 /* Cocoa.framework in Frameworks */,
 			);
@@ -192,6 +195,7 @@
 		273ECE6815740DE700E65D82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93C915F22550346600220EC5 /* Accelerate.framework */,
 				2775AC211B42F4A700D867AC /* OpenGL.framework */,
 				273ECE6915740DE700E65D82 /* Cocoa.framework */,
 				273ECF651574145100E65D82 /* IOKit.framework */,
