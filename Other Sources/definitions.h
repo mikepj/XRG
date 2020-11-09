@@ -50,6 +50,8 @@ typedef struct network_interface_stats {
 #define XRG_windowOriginX               @"windowOriginX"
 #define XRG_windowOriginY               @"windowOriginY"
 
+#define XRG_showSensorWindow            @"showSensorWindow"
+
 #define XRG_borderWidth					@"borderWidth"
 #define XRG_graphOrientationVertical	@"graphOrientationVertical"
 #define XRG_antiAliasing				@"antiAliasing"

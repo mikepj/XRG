@@ -56,11 +56,20 @@
 }
 
 - (void) openSensorWindow {
-    if (!self.sensorWindow) {
-        self.sensorWindow = [[XRGSensorWindow alloc] init];
+    if (!self.sensorViewController) {
+        [NSBundle.mainBundle loadNibNamed:@"Sensors" owner:self topLevelObjects:nil];
     }
-    
-    [self.sensorWindow showWindow:nil];
+
+    [self.sensorWindow makeKeyAndOrderFront:self];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:XRG_showSensorWindow];
+}
+
+- (BOOL)windowShouldClose:(NSWindow *)sender {
+    if (sender == self.sensorWindow) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:XRG_showSensorWindow];
+    }
+
+    return YES;
 }
 
 - (void) changeFont:(id)sender {
@@ -86,6 +95,10 @@
 		[self.xrgGraphWindow.backgroundView minimizeWindow];
 		[self.xrgGraphWindow.backgroundView setClickedMinimized:YES];
 	}
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:XRG_showSensorWindow]) {
+        [self openSensorWindow];
+    }
 }
 
 // Cleanup when the application is quit by the user.

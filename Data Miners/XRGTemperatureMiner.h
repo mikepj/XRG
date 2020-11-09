@@ -37,9 +37,10 @@
 
 @class SMCSensors;
 
+#pragma mark - XRGFan
 @interface XRGFan: NSObject
 
-@property NSString *name;
+@property (nullable) NSString *name;
 @property NSInteger actualSpeed;
 @property NSInteger targetSpeed;
 @property NSInteger minimumSpeed;
@@ -47,16 +48,35 @@
 
 @end
 
+#pragma mark - XRGSensorData
+@interface XRGSensorData: NSObject
 
+@property (nullable) NSString *humanReadableName;
+@property (nullable) NSString *units;
+@property (nonnull) NSString *key;
+
+@property double currentValue;
+@property (nonnull) XRGDataSet *dataSet;
+
+@property BOOL isEnabled;
+
+- (nonnull instancetype)initWithSensorKey:(nonnull NSString *)key;
+
+- (nonnull NSString *)label;
+
+@end
+
+
+#pragma mark - XRGTemperatureMiner
 @interface XRGTemperatureMiner : NSObject {
     host_name_port_t			host;
     host_basic_info_data_t		hostInfo;
     NSInteger                   numCPUs;
 }
 
-@property SMCSensors *smcSensors;
+@property (nonnull) SMCSensors *smcSensors;
 
-+ (instancetype)shared;
++ (nonnull instancetype)shared;
 
 - (void)setDataSize:(int)newNumSamples;
 - (void)reset;
@@ -64,17 +84,14 @@
 
 - (void)updateCurrentTemperatures;
 
-- (NSArray *)locationKeysIncludingUnknown:(BOOL)includeUnknown;
-- (NSArray<NSString *> *)allSensorKeys;
-- (NSString *)unitsForLocation:(NSString *)location;
+- (nonnull NSArray *)locationKeysIncludingUnknown:(BOOL)includeUnknown;
+- (nonnull NSArray<NSString *> *)allSensorKeys;
 - (void)regenerateLocationKeyOrder;
-- (float)currentValueForKey:(NSString *)locationKey;
 - (void)setCurrentValue:(float)value andUnits:(NSString *)units forLocation:(NSString *)location;
-- (XRGDataSet *)dataSetForKey:(NSString *)locationKey;		// If recording a time span of values, returns an XRGDataSet class, 
-															// which I can give you the code for early if you want (it hasn't been
-															// released yet).
-- (NSString *)labelForKey:(NSString *)locationKey;			// return a string label for this location.
+
+- (nullable XRGSensorData *)sensorForLocation:(nonnull NSString *)location;
 
 - (NSArray<XRGFan *> *)fanValues;
 
 @end
+

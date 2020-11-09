@@ -54,7 +54,7 @@
 		278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606201B445FED00CC6249 /* XRGGPUMiner.m */; };
 		278606241B44741B00CC6249 /* XRGGPUView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606231B44741B00CC6249 /* XRGGPUView.m */; };
 		278E90B923F21F6600874941 /* Sensors.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E90B823F21F6600874941 /* Sensors.xib */; };
-		278E90BC23F2208300874941 /* XRGSensorWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E90BB23F2208300874941 /* XRGSensorWindow.m */; };
+		27AB7CFE2558F031002F6773 /* XRGSensorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AB7CFD2558F031002F6773 /* XRGSensorViewController.m */; };
 		27C3A8A52551B4A40004F2EC /* XRGStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C3A8A42551B4A40004F2EC /* XRGStatsManager.m */; };
 		93151A0D254094EF0095E424 /* SMCSensorNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93151A0C254094EF0095E424 /* SMCSensorNames.plist */; };
 		937851AA157CA243001D2A15 /* SMCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851A8157CA243001D2A15 /* SMCInterface.m */; };
@@ -149,8 +149,8 @@
 		278606221B44741B00CC6249 /* XRGGPUView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGGPUView.h; sourceTree = "<group>"; };
 		278606231B44741B00CC6249 /* XRGGPUView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGPUView.m; sourceTree = "<group>"; };
 		278E90B823F21F6600874941 /* Sensors.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Sensors.xib; sourceTree = "<group>"; };
-		278E90BA23F2208300874941 /* XRGSensorWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGSensorWindow.h; sourceTree = "<group>"; };
-		278E90BB23F2208300874941 /* XRGSensorWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGSensorWindow.m; sourceTree = "<group>"; };
+		27AB7CFC2558F031002F6773 /* XRGSensorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGSensorViewController.h; sourceTree = "<group>"; };
+		27AB7CFD2558F031002F6773 /* XRGSensorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGSensorViewController.m; sourceTree = "<group>"; };
 		27C3A8A32551B4A40004F2EC /* XRGStatsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGStatsManager.h; sourceTree = "<group>"; };
 		27C3A8A42551B4A40004F2EC /* XRGStatsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGStatsManager.m; sourceTree = "<group>"; };
 		93151A0C254094EF0095E424 /* SMCSensorNames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SMCSensorNames.plist; sourceTree = "<group>"; };
@@ -238,8 +238,8 @@
 				273ECE8F15740EAF00E65D82 /* XRGPrefController.m */,
 				273ECE9215740EAF00E65D82 /* XRGGraphWindow.h */,
 				273ECE9315740EAF00E65D82 /* XRGGraphWindow.m */,
-				278E90BA23F2208300874941 /* XRGSensorWindow.h */,
-				278E90BB23F2208300874941 /* XRGSensorWindow.m */,
+				27AB7CFC2558F031002F6773 /* XRGSensorViewController.h */,
+				27AB7CFD2558F031002F6773 /* XRGSensorViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = SOURCE_ROOT;
@@ -457,6 +457,7 @@
 			files = (
 				273ECEFA15740EAF00E65D82 /* XRGAppDelegate.m in Sources */,
 				273ECEFB15740EAF00E65D82 /* XRGPrefController.m in Sources */,
+				27AB7CFE2558F031002F6773 /* XRGSensorViewController.m in Sources */,
 				273ECEFD15740EAF00E65D82 /* XRGGraphWindow.m in Sources */,
 				273ECEFF15740EAF00E65D82 /* XRGCPUMiner.m in Sources */,
 				273ECF0015740EAF00E65D82 /* XRGMemoryMiner.m in Sources */,
@@ -471,7 +472,6 @@
 				273ECF0715740EAF00E65D82 /* XRGGenericView.m in Sources */,
 				273ECF0815740EAF00E65D82 /* XRGMemoryView.m in Sources */,
 				273ECF0915740EAF00E65D82 /* XRGNetView.m in Sources */,
-				278E90BC23F2208300874941 /* XRGSensorWindow.m in Sources */,
 				278606241B44741B00CC6249 /* XRGGPUView.m in Sources */,
 				273ECF0A15740EAF00E65D82 /* XRGStockView.m in Sources */,
 				278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */,
@@ -537,7 +537,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -579,7 +579,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
 			name = Release;

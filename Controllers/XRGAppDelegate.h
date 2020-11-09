@@ -26,7 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "XRGPrefController.h"
-#import "XRGSensorWindow.h"
+#import "XRGSensorViewController.h"
 
 @class XRGGraphWindow;
 
@@ -34,8 +34,8 @@
 
 @property (strong) IBOutlet XRGPrefController *prefController;
 @property (strong) IBOutlet XRGGraphWindow *xrgGraphWindow;
-
-@property (strong) XRGSensorWindow *sensorWindow;
+@property (strong) IBOutlet NSWindow *sensorWindow;
+@property (strong) IBOutlet XRGSensorViewController *sensorViewController;
 
 - (IBAction) showPrefs:(id)sender;
 - (void) showPrefsWithPanel:(NSString *)panelName;
