@@ -211,16 +211,15 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
                 
                 // Figure out if we should add a digit (only if there are more than one with this name).
                 BOOL appendIndexToDescription = NO;
-                if ( !isFanKey ) {
-                    if (indexInKey == 0  )	{
-                        // if the key is of form XXX0, see if there is also XXX1
-                        NSString *sensorAtIndexOneKey = [currentKey stringByReplacingOccurrencesOfString:@"0" withString:@"1"];
-                        appendIndexToDescription = [smcKeys containsObject:sensorAtIndexOneKey];
-                        
-                    } else {
-                        appendIndexToDescription = YES;
-                    }
+                if (indexInKey == 0  )	{
+                    // if the key is of form XXX0, see if there is also XXX1
+                    NSString *sensorAtIndexOneKey = [currentKey stringByReplacingOccurrencesOfString:@"0" withString:@"1"];
+                    appendIndexToDescription = [smcKeys containsObject:sensorAtIndexOneKey];
+
+                } else {
+                    appendIndexToDescription = YES;
                 }
+
                 if (appendIndexToDescription) {
                     smcKeyDescription = [smcKeyDescription stringByAppendingFormat:@" #%d", indexInKey];
                 }
