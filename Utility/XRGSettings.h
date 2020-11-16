@@ -26,6 +26,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef NS_ENUM(NSInteger, XRGTemperatureUnits) {
+    XRGTemperatureUnitsF = 0,
+    XRGTemperatureUnitsC
+};
+
 @interface XRGSettings : NSObject
 
 // Colors
@@ -98,7 +103,7 @@
 @property BOOL			antialiasText;
 @property BOOL			cpuShowAverageUsage;
 @property BOOL			cpuShowUptime;
-@property NSInteger		tempUnits;
+@property XRGTemperatureUnits tempUnits;
 @property NSInteger		tempFG1Location;
 @property NSInteger		tempFG2Location;
 @property NSInteger		tempFG3Location;
