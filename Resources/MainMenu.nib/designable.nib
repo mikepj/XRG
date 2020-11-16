@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15A282b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment version="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -16,64 +17,53 @@
             <windowStyleMask key="styleMask" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
             <rect key="contentRect" x="684" y="184" width="84" height="710"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="3360" height="1867"/>
             <value key="minSize" type="size" width="20" height="20"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="84" height="710"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="310" customClass="XRGBackgroundView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="310" customClass="XRGBackgroundView">
                         <rect key="frame" x="0.0" y="0.0" width="84" height="710"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                     </customView>
-                    <customView id="379" customClass="XRGGPUView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="379" customClass="XRGGPUView">
                         <rect key="frame" x="4" y="615" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="309" customClass="XRGNetView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="309" customClass="XRGNetView">
                         <rect key="frame" x="4" y="463" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="196" customClass="XRGCPUView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="196" customClass="XRGCPUView">
                         <rect key="frame" x="4" y="539" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="221" customClass="XRGDiskView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="221" customClass="XRGDiskView">
                         <rect key="frame" x="4" y="387" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="239" customClass="XRGWeatherView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="239" customClass="XRGWeatherView">
                         <rect key="frame" x="4" y="311" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="314" customClass="XRGMemoryView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="314" customClass="XRGMemoryView">
                         <rect key="frame" x="4" y="235" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="317" customClass="XRGStockView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="317" customClass="XRGStockView">
                         <rect key="frame" x="4" y="83" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="375" customClass="XRGTemperatureView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="375" customClass="XRGTemperatureView">
                         <rect key="frame" x="4" y="7" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
-                    <customView id="377" customClass="XRGBatteryView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="377" customClass="XRGBatteryView">
                         <rect key="frame" x="4" y="159" width="76" height="76"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </customView>
                 </subviews>
-                <animations/>
             </view>
             <connections>
                 <outlet property="backgroundView" destination="310" id="316"/>
@@ -257,6 +247,38 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Window" id="OIA-fU-8f8">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Window" systemMenu="window" id="gIC-fL-0JY">
+                        <items>
+                            <menuItem title="Minimize" keyEquivalent="m" id="A9x-Gk-nPl">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="Ytt-i2-zFn"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Zoom" id="MQx-s9-wWv">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="performZoom:" target="-1" id="nna-fU-VEW"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="FnJ-Mq-SWG"/>
+                            <menuItem title="Temperature Sensors" id="8qN-Rr-1tB">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="openSensorWindow:" target="235" id="N3Y-8v-jgb"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="4Sn-aV-Y5j"/>
+                            <menuItem title="Bring All to Front" id="VZr-Cq-443">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="arrangeInFront:" target="-1" id="3jc-D8-gLV"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="Help" id="103">
                     <menu key="submenu" title="Help" id="106">
                         <items>
@@ -269,6 +291,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="4" y="446"/>
         </menu>
         <customObject id="235" userLabel="Controller" customClass="XRGAppDelegate">
             <connections>
