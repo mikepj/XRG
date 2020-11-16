@@ -28,13 +28,6 @@
 #import "XRGDataSet.h"
 #import "SMCSensors.h"
 
-#define GSDataSetKey			@"DataSet"
-#define GSCurrentValueKey		@"CurrentValue"
-#define GSUnitsKey				@"Units"
-#define GSSensorRawKey          @"SensorRawKey"
-#define GSLabelKey				@"Label"
-#define GSEnable				@"Enable"
-
 @class SMCSensors;
 
 #pragma mark - XRGFan

@@ -26,6 +26,7 @@
 
 #import "XRGGraphWindow.h"
 #import "XRGTemperatureView.h"
+#import "XRGStatsManager.h"
 
 @implementation XRGTemperatureView
 

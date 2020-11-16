@@ -84,8 +84,8 @@
 }
 
 - (void)reset {
-    for (NSDictionary *sensorValue in [self.sensorData allValues]) {
-        [sensorValue[GSDataSetKey] reset];
+    for (XRGSensorData *sensor in [self.sensorData allValues]) {
+        [sensor.dataSet reset];
     }
 }
 
@@ -420,7 +420,10 @@
 				
 	// Regenerate our location keys if needed
 	if (needRegen) [self regenerateLocationKeyOrder];
-	
+
+    // Record in XRGStatsManager
+    [[XRGStatsManager shared] observeStat:value forKey:location inModule:XRGStatsModuleNameTemperature];
+
 	#ifdef DEBUG
 		NSLog(@"Set current value: %f (%@) for location: (%@)", value, units, location);
 	#endif
