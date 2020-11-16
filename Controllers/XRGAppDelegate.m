@@ -55,7 +55,7 @@
     else if ([panelName isEqualTo:@"Appearance"])  [self.prefController Colors:self];
 }
 
-- (void) openSensorWindow {
+- (IBAction)openSensorWindow:(id)sender {
     if (!self.sensorViewController) {
         [NSBundle.mainBundle loadNibNamed:@"Sensors" owner:self topLevelObjects:nil];
     }
@@ -97,7 +97,7 @@
 	}
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:XRG_showSensorWindow]) {
-        [self openSensorWindow];
+        [self openSensorWindow:self];
     }
 }
 

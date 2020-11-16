@@ -39,6 +39,6 @@
 
 - (IBAction) showPrefs:(id)sender;
 - (void) showPrefsWithPanel:(NSString *)panelName;
-- (void) openSensorWindow;
+- (IBAction) openSensorWindow:(id)sender;
 
 @end

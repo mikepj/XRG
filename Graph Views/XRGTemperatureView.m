@@ -429,7 +429,7 @@
 }
 
 - (void)showSensorWindow:(NSEvent *)theEvent {
-    [(XRGAppDelegate *)[[NSApplication sharedApplication] delegate] openSensorWindow];
+    [(XRGAppDelegate *)[[NSApplication sharedApplication] delegate] openSensorWindow:self];
 }
 
 - (BOOL) acceptsFirstMouse {
