@@ -99,6 +99,12 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:XRG_showSensorWindow]) {
         [self openSensorWindow:self];
     }
+
+    // This is an ugly hack, but we were running into an issue where the menubar wouldn't be selectable at launch until switching to another app and back to XRG (issue exists as of macOS 10.15).  This will perform that programmatically, and switches to the Dock so the user doesn't notice any UI changes.
+    [[[NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.dock"] firstObject] activateWithOptions:0];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NSApp activateIgnoringOtherApps:YES];
+    });
 }
 
 // Cleanup when the application is quit by the user.
@@ -134,6 +140,14 @@
 	[self.prefController setUpColorPanel];
 
 	return YES;
+}
+
+- (XRGSettings *)appSettings {
+    return [self.xrgGraphWindow appSettings];
+}
+
+- (XRGModuleManager *)moduleManager {
+    return [self.xrgGraphWindow moduleManager];
 }
 
 @end
