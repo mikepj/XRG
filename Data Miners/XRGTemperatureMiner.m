@@ -431,7 +431,7 @@
 	return;
 }
 
-- (void)setDataSize:(int)newNumSamples {
+- (void)setDataSize:(NSInteger)newNumSamples {
     NSArray *a = [self.sensorData allKeys];
 
     for (int i = 0; i < [a count]; i++) {

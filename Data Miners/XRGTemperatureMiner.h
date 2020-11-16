@@ -71,7 +71,7 @@
 
 + (nonnull instancetype)shared;
 
-- (void)setDataSize:(int)newNumSamples;
+- (void)setDataSize:(NSInteger)newNumSamples;
 - (void)reset;
 - (NSInteger)numberOfCPUs;
 

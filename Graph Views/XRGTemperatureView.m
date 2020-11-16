@@ -65,8 +65,8 @@
     graphSize = tmpSize;
 }
 
-- (void)setWidth:(int)newWidth {
-    int newNumSamples = newWidth;
+- (void)setWidth:(NSInteger)newWidth {
+    NSInteger newNumSamples = newWidth;
 
     if (newNumSamples < 0) return;
 
