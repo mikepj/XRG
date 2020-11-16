@@ -417,6 +417,7 @@
 
 - (void)clearData:(NSEvent *)theEvent {
     [[XRGTemperatureMiner shared] reset];
+    [[XRGStatsManager shared] clearHistoryForModule:XRGStatsModuleNameTemperature];
 }
 
 - (void)emptyEvent:(NSEvent *)theEvent {
