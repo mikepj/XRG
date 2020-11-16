@@ -155,6 +155,10 @@
 
 
 #pragma mark - XRGStatsContentItem
+@interface XRGStatsContentItem ()
+@property NSUInteger statsObservedCount;
+@end
+
 @implementation XRGStatsContentItem
 
 - (instancetype)initWithKey:(NSString *)key initialValue:(double)initialValue {
@@ -164,6 +168,8 @@
         self.last = initialValue;
         self.min = initialValue;
         self.max = initialValue;
+        self.average = initialValue;
+        self.statsObservedCount = 1;
     }
     return self;
 }
@@ -175,6 +181,9 @@
     if (value > self.max) {
         self.max = value;
     }
+
+    self.average = (self.average * self.statsObservedCount + value) / (self.statsObservedCount + 1);
+    self.statsObservedCount++;
 
     self.last = value;
 }

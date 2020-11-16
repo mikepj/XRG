@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property double last;
 @property double min;
 @property double max;
+@property double average;
 
 - (instancetype)initWithKey:(NSString *)key initialValue:(double)initialValue;
 - (void)observeStat:(double)value;
