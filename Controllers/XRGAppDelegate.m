@@ -72,7 +72,7 @@
     return YES;
 }
 
-- (void) changeFont:(id)sender {
+- (void)changeFont:(id)sender {
     NSFont *oldFont = [[self.xrgGraphWindow appSettings] graphFont];
     NSFont *newFont = [sender convertFont:oldFont];
     if (oldFont == newFont) return;
@@ -83,11 +83,11 @@
 }
 
 // Cleanup when the application exits caused by a restart or logout
-- (void) NSWorkSpaceWillPowerOffNotification:(NSNotification *)aNotification {
+- (void)NSWorkSpaceWillPowerOffNotification:(NSNotification *)aNotification {
     [self.xrgGraphWindow cleanupBeforeExiting];
 }
 
-- (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[self.xrgGraphWindow.moduleManager windowChangedToSize:self.xrgGraphWindow.frame.size];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:XRG_windowIsMinimized]) {
@@ -102,11 +102,11 @@
 }
 
 // Cleanup when the application is quit by the user.
-- (void) applicationWillTerminate:(NSNotification *)aNotification {
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
     [self.xrgGraphWindow cleanupBeforeExiting];
 }
 
-- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
     if ([filename length] == 0) return NO;
     
 	NSData *themeData = [NSData dataWithContentsOfFile:filename];

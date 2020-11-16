@@ -37,8 +37,8 @@
 @property (strong) IBOutlet NSWindow *sensorWindow;
 @property (strong) IBOutlet XRGSensorViewController *sensorViewController;
 
-- (IBAction) showPrefs:(id)sender;
-- (void) showPrefsWithPanel:(NSString *)panelName;
-- (IBAction) openSensorWindow:(id)sender;
+- (IBAction)showPrefs:(id)sender;
+- (void)showPrefsWithPanel:(NSString *)panelName;
+- (IBAction)openSensorWindow:(id)sender;
 
 @end
