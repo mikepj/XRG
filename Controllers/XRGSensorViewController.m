@@ -9,6 +9,9 @@
 #import "XRGSensorViewController.h"
 #import "XRGTemperatureMiner.h"
 #import "XRGCPUMiner.h"
+#import "XRGSettings.h"
+#import "XRGAppDelegate.h"
+#import "XRGStatsManager.h"
 
 @interface XRGSensorViewController ()
 
@@ -16,11 +19,12 @@
 
 @property IBOutlet NSTextField *nameValuesLabel;
 @property IBOutlet NSTextField *currentValuesLabel;
-@property IBOutlet NSTextField *averageValuesLabel;
-@property IBOutlet NSTextField *minValuesLabel;
-@property IBOutlet NSTextField *maxValuesLabel;
+@property IBOutlet NSTextField *statsValuesLabel;
+@property IBOutlet NSLayoutConstraint *statsWidthConstraint;
 
 @property (weak,nullable) IBOutlet NSButton *exportButton;
+
+@property XRGSettings *appSettings;
 
 @end
 
@@ -33,6 +37,14 @@
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
         [weakSelf refresh];
     }];
+
+    id appDelegate = [NSApp delegate];
+    if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
+        self.appSettings = [(XRGAppDelegate *)appDelegate appSettings];
+    }
+
+    self.statsWidthConstraint = [[self.statsValuesLabel widthAnchor] constraintEqualToConstant:20];
+    [self.statsWidthConstraint setActive:YES];
 }
 
 - (void)refresh {
@@ -40,25 +52,44 @@
 
     NSMutableString *sensorNames = [[NSMutableString alloc] init];
     NSMutableString *currentValues = [[NSMutableString alloc] init];
-    NSMutableString *averageValues = [[NSMutableString alloc] init];
-    NSMutableString *minValues = [[NSMutableString alloc] init];
-    NSMutableString *maxValues = [[NSMutableString alloc] init];
+    NSMutableString *statsValues = [[NSMutableString alloc] init];
+
+    BOOL convertToF = [self.appSettings tempUnits] == XRGTemperatureUnitsF;
+    NSString *cUnitsString = [NSString stringWithFormat:@"%CC", (unsigned short)0x00B0];
+    NSString *fUnitsString = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
+
+    XRGStatsManager *statsManager = [XRGStatsManager shared];
 
     for (NSString *key in sensorKeys) {
         XRGSensorData *sensor = [[XRGTemperatureMiner shared] sensorForLocation:key];
+        XRGStatsContentItem *sensorStats = [statsManager statForKey:key inModule:XRGStatsModuleNameTemperature];
+
+        double current = sensorStats.last;
+        double avg = sensorStats.average;
+        double min = sensorStats.min;
+        double max = sensorStats.max;
+
+        NSString *units = sensor.units;
+        if ([units isEqualToString:cUnitsString] && convertToF) {
+            current = current * 1.8 + 32;
+            avg = avg * 1.8 + 32;
+            min = min * 1.8 + 32;
+            max = max * 1.8 + 32;
+
+            units = fUnitsString;
+        }
 
         [sensorNames appendFormat:@"%@\n", sensor.humanReadableName];
-        [currentValues appendFormat:@"%.0f\n", sensor.currentValue];
-        [averageValues appendFormat:@"%.0f\n", sensor.dataSet.average];
-        [minValues appendFormat:@"%.0f\n", sensor.dataSet.min];
-        [maxValues appendFormat:@"%.0f\n", sensor.dataSet.max];
+        [currentValues appendFormat:@"%.0f%@\n", current, units];
+        [statsValues appendFormat:@"%.0f - %.0f - %.0f\n", min, avg, max];
     }
 
     [self.nameValuesLabel setStringValue:sensorNames];
     [self.currentValuesLabel setStringValue:currentValues];
-    [self.averageValuesLabel setStringValue:averageValues];
-    [self.minValuesLabel setStringValue:minValues];
-    [self.maxValuesLabel setStringValue:maxValues];
+    [self.statsValuesLabel setStringValue:statsValues];
+
+    [self.statsValuesLabel sizeToFit];
+    self.statsWidthConstraint.constant = self.statsValuesLabel.frame.size.width;
 }
 
 - (IBAction)exportAction:(id)sender {

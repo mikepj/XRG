@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -37,81 +37,49 @@
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5NF-9v-94x" userLabel="Sensor Name Header">
                         <rect key="frame" x="6" y="250" width="44" height="14"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Sensor" id="oES-uK-n0f">
-                            <font key="font" metaFont="systemBold" size="11"/>
+                            <font key="font" metaFont="smallSystemBold"/>
                             <color key="textColor" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yCx-Sd-Cgx">
-                        <rect key="frame" x="166" y="250" width="48" height="14"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Current" id="4vg-Qe-vfM">
-                            <font key="font" metaFont="systemBold" size="11"/>
+                        <rect key="frame" x="194" y="250" width="52" height="14"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Current" id="4vg-Qe-vfM">
+                            <font key="font" metaFont="smallSystemBold"/>
                             <color key="textColor" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qvg-A0-YoQ">
-                        <rect key="frame" x="166" y="228" width="48" height="14"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="center" title="Current" id="xhK-wR-9kj">
+                        <rect key="frame" x="194" y="228" width="52" height="14"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="center" id="xhK-wR-9kj">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ufd-Va-m0w">
-                        <rect key="frame" x="237" y="250" width="25" height="14"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Avg" id="62h-Jc-Rfr">
-                            <font key="font" metaFont="systemBold" size="11"/>
+                        <rect key="frame" x="267" y="250" width="95" height="14"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Min - Avg - Max" id="62h-Jc-Rfr">
+                            <font key="font" metaFont="smallSystemBold"/>
                             <color key="textColor" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HR8-58-OtA">
-                        <rect key="frame" x="235" y="228" width="28" height="14"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="center" title="Avg" id="dpe-Kf-Eme">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="geU-28-XMo">
-                        <rect key="frame" x="285" y="250" width="25" height="14"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Min" id="U9v-ja-PlQ">
-                            <font key="font" metaFont="systemBold" size="11"/>
-                            <color key="textColor" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6e1-6U-u1n">
-                        <rect key="frame" x="284" y="228" width="27" height="14"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="center" title="Min" id="5yO-XI-BP8">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AqJ-0h-qFM">
-                        <rect key="frame" x="333" y="250" width="28" height="14"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Max" id="zJi-V2-IKn">
-                            <font key="font" metaFont="systemBold" size="11"/>
-                            <color key="textColor" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q23-gE-VtV">
-                        <rect key="frame" x="332" y="228" width="30" height="14"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="center" title="Max" id="XaX-m9-mnq">
+                        <rect key="frame" x="267" y="228" width="95" height="14"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" alignment="center" id="dpe-Kf-Eme">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Aiu-mm-GJb" userLabel="Sensor Name Values">
-                        <rect key="frame" x="6" y="228" width="80" height="14"/>
+                        <rect key="frame" x="6" y="228" width="54" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="e0L-jg-sHk"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" title="Multiline Label" id="U8i-0f-aQd">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" id="U8i-0f-aQd">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -119,35 +87,26 @@
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="q23-gE-VtV" firstAttribute="leading" secondItem="6e1-6U-u1n" secondAttribute="trailing" constant="25" id="05Z-0C-YaQ"/>
-                    <constraint firstItem="6e1-6U-u1n" firstAttribute="firstBaseline" secondItem="Aiu-mm-GJb" secondAttribute="firstBaseline" id="1AG-4c-0Bd"/>
+                    <constraint firstItem="ufd-Va-m0w" firstAttribute="firstBaseline" secondItem="5NF-9v-94x" secondAttribute="firstBaseline" id="2tO-GT-Rta"/>
                     <constraint firstItem="ufd-Va-m0w" firstAttribute="centerX" secondItem="HR8-58-OtA" secondAttribute="centerX" id="3kR-ch-CGL"/>
-                    <constraint firstItem="HR8-58-OtA" firstAttribute="width" relation="greaterThanOrEqual" secondItem="ufd-Va-m0w" secondAttribute="width" id="58r-Q2-85b"/>
+                    <constraint firstItem="HR8-58-OtA" firstAttribute="width" relation="greaterThanOrEqual" secondItem="ufd-Va-m0w" secondAttribute="width" priority="750" id="3s8-tv-6Ly"/>
                     <constraint firstItem="Aiu-mm-GJb" firstAttribute="leading" secondItem="5NF-9v-94x" secondAttribute="leading" id="6dQ-ym-fg1"/>
                     <constraint firstItem="6il-ei-vdk" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="8" id="6g6-SQ-Xrf"/>
                     <constraint firstItem="Aiu-mm-GJb" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="8" id="7hW-bc-vWW"/>
                     <constraint firstItem="Aiu-mm-GJb" firstAttribute="top" secondItem="5NF-9v-94x" secondAttribute="bottom" constant="8" id="8wo-Cg-F9K"/>
-                    <constraint firstAttribute="trailing" secondItem="q23-gE-VtV" secondAttribute="trailing" constant="8" id="9Gb-Fw-W8N"/>
                     <constraint firstItem="yCx-Sd-Cgx" firstAttribute="centerX" secondItem="Qvg-A0-YoQ" secondAttribute="centerX" id="ApE-Zd-ly3"/>
-                    <constraint firstItem="yCx-Sd-Cgx" firstAttribute="firstBaseline" secondItem="AqJ-0h-qFM" secondAttribute="firstBaseline" id="Bey-5j-iS8"/>
                     <constraint firstItem="Qvg-A0-YoQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Aiu-mm-GJb" secondAttribute="trailing" constant="25" id="HAv-6u-Jy6"/>
-                    <constraint firstItem="geU-28-XMo" firstAttribute="firstBaseline" secondItem="AqJ-0h-qFM" secondAttribute="firstBaseline" id="Kj1-yH-gTN"/>
-                    <constraint firstItem="q23-gE-VtV" firstAttribute="width" relation="greaterThanOrEqual" secondItem="AqJ-0h-qFM" secondAttribute="width" id="Kxk-h3-7Mh"/>
                     <constraint firstItem="5NF-9v-94x" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="8" id="MxA-QT-Wla"/>
                     <constraint firstItem="HR8-58-OtA" firstAttribute="leading" secondItem="Qvg-A0-YoQ" secondAttribute="trailing" constant="25" id="NgH-WV-luz"/>
                     <constraint firstItem="5NF-9v-94x" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="8" id="Ras-Sl-wdd"/>
-                    <constraint firstItem="6e1-6U-u1n" firstAttribute="width" relation="greaterThanOrEqual" secondItem="geU-28-XMo" secondAttribute="width" id="UqY-Cp-p3D"/>
-                    <constraint firstItem="AqJ-0h-qFM" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="8" id="WGd-Zu-MHZ"/>
-                    <constraint firstItem="Aiu-mm-GJb" firstAttribute="firstBaseline" secondItem="q23-gE-VtV" secondAttribute="firstBaseline" id="b3Z-Zp-PZp"/>
-                    <constraint firstItem="geU-28-XMo" firstAttribute="centerX" secondItem="6e1-6U-u1n" secondAttribute="centerX" id="b3u-Nt-6mW"/>
+                    <constraint firstItem="yCx-Sd-Cgx" firstAttribute="firstBaseline" secondItem="5NF-9v-94x" secondAttribute="firstBaseline" id="WvS-LT-zqA"/>
+                    <constraint firstAttribute="trailing" secondItem="ufd-Va-m0w" secondAttribute="trailing" priority="750" constant="8" id="ZK0-5A-RsY"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HR8-58-OtA" secondAttribute="trailing" constant="8" id="byk-wQ-JAY"/>
                     <constraint firstAttribute="bottom" secondItem="6il-ei-vdk" secondAttribute="bottom" constant="8" id="eL5-bM-kdu"/>
                     <constraint firstItem="Qvg-A0-YoQ" firstAttribute="firstBaseline" secondItem="Aiu-mm-GJb" secondAttribute="firstBaseline" id="fcy-tZ-Rp5"/>
                     <constraint firstItem="6il-ei-vdk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Aiu-mm-GJb" secondAttribute="bottom" constant="8" id="gey-g8-0pg"/>
-                    <constraint firstItem="ufd-Va-m0w" firstAttribute="firstBaseline" secondItem="AqJ-0h-qFM" secondAttribute="firstBaseline" id="kXg-pK-nbI"/>
                     <constraint firstItem="HR8-58-OtA" firstAttribute="firstBaseline" secondItem="Aiu-mm-GJb" secondAttribute="firstBaseline" id="lf4-vQ-hPU"/>
-                    <constraint firstItem="AqJ-0h-qFM" firstAttribute="centerX" secondItem="q23-gE-VtV" secondAttribute="centerX" id="mnM-WA-0MF"/>
                     <constraint firstItem="Qvg-A0-YoQ" firstAttribute="width" relation="greaterThanOrEqual" secondItem="yCx-Sd-Cgx" secondAttribute="width" id="omt-ac-R08"/>
-                    <constraint firstItem="6e1-6U-u1n" firstAttribute="leading" secondItem="HR8-58-OtA" secondAttribute="trailing" constant="25" id="yT8-Ry-FzX"/>
                 </constraints>
             </view>
             <connections>
@@ -157,12 +116,10 @@
         </window>
         <viewController id="10G-0q-Mi8" customClass="XRGSensorViewController">
             <connections>
-                <outlet property="averageValuesLabel" destination="HR8-58-OtA" id="Eoy-M8-JQR"/>
                 <outlet property="currentValuesLabel" destination="Qvg-A0-YoQ" id="2f4-VM-bm3"/>
                 <outlet property="exportButton" destination="6il-ei-vdk" id="zkh-tw-dtC"/>
-                <outlet property="maxValuesLabel" destination="q23-gE-VtV" id="CDQ-un-NiV"/>
-                <outlet property="minValuesLabel" destination="6e1-6U-u1n" id="1lW-uY-6de"/>
                 <outlet property="nameValuesLabel" destination="Aiu-mm-GJb" id="Uig-V1-p0D"/>
+                <outlet property="statsValuesLabel" destination="HR8-58-OtA" id="Eoy-M8-JQR"/>
                 <outlet property="view" destination="EiT-Mj-1SZ" id="t82-J9-BfS"/>
             </connections>
         </viewController>
