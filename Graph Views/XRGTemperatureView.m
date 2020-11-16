@@ -152,7 +152,7 @@
 
     // Now create the value string
     NSString *valueString = nil;
-    if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
+    if ([appSettings tempUnits] == XRGTemperatureUnitsF && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
         units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
         adaptedValue = primaryValue * 1.8 + 32.;
     }
@@ -314,7 +314,7 @@
 		[s appendAttributedString:[[NSAttributedString alloc] initWithString:label attributes:sAttributes]];
         
         // Now add the temperature
-        if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
+        if ([appSettings tempUnits] == XRGTemperatureUnitsF && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
 			units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
 			locationTemperature = locationTemperature * 1.8 + 32.;
         }
@@ -383,7 +383,7 @@
 		}
 		
         // Now add the temperature
-        if ([appSettings tempUnits] == 0 && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
+        if ([appSettings tempUnits] == XRGTemperatureUnitsF && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
 			units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
 			locationTemperature = locationTemperature * 1.8 + 32.;
 			[s appendFormat:@"%3.1f%@", locationTemperature, units];
