@@ -56,6 +56,7 @@
 		278E90B923F21F6600874941 /* Sensors.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E90B823F21F6600874941 /* Sensors.xib */; };
 		27AB7CFE2558F031002F6773 /* XRGSensorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AB7CFD2558F031002F6773 /* XRGSensorViewController.m */; };
 		27C3A8A52551B4A40004F2EC /* XRGStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C3A8A42551B4A40004F2EC /* XRGStatsManager.m */; };
+		27DA9FA22566232500DACB07 /* XRGFlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DA9FA12566232500DACB07 /* XRGFlippedView.m */; };
 		93151A0D254094EF0095E424 /* SMCSensorNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93151A0C254094EF0095E424 /* SMCSensorNames.plist */; };
 		937851AA157CA243001D2A15 /* SMCInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851A8157CA243001D2A15 /* SMCInterface.m */; };
 		937851AD157CA5D0001D2A15 /* SMCSensors.m in Sources */ = {isa = PBXBuildFile; fileRef = 937851AC157CA5D0001D2A15 /* SMCSensors.m */; };
@@ -153,6 +154,8 @@
 		27AB7CFD2558F031002F6773 /* XRGSensorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGSensorViewController.m; sourceTree = "<group>"; };
 		27C3A8A32551B4A40004F2EC /* XRGStatsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGStatsManager.h; sourceTree = "<group>"; };
 		27C3A8A42551B4A40004F2EC /* XRGStatsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGStatsManager.m; sourceTree = "<group>"; };
+		27DA9FA02566232500DACB07 /* XRGFlippedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGFlippedView.h; sourceTree = "<group>"; };
+		27DA9FA12566232500DACB07 /* XRGFlippedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGFlippedView.m; sourceTree = "<group>"; };
 		93151A0C254094EF0095E424 /* SMCSensorNames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SMCSensorNames.plist; sourceTree = "<group>"; };
 		937851A7157CA243001D2A15 /* SMCInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCInterface.h; sourceTree = "<group>"; };
 		937851A8157CA243001D2A15 /* SMCInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCInterface.m; sourceTree = "<group>"; };
@@ -350,6 +353,8 @@
 				27186E2B1D88EA7A003DF559 /* XRGCommon.m */,
 				27C3A8A32551B4A40004F2EC /* XRGStatsManager.h */,
 				27C3A8A42551B4A40004F2EC /* XRGStatsManager.m */,
+				27DA9FA02566232500DACB07 /* XRGFlippedView.h */,
+				27DA9FA12566232500DACB07 /* XRGFlippedView.m */,
 			);
 			path = Utility;
 			sourceTree = SOURCE_ROOT;
@@ -466,6 +471,7 @@
 				273ECF0215740EAF00E65D82 /* XRGTemperatureMiner.m in Sources */,
 				273ECF0315740EAF00E65D82 /* XRGBackgroundView.m in Sources */,
 				27186E2C1D88EA7A003DF559 /* XRGCommon.m in Sources */,
+				27DA9FA22566232500DACB07 /* XRGFlippedView.m in Sources */,
 				273ECF0415740EAF00E65D82 /* XRGBatteryView.m in Sources */,
 				273ECF0515740EAF00E65D82 /* XRGCPUView.m in Sources */,
 				273ECF0615740EAF00E65D82 /* XRGDiskView.m in Sources */,
