@@ -60,6 +60,7 @@
         [NSBundle.mainBundle loadNibNamed:@"Sensors" owner:self topLevelObjects:nil];
     }
 
+    [self.sensorWindow setLevel:NSNormalWindowLevel];
     [self.sensorWindow makeKeyAndOrderFront:self];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:XRG_showSensorWindow];
 }
