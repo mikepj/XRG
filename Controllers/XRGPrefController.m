@@ -1069,6 +1069,7 @@
     NSRect newWindowSize = [newView frame];
     newWindowSize.origin.x = [window frame].origin.x;
     newWindowSize.origin.y = [window frame].origin.y + [oldView frame].size.height - newWindowSize.size.height;
+    newWindowSize.size.width = MAX(newWindowSize.size.width, 500);
     newWindowSize.size.height = [window frame].size.height - [oldView frame].size.height + newWindowSize.size.height;
 
     NSRect oldViewSize = [oldView frame];
