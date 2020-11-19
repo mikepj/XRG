@@ -104,9 +104,9 @@ typedef NS_ENUM(NSInteger, XRGTemperatureUnits) {
 @property BOOL			cpuShowAverageUsage;
 @property BOOL			cpuShowUptime;
 @property XRGTemperatureUnits tempUnits;
-@property NSInteger		tempFG1Location;
-@property NSInteger		tempFG2Location;
-@property NSInteger		tempFG3Location;
+@property NSString		*tempFG1Location;
+@property NSString		*tempFG2Location;
+@property NSString		*tempFG3Location;
 @property BOOL          isDockIconHidden;
 
 - (void) readXTFDictionary:(NSDictionary *)xtfD;

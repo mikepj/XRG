@@ -126,16 +126,11 @@
         return;
     }
     
-    // Get our main sensor index.
-    NSInteger primaryIndex = [appSettings tempFG1Location] - 1;
-    if (primaryIndex < 0 || primaryIndex >= [locations count]) {
-        primaryIndex = 0;
-    }
-
-    XRGSensorData *sensor = [[XRGTemperatureMiner shared] sensorForLocation:locations[primaryIndex]];
+    // Get our main sensor.
+    XRGSensorData *sensor = [self sensor1];
     
     // Get the label for this sensor.
-    NSString *primaryLabel = sensor.label;
+    NSString *primaryLabel = sensor.humanReadableName;
     if (!primaryLabel) {
         [@"Temperature n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
         return;
@@ -217,26 +212,23 @@
         }
     }
     
-    XRGDataSet *dataSet1 = nil;
-    XRGDataSet *dataSet2 = nil;
-    XRGDataSet *dataSet3 = nil;
+    XRGDataSet *dataSet1 = [self sensor1].dataSet;
+    XRGDataSet *dataSet2 = [self sensor2].dataSet;
+    XRGDataSet *dataSet3 = [self sensor3].dataSet;
     float maxValue = 0;
 	float minValue = 9999999.f;
-    
-    if ([appSettings tempFG1Location] > 0 && [appSettings tempFG1Location] <= [locations count]) {
-        dataSet1 = [[XRGTemperatureMiner shared] sensorForLocation:locations[[appSettings tempFG1Location] - 1]].dataSet;
+
+    if (dataSet1) {
         if ([dataSet1 max] > maxValue) maxValue = [dataSet1 max];
 		if ([dataSet1 min] < minValue) minValue = [dataSet1 min];
     }
 
-    if ([appSettings tempFG2Location] > 0 && [appSettings tempFG2Location] <= [locations count]) {
-        dataSet2 = [[XRGTemperatureMiner shared] sensorForLocation:locations[[appSettings tempFG2Location] - 1]].dataSet;
+    if (dataSet2) {
         if ([dataSet2 max] > maxValue) maxValue = [dataSet2 max];
 		if ([dataSet2 min] < minValue) minValue = [dataSet2 min];
     }
 
-    if ([appSettings tempFG3Location] > 0 && [appSettings tempFG3Location] <= [locations count]) {
-        dataSet3 = [[XRGTemperatureMiner shared] sensorForLocation:locations[[appSettings tempFG3Location] - 1]].dataSet;
+    if (dataSet3) {
         if ([dataSet3 max] > maxValue) maxValue = [dataSet3 max];
  		if ([dataSet3 min] < minValue) minValue = [dataSet3 min];
     }
@@ -275,13 +267,13 @@
         XRGSensorData *sensor = [[XRGTemperatureMiner shared] sensorForLocation:locations[i]];
 
 		NSColor *lineColor = [appSettings textColor];
-		if (i == [appSettings tempFG1Location] - 1) {
+		if (sensor.key == [appSettings tempFG1Location]) {
 			lineColor = [[appSettings graphFG1Color] colorWithAlphaComponent:[appSettings textTransparency]];
 		}
-		else if (i == [appSettings tempFG2Location] - 1) {
+		else if (sensor.key == [appSettings tempFG2Location]) {
 			lineColor = [[appSettings graphFG2Color] colorWithAlphaComponent:[appSettings textTransparency]];
 		}
-		else if (i == [appSettings tempFG3Location] - 1) {
+		else if (sensor.key == [appSettings tempFG3Location]) {
 			lineColor = [[appSettings graphFG3Color] colorWithAlphaComponent:[appSettings textTransparency]];
 		}
 		if (lineColor) {
@@ -342,6 +334,21 @@
     [s drawInRect:leftRect];
         
     [gc setShouldAntialias:YES];
+}
+
+- (XRGSensorData *)sensor1 {
+    NSString *sensorKey = [appSettings tempFG1Location];
+    return [XRGTemperatureMiner.shared sensorForLocation:sensorKey];
+}
+
+- (XRGSensorData *)sensor2 {
+    NSString *sensorKey = [appSettings tempFG2Location];
+    return [XRGTemperatureMiner.shared sensorForLocation:sensorKey];
+}
+
+- (XRGSensorData *)sensor3 {
+    NSString *sensorKey = [appSettings tempFG3Location];
+    return [XRGTemperatureMiner.shared sensorForLocation:sensorKey];
 }
 
 - (BOOL)showUnknownSensors {

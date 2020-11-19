@@ -259,9 +259,11 @@
     
     // Temperature graph options
     [defs setInteger: [tempUnits indexOfSelectedItem]                                forKey:XRG_tempUnits];
-    [defs setInteger: [tempFG1Location indexOfSelectedItem]                          forKey:XRG_tempFG1Location];
-    [defs setInteger: [tempFG2Location indexOfSelectedItem]                          forKey:XRG_tempFG2Location];
-    [defs setInteger: [tempFG3Location indexOfSelectedItem]                          forKey:XRG_tempFG3Location];
+    if (self.temperatureSensors.count > 0) {
+        [defs setObject:self.temperatureSensors[[tempFG1Location indexOfSelectedItem]].key forKey:XRG_tempFG1Location];
+        [defs setObject:self.temperatureSensors[[tempFG2Location indexOfSelectedItem]].key forKey:XRG_tempFG2Location];
+        [defs setObject:self.temperatureSensors[[tempFG3Location indexOfSelectedItem]].key forKey:XRG_tempFG3Location];
+    }
 
     [defs setObject: ([stockShowChange state] == NSOnState ? @"YES" : @"NO")         forKey:XRG_stockShowChange];    
     [defs setObject: ([showDJIA state] == NSOnState ? @"YES" : @"NO")                forKey:XRG_showDJIA];
@@ -603,27 +605,37 @@
     XRGTemperatureMiner *temperatureMiner = [XRGTemperatureMiner shared];
     if (temperatureMiner) {
         NSArray *locations = [temperatureMiner locationKeysIncludingUnknown:[[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors]];
-        NSInteger numLocations = [locations count];
+        NSMutableArray *sensors = [NSMutableArray array];
+        for (NSString *location in locations) {
+            [sensors addObject:[temperatureMiner sensorForLocation:location]];
+        }
+        self.temperatureSensors = sensors;
+        NSInteger numLocations = [sensors count];
 		
         if (numLocations > 0) {
             [tempFG1Location addItemWithTitle:@"None"];
             [tempFG2Location addItemWithTitle:@"None"];
             [tempFG3Location addItemWithTitle:@"None"];
-        
-            [tempFG1Location addItemsWithTitles:locations];
-            [tempFG2Location addItemsWithTitles:locations];
-            [tempFG3Location addItemsWithTitles:locations];
 
-			NSInteger temp1Index = self.xrgGraphWindow.appSettings.tempFG1Location;
-			NSInteger temp2Index = self.xrgGraphWindow.appSettings.tempFG2Location;
-			NSInteger temp3Index = self.xrgGraphWindow.appSettings.tempFG3Location;
+            for (XRGSensorData *sensor in sensors) {
+                [tempFG1Location addItemWithTitle:sensor.humanReadableName];
+                [tempFG2Location addItemWithTitle:sensor.humanReadableName];
+                [tempFG3Location addItemWithTitle:sensor.humanReadableName];
+            }
+
+			NSString *temp1Key = self.xrgGraphWindow.appSettings.tempFG1Location;
+			NSString *temp2Key = self.xrgGraphWindow.appSettings.tempFG2Location;
+			NSString *temp3Key = self.xrgGraphWindow.appSettings.tempFG3Location;
+            NSInteger temp1Index = [locations indexOfObject:temp1Key];
+            NSInteger temp2Index = [locations indexOfObject:temp2Key];
+            NSInteger temp3Index = [locations indexOfObject:temp3Key];
 			if (temp1Index < 0 | temp1Index >= numLocations) temp1Index = 0;
 			if (temp2Index < 0 | temp2Index >= numLocations) temp2Index = 0;
 			if (temp3Index < 0 | temp3Index >= numLocations) temp3Index = 0;
 			
-            [tempFG1Location selectItemAtIndex:temp1Index];
-            [tempFG2Location selectItemAtIndex:temp2Index];
-            [tempFG3Location selectItemAtIndex:temp3Index];
+            [tempFG1Location selectItemAtIndex:temp1Index+1];
+            [tempFG2Location selectItemAtIndex:temp2Index+1];
+            [tempFG3Location selectItemAtIndex:temp3Index+1];
         }
         else {
             [tempFG1Location addItemWithTitle:@"No Sensors Found"];

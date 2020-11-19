@@ -258,9 +258,9 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.appSettings setMemoryShowPage:         [defs[XRG_memoryShowPage] boolValue]];
     
     [self.appSettings setTempUnits:              [defs[XRG_tempUnits] intValue]];
-    [self.appSettings setTempFG1Location:        [defs[XRG_tempFG1Location] intValue]];
-    [self.appSettings setTempFG2Location:        [defs[XRG_tempFG2Location] intValue]];
-    [self.appSettings setTempFG3Location:        [defs[XRG_tempFG3Location] intValue]];
+    [self.appSettings setTempFG1Location:        defs[XRG_tempFG1Location]];
+    [self.appSettings setTempFG2Location:        defs[XRG_tempFG2Location]];
+    [self.appSettings setTempFG3Location:        defs[XRG_tempFG3Location]];
 
     [self.appSettings setNetMinGraphScale:            [defs[XRG_netMinGraphScale] intValue]];
     [self.appSettings setNetGraphMode:                [defs[XRG_netGraphMode] intValue]];
@@ -813,17 +813,47 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 }
 
 - (IBAction)setTempFG1Location:(id)sender {
-    [self.appSettings setTempFG1Location:[sender indexOfSelectedItem]];
+    id appDelegate = NSApp.delegate;
+    if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
+        XRGAppDelegate *xrgDelegate = appDelegate;
+
+        NSUInteger selectedIndex = [sender indexOfSelectedItem];
+        if (selectedIndex < xrgDelegate.prefController.temperatureSensors.count) {
+            XRGSensorData *selectedSensor = xrgDelegate.prefController.temperatureSensors[selectedIndex];
+            [self.appSettings setTempFG1Location:selectedSensor.key];
+        }
+    }
+
     [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG2Location:(id)sender {
-    [self.appSettings setTempFG2Location:[sender indexOfSelectedItem]];
+    id appDelegate = NSApp.delegate;
+    if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
+        XRGAppDelegate *xrgDelegate = appDelegate;
+
+        NSUInteger selectedIndex = [sender indexOfSelectedItem];
+        if (selectedIndex < xrgDelegate.prefController.temperatureSensors.count) {
+            XRGSensorData *selectedSensor = xrgDelegate.prefController.temperatureSensors[selectedIndex];
+            [self.appSettings setTempFG2Location:selectedSensor.key];
+        }
+    }
+
     [self.temperatureView setNeedsDisplay:YES];
 }
 
 - (IBAction)setTempFG3Location:(id)sender {
-    [self.appSettings setTempFG3Location:[sender indexOfSelectedItem]];
+    id appDelegate = NSApp.delegate;
+    if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
+        XRGAppDelegate *xrgDelegate = appDelegate;
+
+        NSUInteger selectedIndex = [sender indexOfSelectedItem];
+        if (selectedIndex < xrgDelegate.prefController.temperatureSensors.count) {
+            XRGSensorData *selectedSensor = xrgDelegate.prefController.temperatureSensors[selectedIndex];
+            [self.appSettings setTempFG3Location:selectedSensor.key];
+        }
+    }
+
     [self.temperatureView setNeedsDisplay:YES];
 }
 

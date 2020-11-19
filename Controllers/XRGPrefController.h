@@ -25,6 +25,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "XRGTemperatureMiner.h"
 
 @class XRGGraphWindow;
 
@@ -133,6 +134,7 @@
 }
 
 @property (weak) XRGGraphWindow *xrgGraphWindow;
+@property NSArray<XRGSensorData *> *temperatureSensors;
 
 - (IBAction)save:(id)sender;
 - (IBAction)revert:(id)sender;
