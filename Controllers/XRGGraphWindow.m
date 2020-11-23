@@ -812,48 +812,18 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.temperatureView setNeedsDisplay:YES];
 }
 
-- (IBAction)setTempFG1Location:(id)sender {
-    id appDelegate = NSApp.delegate;
-    if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
-        XRGAppDelegate *xrgDelegate = appDelegate;
-
-        NSUInteger selectedIndex = [sender indexOfSelectedItem];
-        if (selectedIndex < xrgDelegate.prefController.temperatureSensors.count) {
-            XRGSensorData *selectedSensor = xrgDelegate.prefController.temperatureSensors[selectedIndex];
-            [self.appSettings setTempFG1Location:selectedSensor.key];
-        }
-    }
-
+- (IBAction)setTempFG1Location:(NSMenuItem *)sender {
+    [self.appSettings setTempFG1Location:sender.representedObject];
     [self.temperatureView setNeedsDisplay:YES];
 }
 
-- (IBAction)setTempFG2Location:(id)sender {
-    id appDelegate = NSApp.delegate;
-    if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
-        XRGAppDelegate *xrgDelegate = appDelegate;
-
-        NSUInteger selectedIndex = [sender indexOfSelectedItem];
-        if (selectedIndex < xrgDelegate.prefController.temperatureSensors.count) {
-            XRGSensorData *selectedSensor = xrgDelegate.prefController.temperatureSensors[selectedIndex];
-            [self.appSettings setTempFG2Location:selectedSensor.key];
-        }
-    }
-
+- (IBAction)setTempFG2Location:(NSMenuItem *)sender {
+    [self.appSettings setTempFG2Location:sender.representedObject];
     [self.temperatureView setNeedsDisplay:YES];
 }
 
-- (IBAction)setTempFG3Location:(id)sender {
-    id appDelegate = NSApp.delegate;
-    if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
-        XRGAppDelegate *xrgDelegate = appDelegate;
-
-        NSUInteger selectedIndex = [sender indexOfSelectedItem];
-        if (selectedIndex < xrgDelegate.prefController.temperatureSensors.count) {
-            XRGSensorData *selectedSensor = xrgDelegate.prefController.temperatureSensors[selectedIndex];
-            [self.appSettings setTempFG3Location:selectedSensor.key];
-        }
-    }
-
+- (IBAction)setTempFG3Location:(NSMenuItem *)sender {
+    [self.appSettings setTempFG3Location:sender.representedObject];
     [self.temperatureView setNeedsDisplay:YES];
 }
 

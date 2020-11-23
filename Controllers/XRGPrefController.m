@@ -260,9 +260,14 @@
     // Temperature graph options
     [defs setInteger: [tempUnits indexOfSelectedItem]                                forKey:XRG_tempUnits];
     if (self.temperatureSensors.count > 0) {
-        [defs setObject:self.temperatureSensors[[tempFG1Location indexOfSelectedItem]].key forKey:XRG_tempFG1Location];
-        [defs setObject:self.temperatureSensors[[tempFG2Location indexOfSelectedItem]].key forKey:XRG_tempFG2Location];
-        [defs setObject:self.temperatureSensors[[tempFG3Location indexOfSelectedItem]].key forKey:XRG_tempFG3Location];
+        NSInteger tempFG1SelectedIndex = [tempFG1Location indexOfSelectedItem];
+        [defs setObject:tempFG1SelectedIndex > 0 ? self.temperatureSensors[tempFG1SelectedIndex - 1].key : nil forKey:XRG_tempFG1Location];
+
+        NSInteger tempFG2SelectedIndex = [tempFG2Location indexOfSelectedItem];
+        [defs setObject:tempFG2SelectedIndex > 0 ? self.temperatureSensors[tempFG2SelectedIndex - 1].key : nil forKey:XRG_tempFG2Location];
+
+        NSInteger tempFG3SelectedIndex = [tempFG3Location indexOfSelectedItem];
+        [defs setObject:tempFG3SelectedIndex > 0 ? self.temperatureSensors[tempFG3SelectedIndex - 1].key : nil forKey:XRG_tempFG3Location];
     }
 
     [defs setObject: ([stockShowChange state] == NSOnState ? @"YES" : @"NO")         forKey:XRG_stockShowChange];    
@@ -606,21 +611,37 @@
     if (temperatureMiner) {
         NSArray *locations = [temperatureMiner locationKeysIncludingUnknown:[[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors]];
         NSMutableArray *sensors = [NSMutableArray array];
+        NSMutableArray<NSString *> *locationTitles = [NSMutableArray array];
         for (NSString *location in locations) {
-            [sensors addObject:[temperatureMiner sensorForLocation:location]];
+            XRGSensorData *sensor = [temperatureMiner sensorForLocation:location];
+            [sensors addObject:sensor];
+            [locationTitles addObject:sensor.label];
         }
         self.temperatureSensors = sensors;
         NSInteger numLocations = [sensors count];
-		
+
         if (numLocations > 0) {
             [tempFG1Location addItemWithTitle:@"None"];
             [tempFG2Location addItemWithTitle:@"None"];
             [tempFG3Location addItemWithTitle:@"None"];
 
-            for (XRGSensorData *sensor in sensors) {
-                [tempFG1Location addItemWithTitle:sensor.humanReadableName];
-                [tempFG2Location addItemWithTitle:sensor.humanReadableName];
-                [tempFG3Location addItemWithTitle:sensor.humanReadableName];
+            for (NSInteger i = 0; i < sensors.count; i++) {
+                XRGSensorData *sensor = sensors[i];
+
+                NSMenuItem *item1 = [[NSMenuItem alloc] initWithTitle:sensor.label action:@selector(setTempFG1Location:) keyEquivalent:@""];
+                item1.target = self.xrgGraphWindow;
+                item1.representedObject = sensor.key;
+                [[tempFG1Location menu] addItem:item1];
+
+                NSMenuItem *item2 = [[NSMenuItem alloc] initWithTitle:sensor.label action:@selector(setTempFG2Location:) keyEquivalent:@""];
+                item2.target = self.xrgGraphWindow;
+                item2.representedObject = sensor.key;
+                [[tempFG2Location menu] addItem:item2];
+
+                NSMenuItem *item3 = [[NSMenuItem alloc] initWithTitle:sensor.label action:@selector(setTempFG3Location:) keyEquivalent:@""];
+                item3.target = self.xrgGraphWindow;
+                item3.representedObject = sensor.key;
+                [[tempFG3Location menu] addItem:item3];
             }
 
 			NSString *temp1Key = self.xrgGraphWindow.appSettings.tempFG1Location;
@@ -629,9 +650,9 @@
             NSInteger temp1Index = [locations indexOfObject:temp1Key];
             NSInteger temp2Index = [locations indexOfObject:temp2Key];
             NSInteger temp3Index = [locations indexOfObject:temp3Key];
-			if (temp1Index < 0 | temp1Index >= numLocations) temp1Index = 0;
-			if (temp2Index < 0 | temp2Index >= numLocations) temp2Index = 0;
-			if (temp3Index < 0 | temp3Index >= numLocations) temp3Index = 0;
+			if (temp1Index < 0 | temp1Index >= numLocations) temp1Index = -1;
+			if (temp2Index < 0 | temp2Index >= numLocations) temp2Index = -1;
+			if (temp3Index < 0 | temp3Index >= numLocations) temp3Index = -1;
 			
             [tempFG1Location selectItemAtIndex:temp1Index+1];
             [tempFG2Location selectItemAtIndex:temp2Index+1];

@@ -140,9 +140,9 @@
 - (IBAction)setMemoryCheckbox:(id)sender;
 
 - (IBAction)setTempUnits:(id)sender;
-- (IBAction)setTempFG1Location:(id)sender;
-- (IBAction)setTempFG2Location:(id)sender;
-- (IBAction)setTempFG3Location:(id)sender;
+- (IBAction)setTempFG1Location:(NSMenuItem *)sender;
+- (IBAction)setTempFG2Location:(NSMenuItem *)sender;
+- (IBAction)setTempFG3Location:(NSMenuItem *)sender;
 
 - (IBAction)setNetGraphMode:(id)sender;
 - (IBAction)setNetworkInterface:(id)sender;
