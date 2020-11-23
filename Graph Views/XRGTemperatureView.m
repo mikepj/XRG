@@ -189,10 +189,8 @@
 - (void)drawGraph {
     NSGraphicsContext *gc = [NSGraphicsContext currentContext];
 
-    int i;
+    NSRect paddedTextRect = [self paddedTextRect];
     float textRectHeight = [appSettings textRectHeight];
-
-    NSRect textRect = [self paddedTextRect];
 
     [gc setShouldAntialias:[appSettings antiAliasing]];
 
@@ -200,140 +198,124 @@
     
     if ([locations count] == 0) {
         // This machine isn't supported.
-        if ([@"No Sensors Found" sizeWithAttributes:[appSettings alignRightAttributes]].width < textRect.size.width) {
-            textRect.origin.y -= textRectHeight;
-            textRect.size.height += textRectHeight;
-            [@"No Sensors Found" drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+        if ([@"No Sensors Found" sizeWithAttributes:[appSettings alignRightAttributes]].width < paddedTextRect.size.width) {
+            [@"No Sensors Found" drawInRect:paddedTextRect withAttributes:[appSettings alignLeftAttributes]];
         }
         else {
-            textRect.origin.y -= textRectHeight * 2;
-            textRect.size.height += textRectHeight * 2;
-            [@"No Sensors\nFound" drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];            
+            [@"No Sensors\nFound" drawInRect:paddedTextRect withAttributes:[appSettings alignLeftAttributes]];
         }
     }
-    
-    XRGDataSet *dataSet1 = [self sensor1].dataSet;
-    XRGDataSet *dataSet2 = [self sensor2].dataSet;
-    XRGDataSet *dataSet3 = [self sensor3].dataSet;
-    float maxValue = 0;
-	float minValue = 9999999.f;
 
-    if (dataSet1) {
-        if ([dataSet1 max] > maxValue) maxValue = [dataSet1 max];
-		if ([dataSet1 min] < minValue) minValue = [dataSet1 min];
+    XRGSensorData *sensor1 = [self sensor1];
+    XRGSensorData *sensor2 = [self sensor2];
+    XRGSensorData *sensor3 = [self sensor3];
+
+    BOOL sensor1IsFan = [[XRGTemperatureMiner shared] isFanSensor:sensor1];
+    BOOL sensor2IsFan = [[XRGTemperatureMiner shared] isFanSensor:sensor2];
+    BOOL sensor3IsFan = [[XRGTemperatureMiner shared] isFanSensor:sensor3];
+
+    NSMutableArray<XRGSensorData *> *sensors = [NSMutableArray array];
+    if (sensor1) [sensors addObject:sensor1];
+    if (sensor2) [sensors addObject:sensor2];
+    if (sensor3) [sensors addObject:sensor3];
+
+    float temperatureMax = 0;
+    float temperatureMin = 9999999.f;
+
+    if (sensor1.dataSet && !sensor1IsFan) {
+        temperatureMax = MAX(temperatureMax, sensor1.dataSet.max);
+        temperatureMin = MIN(temperatureMin, sensor1.dataSet.min);
     }
 
-    if (dataSet2) {
-        if ([dataSet2 max] > maxValue) maxValue = [dataSet2 max];
-		if ([dataSet2 min] < minValue) minValue = [dataSet2 min];
+    if (sensor2.dataSet && !sensor2IsFan) {
+        temperatureMax = MAX(temperatureMax, sensor2.dataSet.max);
+        temperatureMin = MIN(temperatureMin, sensor2.dataSet.min);
     }
 
-    if (dataSet3) {
-        if ([dataSet3 max] > maxValue) maxValue = [dataSet3 max];
- 		if ([dataSet3 min] < minValue) minValue = [dataSet3 min];
-    }
-    
-	// Scale the max and min values a bit.
-	float range = maxValue - minValue;
-	if (range < 20) range = 20;
-	maxValue += 0.1 * range;
-	minValue -= 0.1 * range;
-	
-    if (dataSet1) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet1 upperBound:maxValue lowerBound:minValue inRect:self.bounds flipped:NO filled:NO color:[appSettings graphFG1Color]];
-    }
-    
-    if (dataSet2) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet2 upperBound:maxValue lowerBound:minValue inRect:self.bounds flipped:NO filled:NO color:[appSettings graphFG2Color]];
-    }
-    
-    if (dataSet3) {
-		[self drawRangedGraphWithDataFromDataSet:dataSet3 upperBound:maxValue lowerBound:minValue inRect:self.bounds flipped:NO filled:NO color:[appSettings graphFG3Color]];
+    if (sensor3.dataSet && !sensor3IsFan) {
+        temperatureMax = MAX(temperatureMax, sensor3.dataSet.max);
+        temperatureMin = MIN(temperatureMin, sensor3.dataSet.min);
     }
 
-            
-    // draw the text
-    [gc setShouldAntialias:[appSettings antialiasText]];
+    // Scale the max and min values a bit.
+    float range = MAX(temperatureMax - temperatureMin, 20);
+    temperatureMax += 0.1 * range;
+    temperatureMin -= 0.1 * range;
 
-	NSMutableDictionary *sAttributes = [NSMutableDictionary dictionaryWithDictionary:[appSettings alignLeftAttributes]];
-	NSMutableDictionary *tAttributes = [NSMutableDictionary dictionaryWithDictionary:[appSettings alignRightAttributes]];
-    NSMutableAttributedString *s = [[NSMutableAttributedString alloc] initWithString:@"" attributes:sAttributes];
-	NSMutableAttributedString *t = [[NSMutableAttributedString alloc] initWithString:@"" attributes:tAttributes];
-	
-	NSAttributedString *newline = [[NSAttributedString alloc] initWithString:@"\n" attributes:[appSettings alignLeftAttributes]];
-	
-    NSInteger lineNumber = 0;
-    for (i = 0; i < [locations count]; i++) {
-        XRGSensorData *sensor = [[XRGTemperatureMiner shared] sensorForLocation:locations[i]];
+    // Draw the text
+    NSRect textRect = NSMakeRect(paddedTextRect.origin.x, graphSize.height - textRectHeight, paddedTextRect.size.width, textRectHeight);
 
-		NSColor *lineColor = [appSettings textColor];
-		if (sensor.key == [appSettings tempFG1Location]) {
-			lineColor = [[appSettings graphFG1Color] colorWithAlphaComponent:[appSettings textTransparency]];
-		}
-		else if (sensor.key == [appSettings tempFG2Location]) {
-			lineColor = [[appSettings graphFG2Color] colorWithAlphaComponent:[appSettings textTransparency]];
-		}
-		else if (sensor.key == [appSettings tempFG3Location]) {
-			lineColor = [[appSettings graphFG3Color] colorWithAlphaComponent:[appSettings textTransparency]];
-		}
-		if (lineColor) {
-			sAttributes[NSForegroundColorAttributeName] = lineColor;
-			tAttributes[NSForegroundColorAttributeName] = lineColor;
-		}
-		
-        NSString *label = sensor.label;
-		if (label == nil) {
-			continue;
-		}
+    for (NSInteger i = 0; i < sensors.count; i++) {
+        XRGSensorData *sensor = sensors[i];
+        if (!sensor.label) continue;
 
-        float locationTemperature = sensor.currentValue;
+        float locationValue = sensor.currentValue;
         NSString *units = sensor.units;
-		if (units == nil) {
-			units = @"";
-		}
-		
-		if (locationTemperature < 0.001 && ![units isEqualToString:@" rpm"]) continue;
+        if (!units) units = @"";
+        if (locationValue < 0.001 && ![units isEqualToString:@" rpm"]) continue;
 
-        if ((lineNumber + 1) * textRectHeight > self.bounds.size.height) {
-            break;
-        }
-        lineNumber++;
-        
-        if (lineNumber > 1) {
-			[s appendAttributedString:newline];
-			[t appendAttributedString:newline];
-        }
-        
-		[s appendAttributedString:[[NSAttributedString alloc] initWithString:label attributes:sAttributes]];
-        
-        // Now add the temperature
         if ([appSettings tempUnits] == XRGTemperatureUnitsF && [units isEqualToString:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]]) {
-			units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
-			locationTemperature = locationTemperature * 1.8 + 32.;
+            units = [NSString stringWithFormat:@"%CF", (unsigned short)0x00B0];
+            locationValue = locationValue * 1.8 + 32.;
         }
-		
-		if ([units isEqualToString:@" rpm"] | [units isEqualToString:@"%"]) {
-			[t appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%3.0f%@", locationTemperature, units] attributes:tAttributes]];
-		}
-		else {
-			[t appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%3.1f%@", locationTemperature, units] attributes:tAttributes]];
-		}
+
+        NSString *valueString;
+        if ([units isEqualToString:@" rpm"] | [units isEqualToString:@"%"]) {
+            valueString = [NSString stringWithFormat:@"%3.0f%@", locationValue, units];
+        }
+        else {
+            valueString = [NSString stringWithFormat:@"%3.1f%@", locationValue, units];
+        }
+
+        [[appSettings graphFG1Color] set];
+        if ([[XRGTemperatureMiner shared] isFanSensor:sensor]) {
+            float min = 0;
+            float max = [[XRGTemperatureMiner shared] maxSpeedForFan:sensor];
+
+            CGContextFillRect(gc.CGContext, CGRectMake(textRect.origin.x, textRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * textRect.size.width), (i == 0) ? textRect.size.height : floor(textRect.size.height - 1)));
+        }
+        else {
+            float min = temperatureMin;
+            float max = temperatureMax;
+
+            CGContextFillRect(gc.CGContext, CGRectMake(textRect.origin.x, textRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * textRect.size.width), (i == 0) ? textRect.size.height : floor(textRect.size.height - 1)));
+        }
+
+        [[appSettings borderColor] set];
+        NSRectFill(NSMakeRect(self.bounds.origin.x, textRect.origin.y - 1, self.bounds.size.width, 1));
+
+        [self drawLeftText:sensor.label centerText:nil rightText:valueString inRect:textRect];
+
+        textRect.origin.y -= textRect.size.height;
+        if (textRect.origin.y < 0) break;
+    }
+
+    [[appSettings borderColor] set];
+    NSRectFill(NSMakeRect(self.bounds.origin.x, NSMaxY(textRect) - 2, self.bounds.size.width, 2));
+
+    // Draw the graph.
+    NSRect graphRect = NSMakeRect(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, NSMaxY(textRect) - self.bounds.origin.y - 2);
+
+    if (sensor1.dataSet) {
+        float min = sensor1IsFan ? 0 : temperatureMin;
+        float max = sensor1IsFan ? [[XRGTemperatureMiner shared] maxSpeedForFan:sensor1] : temperatureMax;
+
+		[self drawRangedGraphWithDataFromDataSet:sensor1.dataSet upperBound:max lowerBound:min inRect:graphRect flipped:NO filled:YES color:[appSettings graphFG1Color]];
     }
     
-    if (lineNumber == 1) {
-        textRect.origin.y = 0.5 * (self.bounds.size.height - textRectHeight);
-        textRect.size.height = textRectHeight;
+    if (sensor2.dataSet) {
+        float min = sensor2IsFan ? 0 : temperatureMin;
+        float max = sensor2IsFan ? [[XRGTemperatureMiner shared] maxSpeedForFan:sensor2] : temperatureMax;
+
+		[self drawRangedGraphWithDataFromDataSet:sensor2.dataSet upperBound:max lowerBound:min inRect:graphRect flipped:NO filled:NO color:[appSettings graphFG2Color]];
     }
     
-    [t drawInRect:textRect];
-    
-	NSRect leftRect = NSMakeRect(textRect.origin.x, 
-								 textRect.origin.y, 
-								 textRect.size.width - [t size].width,
-								 textRect.size.height);
-    [s drawInRect:leftRect];
-        
-    [gc setShouldAntialias:YES];
+    if (sensor3.dataSet) {
+        float min = sensor3IsFan ? 0 : temperatureMin;
+        float max = sensor3IsFan ? [[XRGTemperatureMiner shared] maxSpeedForFan:sensor3] : temperatureMax;
+
+		[self drawRangedGraphWithDataFromDataSet:sensor3.dataSet upperBound:max lowerBound:min inRect:graphRect flipped:NO filled:NO color:[appSettings graphFG3Color]];
+    }
 }
 
 - (XRGSensorData *)sensor1 {
