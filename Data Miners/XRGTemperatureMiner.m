@@ -210,6 +210,10 @@
     return self.sensorData[location];
 }
 
+- (BOOL)isFanSensor:(XRGSensorData *)sensor {
+    return [self fanForSensor:sensor] != nil;
+}
+
 - (void)regenerateLocationKeyOrder {
     NSArray        *locations        = [self.sensorData allKeys];
     NSInteger      numLocations      = [locations count];
@@ -459,6 +463,7 @@
             
             if ([fanValue isKindOfClass:[NSNumber class]]) {
                 if ([fanDKey hasSuffix:@"Ac"]) {
+                    f.key = fanDKey;
                     f.actualSpeed = [fanValue integerValue];
                 }
                 else if ([fanDKey hasSuffix:@"Tg"]) {
@@ -480,6 +485,22 @@
     self.fanCacheCreated = [NSDate date];
     
     return retFans;
+}
+
+- (XRGFan *)fanForSensor:(XRGSensorData *)sensor {
+    NSArray *fans = [self fanValues];
+
+    for (XRGFan *fan in fans) {
+        if ([fan.key isEqualToString:sensor.key]) {
+            return fan;
+        }
+    }
+
+    return nil;
+}
+
+- (NSInteger)maxSpeedForFan:(XRGSensorData *)sensor {
+    return [self fanForSensor:sensor].maximumSpeed;
 }
 
 @end

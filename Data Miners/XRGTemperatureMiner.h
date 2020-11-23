@@ -34,6 +34,7 @@
 @interface XRGFan: NSObject
 
 @property (nullable) NSString *name;
+@property (nonnull) NSString *key;
 @property NSInteger actualSpeed;
 @property NSInteger targetSpeed;
 @property NSInteger minimumSpeed;
@@ -83,8 +84,10 @@
 - (void)setCurrentValue:(float)value andUnits:(NSString *)units forLocation:(NSString *)location;
 
 - (nullable XRGSensorData *)sensorForLocation:(nonnull NSString *)location;
+- (BOOL)isFanSensor:(XRGSensorData *)sensor;
 
 - (NSArray<XRGFan *> *)fanValues;
+- (NSInteger)maxSpeedForFan:(XRGSensorData *)sensor;
 
 @end
 
