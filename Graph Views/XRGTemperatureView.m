@@ -192,8 +192,6 @@
     NSRect paddedTextRect = [self paddedTextRect];
     float textRectHeight = [appSettings textRectHeight];
 
-    [gc setShouldAntialias:[appSettings antiAliasing]];
-
     NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
     
     if ([locations count] == 0) {
@@ -204,11 +202,23 @@
         else {
             [@"No Sensors\nFound" drawInRect:paddedTextRect withAttributes:[appSettings alignLeftAttributes]];
         }
+
+        return;
     }
 
     XRGSensorData *sensor1 = [self sensor1];
     XRGSensorData *sensor2 = [self sensor2];
     XRGSensorData *sensor3 = [self sensor3];
+
+    if (!sensor1 && !sensor2 && !sensor3) {
+        if ([@"Select Sensors in Prefs" sizeWithAttributes:[appSettings alignRightAttributes]].width < paddedTextRect.size.width) {
+            [@"Select Sensors in Prefs" drawInRect:paddedTextRect withAttributes:[appSettings alignLeftAttributes]];
+        }
+        else {
+            [@"Select Sensors\nin Prefs" drawInRect:paddedTextRect withAttributes:[appSettings alignLeftAttributes]];
+        }
+        return;
+    }
 
     BOOL sensor1IsFan = [[XRGTemperatureMiner shared] isFanSensor:sensor1];
     BOOL sensor2IsFan = [[XRGTemperatureMiner shared] isFanSensor:sensor2];
@@ -294,6 +304,7 @@
     NSRectFill(NSMakeRect(self.bounds.origin.x, NSMaxY(textRect) - 2, self.bounds.size.width, 2));
 
     // Draw the graph.
+    [gc setShouldAntialias:[appSettings antiAliasing]];
     NSRect graphRect = NSMakeRect(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, NSMaxY(textRect) - self.bounds.origin.y - 2);
 
     if (sensor1.dataSet) {
