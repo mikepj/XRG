@@ -254,6 +254,7 @@
 
     // Draw the text
     NSRect textRect = NSMakeRect(paddedTextRect.origin.x, graphSize.height - textRectHeight, paddedTextRect.size.width, textRectHeight);
+    NSRect barRect = NSMakeRect(self.bounds.origin.x, textRect.origin.y, self.bounds.size.width, textRect.size.height);
 
     for (NSInteger i = 0; i < sensors.count; i++) {
         XRGSensorData *sensor = sensors[i];
@@ -282,26 +283,27 @@
             float min = 0;
             float max = [[XRGTemperatureMiner shared] maxSpeedForFan:sensor];
 
-            CGContextFillRect(gc.CGContext, CGRectMake(textRect.origin.x, textRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * textRect.size.width), (i == 0) ? textRect.size.height : floor(textRect.size.height - 1)));
+            CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * barRect.size.width), (i == 0) ? barRect.size.height : floor(barRect.size.height - 1)));
         }
         else {
             float min = temperatureMin;
             float max = temperatureMax;
 
-            CGContextFillRect(gc.CGContext, CGRectMake(textRect.origin.x, textRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * textRect.size.width), (i == 0) ? textRect.size.height : floor(textRect.size.height - 1)));
+            CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * barRect.size.width), (i == 0) ? barRect.size.height : floor(barRect.size.height - 1)));
         }
 
         [[appSettings borderColor] set];
-        NSRectFill(NSMakeRect(self.bounds.origin.x, textRect.origin.y - 1, self.bounds.size.width, 1));
+        NSRectFill(NSMakeRect(self.bounds.origin.x, barRect.origin.y - 1, self.bounds.size.width, 2));
 
         [self drawLeftText:sensor.label centerText:nil rightText:valueString inRect:textRect];
 
+        barRect.origin.y -= barRect.size.height;
         textRect.origin.y -= textRect.size.height;
         if (textRect.origin.y < 0) break;
     }
 
     [[appSettings borderColor] set];
-    NSRectFill(NSMakeRect(self.bounds.origin.x, NSMaxY(textRect) - 2, self.bounds.size.width, 2));
+    NSRectFill(NSMakeRect(self.bounds.origin.x, NSMaxY(textRect) - 1, self.bounds.size.width, 2));
 
     // Draw the graph.
     [gc setShouldAntialias:[appSettings antiAliasing]];
@@ -410,7 +412,7 @@
     tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Temperature Preferences..." action:@selector(openTemperaturePreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show all sensors..." action:@selector(showSensorWindow:) keyEquivalent:@""];
+    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Temperature Sensors Window..." action:@selector(showSensorWindow:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;
