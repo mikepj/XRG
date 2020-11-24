@@ -58,7 +58,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="9hw-tg-hg9">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="9hw-tg-hg9">
                         <rect key="frame" x="0.0" y="34" width="368" height="211"/>
                         <clipView key="contentView" drawsBackground="NO" id="guu-Xy-rIf">
                             <rect key="frame" x="0.0" y="0.0" width="368" height="211"/>
@@ -113,13 +113,14 @@
                                 <constraint firstItem="ZUl-iY-q3r" firstAttribute="top" secondItem="guu-Xy-rIf" secondAttribute="top" id="vXh-YU-Vaa"/>
                                 <constraint firstItem="ZUl-iY-q3r" firstAttribute="leading" secondItem="guu-Xy-rIf" secondAttribute="leading" id="w8I-D5-nFG"/>
                             </constraints>
+                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="2rr-fY-Wld">
                             <rect key="frame" x="-100" y="-100" width="394" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="L6c-iq-lMl">
-                            <rect key="frame" x="352" y="0.0" width="16" height="211"/>
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="NO" id="L6c-iq-lMl">
+                            <rect key="frame" x="354" y="0.0" width="14" height="211"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

@@ -317,6 +317,7 @@
 				93151A0C254094EF0095E424 /* SMCSensorNames.plist */,
 				273ECF501574106600E65D82 /* MainMenu.nib */,
 				273ECF511574106600E65D82 /* Preferences.nib */,
+				278E90B823F21F6600874941 /* Sensors.xib */,
 				273ECED915740EAF00E65D82 /* Preferences-Appearance.tiff */,
 				273ECEDA15740EAF00E65D82 /* Preferences-CPU.tiff */,
 				273ECEDB15740EAF00E65D82 /* Preferences-Disk.tiff */,
@@ -326,7 +327,6 @@
 				273ECEDF15740EAF00E65D82 /* Preferences-Stocks.tiff */,
 				273ECEE015740EAF00E65D82 /* Preferences-Temperature.tiff */,
 				273ECEE115740EAF00E65D82 /* Preferences-Weather.tiff */,
-				278E90B823F21F6600874941 /* Sensors.xib */,
 				273ECEE415740EAF00E65D82 /* xtf.icns */,
 			);
 			path = Resources;
