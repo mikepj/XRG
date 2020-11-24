@@ -88,8 +88,10 @@
 	<string>PECI GPU</string>
 	<key>TCGc</key>
 	<string>PECI GPU</string>
-	<key>TG0P</key>
+	<key>TG?P</key>
 	<string>GPU Proximity</string>
+	<key>TGDD</key>
+	<string>dGPU Die</string>
 	<key>TG?D</key>
 	<string>GPU Die</string>
 	<key>TG?H</key>
