@@ -91,7 +91,8 @@
 
 - (void)graphUpdate:(NSTimer *)aTimer {
     [[XRGTemperatureMiner shared] updateCurrentTemperatures];
-    
+    [self checkForConfiguredSensors];
+
     [self setNeedsDisplay: YES];
 }
 
@@ -351,6 +352,78 @@
     showUnknown |= [XRGTemperatureMiner shared].smcSensors.unknownTemperatureKeys.count > 3 * [XRGTemperatureMiner shared].smcSensors.knownTemperatureKeys.count; // show all unnamed sensors if the majority has no name
 
     return showUnknown;
+}
+
+/// Check if we have configured temperature sensors, and make some decent default choices if none were setup previously.
+- (void)checkForConfiguredSensors {
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    if ([defs boolForKey:XRG_tempLocationsAutoconfigured]) {
+        // Already autoconfigured.  Don't do it again.
+        return;
+    }
+    if (([self sensor1] != nil) || ([self sensor2] != nil) || ([self sensor3] != nil)) {
+        return;
+    }
+
+    [defs setBool:YES forKey:XRG_tempLocationsAutoconfigured];
+
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
+    NSMutableArray *preferredLocationKeys = [NSMutableArray array];
+
+    // First look for a Fan.
+    NSString *fanKey = [self preferredKeyWithPrefix:@"Fan" inLocationKeys:locations];
+    if (fanKey) {
+        [preferredLocationKeys addObject:fanKey];
+    }
+
+    // Second look for a CPU.
+    NSString *cpuKey = [self preferredKeyWithPrefix:@"CPU" inLocationKeys:locations];
+    if (cpuKey) {
+        [preferredLocationKeys addObject:cpuKey];
+    }
+
+    // Thrid look for a GPU.
+    NSString *gpuKey = [self preferredKeyWithPrefix:@"GPU" inLocationKeys:locations];
+    if (gpuKey) {
+        [preferredLocationKeys addObject:gpuKey];
+    }
+
+    // Fourth look for a SSD.
+    NSString *ssdKey = [self preferredKeyWithPrefix:@"SSD" inLocationKeys:locations];
+    if (ssdKey) {
+        [preferredLocationKeys addObject:ssdKey];
+    }
+
+    NSString *sensor1Key = [preferredLocationKeys firstObject];
+    if (sensor1Key) {
+        [preferredLocationKeys removeObjectAtIndex:0];
+        [appSettings setTempFG1Location:sensor1Key];
+    }
+
+    NSString *sensor2Key = [preferredLocationKeys firstObject];
+    if (sensor2Key) {
+        [preferredLocationKeys removeObjectAtIndex:0];
+        [appSettings setTempFG2Location:sensor2Key];
+    }
+
+    NSString *sensor3Key = [preferredLocationKeys firstObject];
+    if (sensor3Key) {
+        [preferredLocationKeys removeObjectAtIndex:0];
+        [appSettings setTempFG3Location:sensor3Key];
+    }
+}
+
+- (NSString *)preferredKeyWithPrefix:(NSString *)prefix inLocationKeys:(NSArray<NSString *> *)locations {
+    for (NSString *key in locations) {
+        XRGSensorData *sensor = [[XRGTemperatureMiner shared] sensorForLocation:key];
+        NSString *humanReadableName = sensor.label;
+
+        if ([humanReadableName hasPrefix:prefix]) {
+            return key;
+        }
+    }
+
+    return nil;
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       

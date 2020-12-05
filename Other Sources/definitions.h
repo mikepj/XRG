@@ -107,6 +107,7 @@ typedef struct network_interface_stats {
 #define XRG_tempFG3Location             @"tempFG3Location"
 #define XRG_tempFanSpeed				@"tempFanSpeed"
 #define XRG_tempShowUnknownSensors      @"tempShowUnknownSensors"
+#define XRG_tempLocationsAutoconfigured @"tempLocationsAutoconfigured"
 
 #define XRG_netMinGraphScale			@"netMinGraphScale"
 #define XRG_netGraphMode				@"netGraphMode"

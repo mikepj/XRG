@@ -78,16 +78,16 @@
 
 - (void)updateCurrentTemperatures;
 
-- (nonnull NSArray *)locationKeysIncludingUnknown:(BOOL)includeUnknown;
+- (nonnull NSArray<NSString *> *)locationKeysIncludingUnknown:(BOOL)includeUnknown;
 - (nonnull NSArray<NSString *> *)allSensorKeys;
 - (void)regenerateLocationKeyOrder;
-- (void)setCurrentValue:(float)value andUnits:(NSString *)units forLocation:(NSString *)location;
+- (void)setCurrentValue:(float)value andUnits:(nullable NSString *)units forLocation:(nonnull NSString *)location;
 
 - (nullable XRGSensorData *)sensorForLocation:(nonnull NSString *)location;
-- (BOOL)isFanSensor:(XRGSensorData *)sensor;
+- (BOOL)isFanSensor:(nonnull XRGSensorData *)sensor;
 
-- (NSArray<XRGFan *> *)fanValues;
-- (NSInteger)maxSpeedForFan:(XRGSensorData *)sensor;
+- (nonnull NSArray<XRGFan *> *)fanValues;
+- (NSInteger)maxSpeedForFan:(nonnull XRGSensorData *)sensor;
 
 @end
 
