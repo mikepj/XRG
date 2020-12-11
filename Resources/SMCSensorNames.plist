@@ -6,7 +6,7 @@
 	<string>Temperature</string>
 	<key>V*</key>
 	<string>Voltage</string>
-	<key>I* (upper-case i, not lower-case L)</key>
+	<key>I*</key>
 	<string>Intensity (current)</string>
 	<key>P*</key>
 	<string>Power (watts)</string>
