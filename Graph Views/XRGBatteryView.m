@@ -544,17 +544,31 @@
     NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Battery View"];
     NSMenuItem *tMI;
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Energy Saver System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
-    [myMenu addItem:tMI];
+    if (@available(macOS 11, *)) {
+        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Battery System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
+        [myMenu addItem:tMI];
+    }
+    else {
+        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Energy Saver System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
+        [myMenu addItem:tMI];
+    }
     
     return myMenu;
 }
 
 - (void)openEnergySaverSystemPreferences:(NSEvent *)theEvent {
-    [NSTask 
-      launchedTaskWithLaunchPath:@"/usr/bin/open"
-      arguments:@[@"/System/Library/PreferencePanes/EnergySaver.prefPane"]
-    ];
+    if (@available(macOS 11, *)) {
+        [NSTask
+          launchedTaskWithLaunchPath:@"/usr/bin/open"
+          arguments:@[@"/System/Library/PreferencePanes/Battery.prefPane"]
+        ];
+    }
+    else {
+        [NSTask
+          launchedTaskWithLaunchPath:@"/usr/bin/open"
+          arguments:@[@"/System/Library/PreferencePanes/EnergySaver.prefPane"]
+        ];
+    }
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {       
