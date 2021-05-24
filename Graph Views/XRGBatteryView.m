@@ -40,7 +40,7 @@
     maxVolts = 0;
     maxAmps = 0;
 	minAmps = 0;
-    powerStatus = UNKNOWN;
+    powerStatus = XRGBatteryStatusUnknown;
     numBatteries = 0;
     minutesRemaining = 0;
     currentPercent = 0;
@@ -193,7 +193,7 @@
     
     if (!port) {
         if ((err = IOMasterPort(bootstrap_port, &port)) != kIOReturnSuccess) {
-            powerStatus = UNKNOWN;
+            powerStatus = XRGBatteryStatusUnknown;
             return;
         }
     }
@@ -212,7 +212,7 @@
         
         if (!numBatteries) {
             current = capacity = charge = voltage = amperage = 0;
-            powerStatus = NO_BATTERY;
+            powerStatus = XRGBatteryStatusNoBattery;
         }
         else {
             current  = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
@@ -242,14 +242,14 @@
             
             if ((flags & kIOBatteryChargerConnect) && (flags & kIOBatteryCharge)) {
                 // if the charger is connected, and the battery is charging...
-                powerStatus = CHARGING;
+                powerStatus = XRGBatteryStatusCharging;
             }
             else if ((flags & kIOBatteryChargerConnect) && !(flags & kIOBatteryCharge)) {
                 // if the charger is connected, and the battery is not charging...
-                powerStatus = CHARGED;
+                powerStatus = XRGBatteryStatusCharged;
             }
             else {
-                powerStatus = RUNNING_ON_BATTERY;
+                powerStatus = XRGBatteryStatusRunningOnBattery;
             }
             
             // get the current charge
@@ -277,11 +277,11 @@
             // calculate the % charge
             charge[i] = (int)(100.0 * current[i] / capacity[i] + 0.5);
             
-            if (charge[i] < 95. && powerStatus == CHARGED) {
-                powerStatus = CHARGING;
+            if (charge[i] < 95. && powerStatus == XRGBatteryStatusCharged) {
+                powerStatus = XRGBatteryStatusOnHold;
             }
             
-            if (current[i] == 0 && voltage[i] == 0) powerStatus = NO_BATTERY;
+            if (current[i] == 0 && voltage[i] == 0) powerStatus = XRGBatteryStatusNoBattery;
         }
         
         // Save the watts being used.
@@ -333,13 +333,13 @@
             voltageAverage = 0;
             amperageAverage = 0;
             currentPercent = 0;
-            powerStatus = UNKNOWN;
+            powerStatus = XRGBatteryStatusUnknown;
         }
     
         [self setNeedsDisplay:YES];
     }  
     else {
-        powerStatus = UNKNOWN;
+        powerStatus = XRGBatteryStatusUnknown;
     }
 	
     return;
@@ -390,7 +390,7 @@
     [wrapAttributes[NSParagraphStyleAttributeName] setLineBreakMode:NSLineBreakByWordWrapping];
     
     // First check if there is battery data to graph.
-    if (powerStatus == NO_BATTERY || powerStatus == UNKNOWN) {
+    if (powerStatus == XRGBatteryStatusNoBattery || powerStatus == XRGBatteryStatusUnknown) {
         [@"No Battery Found" drawInRect:self.bounds withAttributes:wrapAttributes];
         return;
     }
@@ -416,7 +416,7 @@
     
     // set graphFG2Color before drawing the triple bar for charging.
     [[appSettings graphFG2Color] set];
-    if (powerStatus == CHARGING) {
+    if (powerStatus == XRGBatteryStatusCharging) {
         NSRect chargingRect = NSMakeRect(percentRect.origin.x + percentRect.size.width, 
                                          percentRect.origin.y,
                                          (rect.size.width - percentRect.size.width) * ((float)tripleCount / 3.),
@@ -471,13 +471,27 @@
         BOOL drawCenter = NO;
 
         // Draw the battery percentage
-        if (minutesRemaining > 0) {
+        if (powerStatus == XRGBatteryStatusCharged) {
+            [leftS appendFormat:@"%ld%%", (long)currentPercent];
+            if (CHARGED_WIDE <= textRect.size.width)
+                [rightS appendFormat:@"Charged"];
+            else
+                [rightS appendFormat:@"Chgd."];
+        }
+        else if (powerStatus == XRGBatteryStatusOnHold) {
+            [leftS appendFormat:@"%ld%%", (long)currentPercent];
+            if (CHARGED_WIDE <= textRect.size.width)
+                [rightS appendFormat:@"On Hold"];
+            else
+                [rightS appendFormat:@"Hold"];
+        }
+        else if (minutesRemaining > 0) {
             NSString *mrString;
             if (minutesRemaining % 60 < 10)
                 mrString = [NSString stringWithFormat:@"%ld:0%ld", (long)minutesRemaining / 60, (long)minutesRemaining % 60];
-            else 
+            else
                 mrString = [NSString stringWithFormat:@"%ld:%ld", (long)minutesRemaining / 60, (long)minutesRemaining % 60];
-            
+
             if (PERCENT_WIDE <= textRect.size.width) {
                 [leftS appendFormat:@"%ld%% Charged", (long)currentPercent];
                 [rightS appendFormat:@"%@ Left", mrString];
@@ -486,13 +500,6 @@
                 [leftS appendFormat:@"%ld%%", (long)currentPercent];
                 [rightS appendString: mrString];
             }
-        }
-        else if (powerStatus == CHARGED) {
-            [leftS appendFormat:@"%ld%%", (long)currentPercent];
-            if (CHARGED_WIDE <= textRect.size.width)
-                [rightS appendFormat:@"Charged"];
-            else
-                [rightS appendFormat:@"Chgd."];
         }
         else {
             [leftS appendFormat:@"%ld%%", (long)currentPercent];

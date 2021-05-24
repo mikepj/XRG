@@ -28,11 +28,14 @@
 #import "definitions.h"
 #import "XRGGenericView.h"
 
-#define UNKNOWN				0
-#define RUNNING_ON_BATTERY	1
-#define CHARGING			2
-#define CHARGED				3
-#define NO_BATTERY			4
+typedef NS_ENUM(NSInteger, XRGBatteryStatus) {
+    XRGBatteryStatusUnknown = 0,
+    XRGBatteryStatusRunningOnBattery = 1,
+    XRGBatteryStatusCharging = 2,
+    XRGBatteryStatusCharged = 3,
+    XRGBatteryStatusOnHold = 4,
+    XRGBatteryStatusNoBattery = 5
+};
 
 #define SMALL				0
 #define NORMAL				1
@@ -77,7 +80,7 @@
     NSInteger               maxAmps;
 	NSInteger               minAmps;
     
-    NSInteger               powerStatus;
+    XRGBatteryStatus        powerStatus;
     NSInteger               lastPowerStatus;
     NSInteger               numBatteries;
     NSInteger               displayMode;
