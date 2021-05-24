@@ -239,7 +239,7 @@
     [defs setObject: ([showStockGraph state] == NSOnState ? @"YES" : @"NO")          forKey:XRG_showStockGraph];   
      
     // CPU graph checkboxes
-    [defs setObject: ([fastCPUUsageCheckbox state] == NSOnState ? @"YES" : @"NO")    forKey:XRG_fastCPUUsage];
+    [defs setObject: ([fastCPUUsageCheckbox state] == NSOnState ? @"YES" : @"NO")    forKey:XRG_showCPUBars];
     [defs setObject: ([enableAntiAliasing state] == NSOnState ? @"YES" : @"NO")      forKey:XRG_antiAliasing];
     [defs setObject: ([separateCPUColor state] == NSOnState ? @"YES" : @"NO")        forKey:XRG_separateCPUColor];
     [defs setObject: ([showLoadAverage state] == NSOnState ? @"YES" : @"NO")         forKey:XRG_showLoadAverage];

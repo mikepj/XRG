@@ -117,9 +117,11 @@
 }
 
 - (void)fastUpdate:(NSTimer *)aTimer {
-    [CPUMiner fastUpdate:aTimer];
-    
-    [self setNeedsDisplay:YES];
+    if ([appSettings fastCPUUsage]) {
+        [CPUMiner fastUpdate:aTimer];
+
+        [self setNeedsDisplay:YES];
+    }
 }
 
 - (void)drawRect:(NSRect)dummy
@@ -181,57 +183,42 @@
     NSInteger numCPUs = [CPUMiner numberOfCPUs];
 	if (numCPUs == 0) return;
     
-    if ([appSettings fastCPUUsage]) {
-        // draw the divider line
-        [[appSettings borderColor] set];
-        NSRectFill(NSMakeRect(inRect.size.width - 7, 0, 2, inRect.size.height));
-		
-        // draw the fast cpu info
-        [[appSettings graphFG2Color] set];
-        NSInteger tmp = 0;
-        NSInteger *fastValues = [CPUMiner fastValues];
-        for (NSInteger i = 0; i < numCPUs; i++) {
-            tmp += fastValues[i];
-        }
-        
-        NSRectFill(NSMakeRect(inRect.size.width - 7 + 2, 0, 5, ((CGFloat)tmp / (CGFloat)numCPUs) / 100. * graphSize.height));
-	}
-	
     // this is the rect that we will draw the graphs in
-    if ([appSettings fastCPUUsage]) inRect.size.width -= 7;
     NSRect graphRect = NSMakeRect(0.0f, 0.0f, inRect.size.width, inRect.size.height);
 	
     NSColor *colors[3];
     colors[0] = [appSettings graphFG1Color];
     colors[1] = [appSettings graphFG2Color];
     colors[2] = [appSettings graphFG3Color];
-	
-    graphRect.size.height = graphRect.size.height / 2. - 1.;
-	
-	// Draw the bottom graph.
-	NSInteger *fastValues = [CPUMiner fastValues];
-	NSMutableArray *sortedValues = [NSMutableArray arrayWithCapacity:numCPUs];
-	for (NSInteger i = 0; i < numCPUs; i++) {
-		[sortedValues addObject:@(fastValues[i])];
-	}
-	[sortedValues sortUsingSelector:@selector(compare:)];
-	sortedValues = [NSMutableArray arrayWithArray:[[sortedValues reverseObjectEnumerator] allObjects]];
-	NSRect cpuRect = graphRect;
-	cpuRect.size.width /= numCPUs;
-	
-	[[appSettings graphFG1Color] set];
-	for (NSInteger i = 0; i < numCPUs; i++) {
-		NSRectFill(NSMakeRect(cpuRect.origin.x, cpuRect.origin.y, (int)(cpuRect.size.width - 1), [sortedValues[i] floatValue] / 100. * cpuRect.size.height));
-		cpuRect.origin.x += cpuRect.size.width;
-	}
-	    	
+
 #ifdef XRG_DEBUG
-	NSLog(@"In CPU DrawRect."); 
+    NSLog(@"In CPU DrawRect.");
 #endif
-    
-	// Draw the top graph.
-	graphRect.origin.y += graphRect.size.height + 1.;
-	
+
+	// Draw the bottom graph.
+    if ([appSettings fastCPUUsage]) {
+        graphRect.size.height = graphRect.size.height / 2. - 1.;
+
+        NSInteger *fastValues = [CPUMiner fastValues];
+        NSMutableArray *sortedValues = [NSMutableArray arrayWithCapacity:numCPUs];
+        for (NSInteger i = 0; i < numCPUs; i++) {
+            [sortedValues addObject:@(fastValues[i])];
+        }
+        [sortedValues sortUsingSelector:@selector(compare:)];
+        sortedValues = [NSMutableArray arrayWithArray:[[sortedValues reverseObjectEnumerator] allObjects]];
+        NSRect cpuRect = graphRect;
+        cpuRect.size.width /= numCPUs;
+
+        [[appSettings graphFG1Color] set];
+        for (NSInteger i = 0; i < numCPUs; i++) {
+            NSRectFill(NSMakeRect(cpuRect.origin.x, cpuRect.origin.y, (int)(cpuRect.size.width - 1), [sortedValues[i] floatValue] / 100. * cpuRect.size.height));
+            cpuRect.origin.x += cpuRect.size.width;
+        }
+
+        graphRect.origin.y += graphRect.size.height + 1.;
+    }
+
+    // Draw the top graph.
 	NSArray *cpuData = [CPUMiner combinedData];
 	if ([cpuData count] < 3) return;
 	// Create a tmpDataSet of the same size as the other ones so we can do some manipulations.

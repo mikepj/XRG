@@ -85,7 +85,7 @@ typedef struct network_interface_stats {
 #define XRG_graphFont					@"graphFont"
 #define XRG_antialiasText				@"antialiasText"
 
-#define XRG_fastCPUUsage				@"fastCPUUsage"
+#define XRG_showCPUBars                 @"showCPUBars"
 #define XRG_separateCPUColor			@"separateCPUColor"
 #define XRG_showCPUTemperature			@"showCPUTemperature"
 #define XRG_cpuTemperatureUnits			@"cpuTemperatureUnits"

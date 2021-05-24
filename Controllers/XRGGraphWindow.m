@@ -160,7 +160,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     appDefs[XRG_minimizeUpDown] = @"";
     appDefs[XRG_isDockIconHidden] = @"NO";
     
-    appDefs[XRG_fastCPUUsage] = @"NO";
+    appDefs[XRG_showCPUBars] = @"YES";
     appDefs[XRG_separateCPUColor] = @"YES";
     appDefs[XRG_showCPUTemperature] = @"NO";
     appDefs[XRG_cpuTemperatureUnits] = defaultUnitIndex;
@@ -235,7 +235,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     [self.appSettings setBorderTransparency:     [defs[XRG_borderTransparency] floatValue]];
     [self.appSettings setTextTransparency:       [defs[XRG_textTransparency] floatValue]];
 
-    [self.appSettings setFastCPUUsage:           [defs[XRG_fastCPUUsage] boolValue]];
+    [self.appSettings setFastCPUUsage:           [defs[XRG_showCPUBars] boolValue]];
     [self.appSettings setSeparateCPUColor:       [defs[XRG_separateCPUColor] boolValue]];
     [self.appSettings setShowCPUTemperature:     [defs[XRG_showCPUTemperature] boolValue]];
     [self.appSettings setCpuTemperatureUnits:    [defs[XRG_cpuTemperatureUnits] intValue]];
