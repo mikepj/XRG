@@ -92,9 +92,9 @@
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {
-    // Only update once every 10 cycles.
+    // Only update once every 5 cycles.
     updateCounter++;
-    if (updateCounter % 10 != 0) {
+    if (updateCounter % 5 != 0) {
         return;
     }
     else {
