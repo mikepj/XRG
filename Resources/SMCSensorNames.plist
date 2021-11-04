@@ -70,6 +70,10 @@
 	<string>CPU</string>
 	<key>TC?C</key>
 	<string>CPU Core</string>
+	<key>TCAC</key>
+	<string>CPU A ° Below MaxT</string>
+	<key>TCBC</key>
+	<string>CPU B ° Below MaxT</string>
 	<key>TCAH</key>
 	<string>CPU 1 Heatsink Alt.</string>
 	<key>TCAD</key>

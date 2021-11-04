@@ -211,7 +211,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
                 
                 // Figure out if we should add a digit (only if there are more than one with this name).
                 BOOL appendIndexToDescription = NO;
-                if (indexInKey == 0  )	{
+                if (indexInKey == 0)	{
                     // if the key is of form XXX0, see if there is also XXX1
                     NSString *sensorAtIndexOneKey = [currentKey stringByReplacingOccurrencesOfString:@"0" withString:@"1"];
                     appendIndexToDescription = [smcKeys containsObject:sensorAtIndexOneKey];
@@ -225,11 +225,19 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
                 }
             }
         }
-        
+
+        // Older Intel CPUs have a degrees from prochot instead of core temperatures.  Check for that here.
+        if ([smcKeyDescription isEqualToString:@"TCAC"] && ![smcKeys containsObject:@"TC9C"]) {
+            smcKeyDescription = @"CPU A ° Below MaxT";
+        }
+        else if ([smcKeyDescription isEqualToString:@"TCBC"] && ![smcKeys containsObject:@"TC9C"]) {
+            smcKeyDescription = @"CPU B ° Below MaxT";
+        }
+
         descriptions[currentKey] = smcKeyDescription;
         
         if( isTemperatureKey ) {
-            if( smcKeyDescription ) {
+            if (smcKeyDescription) {
                 [knownTempKeys addObject:currentKey];
             } else {
                 [unknownTempKeys addObject:currentKey];
