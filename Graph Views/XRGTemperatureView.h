@@ -30,17 +30,18 @@
 
 @interface XRGTemperatureView : XRGGenericView
 {
-    NSSize						graphSize;
-	
+    NSSize                      graphSize;
+    
     float                       temperatureWidth;
     float                       rpmWidth;
-    NSInteger					graphWidth;
-	NSMutableDictionary			*locationSizeCache;
-	
+    NSInteger                   graphWidth;
+    NSMutableDictionary			*locationSizeCache;
+    
     XRGModule                   *m;
-
+    
     NSInteger                   numSamples;
-	BOOL						showFanSpeed;
+    BOOL                        showFanSpeed;
+    NSInteger                   updateCounter;
 }
 
 - (void)setGraphSize:(NSSize)newSize;

@@ -53,6 +53,8 @@
 
     [[parentWindow moduleManager] addModule:m];
     [self setGraphSize:[m currentSize]];
+    
+    updateCounter = 0;
 }
 
 - (void)setGraphSize:(NSSize)newSize {
@@ -90,6 +92,15 @@
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {
+    // Only update once every 10 cycles.
+    updateCounter++;
+    if (updateCounter % 10 != 0) {
+        return;
+    }
+    else {
+        updateCounter = 0;
+    }
+    
     [[XRGTemperatureMiner shared] updateCurrentTemperatures];
     [self checkForConfiguredSensors];
 
