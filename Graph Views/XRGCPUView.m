@@ -246,9 +246,6 @@
     if ([cpuData count] < 3) return;
     
     NSRect textRect = [self paddedTextRect];
-    if ([appSettings fastCPUUsage]) {
-        textRect.size.width -= 7;
-    }
     
     NSMutableString *leftText = [NSMutableString string];
     NSMutableString *rightText = [NSMutableString string];
