@@ -54,6 +54,7 @@
 		278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606201B445FED00CC6249 /* XRGGPUMiner.m */; };
 		278606241B44741B00CC6249 /* XRGGPUView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606231B44741B00CC6249 /* XRGGPUView.m */; };
 		278E90B923F21F6600874941 /* Sensors.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E90B823F21F6600874941 /* Sensors.xib */; };
+		2790FF812732BC6200B0A269 /* XRGBatteryMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 2790FF802732BC6200B0A269 /* XRGBatteryMiner.m */; };
 		27AB7CFE2558F031002F6773 /* XRGSensorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AB7CFD2558F031002F6773 /* XRGSensorViewController.m */; };
 		27C3A8A52551B4A40004F2EC /* XRGStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C3A8A42551B4A40004F2EC /* XRGStatsManager.m */; };
 		27DA9FA22566232500DACB07 /* XRGFlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DA9FA12566232500DACB07 /* XRGFlippedView.m */; };
@@ -150,6 +151,8 @@
 		278606221B44741B00CC6249 /* XRGGPUView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGGPUView.h; sourceTree = "<group>"; };
 		278606231B44741B00CC6249 /* XRGGPUView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGGPUView.m; sourceTree = "<group>"; };
 		278E90B823F21F6600874941 /* Sensors.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Sensors.xib; sourceTree = "<group>"; };
+		2790FF7F2732BC6200B0A269 /* XRGBatteryMiner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGBatteryMiner.h; sourceTree = "<group>"; };
+		2790FF802732BC6200B0A269 /* XRGBatteryMiner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGBatteryMiner.m; sourceTree = "<group>"; };
 		27AB7CFC2558F031002F6773 /* XRGSensorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGSensorViewController.h; sourceTree = "<group>"; };
 		27AB7CFD2558F031002F6773 /* XRGSensorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGSensorViewController.m; sourceTree = "<group>"; };
 		27C3A8A32551B4A40004F2EC /* XRGStatsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGStatsManager.h; sourceTree = "<group>"; };
@@ -263,6 +266,8 @@
 				278606201B445FED00CC6249 /* XRGGPUMiner.m */,
 				275842161D8E3F4800D0281F /* XRGNetMiner.h */,
 				275842171D8E3F4800D0281F /* XRGNetMiner.m */,
+				2790FF7F2732BC6200B0A269 /* XRGBatteryMiner.h */,
+				2790FF802732BC6200B0A269 /* XRGBatteryMiner.m */,
 			);
 			path = "Data Miners";
 			sourceTree = SOURCE_ROOT;
@@ -475,6 +480,7 @@
 				273ECF0415740EAF00E65D82 /* XRGBatteryView.m in Sources */,
 				273ECF0515740EAF00E65D82 /* XRGCPUView.m in Sources */,
 				273ECF0615740EAF00E65D82 /* XRGDiskView.m in Sources */,
+				2790FF812732BC6200B0A269 /* XRGBatteryMiner.m in Sources */,
 				273ECF0715740EAF00E65D82 /* XRGGenericView.m in Sources */,
 				273ECF0815740EAF00E65D82 /* XRGMemoryView.m in Sources */,
 				273ECF0915740EAF00E65D82 /* XRGNetView.m in Sources */,

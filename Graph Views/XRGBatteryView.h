@@ -27,15 +27,7 @@
 #import <Cocoa/Cocoa.h>
 #import "definitions.h"
 #import "XRGGenericView.h"
-
-typedef NS_ENUM(NSInteger, XRGBatteryStatus) {
-    XRGBatteryStatusUnknown = 0,
-    XRGBatteryStatusRunningOnBattery = 1,
-    XRGBatteryStatusCharging = 2,
-    XRGBatteryStatusCharged = 3,
-    XRGBatteryStatusOnHold = 4,
-    XRGBatteryStatusNoBattery = 5
-};
+#import "XRGBatteryMiner.h"
 
 #define SMALL				0
 #define NORMAL				1
@@ -44,7 +36,6 @@ typedef NS_ENUM(NSInteger, XRGBatteryStatus) {
 @interface XRGBatteryView : XRGGenericView {
 @private
     NSSize                  graphSize;
-    NSInteger               numSamples;
     XRGModule               *m;
     
     // Cache Variables
@@ -63,28 +54,9 @@ typedef NS_ENUM(NSInteger, XRGBatteryStatus) {
     CGFloat                 NBIF_WIDE;
     CGFloat                 NBIF_NORMAL;
     CGFloat                 MAH_STRING;
-    
-    NSInteger               *current;
-    NSInteger               *capacity;
-    NSInteger               *charge;
-    NSInteger               *voltage;
-    NSInteger               *amperage;
-    
-    NSInteger               currentPercent;
-    NSInteger               chargeSum;
-    NSInteger               capacitySum;
-    NSInteger               voltageAverage;
-    NSInteger               amperageAverage;
-    
-    NSInteger               maxVolts;
-    NSInteger               maxAmps;
-	NSInteger               minAmps;
-    
-    XRGBatteryStatus        powerStatus;
+            
     NSInteger               lastPowerStatus;
-    NSInteger               numBatteries;
     NSInteger               displayMode;
-    NSInteger               minutesRemaining;
     NSInteger               tripleCount;
     
     NSInteger               graphPixelTimeFrame;
@@ -93,11 +65,10 @@ typedef NS_ENUM(NSInteger, XRGBatteryStatus) {
     CGFloat                 currentStatsTime;
 }
 
-@property XRGDataSet        *chargeWatts;
-@property XRGDataSet        *dischargeWatts;
+@property XRGBatteryMiner   *batteryMiner;
 
 - (void)setGraphSize:(NSSize)newSize;
-- (void)setWidth:(int)newWidth;
+- (void)setWidth:(NSInteger)newWidth;
 - (void)updateMinSize;
 - (void)graphUpdate:(NSTimer *)aTimer;
 

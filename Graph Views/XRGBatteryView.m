@@ -37,26 +37,11 @@
 @implementation XRGBatteryView
 
 - (void)awakeFromNib {    
-    maxVolts = 0;
-    maxAmps = 0;
-	minAmps = 0;
-    powerStatus = XRGBatteryStatusUnknown;
-    numBatteries = 0;
-    minutesRemaining = 0;
-    currentPercent = 0;
-    chargeSum = 0;
-    capacitySum = 0;
-    voltageAverage = 0;
-    amperageAverage = 0;
-
-    
     graphPixelTimeFrame = 30;
     currentPixelTime = 0.;
     statsUpdateTimeFrame = 10;
     currentStatsTime = statsUpdateTimeFrame + 1;
     tripleCount = 0;
-    self.chargeWatts = [[XRGDataSet alloc] init];
-    self.dischargeWatts = [[XRGDataSet alloc] init];
     
     graphSize    = NSMakeSize(90, 112);
               
@@ -93,6 +78,9 @@
     [self updateMinSize];
     [m setIsDisplayed: (bool)[defs boolForKey:XRG_showBatteryGraph]];
 
+    self.batteryMiner = [[XRGBatteryMiner alloc] init];
+    [self.batteryMiner graphUpdate:nil];
+    
     [[parentWindow moduleManager] addModule:m];
 }
 
@@ -117,11 +105,8 @@
     }
 }
 
-- (void)setWidth:(int)newWidth {
-    [self.chargeWatts resize:newWidth];
-    [self.dischargeWatts resize:newWidth];
-    
-    numSamples  = newWidth;
+- (void)setWidth:(NSInteger)newWidth {
+    [self.batteryMiner setDataSize:newWidth];
 }
 
 - (void)updateMinSize {
@@ -162,14 +147,11 @@
 // Battery stats code based on code in Idleize by Jason Patterson.  
 // http://www.pattosoft.com.au/idleize/
 - (void)graphUpdate:(NSTimer *)aTimer {
-    static mach_port_t port;
-    CFArrayRef battinfo;
-    kern_return_t err;
-    
     // increment our charging counter
     tripleCount = (tripleCount + 1) % 4;
     
     // If we are changing power status, then recalculate our time remaining immediately
+    XRGBatteryStatus powerStatus = [self.batteryMiner batteryStatus];
     if (lastPowerStatus != powerStatus) {
         currentPixelTime = graphPixelTimeFrame + 1;
         tripleCount = 0;
@@ -191,179 +173,10 @@
         return;
     }
     
-    if (!port) {
-        if ((err = IOMasterPort(bootstrap_port, &port)) != kIOReturnSuccess) {
-            powerStatus = XRGBatteryStatusUnknown;
-            return;
-        }
-    }
-	
-    if ((err = IOPMCopyBatteryInfo(port, &battinfo)) == kIOReturnSuccess && battinfo != NULL) {
-		NSArray *batteryInfoArray = (NSArray *)CFBridgingRelease(battinfo);
-        numBatteries = batteryInfoArray.count;
-        
-        // Since there could be a different number of batteries each time we run this code,
-        // we have to reset the arrays that hold the battery values each time.
-        if (current)  free(current);
-        if (capacity) free(capacity);
-        if (charge)   free(charge);
-        if (voltage)  free(voltage);
-        if (amperage) free(amperage);
-        
-        if (!numBatteries) {
-            current = capacity = charge = voltage = amperage = 0;
-            powerStatus = XRGBatteryStatusNoBattery;
-        }
-        else {
-            current  = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
-            capacity = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
-            charge   = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
-            voltage  = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
-            amperage = (NSInteger *)calloc(numBatteries, sizeof(NSInteger));
-        }
-            
-        currentPercent = 0;
-        chargeSum = 0;
-        capacitySum = 0;
-        voltageAverage = 0;
-        amperageAverage = 0;
-        
-        NSInteger skipBatteries = 0;
-        
-        for (NSInteger i = 0; i < numBatteries; i++) {
-            NSInteger flags = [[batteryInfoArray[i] valueForKey:@kIOBatteryFlagsKey] integerValue];
-            
-            // Check if this is really a battery
-            if (flags & kIOPMACnoChargeCapability) {
-                current[i] = capacity[i] = charge[i] = voltage[i] = amperage[i] = 0;
-                skipBatteries++;
-                continue;
-            }
-            
-            if ((flags & kIOBatteryChargerConnect) && (flags & kIOBatteryCharge)) {
-                // if the charger is connected, and the battery is charging...
-                powerStatus = XRGBatteryStatusCharging;
-            }
-            else if ((flags & kIOBatteryChargerConnect) && !(flags & kIOBatteryCharge)) {
-                // if the charger is connected, and the battery is not charging...
-                powerStatus = XRGBatteryStatusCharged;
-            }
-            else {
-                powerStatus = XRGBatteryStatusRunningOnBattery;
-            }
-            
-            // get the current charge
-			current[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryCurrentChargeKey] integerValue];
-            chargeSum += current[i];
-            
-            // get the total capacity
-			capacity[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryCapacityKey] integerValue];
-            capacitySum += capacity[i];
-                                
-            // get the current voltage
-			voltage[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryVoltageKey] integerValue];
-            if (voltage[i] || i == 0)
-                voltageAverage += voltage[i];
-            else 
-                voltageAverage += voltageAverage / i;
-                                                
-            // get the current amperage
-			amperage[i] = [[batteryInfoArray[i] valueForKey:@kIOBatteryAmperageKey] integerValue];
-            if (amperage[i] || i == 0)
-                amperageAverage += amperage[i];
-            else 
-                amperageAverage += amperageAverage / i;
-            
-            // calculate the % charge
-            charge[i] = (int)(100.0 * current[i] / capacity[i] + 0.5);
-            
-            if (charge[i] < 95. && powerStatus == XRGBatteryStatusCharged) {
-                powerStatus = XRGBatteryStatusOnHold;
-            }
-            
-            if (current[i] == 0 && voltage[i] == 0) powerStatus = XRGBatteryStatusNoBattery;
-        }
-        
-        // Save the watts being used.
-        CGFloat chargeWattsSum = 0;
-        CGFloat dischargeWattsSum = 0;
-        for (NSInteger i = 0; i < numBatteries; i++) {
-            CGFloat watts = ((CGFloat)amperage[i] / 1000) * ((CGFloat)voltage[i] / 1000);
-            if (watts < 0) {
-                dischargeWattsSum += -watts;
-            }
-            else {
-                chargeWattsSum += watts;
-            }
-        }
-        [self.chargeWatts setNextValue:chargeWattsSum];
-        [self.dischargeWatts setNextValue:dischargeWattsSum];
-        
-        // Calculate the time remaining.
-        if ((fabs(chargeWattsSum) < 0.1) && (fabs(dischargeWattsSum) < 0.1)) {
-            minutesRemaining = 0;
-        }
-        else {
-            CGFloat mahChange = 0;
-            for (NSInteger i = 0; i < numBatteries; i++) {
-                mahChange += (CGFloat)amperage[i];
-            }
-            
-            if (mahChange < 0) {
-                // Discharging
-                CGFloat remaingingMAH = chargeSum;
-                minutesRemaining = minutesRemaining * 0.8 + (remaingingMAH / -mahChange * 60) * 0.2;
-            }
-            else {
-                // Charging
-                CGFloat remaingingMAH = capacitySum - chargeSum;
-                minutesRemaining = minutesRemaining * 0.8 + (remaingingMAH / mahChange * 60) * 0.2;
-            }
-        }
-        
-        if (numBatteries - skipBatteries > 0) {
-            voltageAverage  /= (numBatteries - skipBatteries);
-            amperageAverage /= (numBatteries - skipBatteries);
-            currentPercent = (int)(100.0 * chargeSum / capacitySum + 0.5);
-            if (amperageAverage > maxAmps) maxAmps = amperageAverage;
-			if (amperageAverage < minAmps) minAmps = amperageAverage;
-            if (voltageAverage > maxVolts) maxVolts = voltageAverage;
-        }
-        else {
-            voltageAverage = 0;
-            amperageAverage = 0;
-            currentPercent = 0;
-            powerStatus = XRGBatteryStatusUnknown;
-        }
+    [self.batteryMiner graphUpdate:aTimer];
     
-        [self setNeedsDisplay:YES];
-    }  
-    else {
-        powerStatus = XRGBatteryStatusUnknown;
-    }
-	
-    return;
+    [self setNeedsDisplay:YES];
 }
-
-/*! Lots of UPS devices don't reveal anything really useful here other than time to empty and charge %.  Leaving this here for possible future use though. */
-//- (void)upsUpdate {
-//	CFTypeRef powerBlob = IOPSCopyPowerSourcesInfo();
-//	if (powerBlob != NULL) {
-//		CFArrayRef powerSourceKeys = IOPSCopyPowerSourcesList(powerBlob);
-//		if (powerSourceKeys != NULL) {
-//			for (NSInteger i = 0; i < CFArrayGetCount(powerSourceKeys); i++) {
-//				CFTypeRef powerSourceKey = CFArrayGetValueAtIndex(powerSourceKeys, i);
-//				CFDictionaryRef powerD = IOPSGetPowerSourceDescription(powerBlob, powerSourceKey);
-//				if (powerD != NULL) {
-//					
-//				}
-//			}
-//			CFRelease(powerSourceKeys);
-//		}
-//		
-//		CFRelease(powerBlob);
-//	}
-//}
 
 - (void)drawRect:(NSRect)rect {
     if ([self isHidden]) return;
@@ -371,6 +184,9 @@
     #ifdef XRG_DEBUG
         NSLog(@"In Battery DrawRect."); 
     #endif
+    
+    XRGBatteryStatus powerStatus = [self.batteryMiner batteryStatus];
+    NSInteger chargePercent = [self.batteryMiner chargePercent];
 
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
     
@@ -397,14 +213,14 @@
 
     [gc setShouldAntialias:[appSettings antiAliasing]];
     
-    CGFloat currentWatts = self.chargeWatts.currentValue - self.dischargeWatts.currentValue;
-    CGFloat maxWatts = MAX(self.chargeWatts.max, self.dischargeWatts.max);
+    CGFloat currentWatts = self.batteryMiner.chargeWatts.currentValue - self.batteryMiner.dischargeWatts.currentValue;
+    CGFloat maxWatts = MAX(self.batteryMiner.chargeWatts.max, self.batteryMiner.dischargeWatts.max);
     maxWatts = MAX(maxWatts, 30);
     
     // draw the battery bar
     [[appSettings graphFG1Color] set];
-    if (charge) {
-        percentRect.size.width = rect.size.width * ((float)currentPercent / 100.);
+    if (self.batteryMiner.batteries.count) {
+        percentRect.size.width = rect.size.width * ((float)[self.batteryMiner chargePercent] / 100.);
 		
 		if ([self shouldDrawMiniGraph]) {
 			percentRect.origin.y = self.bounds.origin.y;
@@ -456,30 +272,31 @@
 		percentRect.size.height = topOfGraph;
 		
         if (percentRect.size.height > 0) {
-            [self drawGraphWithDataFromDataSet:self.chargeWatts maxValue:maxWatts inRect:percentRect flipped:NO filled:YES color:[appSettings graphFG1Color]];
-            [self drawGraphWithDataFromDataSet:self.dischargeWatts maxValue:maxWatts inRect:percentRect flipped:YES filled:YES color:[appSettings graphFG2Color]];
+            [self drawGraphWithDataFromDataSet:self.batteryMiner.chargeWatts maxValue:maxWatts inRect:percentRect flipped:NO filled:YES color:[appSettings graphFG1Color]];
+            [self drawGraphWithDataFromDataSet:self.batteryMiner.dischargeWatts maxValue:maxWatts inRect:percentRect flipped:YES filled:YES color:[appSettings graphFG2Color]];
         }
 	}
     [gc setShouldAntialias:YES];
 
     // Draw the text.
     NSRect textRect = [self paddedTextRect];
-    if (current && charge && capacity) {
+    if (self.batteryMiner.batteries.count) {
         NSMutableString *leftS = [[NSMutableString alloc] init];
         NSMutableString *rightS = [[NSMutableString alloc] init];
         NSMutableString *centerS = [[NSMutableString alloc] init];
         BOOL drawCenter = NO;
 
         // Draw the battery percentage
+        NSInteger minutesRemaining = [self.batteryMiner minutesRemaining];
         if (powerStatus == XRGBatteryStatusCharged) {
-            [leftS appendFormat:@"%ld%%", (long)currentPercent];
+            [leftS appendFormat:@"%ld%%", (long)chargePercent];
             if (CHARGED_WIDE <= textRect.size.width)
                 [rightS appendFormat:@"Charged"];
             else
                 [rightS appendFormat:@"Chgd."];
         }
         else if (powerStatus == XRGBatteryStatusOnHold) {
-            [leftS appendFormat:@"%ld%%", (long)currentPercent];
+            [leftS appendFormat:@"%ld%%", (long)chargePercent];
             if (CHARGED_WIDE <= textRect.size.width)
                 [rightS appendFormat:@"On Hold"];
             else
@@ -493,16 +310,16 @@
                 mrString = [NSString stringWithFormat:@"%ld:%ld", (long)minutesRemaining / 60, (long)minutesRemaining % 60];
 
             if (PERCENT_WIDE <= textRect.size.width) {
-                [leftS appendFormat:@"%ld%% Charged", (long)currentPercent];
+                [leftS appendFormat:@"%ld%% Charged", (long)chargePercent];
                 [rightS appendFormat:@"%@ Left", mrString];
             }
             else {
-                [leftS appendFormat:@"%ld%%", (long)currentPercent];
+                [leftS appendFormat:@"%ld%%", (long)chargePercent];
                 [rightS appendString: mrString];
             }
         }
         else {
-            [leftS appendFormat:@"%ld%%", (long)currentPercent];
+            [leftS appendFormat:@"%ld%%", (long)chargePercent];
             if (ESTIMATING_WIDE <= textRect.size.width)
                 [rightS appendFormat:@"Estimating Left"];
             else if (ESTIMATING_NORMAL <= textRect.size.width)
@@ -512,8 +329,8 @@
         }
         
         // Draw the current charge.
-        [leftS appendFormat:@"\n%ldmAh", (long)chargeSum];
-        [rightS appendFormat:@"\n%ldmAh", (long)capacitySum];
+        [leftS appendFormat:@"\n%ldmAh", (long)[self.batteryMiner totalCharge]];
+        [rightS appendFormat:@"\n%ldmAh", (long)[self.batteryMiner totalCapacity]];
         [centerS appendString:@"\n"];
         
 		if (![self shouldDrawMiniGraph]) {
