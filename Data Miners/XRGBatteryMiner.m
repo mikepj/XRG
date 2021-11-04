@@ -12,7 +12,6 @@
 
 - (instancetype)initWithBatteryDictionary:(NSDictionary *)batteryDictionary {
     if (self = [super init]) {
-        NSLog(@"init battery: %@", batteryDictionary);
         self.totalCapacity = [batteryDictionary[@"AppleRawMaxCapacity"] integerValue];
         self.currentCharge = [batteryDictionary[@"AppleRawCurrentCapacity"] integerValue];
         self.amperage = (CGFloat)[batteryDictionary[@"Amperage"] integerValue] / 1000;
