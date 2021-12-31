@@ -44,6 +44,8 @@
     NSInteger                   updateCounter;
 }
 
++ (BOOL)showUnknownSensors;
+
 - (void)setGraphSize:(NSSize)newSize;
 - (void)setWidth:(NSInteger)newWidth;
 - (void)updateMinSize;

@@ -609,7 +609,7 @@
 
     XRGTemperatureMiner *temperatureMiner = [XRGTemperatureMiner shared];
     if (temperatureMiner) {
-        NSArray *locations = [temperatureMiner locationKeysIncludingUnknown:[[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors]];
+        NSArray *locations = [temperatureMiner locationKeysIncludingUnknown:[XRGTemperatureView showUnknownSensors]];
         NSMutableArray *sensors = [NSMutableArray array];
         NSMutableArray<NSString *> *locationTitles = [NSMutableArray array];
         for (NSString *location in locations) {

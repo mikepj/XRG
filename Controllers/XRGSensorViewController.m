@@ -30,6 +30,7 @@
 #import "XRGSettings.h"
 #import "XRGAppDelegate.h"
 #import "XRGStatsManager.h"
+#import "XRGTemperatureView.h"
 
 @interface XRGSensorViewController ()
 
@@ -66,7 +67,7 @@
 }
 
 - (void)refresh {
-    NSArray<NSString *> *sensorKeys = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:YES];
+    NSArray<NSString *> *sensorKeys = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[XRGTemperatureView showUnknownSensors]];
 
     NSMutableString *sensorNames = [[NSMutableString alloc] init];
     NSMutableString *currentValues = [[NSMutableString alloc] init];

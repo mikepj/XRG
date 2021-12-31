@@ -30,6 +30,16 @@
 
 @implementation XRGTemperatureView
 
++ (BOOL)showUnknownSensors {
+    BOOL showUnknown = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
+    
+    // show all unnamed sensors if very few are known
+    showUnknown |= [XRGTemperatureMiner shared].smcSensors.knownTemperatureKeys.count < 10;
+
+    return showUnknown;
+}
+
+
 - (void)awakeFromNib {       
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setTemperatureView:self];
@@ -92,16 +102,7 @@
 }
 
 - (void)graphUpdate:(NSTimer *)aTimer {
-    // Only update once every 5 cycles.
-    updateCounter++;
-    if (updateCounter % 5 != 0) {
-        return;
-    }
-    else {
-        updateCounter = 0;
-    }
-    
-    [[XRGTemperatureMiner shared] updateCurrentTemperatures];
+    [[XRGTemperatureMiner shared] updateCurrentTemperatures:[XRGTemperatureView showUnknownSensors]];
     [self checkForConfiguredSensors];
 
     [self setNeedsDisplay: YES];
@@ -132,7 +133,7 @@
 
 - (void)drawMiniGraph {
     // Get our sensor locations.
-    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[XRGTemperatureView showUnknownSensors]];
     if ([locations count] == 0) {
         [@"Temperature n/a" drawInRect:[self paddedTextRect] withAttributes:[appSettings alignLeftAttributes]];
         return;
@@ -204,7 +205,7 @@
     NSRect paddedTextRect = [self paddedTextRect];
     float textRectHeight = [appSettings textRectHeight];
 
-    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[XRGTemperatureView showUnknownSensors]];
     
     if ([locations count] == 0) {
         // This machine isn't supported.
@@ -358,13 +359,6 @@
     return [XRGTemperatureMiner.shared sensorForLocation:sensorKey];
 }
 
-- (BOOL)showUnknownSensors {
-    BOOL showUnknown = [[NSUserDefaults standardUserDefaults] boolForKey:XRG_tempShowUnknownSensors];
-    showUnknown |= [XRGTemperatureMiner shared].smcSensors.unknownTemperatureKeys.count > 3 * [XRGTemperatureMiner shared].smcSensors.knownTemperatureKeys.count; // show all unnamed sensors if the majority has no name
-
-    return showUnknown;
-}
-
 /// Check if we have configured temperature sensors, and make some decent default choices if none were setup previously.
 - (void)checkForConfiguredSensors {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -378,7 +372,7 @@
 
     [defs setBool:YES forKey:XRG_tempLocationsAutoconfigured];
 
-    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[XRGTemperatureView showUnknownSensors]];
     NSMutableArray *preferredLocationKeys = [NSMutableArray array];
 
     // First look for a Fan.
@@ -457,7 +451,7 @@
     NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Temperature View"];
     NSMenuItem *tMI;
 
-    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[self showUnknownSensors]];
+    NSArray *locations = [[XRGTemperatureMiner shared] locationKeysIncludingUnknown:[XRGTemperatureView showUnknownSensors]];
     int i;    
     for (i = 0; i < [locations count]; i++) {
         XRGSensorData *sensor = [[XRGTemperatureMiner shared] sensorForLocation:locations[i]];
