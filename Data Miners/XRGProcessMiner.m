@@ -84,8 +84,7 @@
 								 XRGProcessResidentMemorySize: @([rssString intValue]),
 								 XRGProcessVirtualMemorySize: @([vssString intValue]),
 								 XRGProcessTotalSwaps: @([nswapString intValue]),
-								 XRGProcessUser: userString,
-								 XRGProcessCommand: commandString };
+								 XRGProcessUser: userString };
 			
 			[newProcessArray addObject:d];
 		}
