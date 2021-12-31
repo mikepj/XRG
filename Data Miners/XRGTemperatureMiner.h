@@ -76,7 +76,7 @@
 - (void)reset;
 - (NSInteger)numberOfCPUs;
 
-- (void)updateCurrentTemperatures;
+- (void)updateCurrentTemperatures:(BOOL)includeUnknown;
 
 - (nonnull NSArray<NSString *> *)locationKeysIncludingUnknown:(BOOL)includeUnknown;
 - (nonnull NSArray<NSString *> *)allSensorKeys;

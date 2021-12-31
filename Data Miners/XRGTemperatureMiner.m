@@ -25,6 +25,7 @@
 //
 
 #import "XRGTemperatureMiner.h"
+#import "XRGAppleSiliconSensorMiner.h"
 #import "XRGStatsManager.h"
 #import "definitions.h"
 
@@ -109,7 +110,7 @@
     }
 }
 
-- (void)updateCurrentTemperatures {
+- (void)updateCurrentTemperatures:(BOOL)includeUnknown {
     // Only refresh the temperature every 5 seconds.
     self.temperatureCounter = (self.temperatureCounter + 1) % 5;
     if (self.temperatureCounter != 1) {
@@ -123,7 +124,7 @@
     	
 	// Intel: use SMC
 	@try {
-		[self trySMCTemperature];
+        [self trySMCTemperature:includeUnknown];
 	} @catch (NSException *e) {}
 		
 	// Before returning, go through the values and find the ones that aren't enabled.
@@ -135,8 +136,8 @@
     }
 }
 
-- (void)trySMCTemperature {
-	NSDictionary *temperatureValues = [self.smcSensors temperatureValuesExtended:YES];
+- (void)trySMCTemperature:(BOOL)includeUnknown {
+	NSDictionary *temperatureValues = [self.smcSensors temperatureValuesIncludingUnknown:includeUnknown];
 	//NSLog(@"values: %@", temperatureValues);
 
     for (NSString *key in temperatureValues) {

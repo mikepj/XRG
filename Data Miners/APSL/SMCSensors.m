@@ -29,6 +29,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SMCSensors.h"
+#import "SMCSensorGroup.h"
 #import "SMCInterface.h"
 
 @interface SMCSensors()
@@ -77,11 +78,11 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
     return result ? result : key;
 }
 
-- (BOOL)isKnownKey:(NSString *)key {
+- (BOOL) isKnownKey:(NSString *)key {
     return self.keyDescriptions[key] != nil;
 }
 
-- (NSDictionary *) temperatureValuesExtended:(BOOL) includeUnknownSensors
+- (NSDictionary *) temperatureValuesIncludingUnknown:(BOOL)includeUnknownSensors
 {
 	NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
     [self readSMCValues:self.knownTemperatureKeys toDictionary:resultDict];
@@ -93,7 +94,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 
 - (NSDictionary *) fanValues
 {
-    uint32_t      forcedBits;
+    uint32_t forcedBits;
     NSError *error = nil;
     
 	NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
@@ -175,12 +176,19 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
     NSSet<NSString *> *smcKeys = [self readSMCKeys];
     
     NSArray<NSString *> *keyDescriptionsWithWildcard = [self.descriptionsForSMCKeys.allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^( NSString *s, id dontCare ){ return [s containsString:@"?"]; }]];
+    NSMutableArray<SMCSensorGroup *> *sensorGroups = [NSMutableArray array];
+    for (NSString *wildcardDescription in keyDescriptionsWithWildcard) {
+        SMCSensorGroup *group = [[SMCSensorGroup alloc] initWithPattern:wildcardDescription usingAvailableSensors:smcKeys description:self.descriptionsForSMCKeys[wildcardDescription]];
+        
+        if (group) {
+            [sensorGroups addObject:group];
+        }
+    }
     
     // now set up description lookup:
     for( NSString *currentKey in smcKeys ) {
 		char keyChar[5] = "";
         NSString *smcKeyDescription = nil;
-		int indexInKey;
         BOOL isFanKey, isTemperatureKey;
         
 		[currentKey getCString:keyChar maxLength:5 encoding:NSASCIIStringEncoding];
@@ -192,36 +200,12 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
         smcKeyDescription = self.descriptionsForSMCKeys[currentKey];
         if( smcKeyDescription == nil ) {
             // No direct match, find a wildcard match
-            for (NSString *key in keyDescriptionsWithWildcard) {
-                indexInKey = [self c4String:keyChar matchesPattern:[key UTF8String]];
-                if (indexInKey != kNoMatch) {
-                    smcKeyDescription = self.descriptionsForSMCKeys[key];
-                    break;
-                }
-            }
-            
-            if (smcKeyDescription) {
-                // Filter out non-consecutive sensors:
-                if (indexInKey > 1) {
-                    NSString *prevKey = [currentKey stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%X", indexInKey] withString:[NSString stringWithFormat:@"%X", indexInKey-1]];
-                    if (![smcKeys containsObject:prevKey]) {
-                        smcKeyDescription = nil;
-                    }
-                }
+            for (SMCSensorGroup *group in sensorGroups) {
+                NSString *matchingDescription = group.sensorKeyDescriptions[currentKey];
                 
-                // Figure out if we should add a digit (only if there are more than one with this name).
-                BOOL appendIndexToDescription = NO;
-                if (indexInKey == 0)	{
-                    // if the key is of form XXX0, see if there is also XXX1
-                    NSString *sensorAtIndexOneKey = [currentKey stringByReplacingOccurrencesOfString:@"0" withString:@"1"];
-                    appendIndexToDescription = [smcKeys containsObject:sensorAtIndexOneKey];
-
-                } else {
-                    appendIndexToDescription = YES;
-                }
-
-                if (appendIndexToDescription) {
-                    smcKeyDescription = [smcKeyDescription stringByAppendingFormat:@" #%d", indexInKey];
+                if (matchingDescription) {
+                    smcKeyDescription = matchingDescription;
+                    break;
                 }
             }
         }

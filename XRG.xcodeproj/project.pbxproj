@@ -50,6 +50,7 @@
 		273ECF551574106600E65D82 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF511574106600E65D82 /* Preferences.nib */; };
 		273ECF64157413D200E65D82 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF63157413D200E65D82 /* icon.icns */; };
 		273ECF661574145100E65D82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECF651574145100E65D82 /* IOKit.framework */; };
+		2755BBBC277E390200461C51 /* SMCSensorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755BBBB277E390200461C51 /* SMCSensorGroup.m */; };
 		275842181D8E3F4800D0281F /* XRGNetMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 275842171D8E3F4800D0281F /* XRGNetMiner.m */; };
 		278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606201B445FED00CC6249 /* XRGGPUMiner.m */; };
 		278606241B44741B00CC6249 /* XRGGPUView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606231B44741B00CC6249 /* XRGGPUView.m */; };
@@ -143,6 +144,8 @@
 		273ECF63157413D200E65D82 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		273ECF651574145100E65D82 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		273ECF6D157803EF00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
+		2755BBBA277E390200461C51 /* SMCSensorGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMCSensorGroup.h; sourceTree = "<group>"; };
+		2755BBBB277E390200461C51 /* SMCSensorGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMCSensorGroup.m; sourceTree = "<group>"; };
 		275842161D8E3F4800D0281F /* XRGNetMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGNetMiner.h; sourceTree = "<group>"; };
 		275842171D8E3F4800D0281F /* XRGNetMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRGNetMiner.m; sourceTree = "<group>"; };
 		2775AC211B42F4A700D867AC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -371,6 +374,8 @@
 				937851A8157CA243001D2A15 /* SMCInterface.m */,
 				937851AB157CA5D0001D2A15 /* SMCSensors.h */,
 				937851AC157CA5D0001D2A15 /* SMCSensors.m */,
+				2755BBBA277E390200461C51 /* SMCSensorGroup.h */,
+				2755BBBB277E390200461C51 /* SMCSensorGroup.m */,
 			);
 			path = APSL;
 			sourceTree = "<group>";
@@ -484,6 +489,7 @@
 				273ECF0715740EAF00E65D82 /* XRGGenericView.m in Sources */,
 				273ECF0815740EAF00E65D82 /* XRGMemoryView.m in Sources */,
 				273ECF0915740EAF00E65D82 /* XRGNetView.m in Sources */,
+				2755BBBC277E390200461C51 /* SMCSensorGroup.m in Sources */,
 				278606241B44741B00CC6249 /* XRGGPUView.m in Sources */,
 				273ECF0A15740EAF00E65D82 /* XRGStockView.m in Sources */,
 				278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */,

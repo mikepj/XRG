@@ -100,6 +100,8 @@
 	<string>GPU Die</string>
 	<key>TG?H</key>
 	<string>GPU Heatsink</string>
+	<key>Tg0?</key>
+	<string>GPU Cluster</string>
 	<key>Ts0S</key>
 	<string>Memory Proximity</string>
 	<key>TM0P</key>
@@ -166,6 +168,10 @@
 	<string>Mem Module B7</string>
 	<key>TMFS</key>
 	<string>Mem Module B8</string>
+	<key>Tm0?</key>
+	<string>Mem Bank</string>
+	<key>Tp0?</key>
+	<string>CPU Core</string>
 	<key>TN0D</key>
 	<string>Northbridge Die</string>
 	<key>TN?P</key>
@@ -184,10 +190,6 @@
 	<string>Airflow</string>
 	<key>Th?H</key>
 	<string>Heatpipe</string>
-	<key>Tm0P</key>
-	<string>Mainboard Proximity</string>
-	<key>Tp0P</key>
-	<string>Power Supply 1</string>
 	<key>Ts0P</key>
 	<string>Palm Rest</string>
 	<key>Tb0P</key>
@@ -208,20 +210,6 @@
 	<string>Battery 2</string>
 	<key>TB3T</key>
 	<string>Battery</string>
-	<key>Tp0C</key>
-	<string>Power Supply 1 Alt.</string>
-	<key>Tp1P</key>
-	<string>Power Supply 2</string>
-	<key>Tp1C</key>
-	<string>Power Supply 2 Alt.</string>
-	<key>Tp2P</key>
-	<string>Power Supply 3</string>
-	<key>Tp3P</key>
-	<string>Power Supply 4</string>
-	<key>Tp4P</key>
-	<string>Power Supply 5</string>
-	<key>Tp5P</key>
-	<string>Power Supply 6</string>
 	<key>TS0C</key>
 	<string>Expansion Slots</string>
 	<key>TA0S</key>

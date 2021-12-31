@@ -49,7 +49,7 @@
 /// Temperature senor values
 /// withUnknownSensors: include sensors where humanReadableNameForKey will fail
 /// return an NSDictionary with key: SMCSensorName, value: NSNumber with temperature in Celsius
-- (NSDictionary *)temperatureValuesExtended:(BOOL) withUnknownSensors;
+- (NSDictionary *) temperatureValuesIncludingUnknown:(BOOL) withUnknownSensors;
 
 /// additional sensors (motion etc.).
 @property (readonly, copy) NSDictionary *sensorValues;
@@ -58,6 +58,6 @@
 /// will return key, if no description can be found
 - (NSString *) humanReadableNameForKey:(NSString *)key;
 
-- (BOOL)isKnownKey:(NSString *)key;
+- (BOOL) isKnownKey:(NSString *)key;
 
 @end
