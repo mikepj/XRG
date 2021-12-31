@@ -269,7 +269,7 @@
 			// Matches CPU and CORE
 			NSRange r = [humanReadableLocation rangeOfString:@"CPU"];
 			if (r.location != NSNotFound) {
-				r = [humanReadableLocation rangeOfString:@"CORE"];
+				r = [humanReadableLocation rangeOfString:@"Core"];
 				if (r.location != NSNotFound) {
 					[tmpCPUCore addObject:location];
 					alreadyUsed[i] = YES;
@@ -360,7 +360,7 @@
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self"
                                                                          ascending:YES
                                                                         comparator:^(id obj1, id obj2) {
-                                                                            return [obj1 compare:obj2 options:NSNumericSearch];
+                                                                            return [obj1 compare:obj2];
                                                                         }];
         
 		[self.locationKeysInOrder addObjectsFromArray:[tmpCPUCore sortedArrayUsingDescriptors:@[descriptor]]];
