@@ -339,7 +339,6 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
             }
         default:
             result = [NSData dataWithBytes:stuffMeOut.bytes length:keyInfo.size];
-            // result = [self intValueFromSMC:stuffMeOut.bytes length:stuffMeOut.keyInfo.dataSize];
             break;
     }
  exit:
