@@ -85,9 +85,9 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 - (NSDictionary *) temperatureValuesIncludingUnknown:(BOOL)includeUnknownSensors
 {
 	NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
-    [self readSMCValues:self.knownTemperatureKeys toDictionary:resultDict filterForTemperature:YES];
+    [self readSMCValues:self.knownTemperatureKeys toDictionary:resultDict];
     if( includeUnknownSensors ) {
-        [self readSMCValues:self.unknownTemperatureKeys toDictionary:resultDict filterForTemperature:YES];
+        [self readSMCValues:self.unknownTemperatureKeys toDictionary:resultDict];
     }
     return resultDict;
 }
@@ -108,7 +108,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
         [resultDict setValue:fanDict forKey:[NSString stringWithFormat:@"Fan #%d", fanIndex]];
         
         NSSet *smcKeys = self.fanDescriptions[fanIndexString];
-        [self readSMCValues:smcKeys toDictionary:fanDict filterForTemperature:NO];
+        [self readSMCValues:smcKeys toDictionary:fanDict];
         fanDict[@"Forced"] = [NSNumber numberWithBool:(forcedBits & (1 << fanIndex))];
     }
     return resultDict;
@@ -302,17 +302,14 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 	return retVal;
 }
 
-- (BOOL) readSMCValues:(NSSet *)smcKeys toDictionary:(NSMutableDictionary *)destDict filterForTemperature:(BOOL)useTemperatureFilter
+- (BOOL) readSMCValues:(NSSet *)smcKeys toDictionary:(NSMutableDictionary *)destDict
 {
     NSError *error = nil; 
     BOOL success = YES;
     
     for (NSString *aKey in smcKeys) {
         id value = [self.smc readValue:[self keyFromString:aKey] error:&error];
-        if (useTemperatureFilter) {
-            value = [self checkedTemperatureValue:value];
-        }
-        if(!error && value) {
+        if (!error && value) {
             destDict[aKey] = value;
         } else {
             success = NO;

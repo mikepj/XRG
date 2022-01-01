@@ -145,8 +145,8 @@
 		if (![aValue isKindOfClass:[NSNumber class]]) continue;		// Fix TE..
         
 		float temperature = [aValue floatValue];
-		// Throw out temperatures that are too high to be reasonable.
-		if (temperature > 150) {
+		// Throw out temperatures that are too low or too high to be reasonable.
+		if (temperature < 15 || temperature > 150) {
 			continue;
 		}
 
