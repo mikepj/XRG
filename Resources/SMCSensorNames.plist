@@ -74,14 +74,6 @@
 	<string>CPU A ° Below MaxT</string>
 	<key>TCBC</key>
 	<string>CPU B ° Below MaxT</string>
-	<key>TCAH</key>
-	<string>CPU 1 Heatsink Alt.</string>
-	<key>TCAD</key>
-	<string>CPU 1 Package Alt.</string>
-	<key>TCBH</key>
-	<string>CPU 2 Heatsink Alt.</string>
-	<key>TCBD</key>
-	<string>CPU 2 Package Alt.</string>
 	<key>TCSC</key>
 	<string>PECI SA</string>
 	<key>TCSc</key>
@@ -104,70 +96,10 @@
 	<string>GPU Cluster</string>
 	<key>Ts0S</key>
 	<string>Memory Proximity</string>
-	<key>TM0P</key>
-	<string>Mem Bank A1</string>
-	<key>TM1P</key>
-	<string>Mem Bank A2</string>
-	<key>TM2P</key>
-	<string>Mem Bank A3</string>
-	<key>TM3P</key>
-	<string>Mem Bank A4</string>
-	<key>TM4P</key>
-	<string>Mem Bank A5</string>
-	<key>TM5P</key>
-	<string>Mem Bank A6</string>
-	<key>TM6P</key>
-	<string>Mem Bank A7</string>
-	<key>TM7P</key>
-	<string>Mem Bank A8</string>
-	<key>TM8P</key>
-	<string>Mem Bank B1</string>
-	<key>TM9P</key>
-	<string>Mem Bank B2</string>
-	<key>TMAP</key>
-	<string>Mem Bank B3</string>
-	<key>TMBP</key>
-	<string>Mem Bank B4</string>
-	<key>TMCP</key>
-	<string>Mem Bank B5</string>
-	<key>TMDP</key>
-	<string>Mem Bank B6</string>
-	<key>TMEP</key>
-	<string>Mem Bank B7</string>
-	<key>TMFP</key>
-	<string>Mem Bank B8</string>
-	<key>TM0S</key>
-	<string>Mem Module A1</string>
-	<key>TM1S</key>
-	<string>Mem Module A2</string>
-	<key>TM2S</key>
-	<string>Mem Module A3</string>
-	<key>TM3S</key>
-	<string>Mem Module A4</string>
-	<key>TM4S</key>
-	<string>Mem Module A5</string>
-	<key>TM5S</key>
-	<string>Mem Module A6</string>
-	<key>TM6S</key>
-	<string>Mem Module A7</string>
-	<key>TM7S</key>
-	<string>Mem Module A8</string>
-	<key>TM8S</key>
-	<string>Mem Module B1</string>
-	<key>TM9S</key>
-	<string>Mem Module B2</string>
-	<key>TMAS</key>
-	<string>Mem Module B3</string>
-	<key>TMBS</key>
-	<string>Mem Module B4</string>
-	<key>TMCS</key>
-	<string>Mem Module B5</string>
-	<key>TMDS</key>
-	<string>Mem Module B6</string>
-	<key>TMES</key>
-	<string>Mem Module B7</string>
-	<key>TMFS</key>
-	<string>Mem Module B8</string>
+	<key>TM?P</key>
+	<string>Mem Bank</string>
+	<key>TM?S</key>
+	<string>Mem Module</string>
 	<key>Tm0?</key>
 	<string>Mem Bank</string>
 	<key>Tp0?</key>
@@ -212,14 +144,8 @@
 	<string>Battery</string>
 	<key>TS0C</key>
 	<string>Expansion Slots</string>
-	<key>TA0S</key>
-	<string>PCI Slot 1 Pos 1</string>
-	<key>TA1S</key>
-	<string>PCI Slot 1 Pos 2</string>
-	<key>TA2S</key>
-	<string>PCI Slot 2 Pos 1</string>
-	<key>TA3S</key>
-	<string>PCI Slot 2 Pos 2</string>
+	<key>TA?S</key>
+	<string>PCI Position</string>
 	<key>VC?C</key>
 	<string>CPU Core</string>
 	<key>VV1R</key>

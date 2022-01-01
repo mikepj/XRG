@@ -85,9 +85,9 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 - (NSDictionary *) temperatureValuesIncludingUnknown:(BOOL)includeUnknownSensors
 {
 	NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
-    [self readSMCValues:self.knownTemperatureKeys toDictionary:resultDict];
+    [self readSMCValues:self.knownTemperatureKeys toDictionary:resultDict filterForTemperature:YES];
     if( includeUnknownSensors ) {
-        [self readSMCValues:self.unknownTemperatureKeys toDictionary:resultDict];
+        [self readSMCValues:self.unknownTemperatureKeys toDictionary:resultDict filterForTemperature:YES];
     }
     return resultDict;
 }
@@ -108,7 +108,7 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
         [resultDict setValue:fanDict forKey:[NSString stringWithFormat:@"Fan #%d", fanIndex]];
         
         NSSet *smcKeys = self.fanDescriptions[fanIndexString];
-        [self readSMCValues:smcKeys toDictionary:fanDict];
+        [self readSMCValues:smcKeys toDictionary:fanDict filterForTemperature:NO];
         fanDict[@"Forced"] = [NSNumber numberWithBool:(forcedBits & (1 << fanIndex))];
     }
     return resultDict;
@@ -125,7 +125,8 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
     {
         key = [self.smc keyAtIndex:i];
         id value = [self.smc readValue:key error:nil];
-        if( value )
+        value = [self checkedTemperatureValue:value];
+        if ( value )
             [dict setValue:value forKey:[self dictKeyFromInt:key]]; 
     }    
     return dict;
@@ -301,20 +302,33 @@ typedef NS_ENUM(int, DescriptionMatch_t) {
 	return retVal;
 }
 
-- (BOOL) readSMCValues:(NSSet *) smcKeys toDictionary:(NSMutableDictionary *) destDict
+- (BOOL) readSMCValues:(NSSet *)smcKeys toDictionary:(NSMutableDictionary *)destDict filterForTemperature:(BOOL)useTemperatureFilter
 {
     NSError *error = nil; 
     BOOL success = YES;
     
-    for( NSString *aKey in smcKeys  ) {
+    for (NSString *aKey in smcKeys) {
         id value = [self.smc readValue:[self keyFromString:aKey] error:&error];
-        if( !error ) {
+        if (useTemperatureFilter) {
+            value = [self checkedTemperatureValue:value];
+        }
+        if(!error && value) {
             destDict[aKey] = value;
         } else {
             success = NO;
         }
     }
     return success;
+}
+
+- (nullable NSNumber *) checkedTemperatureValue:(id)smcValue {
+    if (![smcValue isKindOfClass:[NSNumber class]]) {
+        return nil;
+    }
+    
+    NSNumber *smcNumber = (NSNumber *)smcValue;
+    float smcFloat = [smcNumber floatValue];
+    return (smcFloat > 15 && smcFloat < 200) ? smcNumber : nil;
 }
 
 @end
