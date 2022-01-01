@@ -48,6 +48,10 @@ NSArray<NSString *> *__SMCSensorGroup_wildcardOrder = nil;
     return self.characters.count;
 }
 
+- (BOOL)isFullNumericSeries {
+    return self.characters.count == 10 && [self.characters[0] isEqualToString:@"0"];
+}
+
 @end
 
 @interface SMCSensorGroup ()
@@ -59,7 +63,7 @@ NSArray<NSString *> *__SMCSensorGroup_wildcardOrder = nil;
 + (nonnull NSArray<SMCSensorSeries *> *)seriesForPattern:(NSString *)pattern inSensorList:(NSSet<NSString *> *)sensorList {
     NSArray *wildcardCharacters = [SMCSensorGroup wildcardOrder];
     
-    NSMutableArray *prefixGroups = [NSMutableArray array];
+    NSMutableArray<SMCSensorSeries *> *prefixGroups = [NSMutableArray array];
     SMCSensorSeries *currentSeries = nil;
     
     for (NSString *wildcardCharacter in wildcardCharacters) {
@@ -77,6 +81,34 @@ NSArray<NSString *> *__SMCSensorGroup_wildcardOrder = nil;
             [prefixGroups addObject:currentSeries];
             currentSeries = nil;
         }
+    }
+    
+    // Check for a 0-9 prefix.
+    NSInteger fullNumericIndex = NSNotFound;
+    for (int i = 0; i < prefixGroups.count; i++) {
+        if ([prefixGroups[i] isFullNumericSeries]) {
+            fullNumericIndex = i;
+            break;
+        }
+    }
+    
+    // Check for a prefix starting with 'a'.
+    NSInteger lowerAPrefixIndex = NSNotFound;
+    for (int i = 0; i < prefixGroups.count; i++) {
+        if ([prefixGroups[i].characters[0] isEqualToString:@"a"]) {
+            lowerAPrefixIndex = i;
+        }
+    }
+    
+    if (fullNumericIndex != NSNotFound && lowerAPrefixIndex != NSNotFound) {
+        // Concatenate the "a" prefix onto the 0-9 prefix.
+        SMCSensorSeries *numericSeries = prefixGroups[fullNumericIndex];
+        SMCSensorSeries *lowerASeries = prefixGroups[lowerAPrefixIndex];
+        
+        numericSeries.characters = [numericSeries.characters arrayByAddingObjectsFromArray:lowerASeries.characters];
+        
+        // Remove the "a" prefix series.
+        [prefixGroups removeObjectAtIndex:lowerAPrefixIndex];
     }
     
     return prefixGroups;
@@ -109,7 +141,8 @@ NSArray<NSString *> *__SMCSensorGroup_wildcardOrder = nil;
         return nil;
     }
     
-    if (![self isValidSeriesArray:seriesArray]) {
+    seriesArray = [self filteredSeriesArray:seriesArray];
+    if (!seriesArray) {
         return nil;
     }
     
@@ -164,20 +197,27 @@ NSArray<NSString *> *__SMCSensorGroup_wildcardOrder = nil;
     self.sensorKeyDescriptions = parsedSensors;
 }
 
-- (BOOL)isValidSeriesArray:(NSArray<SMCSensorSeries *> *)seriesArray {
+- (nullable NSArray<SMCSensorSeries *> *)filteredSeriesArray:(NSArray<SMCSensorSeries *> *)seriesArray {
     if (!seriesArray.count) {
-        return NO;
+        return nil;
     }
     
-    NSInteger detectedConcurrentValues = seriesArray[0].concurrentValues;
-    
+    // Check for an array of equal-length series.
+    NSInteger firstDetectedConcurrentValues = seriesArray[0].concurrentValues;
+    BOOL hasConcurrentSeries = YES;
     for (SMCSensorSeries *series in seriesArray) {
-        if (series.concurrentValues != detectedConcurrentValues) {
-            return NO;
+        if (series.concurrentValues != firstDetectedConcurrentValues) {
+            hasConcurrentSeries = NO;
         }
     }
+    if (hasConcurrentSeries) return seriesArray;
     
-    return YES;
+    // If we don't have equal-length series, then just return the first series.
+    return @[seriesArray[0]];
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SMCSensorGroup %@", self.sensorKeyDescriptions];
 }
 
 @end
