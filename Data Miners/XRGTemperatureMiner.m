@@ -122,11 +122,14 @@
         sensor.isEnabled = NO;
 	}
     	
-	// Intel: use SMC
+	// Gather SMC Data
 	@try {
         [self trySMCTemperature:includeUnknown];
 	} @catch (NSException *e) {}
-		
+    
+    // Gather Apple Silicon Data
+    [self tryAppleSiliconTemperature];
+    
 	// Before returning, go through the values and find the ones that aren't enabled.
     for (XRGSensorData *sensor in self.sensorData.allValues) {
         if (!sensor.isEnabled) {
@@ -138,7 +141,6 @@
 
 - (void)trySMCTemperature:(BOOL)includeUnknown {
 	NSDictionary *temperatureValues = [self.smcSensors temperatureValuesIncludingUnknown:includeUnknown];
-	//NSLog(@"values: %@", temperatureValues);
 
     for (NSString *key in temperatureValues) {
 		id aValue = temperatureValues[key];
@@ -148,7 +150,7 @@
 		// Throw out temperatures that are too low or too high to be reasonable.
 		if (temperature < 15 || temperature > 150) {
 			continue;
-		}
+        }
 
 		[self setCurrentValue:temperature
 					 andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0] 
@@ -183,6 +185,25 @@
                           forLocation:fanSpeedKey];
             }
         }
+    }
+}
+
+- (void)tryAppleSiliconTemperature {
+    NSDictionary *appleSiliconSensorData = [XRGAppleSiliconSensorMiner sensorData];
+    
+    for (NSString *key in appleSiliconSensorData) {
+        id aValue = appleSiliconSensorData[key];
+        if (![aValue isKindOfClass:[NSNumber class]]) continue;
+        
+        float temperature = [aValue floatValue];
+        // Throw out temperatures that are too low or too high to be reasonable.
+        if (temperature < 15 || temperature > 150) {
+            continue;
+        }
+
+        [self setCurrentValue:temperature
+                     andUnits:[NSString stringWithFormat:@"%CC", (unsigned short)0x00B0]
+                  forLocation:key];
     }
 }
 

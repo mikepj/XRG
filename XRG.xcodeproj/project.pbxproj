@@ -50,6 +50,7 @@
 		273ECF551574106600E65D82 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF511574106600E65D82 /* Preferences.nib */; };
 		273ECF64157413D200E65D82 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF63157413D200E65D82 /* icon.icns */; };
 		273ECF661574145100E65D82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECF651574145100E65D82 /* IOKit.framework */; };
+		27461834273716B10065D1E4 /* XRGAppleSiliconSensorMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 27461833273716B10065D1E4 /* XRGAppleSiliconSensorMiner.m */; };
 		2755BBBC277E390200461C51 /* SMCSensorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755BBBB277E390200461C51 /* SMCSensorGroup.m */; };
 		275842181D8E3F4800D0281F /* XRGNetMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 275842171D8E3F4800D0281F /* XRGNetMiner.m */; };
 		278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606201B445FED00CC6249 /* XRGGPUMiner.m */; };
@@ -144,6 +145,12 @@
 		273ECF63157413D200E65D82 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		273ECF651574145100E65D82 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		273ECF6D157803EF00E65D82 /* XRG-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "XRG-Info.plist"; sourceTree = SOURCE_ROOT; };
+		27461832273716B10065D1E4 /* XRGAppleSiliconSensorMiner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGAppleSiliconSensorMiner.h; sourceTree = "<group>"; };
+		27461833273716B10065D1E4 /* XRGAppleSiliconSensorMiner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGAppleSiliconSensorMiner.m; sourceTree = "<group>"; };
+		2746183527371FB90065D1E4 /* IOHIDEventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOHIDEventTypes.h; sourceTree = "<group>"; };
+		27461836273722E40065D1E4 /* AppleHIDUsageTables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppleHIDUsageTables.h; sourceTree = "<group>"; };
+		2746183A2738C1D90065D1E4 /* libsystem_kernel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsystem_kernel.tbd; path = usr/lib/system/libsystem_kernel.tbd; sourceTree = SDKROOT; };
+		2746183B2738C1F30065D1E4 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		2755BBBA277E390200461C51 /* SMCSensorGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMCSensorGroup.h; sourceTree = "<group>"; };
 		2755BBBB277E390200461C51 /* SMCSensorGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMCSensorGroup.m; sourceTree = "<group>"; };
 		275842161D8E3F4800D0281F /* XRGNetMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGNetMiner.h; sourceTree = "<group>"; };
@@ -204,6 +211,8 @@
 		273ECE6815740DE700E65D82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2746183B2738C1F30065D1E4 /* Kernel.framework */,
+				2746183A2738C1D90065D1E4 /* libsystem_kernel.tbd */,
 				93C915F22550346600220EC5 /* Accelerate.framework */,
 				2775AC211B42F4A700D867AC /* OpenGL.framework */,
 				273ECE6915740DE700E65D82 /* Cocoa.framework */,
@@ -376,6 +385,10 @@
 				937851AC157CA5D0001D2A15 /* SMCSensors.m */,
 				2755BBBA277E390200461C51 /* SMCSensorGroup.h */,
 				2755BBBB277E390200461C51 /* SMCSensorGroup.m */,
+				27461832273716B10065D1E4 /* XRGAppleSiliconSensorMiner.h */,
+				27461833273716B10065D1E4 /* XRGAppleSiliconSensorMiner.m */,
+				2746183527371FB90065D1E4 /* IOHIDEventTypes.h */,
+				27461836273722E40065D1E4 /* AppleHIDUsageTables.h */,
 			);
 			path = APSL;
 			sourceTree = "<group>";
@@ -495,6 +508,7 @@
 				278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */,
 				273ECF0B15740EAF00E65D82 /* XRGTemperatureView.m in Sources */,
 				273ECF0C15740EAF00E65D82 /* XRGWeatherView.m in Sources */,
+				27461834273716B10065D1E4 /* XRGAppleSiliconSensorMiner.m in Sources */,
 				275842181D8E3F4800D0281F /* XRGNetMiner.m in Sources */,
 				273ECF0D15740EAF00E65D82 /* main.m in Sources */,
 				273ECF3715740EAF00E65D82 /* NSStringUtil.m in Sources */,
