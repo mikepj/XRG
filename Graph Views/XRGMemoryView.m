@@ -27,6 +27,7 @@
 
 #import "XRGMemoryView.h"
 #import "XRGGraphWindow.h"
+#import "XRGCommon.h"
 
 @implementation XRGMemoryView
 
@@ -56,9 +57,6 @@
 
     [[parentWindow moduleManager] addModule:m];
     [self setGraphSize:[m currentSize]];
-    
-    // cut out the initial spike
-    //[self getLatestMemoryInfo];
 }
 
 - (void)setGraphSize:(NSSize)newSize {
@@ -179,19 +177,19 @@
     [s setString: @"Memory"];
        
     if ([appSettings memoryShowFree]) {
-        [s appendFormat:@"\nF: %ldM", (long)[memoryMiner freeBytes] / 1024];
+        [s appendFormat:@"\nF: %@", [XRGCommon formattedStringForBytes:[memoryMiner freeBytes]]];
     }
     
     if ([appSettings memoryShowInactive]) {
-        [s appendFormat:@"\nI: %ldM", (long)[memoryMiner inactiveBytes] / 1024];
+        [s appendFormat:@"\nI: %@", [XRGCommon formattedStringForBytes:[memoryMiner inactiveBytes]]];
     }
     
     if ([appSettings memoryShowActive]) {
-        [s appendFormat:@"\nA: %ldM", (long)[memoryMiner activeBytes] / 1024];
+        [s appendFormat:@"\nA: %@", [XRGCommon formattedStringForBytes:[memoryMiner activeBytes]]];
     }
     
     if ([appSettings memoryShowWired]) {
-        [s appendFormat:@"\nW: %ldM", (long)[memoryMiner wiredBytes] / 1024];
+        [s appendFormat:@"\nW: %@", [XRGCommon formattedStringForBytes:[memoryMiner wiredBytes]]];
     }
     
     if ([appSettings memoryShowCache]) {
@@ -208,8 +206,8 @@
     }
 	
 	// Draw the VM text.
-    [s appendFormat:@"\nVu: %dM", (int)((double)[memoryMiner usedSwap] / 1024. / 1024.)];
-    [s appendFormat:@"\nVt: %dM", (int)((double)[memoryMiner totalSwap] / 1024. / 1024.)];
+    [s appendFormat:@"\nVu: %@", [XRGCommon formattedStringForBytes:[memoryMiner usedSwap]]];
+    [s appendFormat:@"\nVt: %@", [XRGCommon formattedStringForBytes:[memoryMiner totalSwap]]];
 
     [self drawLeftText:s centerText:nil rightText:nil inRect:[self paddedTextRect]];
     [gc setShouldAntialias:YES];

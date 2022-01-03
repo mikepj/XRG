@@ -43,19 +43,23 @@
     id                  parentWindow;
 }
 
-- (void) drawGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped color:(NSColor *)color;
+@property NSTextField *leftLabel;
+@property NSTextField *centerLabel;
+@property NSTextField *rightLabel;
 
-- (void) drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
+- (void)drawGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped color:(NSColor *)color;
 
-- (void) drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
+- (void)drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
 
-- (void) drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
+- (void)drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
 
-- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel printValueBytes:(UInt64)printValue printValueIsRate:(BOOL)isRate;
+- (void)drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color;
 
-- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel rightLabel:(NSString *)rightLabel;
+- (void)drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel printValueBytes:(UInt64)printValue printValueIsRate:(BOOL)isRate;
 
-- (void) fillRect:(NSRect)rect withColor:(NSColor *)color;
+- (void)drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel rightLabel:(NSString *)rightLabel;
+
+- (void)fillRect:(NSRect)rect withColor:(NSColor *)color;
 
 - (void)drawLeftText:(NSString *)leftText centerText:(NSString *)centerText rightText:(NSString *)rightText inRect:(CGRect)rect;
 
@@ -63,11 +67,11 @@
 - (NSRect)paddedTextRect;
 
 // The following methods are to be implemented in subclasses.
-- (void) setGraphSize:(NSSize)newSize;
-- (void) updateMinSize;
-- (void) graphUpdate:(NSTimer *)aTimer;
-- (void) fastUpdate:(NSTimer *)aTimer;
-- (void) min5Update:(NSTimer *)aTimer;
-- (void) min30Update:(NSTimer *)aTimer;
+- (void)setGraphSize:(NSSize)newSize;
+- (void)updateMinSize;
+- (void)graphUpdate:(NSTimer *)aTimer;
+- (void)fastUpdate:(NSTimer *)aTimer;
+- (void)min5Update:(NSTimer *)aTimer;
+- (void)min30Update:(NSTimer *)aTimer;
 
 @end

@@ -147,27 +147,23 @@
     // draw the text
     [gc setShouldAntialias:[appSettings antialiasText]];
 
-    NSMutableString *s = [[NSMutableString alloc] init];
+    NSMutableString *leftText = [[NSMutableString alloc] init];
+    NSMutableString *rightText = [[NSMutableString alloc] init];
 	
 	if ([@"Net1023K Rx" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6 > [self frame].size.width) {
-		[s appendFormat:@"N"];
+		[leftText appendFormat:@"N"];
 	}
 	else {
-		[s appendFormat:@"Net"];
+		[leftText appendFormat:@"Net"];
 	}
-    //[s appendFormat:@"Net - %@", [appSettings networkInterface]];
+
     tmpRect.origin.y = graphSize.height - textRectHeight;
     
     // draw the scale if there is room
     if (tmpRect.origin.y - textRectHeight > 0) {
         tmpRect.origin.y -= textRectHeight;
         tmpRect.size.height += textRectHeight;
-        if (max >= 1048576)
-            [s appendFormat:@"\n%3.2fM/s", ((CGFloat)max / 1048576.)];
-        else if (max >= 1024)
-            [s appendFormat:@"\n%4.1fK/s", ((CGFloat)max / 1024.)];
-        else
-            [s appendFormat:@"\n%ldB/s", (long)max];
+        [leftText appendFormat:@"\n%@/s", [XRGCommon formattedStringForBytes:max]];
     }
     
     // draw the total bandwidth used if there is room
@@ -176,14 +172,7 @@
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
             UInt64 totalBytesSinceBoot = self.miner.totalBytesSinceBoot;
-            if (totalBytesSinceBoot >= 1073741824)
-                [s appendFormat:@"\n%3.2fG", ((CGFloat)totalBytesSinceBoot / 1073741824.)];
-            else if (totalBytesSinceBoot >= 1048576)
-                [s appendFormat:@"\n%3.2fM", ((CGFloat)totalBytesSinceBoot / 1048576.)];
-            else if (totalBytesSinceBoot >= 1024)
-                [s appendFormat:@"\n%4.1fK", ((CGFloat)totalBytesSinceBoot / 1024.)];
-            else
-                [s appendFormat:@"\n%quB", totalBytesSinceBoot];
+            [leftText appendFormat:@"\n%@", [XRGCommon formattedStringForBytes:totalBytesSinceBoot]];
         }
     }
     if ([appSettings showTotalBandwidthSinceLoad]) {
@@ -191,120 +180,56 @@
             tmpRect.origin.y -= textRectHeight;
             tmpRect.size.height += textRectHeight;
             UInt64 totalBytesSinceLoad = self.miner.totalBytesSinceLoad;
-            if (totalBytesSinceLoad >= 1073741824)
-                [s appendFormat:@"\n%3.2fG", ((CGFloat)totalBytesSinceLoad / 1073741824.)];
-            else if (totalBytesSinceLoad >= 1048576)
-                [s appendFormat:@"\n%3.2fM", ((CGFloat)totalBytesSinceLoad / 1048576.)];
-            else if (totalBytesSinceLoad >= 1024)
-                [s appendFormat:@"\n%4.1fK", ((CGFloat)totalBytesSinceLoad / 1024.)];
-            else
-                [s appendFormat:@"\n%quB", totalBytesSinceLoad];
+            [leftText appendFormat:@"\n%@", [XRGCommon formattedStringForBytes:totalBytesSinceLoad]];
         }
     }
 
-    [s drawInRect:tmpRect withAttributes:[appSettings alignLeftAttributes]];
-        
+    // Right text is drawn below and can have multiple strings.
+    [self drawLeftText:leftText centerText:nil rightText:nil inRect:[self paddedTextRect]];
+
     if (netGraphMode == 0) {
         tmpRect.origin.y = 0;
         tmpRect.size.height = textRectHeight * 2;
-        [s setString:@""];
         
         rx = [self.miner currentRX];
-		if (rx >= 104857600) 
-			[s appendFormat:@"%3.1fM Rx", ((CGFloat)rx / 1048576.)];
-        else if (rx >= 1048576)
-            [s appendFormat:@"%3.2fM Rx", ((CGFloat)rx / 1048576.)];
-        else if (rx >= 102400)
-            [s appendFormat:@"%4.0fK Rx", ((CGFloat)rx / 1024.)];
-        else if (rx >= 1024)
-            [s appendFormat:@"%4.1fK Rx", ((CGFloat)rx / 1024.)];
-        else
-            [s appendFormat:@"%ldB Rx", (long)rx];
-        
+        [rightText appendFormat:@"%@ Rx", [XRGCommon formattedStringForBytes:rx]];
         
         tx = [self.miner currentTX];
-		if (tx >= 104857600) 
-			[s appendFormat:@"\n%3.1fM Tx", ((CGFloat)tx / 1048576.)];
-        else if (tx >= 1048576)
-            [s appendFormat:@"\n%3.2fM Tx", ((CGFloat)tx / 1048576.)];
-        else if (rx >= 102400)
-            [s appendFormat:@"\n%4.0fK Tx", ((CGFloat)tx / 1024.)];
-        else if (tx >= 1024)
-            [s appendFormat:@"\n%4.1fK Tx", ((CGFloat)tx / 1024.)];
-        else
-            [s appendFormat:@"\n%ldB Tx", (long)tx];
+        [rightText appendFormat:@"%@ Tx", [XRGCommon formattedStringForBytes:tx]];
         
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [rightText drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
     else if (netGraphMode == 1) {
         tmpRect.origin.y = 0;
         tmpRect.size.height = textRectHeight;
-        [s setString:@""];
+
         rx = [self.miner currentRX];
-		if (rx >= 104857600) 
-			[s appendFormat:@"%3.1fM Rx", ((CGFloat)rx / 1048576.)];
-        else if (rx >= 1048576)
-            [s appendFormat:@"%3.2fM Rx", ((CGFloat)rx / 1048576.)];
-        else if (rx >= 102400)
-            [s appendFormat:@"%4.0fK Rx", ((CGFloat)rx / 1024.)];
-        else if (rx >= 1024)
-            [s appendFormat:@"%4.1fK Rx", ((CGFloat)rx / 1024.)];
-        else
-            [s appendFormat:@"%ldB Rx", (long)rx];
+        [rightText appendFormat:@"%@ Rx", [XRGCommon formattedStringForBytes:rx]];
 		
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [rightText drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
         
         tmpRect.origin.y = graphSize.height - textRectHeight;
-        [s setString:@""];
+        [rightText setString:@""];
         tx = [self.miner currentTX];
-		if (tx >= 104857600) 
-			[s appendFormat:@"%3.1fM Tx", ((CGFloat)tx / 1048576.)];
-        else if (tx >= 1048576)
-            [s appendFormat:@"%3.2fM Tx", ((CGFloat)tx / 1048576.)];
-        else if (tx >= 102400)
-            [s appendFormat:@"%4.0fK Tx", ((CGFloat)tx / 1024.)];
-        else if (tx >= 1024)
-            [s appendFormat:@"%4.1fK Tx", ((CGFloat)tx / 1024.)];
-        else
-            [s appendFormat:@"%ldB Tx", (long)tx];
+        [rightText appendFormat:@"%@ Tx", [XRGCommon formattedStringForBytes:tx]];
 		
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [rightText drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
     else { // netGraphMode == 2
         tmpRect.origin.y = 0;
         tmpRect.size.height = textRectHeight;
-        [s setString:@""];
         tx = [self.miner currentTX];
-		if (tx >= 104857600) 
-			[s appendFormat:@"%3.1fM Tx", ((CGFloat)tx / 1048576.)];
-        else if (tx >= 1048576)
-            [s appendFormat:@"%3.2fM Tx", ((CGFloat)tx / 1048576.)];
-        else if (tx >= 102400)
-            [s appendFormat:@"%4.0fK Tx", ((CGFloat)tx / 1024.)];
-        else if (tx >= 1024)
-            [s appendFormat:@"%4.1fK Tx", ((CGFloat)tx / 1024.)];
-        else
-            [s appendFormat:@"%ldB Tx", (long)tx];
+        [rightText appendFormat:@"%@ Tx", [XRGCommon formattedStringForBytes:tx]];
 		
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [rightText drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
         
         tmpRect.origin.y = graphSize.height - textRectHeight;
-        [s setString:@""];
+        [rightText setString:@""];
         rx = [self.miner currentRX];
-		if (rx >= 104857600) 
-			[s appendFormat:@"%3.1fM Rx", ((CGFloat)rx / 1048576.)];
-        else if (rx >= 1048576)
-            [s appendFormat:@"%3.2fM Rx", ((CGFloat)rx / 1048576.)];
-        else if (rx >= 102400)
-            [s appendFormat:@"%4.0fK Rx", ((CGFloat)rx / 1024.)];
-        else if (rx >= 1024)
-            [s appendFormat:@"%4.1fK Rx", ((CGFloat)rx / 1024.)];
-        else
-            [s appendFormat:@"%ldB Rx", (long)rx];
+        [rightText appendFormat:@"%@ Rx", [XRGCommon formattedStringForBytes:rx]];
 		
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [rightText drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
-
 
     [gc setShouldAntialias:YES];
 }

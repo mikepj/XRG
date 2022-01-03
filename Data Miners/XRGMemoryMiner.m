@@ -124,51 +124,51 @@
 }
 
 // actually kilobytes, not bytes
-- (NSUInteger)freeBytes {
-    return (NSUInteger)lastStats.free_count * (pageSize / 1024.);
+- (UInt64)freeBytes {
+    return (NSUInteger)lastStats.free_count * pageSize;
 }
 
-- (NSUInteger)activeBytes {
-    return (NSUInteger)lastStats.active_count * (pageSize / 1024.);
+- (UInt64)activeBytes {
+    return (NSUInteger)lastStats.active_count * pageSize;
 }
 
-- (NSUInteger)inactiveBytes {
-    return (NSUInteger)lastStats.inactive_count * (pageSize / 1024.);
+- (UInt64)inactiveBytes {
+    return (NSUInteger)lastStats.inactive_count * pageSize;
 }
 
-- (NSUInteger)wiredBytes {
-    return (NSUInteger)lastStats.wire_count * (pageSize / 1024.);
+- (UInt64)wiredBytes {
+    return (NSUInteger)lastStats.wire_count * pageSize;
 }
 
-- (u_int32_t)totalFaults {
+- (UInt32)totalFaults {
     return lastStats.faults;
 }
 
-- (u_int32_t)recentFaults {
+- (UInt32)recentFaults {
     return currentDiffs.faults;
 }
 
-- (u_int32_t)totalPageIns {
+- (UInt32)totalPageIns {
     return lastStats.pageins;
 }
 
-- (u_int32_t)recentPageIns {
+- (UInt32)recentPageIns {
     return currentDiffs.pageins;
 }
 
-- (u_int32_t)totalPageOuts {
+- (UInt32)totalPageOuts {
     return lastStats.pageouts;
 }
 
-- (u_int32_t)recentPageOuts {
+- (UInt32)recentPageOuts {
     return currentDiffs.pageouts;
 }
 
-- (u_int32_t)totalCacheLookups {
+- (UInt32)totalCacheLookups {
     return lastStats.lookups;
 }
 
-- (u_int32_t)totalCacheHits {
+- (UInt32)totalCacheHits {
     return lastStats.hits;
 }
 

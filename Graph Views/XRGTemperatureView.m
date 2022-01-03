@@ -270,6 +270,10 @@
     // Draw the text
     NSRect textRect = NSMakeRect(paddedTextRect.origin.x, graphSize.height - textRectHeight, paddedTextRect.size.width, textRectHeight);
     NSRect barRect = NSMakeRect(self.bounds.origin.x, textRect.origin.y, self.bounds.size.width, textRect.size.height);
+    
+    NSMutableString *leftText = [[NSMutableString alloc] init];
+    NSMutableString *rightText = [[NSMutableString alloc] init];
+    NSInteger textLines = 0;
 
     for (NSInteger i = 0; i < sensors.count; i++) {
         XRGSensorData *sensor = sensors[i];
@@ -310,12 +314,18 @@
         [[appSettings borderColor] set];
         NSRectFill(NSMakeRect(self.bounds.origin.x, barRect.origin.y - 1, self.bounds.size.width, 2));
 
-        [self drawLeftText:sensor.label centerText:nil rightText:valueString inRect:textRect];
+        [leftText appendFormat:@"%@\n", sensor.label];
+        [rightText appendFormat:@"%@\n", valueString];
+        textLines++;
 
         barRect.origin.y -= barRect.size.height;
         textRect.origin.y -= textRect.size.height;
         if (textRect.origin.y < 0) break;
     }
+    
+    textRect.origin.y += textRect.size.height;
+    textRect.size.height *= textLines;
+    [self drawLeftText:leftText centerText:nil rightText:rightText inRect:textRect];
 
     [[appSettings borderColor] set];
     NSRectFill(NSMakeRect(self.bounds.origin.x, NSMaxY(textRect) - 1, self.bounds.size.width, 2));

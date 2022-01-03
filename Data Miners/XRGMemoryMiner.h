@@ -44,26 +44,26 @@
 	unsigned long				pageSize;
 }
 
-@property u_int64_t usedSwap;
-@property u_int64_t totalSwap;
+@property UInt64 usedSwap;
+@property UInt64 totalSwap;
 
 - (void)getLatestMemoryInfo;
 - (void)setDataSize:(int)newNumSamples;
 - (void)reset;
 
 // actually kilobytes, not bytes - limited to 4TB with 32bit
-- (NSUInteger)freeBytes;
-- (NSUInteger)activeBytes;
-- (NSUInteger)inactiveBytes;
-- (NSUInteger)wiredBytes;
-- (u_int32_t)totalFaults;
-- (u_int32_t)recentFaults;
-- (u_int32_t)totalPageIns;
-- (u_int32_t)recentPageIns;
-- (u_int32_t)totalPageOuts;
-- (u_int32_t)recentPageOuts;
-- (u_int32_t)totalCacheLookups;
-- (u_int32_t)totalCacheHits;
+- (UInt64)freeBytes;
+- (UInt64)activeBytes;
+- (UInt64)inactiveBytes;
+- (UInt64)wiredBytes;
+- (UInt32)totalFaults;
+- (UInt32)recentFaults;
+- (UInt32)totalPageIns;
+- (UInt32)recentPageIns;
+- (UInt32)totalPageOuts;
+- (UInt32)recentPageOuts;
+- (UInt32)totalCacheLookups;
+- (UInt32)totalCacheHits;
 - (XRGDataSet *)faultData;
 - (XRGDataSet *)pageInData;
 - (XRGDataSet *)pageOutData;

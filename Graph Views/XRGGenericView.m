@@ -25,11 +25,11 @@
 //
 
 #import "XRGGenericView.h"
-
+#import "XRGCommon.h"
 
 @implementation XRGGenericView
 
-- (instancetype) initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
@@ -37,12 +37,51 @@
     return self;
 }
 
-- (void) drawGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped color:(NSColor *)color {
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    NSRect textRect = NSInsetRect(self.bounds, 3, 0);
+    
+    self.leftLabel = [[NSTextField alloc] initWithFrame:textRect];
+    self.leftLabel.alignment = NSTextAlignmentLeft;
+    self.leftLabel.selectable = NO;
+    self.leftLabel.editable = NO;
+    self.leftLabel.bordered = NO;
+    self.leftLabel.drawsBackground = NO;
+    self.leftLabel.enabled = NO;
+    [self addSubview:self.leftLabel];
+    
+    self.centerLabel = [[NSTextField alloc] initWithFrame:textRect];
+    self.centerLabel.alignment = NSTextAlignmentCenter;
+    self.centerLabel.selectable = NO;
+    self.centerLabel.editable = NO;
+    self.centerLabel.bordered = NO;
+    self.centerLabel.drawsBackground = NO;
+    self.centerLabel.enabled = NO;
+    [self addSubview:self.centerLabel];
+
+    self.rightLabel = [[NSTextField alloc] initWithFrame:textRect];
+    self.rightLabel.alignment = NSTextAlignmentRight;
+    self.rightLabel.selectable = NO;
+    self.rightLabel.editable = NO;
+    self.rightLabel.bordered = NO;
+    self.rightLabel.drawsBackground = NO;
+    self.rightLabel.enabled = NO;
+    [self addSubview:self.rightLabel];
+}
+
+- (void)setLabelRects:(NSRect)newRect {
+    self.leftLabel.frame = newRect;
+    self.centerLabel.frame = newRect;
+    self.rightLabel.frame = newRect;
+}
+
+- (void)drawGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped color:(NSColor *)color {
     // call drawRangedGraphWithData to avoid a lot of code duplication.
     [self drawRangedGraphWithData:samples size:nSamples currentIndex:cIndex upperBound:max lowerBound:0 inRect:rect flipped:flipped filled:YES color:color];
 }
 
-- (void) drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
+- (void)drawGraphWithDataFromDataSet:(XRGDataSet *)dataSet maxValue:(CGFloat)max inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
     size_t numVals = [dataSet numValues];
     CGFloat *values = alloca(numVals * sizeof(CGFloat));
     [dataSet valuesInOrder:values];
@@ -53,7 +92,7 @@
 
 
 // Adapted from original drawGraphWithData, but added UpperBound and LowerBound in place of Max, and Filled
-- (void) drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
+- (void)drawRangedGraphWithData:(CGFloat *)samples size:(NSInteger)nSamples currentIndex:(NSInteger)cIndex upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
 	if (nSamples == 0) return;
 	
     NSInteger filledOffset = 0;
@@ -130,7 +169,7 @@
     [bp removeAllPoints];
 }
 
-- (void) drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
+- (void)drawRangedGraphWithDataFromDataSet:(XRGDataSet *)dataSet upperBound:(CGFloat)max lowerBound:(CGFloat)min inRect:(NSRect)rect flipped:(BOOL)flipped filled:(BOOL)filled color:(NSColor *)color {
     size_t numVals = [dataSet numValues];
     CGFloat *values = alloca(numVals * sizeof(CGFloat));
     [dataSet valuesInOrder:values];
@@ -139,26 +178,15 @@
 	[self drawRangedGraphWithData:values size:numVals currentIndex:numVals - 1 upperBound:max lowerBound:min inRect:rect flipped:flipped filled:filled color:color];
 }
 
-- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel printValueBytes:(UInt64)printValue printValueIsRate:(BOOL)isRate {
+- (void)drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel printValueBytes:(UInt64)printValue printValueIsRate:(BOOL)isRate {
     NSString *rightLabel = nil;
     
-    if (printValue >= 1125899906842624)
-        rightLabel = [NSString stringWithFormat:@"%3.2fP%@", ((double)printValue / 1125899906842624.), isRate ? @"/s" : @""];
-    if (printValue >= 1099511627776)
-        rightLabel = [NSString stringWithFormat:@"%3.2fT%@", ((double)printValue / 1099511627776.), isRate ? @"/s" : @""];
-    else if (printValue >= 1073741824)
-        rightLabel = [NSString stringWithFormat:@"%3.2fG%@", ((double)printValue / 1073741824.), isRate ? @"/s" : @""];
-    else if (printValue >= 1048576)
-        rightLabel = [NSString stringWithFormat:@"%3.2fM%@", ((double)printValue / 1048576.), isRate ? @"/s" : @""];
-    else if (printValue >= 1024)
-        rightLabel = [NSString stringWithFormat:@"%4.1fK%@", ((double)printValue / 1024.), isRate ? @"/s" : @""];
-    else
-        rightLabel = [NSString stringWithFormat:@"%ldB%@", (long)printValue, isRate ? @"/s" : @""];
+    rightLabel = [NSString stringWithFormat:@"%@%@", [XRGCommon formattedStringForBytes:printValue], isRate ? @"/s" : @""];
 
     [self drawMiniGraphWithValues:values upperBound:max lowerBound:min leftLabel:leftLabel rightLabel:rightLabel];
 }
 
-- (void) drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel rightLabel:(NSString *)rightLabel {
+- (void)drawMiniGraphWithValues:(NSArray<NSNumber *> *)values upperBound:(double)max lowerBound:(double)min leftLabel:(NSString *)leftLabel rightLabel:(NSString *)rightLabel {
     NSGraphicsContext *gc = [NSGraphicsContext currentContext];
     
     NSRect bounds = self.bounds;
@@ -187,7 +215,7 @@
     [gc setShouldAntialias:YES];
 }
 
-- (void) fillRect:(NSRect)rect withColor:(NSColor *)color {
+- (void)fillRect:(NSRect)rect withColor:(NSColor *)color {
     NSPoint *pointsA;
     NSPoint *pointsB;
 
@@ -209,7 +237,7 @@
     [bp fill];
 }
 
-- (void) drawLeftText:(NSString *)leftText centerText:(NSString *)centerText rightText:(NSString *)rightText inRect:(NSRect)rect {
+- (void)drawLeftText:(NSString *)leftText centerText:(NSString *)centerText rightText:(NSString *)rightText inRect:(NSRect)rect {
     NSGraphicsContext *gc = [NSGraphicsContext currentContext];
     [gc setShouldAntialias:[appSettings antialiasText]];
 
@@ -228,30 +256,41 @@
         CGRect adjustedRect = rect;
         adjustedRect.origin.y -= 0.5 * (rect.size.height - textRectHeight);
         
-        [left drawInRect:adjustedRect withAttributes:[appSettings alignLeftAttributes]];
-        [center drawInRect:adjustedRect withAttributes:[appSettings alignCenterAttributes]];
-        [right drawInRect:adjustedRect withAttributes:[appSettings alignRightAttributes]];
+        [self setLabelRects:adjustedRect];
+        self.leftLabel.attributedStringValue = left ? [[NSAttributedString alloc] initWithString:left attributes:[appSettings alignLeftAttributes]] : nil;
+        self.centerLabel.attributedStringValue = center ? [[NSAttributedString alloc] initWithString:center attributes:[appSettings alignCenterAttributes]] : nil;
+        self.rightLabel.attributedStringValue = right ? [[NSAttributedString alloc] initWithString:right attributes:[appSettings alignRightAttributes]] : nil;
     }
     else {
         // Draw as many lines as we can, aligned to the top.
         NSInteger maxDisplayLines = floor(rect.size.height / textRectHeight);
         
+        [self setLabelRects:rect];
+
         if (leftLines.count > 0) {
             NSArray<NSString *> *showLines = [leftLines subarrayWithRange:NSMakeRange(0, MIN(leftLines.count, maxDisplayLines))];
             NSString *joined = [showLines componentsJoinedByString:@"\n"];
-            [joined drawInRect:rect withAttributes:[appSettings alignLeftAttributes]];
+            self.leftLabel.attributedStringValue = [[NSAttributedString alloc] initWithString:joined attributes:[appSettings alignLeftAttributes]];
+        }
+        else {
+            self.leftLabel.stringValue = @"";
         }
         
         if (centerLines.count > 0) {
             NSArray<NSString *> *showLines = [centerLines subarrayWithRange:NSMakeRange(0, MIN(centerLines.count, maxDisplayLines))];
             NSString *joined = [showLines componentsJoinedByString:@"\n"];
-            [joined drawInRect:rect withAttributes:[appSettings alignCenterAttributes]];
+            self.centerLabel.attributedStringValue = [[NSAttributedString alloc] initWithString:joined attributes:[appSettings alignCenterAttributes]];
+        }
+        else {
+            self.centerLabel.stringValue = @"";
         }
 
         if (rightLines.count > 0) {
             NSArray<NSString *> *showLines = [rightLines subarrayWithRange:NSMakeRange(0, MIN(rightLines.count, maxDisplayLines))];
             NSString *joined = [showLines componentsJoinedByString:@"\n"];
-            [joined drawInRect:rect withAttributes:[appSettings alignRightAttributes]];
+            self.rightLabel.attributedStringValue = [[NSAttributedString alloc] initWithString:joined attributes:[appSettings alignRightAttributes]];
+        } else {
+            self.rightLabel.stringValue = @"";
         }
     }
     
@@ -267,37 +306,37 @@
 }
 
 // The following methods are to be implemented in subclasses.
-- (void) setGraphSize:(NSSize)newSize {
+- (void)setGraphSize:(NSSize)newSize {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override setGraphSize.");
 #endif
 }
 
-- (void) updateMinSize {
+- (void)updateMinSize {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override updateMinSize.");
 #endif
 }
 
-- (void) graphUpdate:(NSTimer *)aTimer {
+- (void)graphUpdate:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override graphUpdate.");
 #endif
 }
 
-- (void) fastUpdate:(NSTimer *)aTimer {
+- (void)fastUpdate:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override fastUpdate.");
 #endif
 }
 
-- (void) min5Update:(NSTimer *)aTimer {
+- (void)min5Update:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override min5Update.");
 #endif
 }
 
-- (void) min30Update:(NSTimer *)aTimer {
+- (void)min30Update:(NSTimer *)aTimer {
 #ifdef XRG_DEBUG
 	NSLog(@"Subclass should override min30Update.");
 #endif

@@ -325,13 +325,14 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     // draw the text
     [gc setShouldAntialias:[appSettings antialiasText]];
 
-    NSMutableString *s = [[NSMutableString alloc] init];
+    NSMutableString *leftText = [[NSMutableString alloc] init];
+    NSMutableString *rightText = [[NSMutableString alloc] init];
 	
 	if ([@"Disk1023.9K W" sizeWithAttributes:[appSettings alignRightAttributes]].width + 6 > [self frame].size.width) {
-		[s setString:@"D"];
+		[leftText setString:@"D"];
 	}
 	else {
-		[s setString:@"Disk"];
+		[leftText setString:@"Disk"];
 	}
     
     NSRect tmpRect = NSMakeRect(3, graphSize.height - textRectHeight, graphSize.width - 6, textRectHeight);    
@@ -341,44 +342,30 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         tmpRect.size.height += textRectHeight;
         max = maxVal;
         if (max >= 1048576)
-            [s appendFormat:@"\n%3.2fM/s",((float)max / 1048576.)];
+            [leftText appendFormat:@"\n%3.2fM/s",((float)max / 1048576.)];
         else if (max >= 1024)
-            [s appendFormat:@"\n%4.1fK/s",((float)max / 1024.)];
+            [leftText appendFormat:@"\n%4.1fK/s",((float)max / 1024.)];
         else
-            [s appendFormat:@"\n%lldB/s",max];
+            [leftText appendFormat:@"\n%lldB/s",max];
     }
     if (tmpRect.origin.y - textRectHeight > 0) {
         tmpRect.origin.y -= textRectHeight;
         tmpRect.size.height += textRectHeight;
-		if (diskIOSinceLaunch >= 109951162777600.) 
-            [s appendFormat:@"\n%.0fT", ((double)diskIOSinceLaunch / 1099511627776.)];
-		else if (diskIOSinceLaunch >= 1099511627776.) 
-            [s appendFormat:@"\n%.1fT", ((double)diskIOSinceLaunch / 1099511627776.)];
-		else if (diskIOSinceLaunch >= 107374182400.) 
-            [s appendFormat:@"\n%.0fG", ((double)diskIOSinceLaunch / 1073741824)];
-		else if (diskIOSinceLaunch >= 1073741824) 
-            [s appendFormat:@"\n%.1fG", ((double)diskIOSinceLaunch / 1073741824)];
-        else if (diskIOSinceLaunch >= 104857600)
-            [s appendFormat:@"\n%.0fM", ((double)diskIOSinceLaunch / 1048576.)];
-        else if (diskIOSinceLaunch >= 1048576)
-            [s appendFormat:@"\n%.1fM", ((double)diskIOSinceLaunch / 1048576.)];
-        else if (diskIOSinceLaunch >= 1024)
-            [s appendFormat:@"\n%.0fK", ((double)diskIOSinceLaunch / 1024.)];
-        else
-            [s appendFormat:@"%lldB", diskIOSinceLaunch];
+        [leftText appendFormat:@"\n%@", [XRGCommon formattedStringForBytes:diskIOSinceLaunch]];
     }
-    [s drawInRect:tmpRect withAttributes:[appSettings alignLeftAttributes]];
+
+    // Right text is drawn below and can have multiple strings.
+    [self drawLeftText:leftText centerText:nil rightText:nil inRect:tmpRect];
     
     if ([appSettings diskGraphMode] == 0) {
         tmpRect.origin.y = 0;
         tmpRect.size.height = textRectHeight * 2;
 		
-		[s setString:@""];
-		[s appendString:[self readBytesString]];
-		[s appendString:@"\n"];
-		[s appendString:[self writeBytesString]];
+		[rightText appendString:[self readBytesString]];
+		[rightText appendString:@"\n"];
+		[rightText appendString:[self writeBytesString]];
 	
-        [s drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
+        [rightText drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
     else if ([appSettings diskGraphMode] == 1) {
         tmpRect.origin.y = 0;
@@ -479,29 +466,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 }
 
 - (NSString *)readBytesString {
-	if (readBytes >= 104857600)
-		return [NSString stringWithFormat:@"%3.1fM R",((float)readBytes / 1048576.)];
-	else if (readBytes >= 1048576)
-		return [NSString stringWithFormat:@"%3.2fM R",((float)readBytes / 1048576.)];
-	else if (readBytes >= 102400)
-		return [NSString stringWithFormat:@"%4.0fK R",((float)readBytes / 1024.)];
-	else if (readBytes >= 1024)
-		return [NSString stringWithFormat:@"%4.1fK R",((float)readBytes / 1024.)];
-	else
-		return [NSString stringWithFormat:@"%lldB R", readBytes];
+    return [NSString stringWithFormat:@"%@ R", [XRGCommon formattedStringForBytes:readBytes]];
 }
 
 - (NSString *)writeBytesString {
-	if (writeBytes >= 104857600)
-		return [NSString stringWithFormat:@"%3.1fM W", ((float)writeBytes / 1048576.)];
-	else if (writeBytes >= 1048576)
-		return [NSString stringWithFormat:@"%3.2fM W", ((float)writeBytes / 1048576.)];
-	else if (writeBytes >= 102400)
-		return [NSString stringWithFormat:@"%4.0fK W", ((float)writeBytes / 1024.)];
-	else if (writeBytes >= 1024)
-		return [NSString stringWithFormat:@"%4.1fK W", ((float)writeBytes / 1024.)];
-	else
-		return [NSString stringWithFormat:@"%lldB W", writeBytes];
+    return [NSString stringWithFormat:@"%@ W", [XRGCommon formattedStringForBytes:writeBytes]];
 }
 
 @end
