@@ -36,14 +36,16 @@
 
 @implementation XRGBatteryView
 
-- (void)awakeFromNib {    
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
     graphPixelTimeFrame = 30;
     currentPixelTime = 0.;
     statsUpdateTimeFrame = 10;
     currentStatsTime = statsUpdateTimeFrame + 1;
     tripleCount = 0;
     
-    graphSize    = NSMakeSize(90, 112);
+    graphSize = NSMakeSize(90, 112);
               
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setBatteryView:self];

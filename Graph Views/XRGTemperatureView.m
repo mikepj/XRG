@@ -41,6 +41,8 @@
 
 
 - (void)awakeFromNib {       
+    [super awakeFromNib];
+    
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setTemperatureView:self];
     [parentWindow initTimers];

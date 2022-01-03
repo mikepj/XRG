@@ -31,6 +31,8 @@
 @implementation XRGMemoryView
 
 - (void)awakeFromNib { 
+    [super awakeFromNib];
+    
     memoryMiner = [[XRGMemoryMiner alloc] init];
 	processMiner = [[XRGProcessMiner alloc] init];
     

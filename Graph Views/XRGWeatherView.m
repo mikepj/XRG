@@ -35,6 +35,8 @@
 @implementation XRGWeatherView
 
 - (void)awakeFromNib {  
+    [super awakeFromNib];
+    
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setWeatherView:self];
     [parentWindow initTimers];  

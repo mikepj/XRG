@@ -30,6 +30,8 @@
 @implementation XRGStockView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+    
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setStockView:self];
     [parentWindow initTimers];

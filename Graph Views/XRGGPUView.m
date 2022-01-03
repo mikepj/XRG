@@ -31,6 +31,8 @@
 @implementation XRGGPUView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+    
 	graphicsMiner = [[XRGGPUMiner alloc] init];
 	
 	parentWindow = (XRGGraphWindow *)[self window];

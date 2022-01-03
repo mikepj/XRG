@@ -33,7 +33,9 @@
 
 @implementation XRGBackgroundView
 
-- (void)awakeFromNib {  
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
     parentWindow = (XRGGraphWindow *)[self window]; 
     
     appSettings = [parentWindow appSettings];

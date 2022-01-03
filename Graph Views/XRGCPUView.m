@@ -31,7 +31,9 @@
 
 @implementation XRGCPUView
 
-- (void)awakeFromNib {   
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
     parentWindow = (XRGGraphWindow *)[self window];
     [parentWindow setCpuView:self];
     [parentWindow initTimers];

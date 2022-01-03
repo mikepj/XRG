@@ -38,6 +38,8 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 @implementation XRGDiskView
 
 - (void)awakeFromNib {    
+    [super awakeFromNib];
+    
     currentIndex = 0;
     maxVal       = 1;
 	fastMax      = 1024 * 1024;

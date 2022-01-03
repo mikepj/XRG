@@ -31,7 +31,9 @@
 @implementation XRGNetView
 
 - (void)awakeFromNib {    
-    graphSize    = NSMakeSize(90, 112);
+    [super awakeFromNib];
+    
+    graphSize = NSMakeSize(90, 112);
     
     self.miner = [[XRGNetMiner alloc] init];
     self.fastMiner = [[XRGNetMiner alloc] init];
