@@ -41,7 +41,11 @@
 }
 
 + (NSString *)formattedStringForBytes:(double)bytes {
-    if (bytes >= 109951162777600.)
+    if (bytes >= 112589990684262400.)
+        return [NSString stringWithFormat:@"%3.1fP", (bytes / 1125899906842624.)];
+    else if (bytes >= 1125899906842624.)
+        return [NSString stringWithFormat:@"%3.2fP", (bytes / 1125899906842624.)];
+    else if (bytes >= 109951162777600.)
         return [NSString stringWithFormat:@"%3.1fT", (bytes / 1099511627776.)];
     else if (bytes >= 1099511627776.)
         return [NSString stringWithFormat:@"%3.2fT", (bytes / 1099511627776.)];
