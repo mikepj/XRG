@@ -52,11 +52,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    __weak XRGSensorViewController *weakSelf = self;
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        [weakSelf refresh];
-    }];
-
     id appDelegate = [NSApp delegate];
     if ([appDelegate isKindOfClass:[XRGAppDelegate class]]) {
         self.appSettings = [(XRGAppDelegate *)appDelegate appSettings];
@@ -64,6 +59,22 @@
 
     self.statsWidthConstraint = [[self.statsValuesLabel widthAnchor] constraintEqualToConstant:20];
     [self.statsWidthConstraint setActive:YES];
+}
+
+- (void)viewWillAppear {
+    [super viewWillAppear];
+    
+    __weak XRGSensorViewController *weakSelf = self;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        [weakSelf refresh];
+    }];
+}
+
+- (void)viewDidDisappear {
+    [super viewDidDisappear];
+    
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 - (void)refresh {
