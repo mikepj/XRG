@@ -51,6 +51,7 @@
 		273ECF64157413D200E65D82 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273ECF63157413D200E65D82 /* icon.icns */; };
 		273ECF661574145100E65D82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273ECF651574145100E65D82 /* IOKit.framework */; };
 		27461834273716B10065D1E4 /* XRGAppleSiliconSensorMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 27461833273716B10065D1E4 /* XRGAppleSiliconSensorMiner.m */; };
+		274AEDE52784BA5F008445AC /* XRGNonInteractableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 274AEDE42784BA5F008445AC /* XRGNonInteractableTextField.m */; };
 		2755BBBC277E390200461C51 /* SMCSensorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755BBBB277E390200461C51 /* SMCSensorGroup.m */; };
 		275842181D8E3F4800D0281F /* XRGNetMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 275842171D8E3F4800D0281F /* XRGNetMiner.m */; };
 		278606211B445FED00CC6249 /* XRGGPUMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 278606201B445FED00CC6249 /* XRGGPUMiner.m */; };
@@ -151,6 +152,8 @@
 		27461836273722E40065D1E4 /* AppleHIDUsageTables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppleHIDUsageTables.h; sourceTree = "<group>"; };
 		2746183A2738C1D90065D1E4 /* libsystem_kernel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsystem_kernel.tbd; path = usr/lib/system/libsystem_kernel.tbd; sourceTree = SDKROOT; };
 		2746183B2738C1F30065D1E4 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
+		274AEDE32784BA5F008445AC /* XRGNonInteractableTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XRGNonInteractableTextField.h; sourceTree = "<group>"; };
+		274AEDE42784BA5F008445AC /* XRGNonInteractableTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XRGNonInteractableTextField.m; sourceTree = "<group>"; };
 		2755BBBA277E390200461C51 /* SMCSensorGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMCSensorGroup.h; sourceTree = "<group>"; };
 		2755BBBB277E390200461C51 /* SMCSensorGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMCSensorGroup.m; sourceTree = "<group>"; };
 		275842161D8E3F4800D0281F /* XRGNetMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRGNetMiner.h; sourceTree = "<group>"; };
@@ -372,6 +375,8 @@
 				27C3A8A42551B4A40004F2EC /* XRGStatsManager.m */,
 				27DA9FA02566232500DACB07 /* XRGFlippedView.h */,
 				27DA9FA12566232500DACB07 /* XRGFlippedView.m */,
+				274AEDE32784BA5F008445AC /* XRGNonInteractableTextField.h */,
+				274AEDE42784BA5F008445AC /* XRGNonInteractableTextField.m */,
 			);
 			path = Utility;
 			sourceTree = SOURCE_ROOT;
@@ -516,6 +521,7 @@
 				273ECF3B15740EAF00E65D82 /* XRGModule.m in Sources */,
 				273ECF3C15740EAF00E65D82 /* XRGModuleManager.m in Sources */,
 				273ECF3D15740EAF00E65D82 /* XRGSettings.m in Sources */,
+				274AEDE52784BA5F008445AC /* XRGNonInteractableTextField.m in Sources */,
 				273ECF3E15740EAF00E65D82 /* XRGStock.m in Sources */,
 				273ECF3F15740EAF00E65D82 /* XRGURL.m in Sources */,
 				937851AA157CA243001D2A15 /* SMCInterface.m in Sources */,

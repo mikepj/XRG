@@ -26,6 +26,7 @@
 
 #import "XRGGenericView.h"
 #import "XRGCommon.h"
+#import "XRGNonInteractableTextField.h"
 
 @implementation XRGGenericView
 
@@ -42,7 +43,7 @@
     
     NSRect textRect = NSInsetRect(self.bounds, 3, 0);
     
-    self.leftLabel = [[NSTextField alloc] initWithFrame:textRect];
+    self.leftLabel = [[XRGNonInteractableTextField alloc] initWithFrame:textRect];
     self.leftLabel.alignment = NSTextAlignmentLeft;
     self.leftLabel.selectable = NO;
     self.leftLabel.editable = NO;
@@ -51,7 +52,7 @@
     self.leftLabel.enabled = NO;
     [self addSubview:self.leftLabel];
     
-    self.centerLabel = [[NSTextField alloc] initWithFrame:textRect];
+    self.centerLabel = [[XRGNonInteractableTextField alloc] initWithFrame:textRect];
     self.centerLabel.alignment = NSTextAlignmentCenter;
     self.centerLabel.selectable = NO;
     self.centerLabel.editable = NO;
@@ -60,7 +61,7 @@
     self.centerLabel.enabled = NO;
     [self addSubview:self.centerLabel];
 
-    self.rightLabel = [[NSTextField alloc] initWithFrame:textRect];
+    self.rightLabel = [[XRGNonInteractableTextField alloc] initWithFrame:textRect];
     self.rightLabel.alignment = NSTextAlignmentRight;
     self.rightLabel.selectable = NO;
     self.rightLabel.editable = NO;
