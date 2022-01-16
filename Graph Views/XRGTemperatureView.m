@@ -332,7 +332,7 @@
 
     // Draw the graph.
     [gc setShouldAntialias:[appSettings antiAliasing]];
-    NSRect graphRect = NSMakeRect(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, NSMaxY(textRect) - self.bounds.origin.y - 2);
+    NSRect graphRect = NSMakeRect(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, NSMinY(textRect) - self.bounds.origin.y - 2);
 
     if (sensor1.dataSet) {
         float min = sensor1IsFan ? 0 : temperatureMin;
