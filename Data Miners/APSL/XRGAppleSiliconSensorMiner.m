@@ -33,6 +33,7 @@
 #import <Foundation/Foundation.h>
 #import "IOHIDEventTypes.h"
 #import "AppleHIDUsageTables.h"
+#include "TargetConditionals.h"
 
 #import <IOKit/hidsystem/IOHIDEventSystemClient.h>
 #import <IOKit/hidsystem/IOHIDServiceClient.h>
@@ -47,6 +48,7 @@ IOHIDFloat IOHIDEventGetFloatValue(IOHIDEventRef event, int32_t field);
 @implementation XRGAppleSiliconSensorMiner
 
 + (NSDictionary *)sensorData {
+#if TARGET_CPU_ARM64
     CFStringRef productKey = CFSTR("Product");
     
     IOHIDEventSystemClientRef eventSystemClient = IOHIDEventSystemClientCreate(kCFAllocatorDefault);;
@@ -78,6 +80,9 @@ IOHIDFloat IOHIDEventGetFloatValue(IOHIDEventRef event, int32_t field);
     CFRelease(eventSystemClient);
     
     return sensorDictionary;
+#else
+    return nil;
+#endif
 }
 
 @end
