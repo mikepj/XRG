@@ -359,7 +359,7 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
 				}
                 case 1:			// More Info
 				{
-					[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.gauchosoft.com/xrg/"]];
+					[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.gauchosoft.com/xrg/"]];
                     break;
 				}
 			}
