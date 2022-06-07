@@ -195,7 +195,7 @@
         [rightText appendFormat:@"%@ Rx", [XRGCommon formattedStringForBytes:rx]];
         
         tx = [self.miner currentTX];
-        [rightText appendFormat:@"%@ Tx", [XRGCommon formattedStringForBytes:tx]];
+        [rightText appendFormat:@"\n%@ Tx", [XRGCommon formattedStringForBytes:tx]];
         
         [rightText drawInRect:tmpRect withAttributes:[appSettings alignRightAttributes]];
     }
