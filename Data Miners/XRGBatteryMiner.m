@@ -165,7 +165,7 @@
 }
 
 - (NSInteger)chargePercent {
-    return (NSInteger)(100.0 * [self totalCharge] / [self totalCapacity] + 0.5);
+    return ([self totalCharge] > 0 && [self totalCapacity] > 0) ? (NSInteger)(100.0 * [self totalCharge] / [self totalCapacity] + 0.5) : 0;
 }
 
 @end
