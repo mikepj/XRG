@@ -222,8 +222,10 @@
                 rightText = [NSString stringWithFormat:@"%@ / %@\n%@", [XRGCommon formattedStringForBytes:t - f], [XRGCommon formattedStringForBytes:t], usageText];
 			}
 		}
-        
-        [self drawLeftText:leftText centerText:centerText rightText:rightText inRect:textRect];
+
+        [leftText drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
+        [centerText drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
+        [rightText drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
 	}
 
 	[gc setShouldAntialias:YES];
