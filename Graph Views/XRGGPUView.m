@@ -223,6 +223,10 @@
 			}
 		}
 
+        self.leftLabel.stringValue = @"";
+        self.centerLabel.stringValue = @"";
+        self.rightLabel.stringValue = @"";
+        
         [leftText drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
         [centerText drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
         [rightText drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
