@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -102,7 +102,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="174" y="312" width="459" height="402"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1800" height="1125"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="3600" height="2000"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="8">
                 <rect key="frame" x="0.0" y="0.0" width="459" height="402"/>
@@ -920,10 +920,10 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <box fixedFrame="YES" title="Graph Settings" translatesAutoresizingMaskIntoConstraints="NO" id="941">
-                    <rect key="frame" x="17" y="38" width="275" height="89"/>
+                    <rect key="frame" x="17" y="16" width="275" height="111"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="Vl5-ZG-Gq8">
-                        <rect key="frame" x="3" y="3" width="269" height="71"/>
+                        <rect key="frame" x="3" y="3" width="269" height="93"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <popUpButton toolTip="Change the secondary network graph." verticalHuggingPriority="750" fixedFrame="YES" tag="73" translatesAutoresizingMaskIntoConstraints="NO" id="468">
@@ -942,7 +942,7 @@
                                 </popUpButtonCell>
                             </popUpButton>
                             <textField toolTip="Look up your ICAO Code at http://adds.aviationweather.noaa.gov/projects/adds/metars/stations.txt" verticalHuggingPriority="750" fixedFrame="YES" tag="72" translatesAutoresizingMaskIntoConstraints="NO" id="477">
-                                <rect key="frame" x="126" y="39" width="46" height="19"/>
+                                <rect key="frame" x="126" y="66" width="46" height="19"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" tag="72" title="KTUS" drawsBackground="YES" id="1171">
                                     <font key="font" metaFont="smallSystem"/>
@@ -951,7 +951,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="478">
-                                <rect key="frame" x="11" y="41" width="110" height="14"/>
+                                <rect key="frame" x="11" y="68" width="110" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Station ICAO Code: " id="1172">
                                     <font key="font" metaFont="smallSystem"/>
@@ -969,7 +969,7 @@
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Look up the ICAO Code for your location." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="935">
-                                <rect key="frame" x="180" y="38" width="77" height="20"/>
+                                <rect key="frame" x="127" y="43" width="128" height="20"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <buttonCell key="cell" type="squareTextured" title="Button" bezelStyle="texturedSquare" alignment="center" controlSize="small" inset="2" id="1174">
                                     <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -1062,6 +1062,7 @@
                     </view>
                 </box>
             </subviews>
+            <point key="canvasLocation" x="1118" y="179"/>
         </customView>
         <customView id="376" userLabel="StockPrefView">
             <rect key="frame" x="0.0" y="0.0" width="413" height="121"/>
