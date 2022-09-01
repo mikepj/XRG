@@ -87,7 +87,7 @@
 }
 
 - (void)drawRect:(NSRect)rect{
-    // rotate the coordinate system if necessary
+    // Rotate the coordinate system if necessary
     if (![moduleManager graphOrientationVertical] && isVertical) {
         // first update our size:
         NSRect f = [parentWindow frame];
@@ -119,34 +119,31 @@
     }
 	
     NSGraphicsContext *gc = [NSGraphicsContext currentContext]; 
-
-    int borderWidth = [parentWindow borderWidth];
     
-    NSRect tmpRect = [self bounds];
-    tmpRect.origin.x += borderWidth;
-    tmpRect.origin.y = tmpRect.size.height - borderWidth - [appSettings textRectHeight];
-    tmpRect.size.width -= borderWidth * 2;
-    tmpRect.size.height = [appSettings textRectHeight];
-
+    // Draw the border
     [[appSettings borderColor] set];
-    [[self outerPath] fill];
+    NSBezierPath *borderPath = [self outerPath];
+    
+    NSBezierPath *excludePath = [NSBezierPath bezierPath];
+    for (XRGModule *module in parentWindow.moduleManager.displayList) {
+        NSRect graphRect = module.reference.frame;
+        graphRect = [self convertRect:module.reference.bounds fromView:module.reference];
+        [excludePath appendBezierPath:[NSBezierPath bezierPathWithRect:graphRect]];
+    }
 
+    [borderPath appendBezierPath:[excludePath bezierPathByReversingPath]];
+    [borderPath fill];
+
+    // Draw the title background
     [[appSettings backgroundColor] set];
     [[self innerPath] fill];
     
-    NSRect titleRect;
-    if (isVertical) {    
-        titleRect = NSMakeRect(borderWidth, 
-                               [self bounds].size.height - borderWidth - [appSettings textRectHeight], 
-                               [self bounds].size.width - 2 * borderWidth,
-                               [appSettings textRectHeight]);
-    }
-    else {
-        titleRect = NSMakeRect(borderWidth, 
-                               [self bounds].size.height - borderWidth - [appSettings textRectHeight], 
-                               [self bounds].size.width - 2 * borderWidth,
-                               [appSettings textRectHeight]);
-    }
+    // Draw the title
+    int borderWidth = [parentWindow borderWidth];
+    NSRect titleRect = NSMakeRect(borderWidth,
+                                  [self bounds].size.height - borderWidth - [appSettings textRectHeight],
+                                  [self bounds].size.width - 2 * borderWidth,
+                                  [appSettings textRectHeight]);
     NSRectFill(titleRect);
     
     [gc setShouldAntialias:[appSettings antialiasText]];

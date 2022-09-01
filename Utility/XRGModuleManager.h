@@ -31,9 +31,9 @@
 @class XRGGraphWindow;
 
 @interface XRGModuleManager : NSObject {
-    NSMutableArray	*allModules;
-    NSMutableArray	*displayModules;
-    NSMutableArray  *alwaysUpdateModules;
+    NSMutableArray<XRGModule *>	*allModules;
+    NSMutableArray<XRGModule *>	*displayModules;
+    NSMutableArray<XRGModule *> *alwaysUpdateModules;
     XRGGraphWindow	*myWindow;
 }
 
