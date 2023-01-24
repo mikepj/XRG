@@ -156,14 +156,18 @@
 
     [color set];
     NSBezierPath *bp = [NSBezierPath bezierPath];
-    [bp setLineWidth:0.0f];
-    [bp setFlatness: 0.6f];
     [bp appendBezierPathWithPoints:points count:(currentPointIndex + (1 - filledOffset))];
     if (filled) {
+        [bp setLineWidth:0.0f];
+        [bp setFlatness: 0.6f];
         [bp closePath];
         [bp fill];
     }
     else {
+        [bp setLineWidth:1.2f];
+        [bp setFlatness: 10.0f];
+        [bp setLineCapStyle:NSRoundLineCapStyle];
+        [bp setLineJoinStyle:NSRoundLineJoinStyle];
         [bp stroke];
 	}
         
