@@ -222,11 +222,11 @@
     // draw the battery bar
     [[appSettings graphFG1Color] set];
     if (self.batteryMiner.batteries.count) {
-        percentRect.size.width = rect.size.width * ((float)[self.batteryMiner chargePercent] / 100.);
-		
+        percentRect.size.width = bounds.size.width * ((float)[self.batteryMiner chargePercent] / 100.);
+
 		if ([self shouldDrawMiniGraph]) {
-			percentRect.origin.y = self.bounds.origin.y;
-			percentRect.size.height = self.bounds.size.height;
+			percentRect.origin.y = bounds.origin.y;
+			percentRect.size.height = bounds.size.height;
 		}
 		
         NSRectFill(percentRect);
@@ -237,7 +237,7 @@
     if (powerStatus == XRGBatteryStatusCharging) {
         NSRect chargingRect = NSMakeRect(percentRect.origin.x + percentRect.size.width, 
                                          percentRect.origin.y,
-                                         (rect.size.width - percentRect.size.width) * ((float)tripleCount / 3.),
+                                         (bounds.size.width - percentRect.size.width) * ((float)tripleCount / 3.),
                                          percentRect.size.height);
                                         
         NSRectFill(chargingRect);
@@ -247,8 +247,8 @@
     
 	if (![self shouldDrawMiniGraph]) {
         // Draw the watts bar
-        percentRect.origin.x = rect.size.width / 2.;
-        percentRect.size.width = (rect.size.width / 2.) * (fabs(currentWatts) / maxWatts);
+        percentRect.origin.x = bounds.size.width / 2.;
+        percentRect.size.width = (bounds.size.width / 2.) * (fabs(currentWatts) / maxWatts);
         if (currentWatts < 0) {
             percentRect.origin.x -= percentRect.size.width;
         }
@@ -266,8 +266,8 @@
 		NSRectFill(percentRect);
 		
 		// Fill the split bar for the amp graph
-		NSRectFill(NSMakeRect((rect.size.width / 2.) - 1., topOfGraph, 2., textRectHeight + 2.));
-		
+		NSRectFill(NSMakeRect((bounds.size.width / 2.) - 1., topOfGraph, 2., textRectHeight + 2.));
+
 		// Draw the battery capacity graph, only if there is space for it on the graph.
 		percentRect.size.width = graphSize.width;
 		percentRect.origin.y = 0;

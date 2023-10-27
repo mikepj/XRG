@@ -313,11 +313,11 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
         for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)values[i];
     }
     
-    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:rect flipped:([appSettings diskGraphMode] == 1) color: [appSettings graphFG2Color]];
-    
+    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:bounds flipped:([appSettings diskGraphMode] == 1) color: [appSettings graphFG2Color]];
+
     for (i = 0; i < numSamples; ++i) data[i] = (CGFloat)writeValues[i];
 
-    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:rect flipped:([appSettings diskGraphMode] == 2) color: [appSettings graphFG1Color]];
+    [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:bounds flipped:([appSettings diskGraphMode] == 2) color: [appSettings graphFG1Color]];
 
     [gc setShouldAntialias:YES];
 
