@@ -151,11 +151,9 @@
     hasGoodDisplayData   = NO;
 
     stationName = [icao uppercaseString];
-    NSString *URLString1 = @"https://www.aviationweather.gov/metar/data?format=raw&hours=24&taf=off&layout=off&date=0&ids=";
-//    NSString *URLString1 = @"https://adds.aviationweather.gov/metars/index.php?submit=1&chk_metars=on&hoursStr=24&station_ids=";
-//  NSString *URLString1 = @"http://www.rap.ucar.edu/weather/surface/index.php?hoursStr=24&metarIds=";
-    NSString *URLString2 = @"http://www.rap.ucar.edu/weather/surface/index.php?hoursStr=24&metarIds=";
-        
+    NSString *URLString1 = @"https://aviationweather.gov/api/data/metar/?format=raw&hours=24&taf=off&layout=off&date=0&ids=";
+    NSString *URLString2 = @"https://weather.ral.ucar.edu/surface/index.php?hoursStr=24&metarIds=";
+
     // Set the new URL strings
     [wurl1 setURLString: [URLString1 stringByAppendingString:stationName]];
     [wurl2 setURLString: [URLString2 stringByAppendingString:stationName]];
