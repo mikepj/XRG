@@ -143,10 +143,7 @@
 
     [gc setShouldAntialias:YES];
 
-        
     // draw the text
-    [gc setShouldAntialias:[appSettings antialiasText]];
-
     NSMutableString *leftText = [[NSMutableString alloc] init];
     NSMutableString *rightText = [[NSMutableString alloc] init];
 	

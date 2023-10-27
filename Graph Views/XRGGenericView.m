@@ -214,10 +214,7 @@
     }
 
     // draw the text
-    [gc setShouldAntialias:[appSettings antialiasText]];
     [self drawLeftText:leftLabel centerText:nil rightText:rightLabel inRect:[self paddedTextRect]];
-    
-    [gc setShouldAntialias:YES];
 }
 
 - (void)fillRect:(NSRect)rect withColor:(NSColor *)color {
@@ -244,10 +241,10 @@
 
 - (void)drawLeftText:(NSString *)leftText centerText:(NSString *)centerText rightText:(NSString *)rightText inRect:(NSRect)rect {
     NSGraphicsContext *gc = [NSGraphicsContext currentContext];
-    [gc setShouldAntialias:[appSettings antialiasText]];
-
     CGFloat textRectHeight = [appSettings textRectHeight];
     
+    [gc setShouldAntialias:YES];
+
     NSArray<NSString *> *leftLines = [leftText componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     NSArray<NSString *> *centerLines = [centerText componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     NSArray<NSString *> *rightLines = [rightText componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];

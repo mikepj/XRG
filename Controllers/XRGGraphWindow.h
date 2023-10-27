@@ -124,7 +124,6 @@
 - (IBAction)setForegroundWhenExpanding:(id)sender;
 - (IBAction)setShowSummary:(id)sender;
 - (IBAction)setMinimizeUpDown:(id)sender;
-- (IBAction)setAntialiasText:(id)sender;
 
 - (IBAction)setObjectsToColor:(id)sender;
 - (IBAction)setObjectsToTransparency:(id)sender;

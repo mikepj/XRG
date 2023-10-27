@@ -320,11 +320,8 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
     [self drawGraphWithData:data size:numSamples currentIndex:currentIndex maxValue:maxVal inRect:bounds flipped:([appSettings diskGraphMode] == 2) color: [appSettings graphFG1Color]];
 
     [gc setShouldAntialias:YES];
-
     
     // draw the text
-    [gc setShouldAntialias:[appSettings antialiasText]];
-
     NSMutableString *leftText = [[NSMutableString alloc] init];
     NSMutableString *rightText = [[NSMutableString alloc] init];
 	

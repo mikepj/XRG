@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22154"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,7 +25,6 @@
                 <outlet property="StockPrefView" destination="376" id="630"/>
                 <outlet property="TemperaturePrefView" destination="882" id="883"/>
                 <outlet property="WeatherPrefView" destination="375" id="495"/>
-                <outlet property="appearanceAntialiasText" destination="873" id="875"/>
                 <outlet property="backgroundColorWell" destination="407" id="504"/>
                 <outlet property="backgroundTransparency" destination="401" id="505"/>
                 <outlet property="borderColorWell" destination="394" id="514"/>
@@ -102,7 +101,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="174" y="312" width="459" height="402"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="3600" height="2000"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="944"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="8">
                 <rect key="frame" x="0.0" y="0.0" width="459" height="402"/>
@@ -121,7 +120,7 @@
                     <rect key="frame" x="18" y="16" width="353" height="136"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="Ykz-rs-RRJ">
-                        <rect key="frame" x="3" y="3" width="347" height="118"/>
+                        <rect key="frame" x="4" y="5" width="345" height="116"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button toolTip="Enable/Disable the CPU Graph" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="556">
@@ -203,7 +202,7 @@
                     <rect key="frame" x="373" y="88" width="353" height="218"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="2n5-fw-sRY">
-                        <rect key="frame" x="3" y="3" width="347" height="200"/>
+                        <rect key="frame" x="4" y="5" width="345" height="198"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider toolTip="Change the amount of time between graph refresh." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="377">
@@ -213,7 +212,7 @@
                                     <font key="font" size="12" name="Helvetica"/>
                                 </sliderCell>
                             </slider>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="187" translatesAutoresizingMaskIntoConstraints="NO" id="385">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="187" translatesAutoresizingMaskIntoConstraints="NO" id="385">
                                 <rect key="frame" x="17" y="167" width="191" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Graph updates every second" id="1106">
@@ -222,7 +221,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="125" translatesAutoresizingMaskIntoConstraints="NO" id="740">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="125" translatesAutoresizingMaskIntoConstraints="NO" id="740">
                                 <rect key="frame" x="17" y="122" width="182" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Window Level:" id="1107">
@@ -253,7 +252,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                             </button>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="178" translatesAutoresizingMaskIntoConstraints="NO" id="865">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="178" translatesAutoresizingMaskIntoConstraints="NO" id="865">
                                 <rect key="frame" x="17" y="95" width="182" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Minimize the Graph Window into:" id="1110">
@@ -308,10 +307,10 @@
                     <rect key="frame" x="18" y="156" width="353" height="150"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="tYp-3K-dTE">
-                        <rect key="frame" x="3" y="3" width="347" height="132"/>
+                        <rect key="frame" x="4" y="5" width="345" height="130"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="150" translatesAutoresizingMaskIntoConstraints="NO" id="378">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="150" translatesAutoresizingMaskIntoConstraints="NO" id="378">
                                 <rect key="frame" x="17" y="80" width="154" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Graph Window Orientation:" id="1096">
@@ -341,7 +340,7 @@
                                     </menu>
                                 </popUpButtonCell>
                             </popUpButton>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="125" translatesAutoresizingMaskIntoConstraints="NO" id="382">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="125" translatesAutoresizingMaskIntoConstraints="NO" id="382">
                                 <rect key="frame" x="17" y="58" width="129" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Window Border Width:" id="1099">
@@ -366,7 +365,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                             </button>
-                            <textField toolTip="What text should be displayed in the window title." verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="125" translatesAutoresizingMaskIntoConstraints="NO" id="838">
+                            <textField toolTip="What text should be displayed in the window title." focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="125" translatesAutoresizingMaskIntoConstraints="NO" id="838">
                                 <rect key="frame" x="17" y="102" width="129" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Custom Window Title:" id="1102">
@@ -375,7 +374,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField toolTip="Leave blank to use default of hostname or &quot;XRG.&quot;" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="839">
+                            <textField toolTip="Leave blank to use default of hostname or &quot;XRG.&quot;" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="839">
                                 <rect key="frame" x="213" y="100" width="116" height="19"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1103">
@@ -403,26 +402,26 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <box fixedFrame="YES" title="Graph Text" translatesAutoresizingMaskIntoConstraints="NO" id="861">
-                    <rect key="frame" x="381" y="40" width="269" height="115"/>
+                    <rect key="frame" x="381" y="57" width="269" height="98"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="1kz-y8-XAN">
-                        <rect key="frame" x="3" y="3" width="263" height="97"/>
+                        <rect key="frame" x="4" y="5" width="261" height="78"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider toolTip="Change the text transparency." verticalHuggingPriority="750" fixedFrame="YES" tag="27" translatesAutoresizingMaskIntoConstraints="NO" id="395">
-                                <rect key="frame" x="14" y="40" width="231" height="17"/>
+                                <rect key="frame" x="15" y="18" width="231" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" tag="27" maxValue="1" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="1137">
                                     <font key="font" size="12" name="Helvetica"/>
                                 </sliderCell>
                             </slider>
                             <colorWell toolTip="Change the text color." fixedFrame="YES" tag="27" translatesAutoresizingMaskIntoConstraints="NO" id="410">
-                                <rect key="frame" x="205" y="65" width="40" height="20"/>
+                                <rect key="frame" x="206" y="43" width="40" height="20"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="849">
-                                <rect key="frame" x="9" y="60" width="98" height="28"/>
+                                <rect key="frame" x="10" y="38" width="98" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <buttonCell key="cell" type="push" title="Select Font..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="1138">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -432,14 +431,6 @@
                                     <action selector="setFont:" target="5" id="850"/>
                                 </connections>
                             </button>
-                            <button toolTip="Anti-alias the graph text." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="873">
-                                <rect key="frame" x="11" y="16" width="75" height="18"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <buttonCell key="cell" type="check" title="Anti-alias" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="1139">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="smallSystem"/>
-                                </buttonCell>
-                            </button>
                         </subviews>
                     </view>
                 </box>
@@ -447,7 +438,7 @@
                     <rect key="frame" x="381" y="160" width="269" height="81"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="TkU-uW-OPc">
-                        <rect key="frame" x="3" y="3" width="263" height="63"/>
+                        <rect key="frame" x="4" y="5" width="261" height="61"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button toolTip="Load colors and transparencies from an XRG Theme File." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="733">
@@ -479,7 +470,7 @@
                     <rect key="frame" x="17" y="16" width="362" height="225"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="rAx-53-u9V">
-                        <rect key="frame" x="3" y="3" width="356" height="207"/>
+                        <rect key="frame" x="4" y="5" width="354" height="205"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <colorWell toolTip="Change the secondary graph foreground color." fixedFrame="YES" tag="24" translatesAutoresizingMaskIntoConstraints="NO" id="391">
@@ -492,7 +483,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="393">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="393">
                                 <rect key="frame" x="15" y="112" width="122" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Graph Foreground 1" id="1123">
@@ -506,7 +497,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="396">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="396">
                                 <rect key="frame" x="15" y="52" width="122" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Graph Foreground 3" id="1124">
@@ -516,12 +507,12 @@
                                 </textFieldCell>
                             </textField>
                             <slider toolTip="Change the tertiary graph foreground transparency." verticalHuggingPriority="750" fixedFrame="YES" tag="25" translatesAutoresizingMaskIntoConstraints="NO" id="397">
-                                <rect key="frame" x="196" y="51" width="144" height="17"/>
+                                <rect key="frame" x="196" y="49" width="144" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" tag="25" maxValue="1" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="1125"/>
                             </slider>
                             <slider toolTip="Change the secondary graph foreground transparency." verticalHuggingPriority="750" fixedFrame="YES" tag="24" translatesAutoresizingMaskIntoConstraints="NO" id="398">
-                                <rect key="frame" x="196" y="81" width="144" height="17"/>
+                                <rect key="frame" x="196" y="79" width="144" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" tag="24" maxValue="1" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="1126"/>
                             </slider>
@@ -531,21 +522,21 @@
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
                             <slider toolTip="Change the primary graph foreground transparency." verticalHuggingPriority="750" fixedFrame="YES" tag="23" translatesAutoresizingMaskIntoConstraints="NO" id="400">
-                                <rect key="frame" x="196" y="111" width="144" height="17"/>
+                                <rect key="frame" x="196" y="109" width="144" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" tag="23" maxValue="1" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="1127"/>
                             </slider>
                             <slider toolTip="Change the window background transparency." verticalHuggingPriority="750" fixedFrame="YES" tag="21" translatesAutoresizingMaskIntoConstraints="NO" id="401">
-                                <rect key="frame" x="196" y="171" width="144" height="17"/>
+                                <rect key="frame" x="196" y="169" width="144" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" tag="21" maxValue="1" doubleValue="0.69999999999999996" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="1128"/>
                             </slider>
                             <slider toolTip="Change the window and graph border transparency." verticalHuggingPriority="750" fixedFrame="YES" tag="26" translatesAutoresizingMaskIntoConstraints="NO" id="402">
-                                <rect key="frame" x="196" y="21" width="144" height="17"/>
+                                <rect key="frame" x="196" y="19" width="144" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" tag="26" maxValue="1" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="1129"/>
                             </slider>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="404">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="404">
                                 <rect key="frame" x="15" y="22" width="122" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Border" id="1130">
@@ -555,11 +546,11 @@
                                 </textFieldCell>
                             </textField>
                             <slider toolTip="Change the graph background transparency." verticalHuggingPriority="750" fixedFrame="YES" tag="22" translatesAutoresizingMaskIntoConstraints="NO" id="405">
-                                <rect key="frame" x="196" y="141" width="144" height="17"/>
+                                <rect key="frame" x="196" y="139" width="144" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" tag="22" maxValue="1" doubleValue="0.69999999999999996" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="1131"/>
                             </slider>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="406">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="406">
                                 <rect key="frame" x="15" y="142" width="122" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Graph Background" id="1132">
@@ -573,7 +564,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="408">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="408">
                                 <rect key="frame" x="15" y="82" width="122" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Graph Foreground 2" id="1133">
@@ -587,7 +578,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="411">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="118" translatesAutoresizingMaskIntoConstraints="NO" id="411">
                                 <rect key="frame" x="15" y="172" width="122" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Background" id="1134">
@@ -610,7 +601,7 @@
                     <rect key="frame" x="339" y="16" width="259" height="98"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="Lde-gd-d5f">
-                        <rect key="frame" x="3" y="3" width="253" height="80"/>
+                        <rect key="frame" x="4" y="5" width="251" height="78"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button toolTip="Display the load average in the upper right corner of the CPU Graph." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="426">
@@ -644,10 +635,10 @@
                     <rect key="frame" x="19" y="35" width="318" height="79"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="v5q-Ob-aeh">
-                        <rect key="frame" x="3" y="3" width="312" height="61"/>
+                        <rect key="frame" x="4" y="5" width="310" height="59"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button toolTip="Fast CPU Bar shows a more immediate CPU usage, though XRG performance will decrease by about 10%." fixedFrame="YES" tag="32" translatesAutoresizingMaskIntoConstraints="NO" id="429">
+                            <button toolTip="Fast CPU Bar shows a more immediate CPU usage, though XRG performance will decrease by about 10%." tag="32" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="429">
                                 <rect key="frame" x="11" y="32" width="156" height="18"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <buttonCell key="cell" type="check" title="Show CPU Bars" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="32" inset="2" id="1141">
@@ -673,7 +664,7 @@
             <rect key="frame" x="0.0" y="0.0" width="400" height="114"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <button toolTip="Show the percentage of pages found in the cache when looked up." fixedFrame="YES" tag="46" translatesAutoresizingMaskIntoConstraints="NO" id="438">
+                <button toolTip="Show the percentage of pages found in the cache when looked up." tag="46" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="438">
                     <rect key="frame" x="250" y="78" width="132" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <buttonCell key="cell" type="check" title="Show Cache Hit Rate" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="46" inset="2" id="1154">
@@ -681,7 +672,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                 </button>
-                <button toolTip="Show the rate of page faults." fixedFrame="YES" tag="47" translatesAutoresizingMaskIntoConstraints="NO" id="437">
+                <button toolTip="Show the rate of page faults." tag="47" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="437">
                     <rect key="frame" x="250" y="58" width="114" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <buttonCell key="cell" type="check" title="Show Page Faults" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="47" inset="2" id="1153">
@@ -689,7 +680,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                 </button>
-                <button toolTip="Display a graph showing the memory paging status." fixedFrame="YES" tag="48" translatesAutoresizingMaskIntoConstraints="NO" id="436">
+                <button toolTip="Display a graph showing the memory paging status." tag="48" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="436">
                     <rect key="frame" x="250" y="18" width="126" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <buttonCell key="cell" type="check" title="Show Paging Graph" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="48" inset="2" id="1152">
@@ -697,7 +688,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                 </button>
-                <button toolTip="Show memory that isn't actively used or has been deallocated." fixedFrame="YES" tag="44" translatesAutoresizingMaskIntoConstraints="NO" id="435">
+                <button toolTip="Show memory that isn't actively used or has been deallocated." tag="44" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="435">
                     <rect key="frame" x="19" y="58" width="141" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <buttonCell key="cell" type="check" title="Show Inactive Memory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="44" inset="2" id="1151">
@@ -705,7 +696,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                 </button>
-                <button toolTip="Show memory used that is forced to be in RAM." fixedFrame="YES" tag="42" translatesAutoresizingMaskIntoConstraints="NO" id="434">
+                <button toolTip="Show memory used that is forced to be in RAM." tag="42" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="434">
                     <rect key="frame" x="19" y="18" width="130" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <buttonCell key="cell" type="check" title="Show Wired Memory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="42" inset="2" id="1150">
@@ -713,7 +704,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                 </button>
-                <button toolTip="Show memory actively used by running processes." fixedFrame="YES" tag="43" translatesAutoresizingMaskIntoConstraints="NO" id="433">
+                <button toolTip="Show memory actively used by running processes." tag="43" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="433">
                     <rect key="frame" x="19" y="38" width="133" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <buttonCell key="cell" type="check" title="Show Active Memory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="43" inset="2" id="1149">
@@ -721,7 +712,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                 </button>
-                <button toolTip="Show free memory." fixedFrame="YES" tag="45" translatesAutoresizingMaskIntoConstraints="NO" id="432">
+                <button toolTip="Show free memory." tag="45" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="432">
                     <rect key="frame" x="19" y="78" width="123" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <buttonCell key="cell" type="check" title="Show Free Memory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="45" inset="2" id="1148">
@@ -739,7 +730,7 @@
                     <rect key="frame" x="380" y="92" width="323" height="79"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="8Hl-8M-2bs">
-                        <rect key="frame" x="3" y="3" width="317" height="61"/>
+                        <rect key="frame" x="4" y="5" width="315" height="59"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button toolTip="Display the total bandwidth used since the machine was last booted." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="820">
@@ -765,7 +756,7 @@
                     <rect key="frame" x="17" y="16" width="361" height="155"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="Oes-m8-bHJ">
-                        <rect key="frame" x="3" y="3" width="355" height="137"/>
+                        <rect key="frame" x="4" y="5" width="353" height="135"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <popUpButton toolTip="Select which network interface to monitor." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="440">
@@ -798,7 +789,7 @@
                                     </menu>
                                 </popUpButtonCell>
                             </popUpButton>
-                            <textField toolTip="Change the minimum vertical scale for the network graph." verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="450">
+                            <textField toolTip="Change the minimum vertical scale for the network graph." focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="450">
                                 <rect key="frame" x="12" y="81" width="168" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Minimum Graph Vertical Scale:" id="1157">
@@ -807,7 +798,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField toolTip="Select which network interface to monitor." verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="452">
+                            <textField toolTip="Select which network interface to monitor." focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="452">
                                 <rect key="frame" x="12" y="108" width="168" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Network Interface to Monitor:" id="1158">
@@ -816,7 +807,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField toolTip="Change the minimum vertical scale for the network graph." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="749">
+                            <textField toolTip="Change the minimum vertical scale for the network graph." focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="749">
                                 <rect key="frame" x="185" y="77" width="40" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" title="10" drawsBackground="YES" id="1159">
@@ -889,7 +880,7 @@
                         </column>
                     </cells>
                 </matrix>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="105" translatesAutoresizingMaskIntoConstraints="NO" id="458">
+                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="105" translatesAutoresizingMaskIntoConstraints="NO" id="458">
                     <rect key="frame" x="20" y="21" width="109" height="14"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Device to monitor:" id="1163">
@@ -923,10 +914,10 @@
                     <rect key="frame" x="17" y="16" width="275" height="111"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="Vl5-ZG-Gq8">
-                        <rect key="frame" x="3" y="3" width="269" height="93"/>
+                        <rect key="frame" x="4" y="5" width="267" height="91"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <popUpButton toolTip="Change the secondary network graph." verticalHuggingPriority="750" fixedFrame="YES" tag="73" translatesAutoresizingMaskIntoConstraints="NO" id="468">
+                            <popUpButton toolTip="Change the secondary network graph." tag="73" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="468">
                                 <rect key="frame" x="123" y="10" width="137" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <popUpButtonCell key="cell" type="push" title="Wind Speed" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="482" id="1170">
@@ -941,7 +932,7 @@
                                     </menu>
                                 </popUpButtonCell>
                             </popUpButton>
-                            <textField toolTip="Look up your ICAO Code at http://adds.aviationweather.noaa.gov/projects/adds/metars/stations.txt" verticalHuggingPriority="750" fixedFrame="YES" tag="72" translatesAutoresizingMaskIntoConstraints="NO" id="477">
+                            <textField toolTip="Look up your ICAO Code at http://adds.aviationweather.noaa.gov/projects/adds/metars/stations.txt" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" tag="72" translatesAutoresizingMaskIntoConstraints="NO" id="477">
                                 <rect key="frame" x="126" y="66" width="46" height="19"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" tag="72" title="KTUS" drawsBackground="YES" id="1171">
@@ -950,7 +941,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="478">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="478">
                                 <rect key="frame" x="11" y="68" width="110" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Station ICAO Code: " id="1172">
@@ -959,7 +950,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="479">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="479">
                                 <rect key="frame" x="11" y="15" width="110" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Secondary Graph:" id="1173">
@@ -983,10 +974,10 @@
                     <rect key="frame" x="294" y="16" width="261" height="112"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <view key="contentView" id="7gl-dJ-Ukl">
-                        <rect key="frame" x="3" y="3" width="255" height="94"/>
+                        <rect key="frame" x="4" y="5" width="253" height="92"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="88" translatesAutoresizingMaskIntoConstraints="NO" id="462">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="88" translatesAutoresizingMaskIntoConstraints="NO" id="462">
                                 <rect key="frame" x="11" y="41" width="92" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Distance:" id="1164">
@@ -995,7 +986,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <popUpButton toolTip="Configure XRG to show pressure in inches or hectopascals." verticalHuggingPriority="750" fixedFrame="YES" tag="76" translatesAutoresizingMaskIntoConstraints="NO" id="469">
+                            <popUpButton toolTip="Configure XRG to show pressure in inches or hectopascals." tag="76" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="469">
                                 <rect key="frame" x="105" y="10" width="137" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="472" id="1165">
@@ -1010,7 +1001,7 @@
                                     </menu>
                                 </popUpButtonCell>
                             </popUpButton>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="473">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="473">
                                 <rect key="frame" x="11" y="16" width="110" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Pressure:" id="1166">
@@ -1019,7 +1010,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <popUpButton toolTip="Configure XRG to show distances in miles or kilometers." verticalHuggingPriority="750" fixedFrame="YES" tag="75" translatesAutoresizingMaskIntoConstraints="NO" id="475">
+                            <popUpButton toolTip="Configure XRG to show distances in miles or kilometers." tag="75" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="475">
                                 <rect key="frame" x="105" y="35" width="137" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="464" id="1167">
@@ -1034,7 +1025,7 @@
                                     </menu>
                                 </popUpButtonCell>
                             </popUpButton>
-                            <popUpButton toolTip="Configure XRG to show temperature in F or C." verticalHuggingPriority="750" fixedFrame="YES" tag="74" translatesAutoresizingMaskIntoConstraints="NO" id="476">
+                            <popUpButton toolTip="Configure XRG to show temperature in F or C." tag="74" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="476">
                                 <rect key="frame" x="105" y="60" width="137" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <popUpButtonCell key="cell" type="push" title="Fahrenheit" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="474" id="1168">
@@ -1049,7 +1040,7 @@
                                     </menu>
                                 </popUpButtonCell>
                             </popUpButton>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="486">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="486">
                                 <rect key="frame" x="11" y="66" width="110" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Temperature:" id="1169">
@@ -1099,7 +1090,7 @@
                         </menu>
                     </popUpButtonCell>
                 </popUpButton>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="107" translatesAutoresizingMaskIntoConstraints="NO" id="633">
+                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="107" translatesAutoresizingMaskIntoConstraints="NO" id="633">
                     <rect key="frame" x="17" y="62" width="111" height="14"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Graph Time Frame:" id="1177">
@@ -1108,7 +1099,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField toolTip="Enter a comma separated list of stock symbols to graph." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="632">
+                <textField toolTip="Enter a comma separated list of stock symbols to graph." focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="632">
                     <rect key="frame" x="216" y="82" width="177" height="19"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" title="AAPL" drawsBackground="YES" id="1176">
@@ -1117,7 +1108,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="190" translatesAutoresizingMaskIntoConstraints="NO" id="631">
+                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="190" translatesAutoresizingMaskIntoConstraints="NO" id="631">
                     <rect key="frame" x="17" y="84" width="194" height="14"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Stock Symbols (comma separated):" id="1175">
@@ -1144,7 +1135,7 @@
                         <binding destination="mjV-2t-Z2G" name="value" keyPath="values.tempShowUnknownSensors" id="3bT-jX-ye7"/>
                     </connections>
                 </button>
-                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="908">
+                <popUpButton tag="3" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="908">
                     <rect key="frame" x="183" y="16" width="215" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="907" id="1188">
@@ -1159,7 +1150,7 @@
                         </menu>
                     </popUpButtonCell>
                 </popUpButton>
-                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="904">
+                <popUpButton tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="904">
                     <rect key="frame" x="183" y="40" width="215" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="903" id="1187">
@@ -1174,7 +1165,7 @@
                         </menu>
                     </popUpButtonCell>
                 </popUpButton>
-                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="899">
+                <popUpButton tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="899">
                     <rect key="frame" x="183" y="64" width="215" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="898" id="1186">
@@ -1189,7 +1180,7 @@
                         </menu>
                     </popUpButtonCell>
                 </popUpButton>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="894">
+                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="894">
                     <rect key="frame" x="18" y="21" width="158" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Sensor Location for Graph 3:" id="1185">
@@ -1198,7 +1189,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="893">
+                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="893">
                     <rect key="frame" x="18" y="45" width="158" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Sensor Location for Graph 2:" id="1184">
@@ -1207,7 +1198,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="165" translatesAutoresizingMaskIntoConstraints="NO" id="892">
+                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="165" translatesAutoresizingMaskIntoConstraints="NO" id="892">
                     <rect key="frame" x="18" y="69" width="169" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Sensor Location for Graph 1:" id="1183">
@@ -1216,7 +1207,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField toolTip="The units to display the temperature in." verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="889">
+                <textField toolTip="The units to display the temperature in." focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="106" translatesAutoresizingMaskIntoConstraints="NO" id="889">
                     <rect key="frame" x="18" y="94" width="110" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Temperature Units:" id="1182">
@@ -1225,7 +1216,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <popUpButton toolTip="The units to display the temperature in." verticalHuggingPriority="750" fixedFrame="YES" tag="74" translatesAutoresizingMaskIntoConstraints="NO" id="886">
+                <popUpButton toolTip="The units to display the temperature in." tag="74" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="886">
                     <rect key="frame" x="183" y="88" width="103" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Fahrenheit" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="887" id="1181">

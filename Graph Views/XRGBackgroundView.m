@@ -146,7 +146,7 @@
                                   [appSettings textRectHeight]);
     NSRectFill(titleRect);
     
-    [gc setShouldAntialias:[appSettings antialiasText]];
+    [gc setShouldAntialias:YES];
 
     NSString *title = [appSettings windowTitle];
     if (!title || [title isEqualToString:@""]) {

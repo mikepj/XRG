@@ -100,7 +100,6 @@ typedef NS_ENUM(NSInteger, XRGTemperatureUnits) {
 @property BOOL			foregroundWhenExpanding;
 @property BOOL			showSummary;
 @property NSInteger		minimizeUpDown;
-@property BOOL			antialiasText;
 @property BOOL			cpuShowAverageUsage;
 @property BOOL			cpuShowUptime;
 @property XRGTemperatureUnits tempUnits;

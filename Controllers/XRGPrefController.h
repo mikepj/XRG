@@ -85,7 +85,6 @@
     IBOutlet id textColorWell;
     IBOutlet id textTransparency;
     IBOutlet id font;
-    IBOutlet id appearanceAntialiasText;
     
     IBOutlet id fastCPUUsageCheckbox;
     IBOutlet id separateCPUColor;

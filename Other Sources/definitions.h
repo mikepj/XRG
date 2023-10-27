@@ -83,7 +83,6 @@ typedef struct network_interface_stats {
 #define XRG_borderTransparency			@"borderTransparency"
 #define XRG_textTransparency			@"textTransparency"
 #define XRG_graphFont					@"graphFont"
-#define XRG_antialiasText				@"antialiasText"
 
 #define XRG_showCPUBars                 @"showCPUBars"
 #define XRG_separateCPUColor			@"separateCPUColor"
