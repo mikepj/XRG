@@ -255,31 +255,31 @@
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Network View"];
+    NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"Network View"];
     NSMenuItem *tMI;
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Network Interface Traffic" action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Network Interface Traffic" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     for (NSInteger i = 0; i < self.miner.numInterfaces; i++) {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%s: RX(%1.1fM) TX(%1.1fM)", self.miner.interfaceStats[i].if_name, self.miner.interfaceStats[i].if_in.bytes / 1024. / 1024., self.miner.interfaceStats[i].if_out.bytes / 1024. / 1024.] action:@selector(emptyEvent:) keyEquivalent:@""];
+        tMI = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%s: RX(%1.1fM) TX(%1.1fM)", self.miner.interfaceStats[i].if_name, self.miner.interfaceStats[i].if_in.bytes / 1024. / 1024., self.miner.interfaceStats[i].if_out.bytes / 1024. / 1024.] action:@selector(emptyEvent:) keyEquivalent:@""];
         [myMenu addItem:tMI];
     }
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Network System Preferences..." action:@selector(openNetworkSystemPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open Network System Preferences..." action:@selector(openNetworkSystemPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Network Utility..." action:@selector(openNetworkUtility:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open Network Utility..." action:@selector(openNetworkUtility:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Network Preferences..." action:@selector(openNetworkPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open XRG Network Preferences..." action:@selector(openNetworkPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;

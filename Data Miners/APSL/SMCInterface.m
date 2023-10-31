@@ -246,7 +246,6 @@ typedef NS_ENUM(unsigned int, SMCDataType_t) {
     bzero(&stuffMeIn, sizeof(SMCParamStruct));
     bzero(&stuffMeOut, sizeof(SMCParamStruct));
     
-    UInt32 size =  sizeof(SMCParamStruct);
     stuffMeIn.data8 = kSMCGetKeyInfo;
     stuffMeIn.key = CFSwapInt32HostToLittle( key );
     

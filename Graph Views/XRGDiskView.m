@@ -409,17 +409,17 @@ void getDISKcounters(io_iterator_t drivelist, io_stats *i_dsk, io_stats *o_dsk);
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Disk View"];
+    NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"Disk View"];
 
-    NSMenuItem *tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
+    NSMenuItem *tMI = [[NSMenuItem alloc] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Disk Utility..." action:@selector(openDiskUtility:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open Disk Utility..." action:@selector(openDiskUtility:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Disk Preferences..." action:@selector(openDiskPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open XRG Disk Preferences..." action:@selector(openDiskPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;

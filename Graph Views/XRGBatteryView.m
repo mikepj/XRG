@@ -360,15 +360,15 @@
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Battery View"];
+    NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"Battery View"];
     NSMenuItem *tMI;
 
     if (@available(macOS 11, *)) {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Battery System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
+        tMI = [[NSMenuItem alloc] initWithTitle:@"Open Battery System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
         [myMenu addItem:tMI];
     }
     else {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Energy Saver System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
+        tMI = [[NSMenuItem alloc] initWithTitle:@"Open Energy Saver System Preferences..." action:@selector(openEnergySaverSystemPreferences:) keyEquivalent:@""];
         [myMenu addItem:tMI];
     }
     

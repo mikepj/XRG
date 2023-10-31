@@ -360,29 +360,29 @@
     NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"Background View"];
     NSMenuItem *tMI;
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"About XRG" action:@selector(openAboutBox:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"About XRG" action:@selector(openAboutBox:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Preferences..." action:@selector(openPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Preferences..." action:@selector(openPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"XRG Help" action:@selector(openHelp:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"XRG Help" action:@selector(openHelp:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
 
     if (uiIsHidden) {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show XRG Dock Icon" action:@selector(showUI:) keyEquivalent:@""];
+        tMI = [[NSMenuItem alloc] initWithTitle:@"Show XRG Dock Icon" action:@selector(showUI:) keyEquivalent:@""];
         [myMenu addItem:tMI];
     }
     else {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Hide XRG Dock Icon (After Restart)" action:@selector(hideUI:) keyEquivalent:@""];
+        tMI = [[NSMenuItem alloc] initWithTitle:@"Hide XRG Dock Icon (After Restart)" action:@selector(hideUI:) keyEquivalent:@""];
         [myMenu addItem:tMI];
     }
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Quit XRG" action:@selector(quit:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Quit XRG" action:@selector(quit:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;

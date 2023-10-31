@@ -465,29 +465,29 @@
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Stock View"];
+    NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"Stock View"];
     NSMenuItem *tMI;
 
     int i;
     for (i = 0; i < [stockObjects count]; i++) {
-        tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"View Detailed Status for %@", [stockObjects[i] symbol]] action:@selector(openStock:) keyEquivalent:@""];
+        tMI = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"View Detailed Status for %@", [stockObjects[i] symbol]] action:@selector(openStock:) keyEquivalent:@""];
         [tMI setTag:i];
         [myMenu addItem:tMI];
     }
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"View Detailed Status for DJIA" action:@selector(openDJIA:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"View Detailed Status for DJIA" action:@selector(openDJIA:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
 
-	tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Update Stock Graph Now" action:@selector(updateNow:) keyEquivalent:@""];
+	tMI = [[NSMenuItem alloc] initWithTitle:@"Update Stock Graph Now" action:@selector(updateNow:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
 	
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Stock Preferences..." action:@selector(openStockPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open XRG Stock Preferences..." action:@selector(openStockPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;

@@ -1135,13 +1135,13 @@ NSInteger matchRegex(char *pattern, char *inString) {
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Weather View"];
+    NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"Weather View"];
     NSMenuItem *tMI;
 
     NSString *icao = [appSettings ICAO];
     
     NSMutableString *line = [NSMutableString stringWithFormat:@"Current Conditions for %@...", icao];
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
       
     if (temperatureF < -272) {
@@ -1154,7 +1154,7 @@ NSInteger matchRegex(char *pattern, char *inString) {
         else
             [line appendFormat:@"%1.1f%CC", temperatureC, (unsigned short)0x00B0];
     }
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
       
     if (high < -272) {
@@ -1167,7 +1167,7 @@ NSInteger matchRegex(char *pattern, char *inString) {
         else
             [line appendFormat:@"%1.1f%CF", high * 1.8 + 32., (unsigned short)0x00B0];
     }
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     if (low < -272) {
@@ -1180,7 +1180,7 @@ NSInteger matchRegex(char *pattern, char *inString) {
         else
             [line appendFormat:@"%1.1f%CF", low * 1.8 + 32., (unsigned short)0x00B0];
     }
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     if (windSpeed == 0)
@@ -1194,7 +1194,7 @@ NSInteger matchRegex(char *pattern, char *inString) {
         [line appendFormat:@"Wind: %s (%ld%C) at %ld mph", [self getWindDirection], (long)windDirection, (unsigned short)0x00B0, (long)windSpeed];
     }
     if (gustSpeed) [line appendFormat:@" with gusts of %ld mph", (long)gustSpeed];
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     if (relativeHumidity == -1)
@@ -1203,7 +1203,7 @@ NSInteger matchRegex(char *pattern, char *inString) {
         [line setString:@""];
         [line appendFormat:@"Relative Humidity: %ld%%", (long)relativeHumidity];
     }
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     if ([appSettings distanceUnits] == XRGWEATHER_DISTANCE_MI) {
@@ -1230,7 +1230,7 @@ NSInteger matchRegex(char *pattern, char *inString) {
             [line appendFormat:@"Visibility: %1.1f kilometers", visibilityInKilometers];
         }
     }
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     if ([appSettings temperatureUnits] == XRGWEATHER_TEMPERATURE_F) {
@@ -1249,7 +1249,7 @@ NSInteger matchRegex(char *pattern, char *inString) {
             [line appendFormat:@"Dewpoint: %1.1f%CC", dewpointC, (unsigned short)0x00B0];
         }
     }
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     [line setString:@"Barometric Pressure: "];
@@ -1265,21 +1265,20 @@ NSInteger matchRegex(char *pattern, char *inString) {
         else
             [line appendFormat:@"%ldhPa", (long)pressureHPA];
     }
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle: line action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] 
-                       initWithTitle:@"Update Weather Graph Now"
-                              action:@selector(min30Update:) 
-                       keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Update Weather Graph Now"
+                                     action:@selector(min30Update:)
+                              keyEquivalent:@""];
     [myMenu addItem:tMI];
 	
     
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Weather Preferences..." action:@selector(openWeatherPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open XRG Weather Preferences..." action:@selector(openWeatherPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
     
     return myMenu;

@@ -344,10 +344,10 @@
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"CPU View"];
+    NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"CPU View"];
     NSMenuItem *tMI;
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 10 CPU Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Top 10 CPU Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     // Need to get our process list.
@@ -359,21 +359,21 @@
 		NSInteger pid = [process[XRGProcessID] intValue];
 		NSString *command = process[XRGProcessCommand];
 		
-		tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%1.1f%% - %@ (id %ld)", cpu, command, (long)pid] action:@selector(emptyEvent:) keyEquivalent:@""];
+		tMI = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%1.1f%% - %@ (id %ld)", cpu, command, (long)pid] action:@selector(emptyEvent:) keyEquivalent:@""];
 		[myMenu addItem:tMI];
 	}
 	
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open Activity Monitor..." action:@selector(openActivityMonitor:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open Activity Monitor..." action:@selector(openActivityMonitor:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG CPU Preferences..." action:@selector(openCPUPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open XRG CPU Preferences..." action:@selector(openCPUPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     [myMenu addItem:[NSMenuItem separatorItem]];

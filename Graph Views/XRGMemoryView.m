@@ -253,10 +253,10 @@
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSMenu *myMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Memory View"];
+    NSMenu *myMenu = [[NSMenu alloc] initWithTitle:@"Memory View"];
     NSMenuItem *tMI;
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Top 10 Memory Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Top 10 Memory Processes" action:@selector(emptyEvent:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     // Need to get our process list.
@@ -280,18 +280,18 @@
 			memoryString = [NSString stringWithFormat:@"%dK", memory];
 		}
 		
-		tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:@"%@ - %@ (id %d)", memoryString, command, pid] action:@selector(emptyEvent:) keyEquivalent:@""];
+		tMI = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@ (id %d)", memoryString, command, pid] action:@selector(emptyEvent:) keyEquivalent:@""];
 		[myMenu addItem:tMI];
 	}
 
     [myMenu addItem:[NSMenuItem separatorItem]];
 
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Reset Graph" action:@selector(clearData:) keyEquivalent:@""];
     [myMenu addItem:tMI];
 
     [myMenu addItem:[NSMenuItem separatorItem]];
     
-    tMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Open XRG Memory Preferences..." action:@selector(openMemoryPreferences:) keyEquivalent:@""];
+    tMI = [[NSMenuItem alloc] initWithTitle:@"Open XRG Memory Preferences..." action:@selector(openMemoryPreferences:) keyEquivalent:@""];
     [myMenu addItem:tMI];
      
     return myMenu;

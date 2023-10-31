@@ -281,8 +281,6 @@ void sleepNotification(void *refcon, io_service_t service, natural_t messageType
     //turn off opaqueness
     [self setOpaque:NO];
 
-    [self useOptimizedDrawing:YES];
-
     [self setHasShadow:self.appSettings.dropShadow];
     
     // Set these after we have initialized the parentWindow
