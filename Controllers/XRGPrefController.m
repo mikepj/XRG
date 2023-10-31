@@ -1192,7 +1192,7 @@
 -(IBAction) openWeatherStationList:(id)sender {
     [NSTask 
         launchedTaskWithLaunchPath:@"/usr/bin/open"
-        arguments:@[@"https://www.aviationweather.gov/docs/metar/stations.txt"]
+        arguments:@[@"https://download.gauchosoft.com/xrg/stations.txt"]
     ];
 }
 
