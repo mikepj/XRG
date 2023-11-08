@@ -172,7 +172,7 @@
         }
 		
 		// Draw the text
-        NSRect textRect = NSInsetRect(graphRect, 3, 0);
+        NSRect textRect = [self paddedTextRect];
 		CGFloat t = [(XRGDataSet *)totalValues[i] currentValue];
 		CGFloat f = [(XRGDataSet *)freeValues[i] currentValue];
 		
@@ -227,9 +227,7 @@
         self.centerLabel.stringValue = @"";
         self.rightLabel.stringValue = @"";
         
-        [leftText drawInRect:textRect withAttributes:[appSettings alignLeftAttributes]];
-        [centerText drawInRect:textRect withAttributes:[appSettings alignCenterAttributes]];
-        [rightText drawInRect:textRect withAttributes:[appSettings alignRightAttributes]];
+        [self drawLeftText:leftText centerText:centerText rightText:rightText inRect:textRect];
 	}
 
 	[gc setShouldAntialias:YES];
