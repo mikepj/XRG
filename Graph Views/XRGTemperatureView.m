@@ -302,13 +302,29 @@
             float min = 0;
             float max = [[XRGTemperatureMiner shared] maxSpeedForFan:sensor];
 
-            CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * barRect.size.width), (i == 0) ? barRect.size.height : floor(barRect.size.height - 1)));
+            CGContextFillRect(
+                gc.CGContext,
+                CGRectMake(
+                    barRect.origin.x,
+                    barRect.origin.y,
+                    MIN(MAX(1, ((locationValue - min) / (max - min)) * barRect.size.width), barRect.size.width),
+                    (i == 0) ? barRect.size.height : floor(barRect.size.height - 1)
+                )
+            );
         }
         else {
             float min = temperatureMin;
             float max = temperatureMax;
 
-            CGContextFillRect(gc.CGContext, CGRectMake(barRect.origin.x, barRect.origin.y, MAX(1, ((locationValue - min) / (max - min)) * barRect.size.width), (i == 0) ? barRect.size.height : floor(barRect.size.height - 1)));
+            CGContextFillRect(
+                gc.CGContext,
+                CGRectMake(
+                    barRect.origin.x,
+                    barRect.origin.y,
+                    MIN(MAX(1, ((locationValue - min) / (max - min)) * barRect.size.width), barRect.size.width),
+                    (i == 0) ? barRect.size.height : floor(barRect.size.height - 1)
+                )
+            );
         }
 
         [[appSettings borderColor] set];
