@@ -226,7 +226,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
                 continue;
             strncpy(s, sdl->sdl_data, sdl->sdl_nlen);
             s[sdl->sdl_nlen] = '\0';
-            
+
             [self setInterfaceBandwidth:s inBytes:(UInt64)ifm->ifm_data.ifi_ibytes outBytes:(UInt64)ifm->ifm_data.ifi_obytes];
         }
     }
@@ -240,7 +240,11 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         zeroDelta = YES;
     }
     
-    
+    if (strncmp(interface_name, "lo0", 32) == 0) {
+        // Don't record the loopback interface.
+        return;
+    }
+
     if (_numInterfaces == 0) {
         _interfaceStats = (network_interface_stats *)malloc(sizeof(network_interface_stats));
         
@@ -258,9 +262,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
         _interfaceStats[0].if_out.bsd_bytes      = out_bytes;
         _interfaceStats[0].if_out.bsd_bytes_prev = 0;
         
-        if (strcmp(interface_name, "lo0") != 0)
-            [networkInterfaces addObject:@(interface_name)];
-        
+        [networkInterfaces addObject:@(interface_name)];
         _numInterfaces++;
     }
     else {
@@ -354,9 +356,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net);
             _interfaceStats[_numInterfaces].if_out.bsd_bytes      = out_bytes;
             _interfaceStats[_numInterfaces].if_out.bsd_bytes_prev = 0;
             
-            if (strcmp(interface_name, "lo0") != 0)
-                [networkInterfaces addObject:@(interface_name)];
-            
+            [networkInterfaces addObject:@(interface_name)];
             _numInterfaces++;
         }
     }
