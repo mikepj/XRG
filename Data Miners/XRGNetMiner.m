@@ -434,6 +434,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net)
     struct ppp_status status;
     int link = 0; //Assume using ppp0
     size_t len;
+    int result = -1;
     
     sock = socket(AF_LOCAL, SOCK_STREAM, 0);
     if (sock == -1)
@@ -449,7 +450,7 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net)
     if (connect(sock, (struct sockaddr *)&sun, sizeof(sun)) < 0)
     {
         perror("Could not connect to pppconfd");
-        return -1;
+        goto out;
     }
     
     bzero(&msg, sizeof(msg));
@@ -460,14 +461,14 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net)
     if (writen(sock, &msg, sizeof(msg)) < 0)
     {
         perror("Could not send query to pppdconf");
-        return -1;
+        goto out;
     }
     
     len = readn(sock, &msg, sizeof(msg));
     if (len == -1 || len != sizeof(msg))
     {
         perror("Could not get response from pppconfd");
-        return -1;
+        goto out;
     }
     
     if (msg.m_len != 0) /* if the ppp port is turned off, we don't get a message */
@@ -476,14 +477,14 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net)
         if (msg.m_len != sizeof(struct ppp_status))
         {
             fprintf(stderr, "Message length no good: %d.\n", msg.m_len);
-            return -1;
+            goto out;
         }
         
         len = readn(sock, &status, msg.m_len);
         if (len == -1 || len != msg.m_len)
         {
             perror("Could not receive message in response from pppconfd");
-            return -1;
+            goto out;
         }
         
         if (status.status == PPP_RUNNING)
@@ -492,7 +493,9 @@ int read_ApplePPP_data(io_stats *i_net, io_stats *o_net)
             o_net->bytes += status.s.run.outBytes;
         }        
     }
+    result = 0;
+
+out:
     close(sock);
-    
-    return 0;
+    return result;
 }
